@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import logging
 from pathlib import Path
 
 from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
@@ -41,6 +41,38 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}]: {levelname} {message} ({filename}:{lineno})',
+            'style': '{',
+        },
+    },
+    'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose'
+            },
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': '/'.join(
+                    [f"{BASE_DIR.as_posix()}", "back.log"]
+                ),
+                'formatter': 'verbose'
+            },
+    },
+    'loggers': {
+        'root': {
+            'handlers': ['console', 'file'],
+            'level': logging.DEBUG,
+        }
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
