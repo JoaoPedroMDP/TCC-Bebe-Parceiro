@@ -2,7 +2,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 
-from exceptions import WithHttpStatusCode
+from core.utils.exceptions import WithHttpStatusCode
 
 
 def endpoint(func):

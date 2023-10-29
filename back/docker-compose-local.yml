@@ -11,12 +11,16 @@ services:
     environment:
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
-      DB_NAME: "bebeparaceiro"
+      DB_NAME: "bebeparceiro"
       DB_HOST: "db"
       DB_PORT: "5432"
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - .:/app/back
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
 
   db:
     image: postgres:15-alpine

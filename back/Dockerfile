@@ -12,4 +12,5 @@ WORKDIR /app/back
 
 RUN pip install -r requirements.txt
 
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 CMD ["/usr/local/bin/gunicorn","-b", "0.0.0.0:8000", "-w", "2","-t", "60", "back.wsgi"]

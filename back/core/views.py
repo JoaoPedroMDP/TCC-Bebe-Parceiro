@@ -19,13 +19,13 @@ lgr = logging.getLogger(__name__)
 class AccessCodeGenericView(APIView):
     @endpoint
     def get(self, request: Request, format=None):
-        lgr.debug("----GET_ALL_TICKETCONFIGS----")
+        lgr.debug("----GET_ALL_ACCESS-CODES----")
         access_codes: List[AccessCode] = AccessCodeService.list()
         return AccessCodeSerializer(access_codes, many=True).data, status.HTTP_200_OK
 
     @endpoint
     def post(self, request: Request, format=None):
-        lgr.debug("----CREATE_TICKETCONFIG----")
+        lgr.debug("----CREATE_ACCESS-CODE----")
         command: CreateAccessCodeCommand = CreateAccessCodeCommand.from_dict(request.data)
         new_access_code: AccessCode = AccessCodeService.create(command)
 
