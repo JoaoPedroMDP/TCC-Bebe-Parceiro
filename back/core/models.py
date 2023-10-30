@@ -10,7 +10,7 @@ class TimestampedModel(models.Model):
 
 
 class AccessCode(TimestampedModel):
-    code = models.CharField(max_length=10, unique=True)
+    code = models.CharField(max_length=20, unique=True)
     used = models.BooleanField(default=False)
 
     def __str__(self):

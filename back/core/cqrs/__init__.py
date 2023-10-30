@@ -3,6 +3,7 @@ from typing import List, Dict, Callable
 
 from grappa import should
 
+from core.utils.dictable import Dictable
 from core.utils.exceptions import ValidationErrors, WithHttpStatusCode
 
 
@@ -60,3 +61,11 @@ class Validator:
             raise ValidationErrors(errors)
 
         return final_data
+
+
+class Command(Validator, Dictable):
+    pass
+
+
+class Query(Validator, Dictable):
+    pass

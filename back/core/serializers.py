@@ -7,4 +7,4 @@ from core.models import AccessCode
 class AccessCodeSerializer(ModelSerializer):
     class Meta:
         model = AccessCode
-        fields = ['code', 'used']
+        fields = ['id', 'code', 'used']
