@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+/* -------------------------------------------  MAIN  ------------------------------------------- */
+:root {
+    --bp-yellow: #FFEFCE;
+}
+  
+
+
+
+
+
+
+.bp-button {
+    background-color: var(--btn-background);
+    color: var(--btn-cor);
+    font-weight: 600;
+    margin: .25rem;
+    padding: .3rem .5rem;
+    height: var(--btn-height);
+    border-radius: 8px;
+    transition: 0.5s;
+    border: none;
+    width: var(--btn-width);
+}
+  
+.bp-button:hover {
+    background-color: var(--btn-background-hover);
+    color: var(--btn-cor-hover);
+}
+
+.bp-button:disabled {
+    cursor: not-allowed;
+    background-color: var(--btn-background-disabled);
+    color: var(--btn-cor-disabled);
+}
