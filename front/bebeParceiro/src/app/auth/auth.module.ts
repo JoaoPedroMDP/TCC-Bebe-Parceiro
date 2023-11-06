@@ -1,21 +1,30 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { PageNotFoundComponent, CodigoAcessoComponent } from './index';
+import { AutoCadastroComponent } from './auto-cadastro/auto-cadastro.component';
+import { SucessoCadastroComponent } from './sucesso-cadastro/sucesso-cadastro.component';
 
-import { AppComponent } from '../app.component';
-import { CodigoAcessoComponent } from './codigo-acesso/codigo-acesso.component';
-import { AppRoutingModule } from '../app-routing.module';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     CodigoAcessoComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AutoCadastroComponent,
+    SucessoCadastroComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: []
 })
 export class AuthModule { }
+
+
+
+

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AuthService } from '../index';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-codigo-acesso',
@@ -7,7 +10,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CodigoAcessoComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('form') form!: NgForm;
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -17,8 +21,16 @@ export class CodigoAcessoComponent implements OnInit {
    * Valida o código de acesso para redirecionar ao formulário de cadastro
    * 
    */
-  cadastrar(){
-
+  cadastrar() {
+    console.log(this.form.value.codigo);
+    
+    this.router.navigate(['autocadastro/dados'])
+    // this.authService.validarCodigo(this.form.value.codigo).subscribe({
+    //   next: (sucesso) => { 
+    //     console.log(sucesso) 
+    //   },
+    //   error: (e) => console.log(e)
+    // })
   }
 
 }
