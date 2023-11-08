@@ -5,48 +5,31 @@
 
 /* -------------------------------------------  CLASS ------------------------------------------- */
 .error404 {
-    font-size: 10rem;
+    font-size: 8rem;
     letter-spacing: 1rem;
     margin-top: 3rem;
 }
 
-.notfound-btn {
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
-    font-size: 1.4rem;
-    border: 1px solid var(--bp-black);
-    padding: .5rem 1.5rem;
-    font-style: normal;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    text-align: center;
-    color: var(--sg-white);
-    margin: auto;
-    width: 70%;
-    transition: 0.6s;
-    background-color: var(--bp-yellow);
-    color: var(--bp-black);
-    
+.bp-button {
+  --btn-bg: var(--bp-yellow);
+  --btn-bg-hover: var(--bp-black);
+  --btn-cor-hover: #FFFFFF;
+  margin: 2rem auto;
+  padding: .3rem 3.5rem;
 }
 
-.notfound-btn:hover {
-    background-color: var(--bp-black);
-    color: var(--bp-yellow);
+/* -------------------------------------------   TAG  ------------------------------------------- */
+h5 {
+  margin: 2.5rem 1rem;
+  text-align: center;
 }
-
 /* -------------------------------------------  MEDIA ------------------------------------------- */
-@media screen and (max-width:991px) {
+@media screen and (width > 991px) {
     .error404 {
-        font-size: 8rem;
+      font-size: 10rem;
     }
 
-    .notfound-btn {
-        padding: 1rem 1.5rem;
-        font-size: 1rem;
-    }
-
-    h5 {
-        text-align: center;
-        margin: 2.5rem 1rem;
+    .bp-button {
+      padding: .3rem 5rem;
     }
 }
