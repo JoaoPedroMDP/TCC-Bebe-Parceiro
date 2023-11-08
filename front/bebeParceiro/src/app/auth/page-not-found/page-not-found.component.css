@@ -23,6 +23,7 @@ h5 {
   margin: 2.5rem 1rem;
   text-align: center;
 }
+
 /* -------------------------------------------  MEDIA ------------------------------------------- */
 @media screen and (width > 991px) {
     .error404 {

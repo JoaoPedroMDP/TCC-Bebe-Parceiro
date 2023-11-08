@@ -1,0 +1,22 @@
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button{
+  --btn-bg: var(--bp-yellow);
+  --btn-bg-hover: var(--bp-black);
+  --btn-cor-hover: #FFFFFF;
+  margin: 0 2rem;
+  padding: .2rem 1.35rem;
+}
+
+.bp-footer{
+  display: flex;
+  justify-content: center;
+  padding: .5rem 2.5rem .8rem 2.5rem;
+  background: #f6f6f6;
+}
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+  .bp-button{
+    margin: 0 7rem;
+  }
+}
