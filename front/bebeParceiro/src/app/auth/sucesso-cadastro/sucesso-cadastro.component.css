@@ -1,0 +1,18 @@
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button{
+  --btn-bg: var(--bp-yellow);
+  --btn-bg-hover: var(--bp-black);
+  --btn-cor-hover: #FFFFFF;
+  margin: 5rem auto;
+  padding: .3rem 5rem;
+}
+
+/* -------------------------------------------   TAG  ------------------------------------------- */
+h1{
+  font-size: 36px;
+}
+
+h5{
+  font-size: 21px;
+  text-align: justify;
+}
