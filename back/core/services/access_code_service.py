@@ -6,14 +6,15 @@ from typing import List
 
 from core.cqrs.commands.access_code_commands import CreateAccessCodeCommand, PatchAccessCodeCommand, \
     DeleteAccessCodeCommand
-from core.cqrs.queries.access_code_queries import GetAccessCodeQuery
+from core.cqrs.queries.access_code_queries import GetAccessCodeQuery, ListAccessCodeQuery
 from core.models import AccessCode
-from core.repositories.AccessCodeRepository import AccessCodeRepository
+from core.repositories.access_code_repository import AccessCodeRepository
+from core.services import Service
 
 lgr = logging.getLogger(__name__)
 
 
-class AccessCodeService:
+class AccessCodeService(Service):
 
     @classmethod
     def _generate_code(cls, prefix: str):
@@ -30,17 +31,16 @@ class AccessCodeService:
             lgr.warning("Código {} já existe, gerando outro".format(code))
             code = cls._generate_code(command.prefix)
 
-        new_code = AccessCode(code=code)
-        new_code.save()
-        return new_code
+        return AccessCodeRepository.create({"code": code})
 
     @classmethod
     def patch(cls, command: PatchAccessCodeCommand) -> AccessCode:
         return AccessCodeRepository.patch(command.to_dict())
 
     @classmethod
-    def list(cls) -> List[AccessCode]:
-        return AccessCode.objects.all()
+    def list(cls, query: ListAccessCodeQuery) -> List[AccessCode]:
+        lgr.debug("Listando com filtros: {}".format(query.to_dict()))
+        return AccessCodeRepository.list(**query.to_dict())
 
     @classmethod
     def get(cls, query: GetAccessCodeQuery) -> AccessCode:

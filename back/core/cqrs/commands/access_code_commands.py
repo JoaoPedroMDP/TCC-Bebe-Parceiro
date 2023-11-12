@@ -20,10 +20,10 @@ class CreateAccessCodeCommand(Command):
 class PatchAccessCodeCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
-        Field("used", "boolean", True, formatter=lambda x: bool(x))
+        Field("used", "boolean", False, formatter=lambda x: Validator.to_bool(x))
     ]
 
-    def __init__(self, id: int, used: bool):
+    def __init__(self, id: int, used: bool = None):
         self.id = id
         self.used = used
 
