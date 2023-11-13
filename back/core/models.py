@@ -17,6 +17,7 @@ class AccessCode(TimestampedModel):
 class MaritalStatus(TimestampedModel):
     readable_name = "Estado civil"
     name = models.CharField(max_length=255)
+    enabled = models.BooleanField(default=True)
 
     def __str__(self):
         return f"<Estado civil: {self.name}>"
