@@ -14,6 +14,9 @@ lgr = logging.getLogger(__name__)
 
 
 class Field:
+    """
+    Classe que representa um campo enviado em uma requisição.
+    """
     def __init__(self, name: str, f_type: str, required: bool = False, default=None, formatter: Callable = None):
         self.name = name
         self.f_type = f_type
@@ -23,6 +26,9 @@ class Field:
 
 
 class Validator:
+    """
+    Classe que contém métodos utilitários para validação de dados.
+    """
 
     @staticmethod
     def to_bool(value: str) -> bool:
@@ -35,6 +41,9 @@ class Validator:
 
     @staticmethod
     def validates(func):
+        """
+        Decorator que escuta por exceções do tipo "AssertionError" e as transforma em exceções retornáveis pela API.
+        """
         def wrapper(*args, **kwargs):
             try:
                 return func(*args, **kwargs)
@@ -45,10 +54,17 @@ class Validator:
 
     @staticmethod
     def has_field(data: Dict, field: Field) -> bool:
+        """
+        Verifica se o campo passado está no dicionário.
+        """
         return field.name in data
 
     @classmethod
     def validate_and_extract(cls, fields: List[Field], data: Union[Dict, QueryDict]) -> Dict:
+        """
+        Valida os campos passados. Caso todos os campos sejam válidos, retorna um dicionário com os campos validados.
+        Se um campo definir um formatter, o valor do campo será passado por ele antes de ser retornado.
+        """
         if isinstance(data, QueryDict):
             data = copy(data)
 
@@ -84,31 +100,6 @@ class Validator:
             except ValueError as e:
                 errors.append("Campo '{}' não é válido".format(field.name))
                 continue
-
-            # # Se for obrigatório e não existir, vapo
-            # if field.required:
-            #     if data.get(field.name) is None and field.default is None:
-            #         errors.append("Campo '{}' é obrigatório".format(field.name))
-            #         continue
-            #     elif data.get(field.name) is None and field.default is not None:
-            #         data[field.name] = field.default
-            #
-            # # Se existir, valida o tipo
-            # if field.name in data:
-            #     try:
-            #         if field.formatter:
-            #             data[field.name] = field.formatter(data[field.name])
-            #
-            #         data[field.name] | should.be.a(field.f_type)
-            #         final_data[field.name] = data[field.name]
-            #     except AssertionError as e:
-            #         errors.append("Campo '{}' deve ser do tipo '{}'".format(field.name, field.f_type))
-            #         continue
-            #     except ValueError as e:
-            #         errors.append("Campo '{}' não é válido".format(field.name))
-            #         continue
-            # else:
-            #     lgr.warning("Campo '{}' não foi encontrado no dicionário".format(field.name))
 
         if len(errors) > 0:
             raise ValidationErrors(errors)

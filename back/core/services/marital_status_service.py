@@ -21,7 +21,7 @@ class MaritalStatusService(Service):
 
     @classmethod
     def list(cls, query: ListMaritalStatusQuery) -> List[MaritalStatus]:
-        return MaritalStatusRepository.list(query.to_dict())
+        return MaritalStatusRepository.list(**query.to_dict())
 
     @classmethod
     def get(cls, query: GetMaritalStatusQuery) -> MaritalStatus:

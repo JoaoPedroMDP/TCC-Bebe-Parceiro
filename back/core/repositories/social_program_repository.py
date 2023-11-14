@@ -9,7 +9,3 @@ lgr = logging.getLogger(__name__)
 
 class SocialProgramRepository(Repository):
     model = SocialProgram
-
-    @classmethod
-    def list(cls, filters: dict):
-        return super().list(**filters)

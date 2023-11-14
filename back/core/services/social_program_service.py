@@ -12,8 +12,8 @@ from core.services import Service
 class SocialProgramService(Service):
     @classmethod
     def create(cls, command: CreateSocialProgramCommand) -> SocialProgram:
-        new_code = SocialProgramRepository.create(command.to_dict())
-        return new_code
+        new_program = SocialProgramRepository.create(command.to_dict())
+        return new_program
 
     @classmethod
     def patch(cls, command: PatchSocialProgramCommand) -> SocialProgram:
@@ -21,7 +21,7 @@ class SocialProgramService(Service):
 
     @classmethod
     def list(cls, query: ListSocialProgramQuery) -> List[SocialProgram]:
-        return SocialProgramRepository.list(query.to_dict())
+        return SocialProgramRepository.list(**query.to_dict())
 
     @classmethod
     def get(cls, query: GetSocialProgramQuery) -> SocialProgram:
