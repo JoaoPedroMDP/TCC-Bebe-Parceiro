@@ -1,144 +1,149 @@
 <div class="container mt-4 mb-5 pb-5">
-    <h1>Coleta de Dados</h1>
-    <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
-    <form #form="ngForm">
+  <h1>Coleta de Dados</h1>
+  <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
+  <form #form="ngForm">
+    <div>
+      <hr>
+      <h4 class="text-center">Dados pessoais</h4>
       <div>
-          <hr>
-          <h4 class="text-center">Dados pessoais</h4>
-          <div>
-              <small class="form-text font-weight-bold text-left">
-                  Nome Completo <span class="text-danger font-weight-bold">*</span>
-              </small>
-              <input type="text" class="form-control" placeholder="Seu Nome" name="nome" ngModel required>
-          </div>
-          <div class="row mt-1">
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">Nº de filhos<span
-                          class="text-danger font-weight-bold">*</span></small>
-                  <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="numFilhos" ngModel>
-              </div>
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">
-                      Data de nascimento<span class="text-danger font-weight-bold">*</span>
-                  </small>
-                  <input type="date" class="form-control" name="dataNascimento" ngModel>
-              </div>
-          </div>
-          <div class="row mt-1">
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">Estado civil</small>
-                  <select class="form-select">
-                      <option [value]="null"> --- </option>
-                      <option  [value]="civil" *ngFor="let civil of EstadoCivil">{{civil}}</option>
-                  </select>
+        <small class="form-text font-weight-bold text-left">
+          Nome Completo<span class="text-danger font-weight-bold">*</span>
+        </small>
+        <input type="text" class="form-control" placeholder="Seu Nome" name="nomeMae" ngModel required maxlength="100">
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Nº de filhos<span
+              class="text-danger font-weight-bold">*</span></small>
+          <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="numFilhos" ngModel>
+        </div>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">
+            Data de nascimento<span class="text-danger font-weight-bold">*</span>
+          </small>
+          <input type="date" class="form-control" name="dataNascimento" ngModel>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Estado civil</small>
+          <select class="form-select" name="estadoCivil" [(ngModel)]="estadoCivilSelecionado">
+            <option [value]="null"> --- </option>
+            <option [value]="civil" *ngFor="let civil of EstadoCivil">{{civil}}</option>
+          </select>
 
-              </div>
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">Email</small>
-                  <input type="email" class="form-control" placeholder="Email@mail.com" name="codigo" ngModel>
-              </div>
-          </div>
-          <div class="row mt-1">
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">Telefone<span
-                          class="text-danger font-weight-bold">*</span></small>
-                  <input type="text" class="form-control" placeholder="(XX) X XXXX-XXXX" name="codigo" ngModel>
-              </div>
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">Renda familiar mensal<span
-                          class="text-danger font-weight-bold">*</span></small>
-                  <input type="email" class="form-control" placeholder="Email@mail.com" name="codigo" ngModel>
-              </div>
-          </div>
-          <div class="row mt-1">
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">Crie uma senha<span
-                          class="text-danger font-weight-bold">*</span></small>
-                  <input type="password" class="form-control" placeholder="Sua senha" name="codigo" ngModel>
-              </div>
-              <div class="col">
-                  <small class="form-text font-weight-bold text-left">Repita a senha<span
-                          class="text-danger font-weight-bold">*</span></small>
-                  <input type="password" class="form-control" placeholder="Sua senha" name="codigo" ngModel>
-              </div>
-          </div>
-          <hr>
+        </div>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Email</small>
+          <input type="email" class="form-control" placeholder="Email@mail.com" name="email" ngModel>
+        </div>
       </div>
-      <div>
-          <h4 class="text-center">Dados de endereço</h4>
-          <div class="col">
-              <small class="form-text font-weight-bold text-left">País</small>
-              <select class="form-select"></select>
-          </div>
-          <div class="col mt-1">
-              <small class="form-text font-weight-bold text-left">Estado</small>
-              <select class="form-select"></select>
-          </div>
-          <div class="col mt-1">
-              <small class="form-text font-weight-bold text-left">Cidade</small>
-              <select class="form-select"></select>
-          </div>
-          <hr>
-      </div>
-      <div>
-        <h4 class="text-center">Possui alguma invalidez?</h4>
-        <div class="row px-5">
-          <div class="col form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">
-              Sim
-            </label>
-          </div>
-          <div class="col form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Não
-            </label>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Telefone<span
+              class="text-danger font-weight-bold">*</span></small>
+          <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
+            name="telefone" ngModel minlength="10">
+        </div>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Renda familiar mensal<span
+              class="text-danger font-weight-bold">*</span></small>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">R$</span>
+            </div>
+            <input type="number" step="any" class="form-control" placeholder="0000.00" name="rendaFamiliar" ngModel>
           </div>
         </div>
-        <hr>
       </div>
-      <div>
-        <h4 class="text-center">Acesso a benefícios sociais</h4>
-        <div class="row px-4">
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check1">
-            <label class="form-check-label" for="check1">CRAS</label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check2">
-            <label class="form-check-label" for="check2">Minha Casa Minha Vida</label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check3">
-            <label class="form-check-label" for="check3">Cadastro de Emprego</label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check4">
-            <label class="form-check-label" for="check4">Cartão Alimentação</label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check5">
-            <label class="form-check-label" for="check5">Leite das Crianças</label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check6">
-            <label class="form-check-label" for="check6">Aposentadoria</label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check7">
-            <label class="form-check-label" for="check7">Bolsa Família</label>
-          </div>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Crie uma senha<span
+              class="text-danger font-weight-bold">*</span></small>
+          <input type="password" class="form-control" placeholder="Sua senha" name="senha" ngModel>
         </div>
-        <hr>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Repita a senha<span
+              class="text-danger font-weight-bold">*</span></small>
+          <input type="password" class="form-control" placeholder="Sua senha" name="senhaConfirma" ngModel>
+        </div>
       </div>
-      <div>
-          <h4 class="text-center">Dados do filho</h4>
-          <!-- aqui vai ter que fazer componente com eventemitter e tals -->
-      </div>
-    </form>
-    <div class="fixed-bottom bp-footer">
-      <button routerLink="/autocadastro/" class="bp-button">Voltar</button>
-      <button routerLink="/autocadastro/sucesso" class="bp-button">Continuar</button>
+      <hr>
     </div>
+    <div>
+      <h4 class="text-center">Dados de endereço</h4>
+      <div class="col">
+        <small class="form-text font-weight-bold text-left">País</small>
+        <select class="form-select"></select>
+      </div>
+      <div class="col mt-1">
+        <small class="form-text font-weight-bold text-left">Estado</small>
+        <select class="form-select"></select>
+      </div>
+      <div class="col mt-1">
+        <small class="form-text font-weight-bold text-left">Cidade</small>
+        <select class="form-select"></select>
+      </div>
+      <hr>
+    </div>
+    <div>
+      <h4 class="text-center">Possui alguma invalidez?</h4>
+        <div class="form-group d-flex justify-content-center">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="invalidez" [value]=true [(ngModel)]="invalidezSelecionada">
+            <label class="form-check-label">Sim</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="invalidez" [value]=false [(ngModel)]="invalidezSelecionada">
+            <label class="form-check-label">Não</label>
+          </div>
+        </div>
+      <hr>
+    </div>
+    <div>
+      <h4 class="text-center">Acesso a benefícios sociais</h4>
+      <div class="row px-4">
+        <div class="form-check" *ngFor="let programaSocial of programasSociais">
+          <input  type="checkbox" class="form-check-input" 
+                  [name]="programaSocial" 
+                  [ngModel]="programasSociaisSelecionados.includes(programaSocial)" 
+                  (ngModelChange)="toggleProgramaSocial(programaSocial)">
+          <label class="form-check-label">{{ programaSocial }}</label>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div>
+      <h4 class="text-center">Dados do filho</h4>
+      <!-- aqui vai ter que fazer componente com eventemitter e tals -->
+      <div>
+        <div>
+          <small class="form-text font-weight-bold text-left">
+            Nome <span class="text-danger font-weight-bold">*</span>
+          </small>
+          <input type="text" class="form-control" placeholder="Seu Nome" name="nome" ngModel required>
+        </div>
+        <div class="row mt-1">
+          <div class="col">
+            <small class="form-text font-weight-bold text-left">Sexo<span
+                class="text-danger font-weight-bold">*</span></small>
+            <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="numFilhos"
+              ngModel>
+          </div>
+          <div class="col">
+            <small class="form-text font-weight-bold text-left">
+              Data de Nasc. ou DPP<span class="text-danger font-weight-bold">*</span>
+            </small>
+            <input type="date" class="form-control" name="dataNascimento" ngModel>
+          </div>
+        </div>
+        <!-- aqui vai ter que fazer componente com eventemitter e tals -->
+        <button class="bp-button small-btn">Novo Filho</button>
+      </div>
+    </div>
+    <div class="fixed-bottom bp-footer">
+      <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>
+      <button class="bp-button big-btn" (click)="cadastrar()">Continuar</button>
+    </div>
+  </form>
 </div>

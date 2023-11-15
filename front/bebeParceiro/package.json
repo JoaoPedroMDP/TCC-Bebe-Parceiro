@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "bootstrap": "^5.3.2",
+    "ngx-mask": "^14.2.4",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.9.0",
     "tslib": "^2.3.0",

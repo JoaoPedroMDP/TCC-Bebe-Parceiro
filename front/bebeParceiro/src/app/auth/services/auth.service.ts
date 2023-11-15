@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,11 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  constructor() { }
+  baseURL = 'http://127.0.0.1:8000/access_codes';
+  constructor(private http: HttpClient) { }
 
   validarCodigo(codigo: string): Observable<any> {
-    // alterar pela logica de negócio no futuro
-    let ex!: Observable<any>;
-    return ex;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json'});
+    return this.http.get(this.baseURL + '?code=' + codigo, {headers});
   }
 }
