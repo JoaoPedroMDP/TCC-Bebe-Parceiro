@@ -15,8 +15,8 @@ class WithHttpStatusCode(BenignException):
 
 
 class NotFoundError(WithHttpStatusCode):
-    def __init__(self, model_class: object):
-        message = f"{model_class.__name__} não encontrado"
+    def __init__(self, object_name: str):
+        message = f"{object_name} não encontrado"
         super().__init__(message, status.HTTP_404_NOT_FOUND)
 
 
