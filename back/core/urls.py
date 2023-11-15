@@ -5,6 +5,7 @@ from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeS
 from core.app_views.benefited_views import BenefitedGenericViews, BenefitedSpecificViews
 from core.app_views.marital_status_views import MaritalStatusGenericViews, MaritalStatusSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
+from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
 
 urlpatterns = [
     path("access_codes", AccessCodeGenericViews.as_view()),
@@ -18,4 +19,7 @@ urlpatterns = [
 
     path("beneficiaries", BenefitedGenericViews.as_view()),
     path("beneficiaries/<int:pk>", BenefitedSpecificViews.as_view()),
+
+    path("countries", CountryGenericViews.as_view()),
+    path("countries/<int:pk>", CountrySpecificViews.as_view()),
 ]
