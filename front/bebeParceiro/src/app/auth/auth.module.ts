@@ -3,9 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { PageNotFoundComponent, CodigoAcessoComponent } from './index';
-import { AutoCadastroComponent } from './auto-cadastro/auto-cadastro.component';
-import { SucessoCadastroComponent } from './sucesso-cadastro/sucesso-cadastro.component';
+import { NgxMaskModule } from 'ngx-mask';
+import { PageNotFoundComponent, CodigoAcessoComponent, AutoCadastroComponent, SucessoCadastroComponent } from './index';
+
 
 
 @NgModule({
@@ -19,7 +19,8 @@ import { SucessoCadastroComponent } from './sucesso-cadastro/sucesso-cadastro.co
     CommonModule,
     FormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    NgxMaskModule.forRoot()
   ],
   providers: []
 })

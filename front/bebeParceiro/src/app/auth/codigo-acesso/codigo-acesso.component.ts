@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../index';
 import { Router } from '@angular/router';
+import { SwalFacade } from 'src/app/shared/swal-facade';
 
 @Component({
   selector: 'app-codigo-acesso',
@@ -22,15 +23,21 @@ export class CodigoAcessoComponent implements OnInit {
    * 
    */
   cadastrar() {
-    console.log(this.form.value.codigo);
-    
-    this.router.navigate(['autocadastro/dados'])
-    // this.authService.validarCodigo(this.form.value.codigo).subscribe({
-    //   next: (sucesso) => { 
-    //     console.log(sucesso) 
-    //   },
-    //   error: (e) => console.log(e)
-    // })
+    this.authService.validarCodigo(this.form.value.codigo).subscribe({
+      next: (aaa) => {
+        console.log('dados=>' + aaa)
+
+        if (aaa != '') {
+          SwalFacade.sucesso('Código Válido!')
+
+          this.router.navigate(['autocadastro/dados'])
+
+        } else {
+          SwalFacade.erro('Código Inválido', 'Entre em contato com a voluntária')
+        }
+      },
+      error: (e) => console.log(e)
+    })
   }
 
 }
