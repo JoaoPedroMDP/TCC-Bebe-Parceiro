@@ -22,18 +22,18 @@ export class CodigoAcessoComponent implements OnInit {
    * Valida o código de acesso para redirecionar ao formulário de cadastro
    * 
    */
-  cadastrar() {
-    this.authService.validarCodigo(this.form.value.codigo).subscribe({
+  validateAccessCode() {
+    this.authService.sendCode(this.form.value.codigo).subscribe({
       next: (aaa) => {
         console.log('dados=>' + aaa)
 
         if (aaa != '') {
-          SwalFacade.sucesso('Código Válido!')
+          SwalFacade.success('Código Válido!')
 
           this.router.navigate(['autocadastro/dados'])
 
         } else {
-          SwalFacade.erro('Código Inválido', 'Entre em contato com a voluntária')
+          SwalFacade.error('Código Inválido', 'Entre em contato com a voluntária')
         }
       },
       error: (e) => console.log(e)

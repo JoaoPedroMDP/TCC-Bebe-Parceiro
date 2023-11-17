@@ -9,33 +9,39 @@
         <small class="form-text font-weight-bold text-left">
           Nome Completo<span class="text-danger font-weight-bold">*</span>
         </small>
-        <input type="text" class="form-control" placeholder="Seu Nome" name="nomeMae" ngModel required maxlength="100">
+        <input type="text" class="form-control" placeholder="Seu Nome" required minlength="2" maxlength="100" 
+              name="name" [(ngModel)]="beneficiada.name"  #name="ngModel">
+          <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+              <div [hidden]="!name.errors?.['required']"> Digite o nome da pessoa. </div>
+              <div [hidden]="!name.errors?.['minlength']"> O nome deve conter ao menos 2 caracteres. </div>
+          </div>
       </div>
       <div class="row mt-1">
         <div class="col">
           <small class="form-text font-weight-bold text-left">Nº de filhos<span
               class="text-danger font-weight-bold">*</span></small>
-          <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="numFilhos" ngModel>
+          <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="child_count" 
+                 [(ngModel)]="beneficiada.child_count" child_count="ngModel">
         </div>
         <div class="col">
           <small class="form-text font-weight-bold text-left">
             Data de nascimento<span class="text-danger font-weight-bold">*</span>
           </small>
-          <input type="date" class="form-control" name="dataNascimento" ngModel>
+          <input type="date" class="form-control" name="birth_date" [(ngModel)]="beneficiada.birth_date" birth_date="ngModel">
         </div>
       </div>
       <div class="row mt-1">
         <div class="col">
           <small class="form-text font-weight-bold text-left">Estado civil</small>
-          <select class="form-select" name="estadoCivil" [(ngModel)]="estadoCivilSelecionado">
+          <select class="form-select" name="marital_status_id"  [(ngModel)]="beneficiada.marital_status_id"  #marital_status_id="ngModel">
             <option [value]="null"> --- </option>
-            <option [value]="civil" *ngFor="let civil of EstadoCivil">{{civil}}</option>
+            <option [value]="civil.id" *ngFor="let civil of estadoCivil">{{civil.name}}</option>
           </select>
-
         </div>
         <div class="col">
           <small class="form-text font-weight-bold text-left">Email</small>
-          <input type="email" class="form-control" placeholder="Email@mail.com" name="email" ngModel>
+          <input type="email" class="form-control" placeholder="Email@mail.com" name="email" 
+                  [(ngModel)]="beneficiada.email" email="ngModel">
         </div>
       </div>
       <div class="row mt-1">
@@ -43,7 +49,7 @@
           <small class="form-text font-weight-bold text-left">Telefone<span
               class="text-danger font-weight-bold">*</span></small>
           <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
-            name="telefone" ngModel minlength="10">
+            name="phone" [(ngModel)]="beneficiada.phone" #phone="ngModel" minlength="10">
         </div>
         <div class="col">
           <small class="form-text font-weight-bold text-left">Renda familiar mensal<span
@@ -52,7 +58,8 @@
             <div class="input-group-prepend">
               <span class="input-group-text">R$</span>
             </div>
-            <input type="number" step="any" class="form-control" placeholder="0000.00" name="rendaFamiliar" ngModel>
+            <input type="text" step="any" class="form-control" placeholder="0000.00" mask="separator.2" thousandSeparator="."
+                   [(ngModel)]="beneficiada.mothly_familiar_income" mothly_familiar_income="ngModel" name="mothly_familiar_income">
           </div>
         </div>
       </div>
@@ -60,29 +67,41 @@
         <div class="col">
           <small class="form-text font-weight-bold text-left">Crie uma senha<span
               class="text-danger font-weight-bold">*</span></small>
-          <input type="password" class="form-control" placeholder="Sua senha" name="senha" ngModel>
+          <input type="password" class="form-control" placeholder="Sua senha" name="password" [(ngModel)]="beneficiada.password" #password="ngModel">
         </div>
         <div class="col">
           <small class="form-text font-weight-bold text-left">Repita a senha<span
               class="text-danger font-weight-bold">*</span></small>
-          <input type="password" class="form-control" placeholder="Sua senha" name="senhaConfirma" ngModel>
+          <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm" #password_confirm ngModel [ngModelOptions]="{standalone: true}">
         </div>
       </div>
+      <!-- <div *ngIf="password != password_confirm && (password_confirm.dirty || password_confirm.touched)" class="alert alert-danger row">
+        <div [hidden]="password != password_confirm"> As senhas devem ser iguais! </div>
+      </div> -->
       <hr>
     </div>
     <div>
       <h4 class="text-center">Dados de endereço</h4>
       <div class="col">
         <small class="form-text font-weight-bold text-left">País</small>
-        <select class="form-select"></select>
+        <select class="form-select" (ngModelChange)="listStates(countrySelected)" [(ngModel)]="countrySelected">
+          <option [value]="null"> --- </option>
+          <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>    
+        </select>
       </div>
       <div class="col mt-1">
         <small class="form-text font-weight-bold text-left">Estado</small>
-        <select class="form-select"></select>
+        <select class="form-select" (ngModelChange)="listCities(stateSelected)" [(ngModel)]="stateSelected">
+          <option [value]="null"> --- </option>
+          <option [value]="state.id" *ngFor="let state of states">{{state.name}}</option>   
+        </select>
       </div>
       <div class="col mt-1">
         <small class="form-text font-weight-bold text-left">Cidade</small>
-        <select class="form-select"></select>
+        <select class="form-select" [(ngModel)]="beneficiada.city_id">
+          <option [value]="null"> --- </option>
+          <option [value]="city.id" *ngFor="let city of cities">{{city.name}}</option>  
+        </select>
       </div>
       <hr>
     </div>
@@ -90,11 +109,11 @@
       <h4 class="text-center">Possui alguma invalidez?</h4>
         <div class="form-group d-flex justify-content-center">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="invalidez" [value]=true [(ngModel)]="invalidezSelecionada">
+            <input class="form-check-input" type="radio" name="has_disablement" [value]=true [(ngModel)]="beneficiada.has_disablement">
             <label class="form-check-label">Sim</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="invalidez" [value]=false [(ngModel)]="invalidezSelecionada">
+            <input class="form-check-input" type="radio" name="has_disablement" [value]=false [(ngModel)]="beneficiada.has_disablement">
             <label class="form-check-label">Não</label>
           </div>
         </div>
@@ -105,10 +124,10 @@
       <div class="row px-4">
         <div class="form-check" *ngFor="let programaSocial of programasSociais">
           <input  type="checkbox" class="form-check-input" 
-                  [name]="programaSocial" 
-                  [ngModel]="programasSociaisSelecionados.includes(programaSocial)" 
+                  [name]="programaSocial.name" 
+                  [ngModel]="programasSociaisSelecionados.includes(programaSocial.id)" 
                   (ngModelChange)="toggleProgramaSocial(programaSocial)">
-          <label class="form-check-label">{{ programaSocial }}</label>
+          <label class="form-check-label">{{ programaSocial.name }}</label>
         </div>
       </div>
       <hr>
@@ -116,7 +135,7 @@
     <div>
       <h4 class="text-center">Dados do filho</h4>
       <!-- aqui vai ter que fazer componente com eventemitter e tals -->
-      <div>
+      <!-- <div>
         <div>
           <small class="form-text font-weight-bold text-left">
             Nome <span class="text-danger font-weight-bold">*</span>
@@ -137,13 +156,14 @@
             <input type="date" class="form-control" name="dataNascimento" ngModel>
           </div>
         </div>
-        <!-- aqui vai ter que fazer componente com eventemitter e tals -->
+        
         <button class="bp-button small-btn">Novo Filho</button>
-      </div>
+      </div> -->
+      <!-- aqui vai ter que fazer componente com eventemitter e tals -->
     </div>
     <div class="fixed-bottom bp-footer">
       <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>
-      <button class="bp-button big-btn" (click)="cadastrar()">Continuar</button>
+      <button class="bp-button big-btn" (click)="cadastrar()" [disabled]="!form.form.valid">Continuar</button>
     </div>
   </form>
 </div>

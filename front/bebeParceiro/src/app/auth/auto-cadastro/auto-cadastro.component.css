@@ -3,6 +3,8 @@
   --btn-bg: var(--bp-yellow);
   --btn-bg-hover: var(--bp-black);
   --btn-cor-hover: #FFFFFF;
+  --btn-bg-disabled: #817560;
+  --btn-cor-disabled: #000000;
 }
 
 .bp-footer{
