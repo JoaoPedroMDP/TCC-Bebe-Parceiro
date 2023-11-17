@@ -78,7 +78,9 @@ class Validator:
                 if field.required:
                     lgr.debug("Campo '{}' é obrigatório".format(field.name))
                     errors.append("Campo '{}' é obrigatório".format(field.name))
-                elif field.default is not None:
+                    continue
+
+                if field.default is not None:
                     lgr.debug("Campo '{}' não é obrigatório, mas possui valor default".format(field.name))
                     data[field.name] = field.default
                     default_used = True
@@ -92,6 +94,7 @@ class Validator:
                 lgr.debug("Campo '{}' após formatter: {}".format(field.name, data[field.name]))
 
             try:
+                print(data)
                 data[field.name] | should.be.a(field.f_type)
                 final_data[field.name] = data[field.name]
             except AssertionError as e:

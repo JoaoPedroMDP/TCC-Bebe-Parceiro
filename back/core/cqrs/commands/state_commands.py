@@ -13,7 +13,6 @@ class CreateStateCommand(Command):
         self.name = name
         self.country_id = country_id
 
-
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'CreateStateCommand':
