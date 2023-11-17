@@ -15,7 +15,7 @@ class Country(TimestampedModel):
 class State(TimestampedModel):
     readable_name = "Estado"
     name = models.CharField(max_length=255)
-    country_id = models.ForeignKey(Country, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"<Estado: {self.name}>"
@@ -24,7 +24,7 @@ class State(TimestampedModel):
 class City(TimestampedModel):
     readable_name = "Cidade"
     name = models.CharField(max_length=255)
-    state_id = models.ForeignKey(State, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"<Cidade: {self.name}>"

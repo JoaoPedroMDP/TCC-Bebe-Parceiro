@@ -5,14 +5,13 @@ from core.cqrs import Validator, Field, Command
 class CreateStateCommand(Command):
     fields = [
         Field("name", "string", True),
-        Field("country_id", "integer", True),
+        Field("country_id", "integer", True, formatter=lambda x: int(x)),
 
     ]
 
     def __init__(self, name: str, country_id: int):
         self.name = name
         self.country_id = country_id
-
 
     @staticmethod
     @Validator.validates

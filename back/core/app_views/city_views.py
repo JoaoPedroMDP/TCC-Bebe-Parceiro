@@ -21,35 +21,35 @@ lgr = logging.getLogger(__name__)
 class CityGenericViews(APIView):
     @endpoint
     def get(self, request: Request, format=None):
-        lgr.debug("----GET_ALL_CityS----")
+        lgr.debug("----GET_ALL_CITIES----")
         list_cities_query: ListCityQuery = ListCityQuery.from_dict(request.query_params)
         cities: List[City] = CityService.list(list_cities_query)
         return CitySerializer(cities, many=True).data, status.HTTP_200_OK
 
     @endpoint
     def post(self, request: Request, format=None):
-        lgr.debug("----CREATE_CITIES----")
+        lgr.debug("----CREATE_CITY----")
         command: CreateCityCommand = CreateCityCommand.from_dict(request.data)
-        new_City: City = CityService.create(command)
+        new_city: City = CityService.create(command)
 
-        return CitySerializer(new_City).data, status.HTTP_201_CREATED
+        return CitySerializer(new_city).data, status.HTTP_201_CREATED
 
 
 class CitySpecificViews(APIView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
-        lgr.debug("----PATCH_CITIES----")
+        lgr.debug("----PATCH_CITY----")
         data = copy(request.data)
         data['id'] = pk
 
         command: PatchCityCommand = PatchCityCommand.from_dict(data)
-        patched_City: City = CityService.patch(command)
+        patched_city: City = CityService.patch(command)
 
-        return CitySerializer(patched_City).data, status.HTTP_200_OK
+        return CitySerializer(patched_city).data, status.HTTP_200_OK
 
     @endpoint
     def delete(self, request: Request, pk, format=None):
-        lgr.debug("----DELETE_CITIES----")
+        lgr.debug("----DELETE_CITY----")
         command: DeleteCityCommand = DeleteCityCommand.from_dict({'id': int(pk)})
         deleted: bool = CityService.delete(command)
 
@@ -60,7 +60,7 @@ class CitySpecificViews(APIView):
 
     @endpoint
     def get(self, request: Request, pk, format=None):
-        lgr.debug("----GET_CITIES----")
+        lgr.debug("----GET_CITY----")
         query: GetCityQuery = GetCityQuery.from_dict({"id": pk})
         city: City = CityService.get(query)
         if City:
