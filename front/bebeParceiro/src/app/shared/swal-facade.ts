@@ -10,7 +10,7 @@ export class SwalFacade {
    * @param texto Opcional, um texto extra de ajuda
    * 
    */
-  static erro(titulo: string, texto?: string): Promise<any> {
+  static error(titulo: string, texto?: string): Promise<any> {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top',
@@ -42,7 +42,7 @@ export class SwalFacade {
    * @param texto Opcional, um texto extra de ajuda
    * 
    */
-  static sucesso(titulo: string, texto?: string): Promise<any> {
+  static success(titulo: string, texto?: string): Promise<any> {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top',
@@ -72,7 +72,7 @@ export class SwalFacade {
    * @param texto Opcional, um texto extra de ajuda
    * 
    */
-  static alerta(titulo: string, texto?: string): Promise<any> {
+  static alert(titulo: string, texto?: string): Promise<any> {
     const Toast = Swal.mixin({
       toast: true,
       position: 'top',
