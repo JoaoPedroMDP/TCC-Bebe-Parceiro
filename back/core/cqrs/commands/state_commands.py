@@ -24,7 +24,7 @@ class PatchStateCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
         Field("name", "string", False),
-        Field("country_id", "integer", True),
+        Field("country_id", "integer", True, formatter=lambda x: int(x)),
     ]
 
     def __init__(self, id: int, name: str = None, country_id: int = None):

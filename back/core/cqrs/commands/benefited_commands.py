@@ -5,8 +5,8 @@ from core.cqrs import Validator, Field, Command
 class CreateBenefitedCommand(Command):
     fields = [
         Field("marital_status_id", "integer", True),
-        Field("city_id", "integer", True),
-        Field("birth_date", "integer", True),
+        Field("city_id", "integer", True, formatter=lambda x: int(x)),
+        Field("birth_date", "integer", True, formatter=lambda x: int(x)),
         Field("child_count", "integer", True, formatter=lambda x: int(x)),
         Field("monthly_familiar_income", "float", True, formatter=lambda x: float(x)),
         Field("has_disablement", "boolean", True, formatter=lambda x: Validator.to_bool(x)),
@@ -34,9 +34,9 @@ class PatchBenefitedCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
 
-        Field("marital_status_id", "integer", False),
-        Field("city_id", "integer", False),
-        Field("birth_date", "integer", False),
+        Field("marital_status_id", "integer", False, formatter=lambda x: int(x)),
+        Field("city_id", "integer", False, formatter=lambda x: int(x)),
+        Field("birth_date", "integer", False, formatter=lambda x: int(x)),
         Field("child_count", "integer", False, formatter=lambda x: int(x)),
         Field("monthly_familiar_income", "float", False, formatter=lambda x: float(x)),
         Field("has_disablement", "boolean", False, formatter=lambda x: Validator.to_bool(x)),
