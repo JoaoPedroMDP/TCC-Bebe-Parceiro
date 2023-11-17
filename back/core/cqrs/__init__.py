@@ -94,7 +94,6 @@ class Validator:
                 lgr.debug("Campo '{}' após formatter: {}".format(field.name, data[field.name]))
 
             try:
-                print(data)
                 data[field.name] | should.be.a(field.f_type)
                 final_data[field.name] = data[field.name]
             except AssertionError as e:

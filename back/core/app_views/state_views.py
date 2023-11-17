@@ -29,23 +29,23 @@ class StateGenericViews(APIView):
     @endpoint
     def post(self, request: Request, format=None):
         lgr.debug("----CREATE_STATE----")
-        command: CreateStateCommand = CreateStateCommand.from_dict(request.data)
-        new_State: State = StateService.create(command)
+        command: CreateStateCommand = CreateStateCommand.from_dict(request.data.dict())
+        new_state: State = StateService.create(command)
 
-        return StateSerializer(new_State).data, status.HTTP_201_CREATED
+        return StateSerializer(new_state).data, status.HTTP_201_CREATED
 
 
 class StateSpecificViews(APIView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
-        lgr.debug("----PATCH_STATES----")
+        lgr.debug("----PATCH_STATE----")
         data = copy(request.data)
         data['id'] = pk
 
         command: PatchStateCommand = PatchStateCommand.from_dict(data)
-        patched_State: State = StateService.patch(command)
+        patched_state: State = StateService.patch(command)
 
-        return StateSerializer(patched_State).data, status.HTTP_200_OK
+        return StateSerializer(patched_state).data, status.HTTP_200_OK
 
     @endpoint
     def delete(self, request: Request, pk, format=None):

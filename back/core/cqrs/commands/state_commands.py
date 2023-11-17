@@ -5,7 +5,7 @@ from core.cqrs import Validator, Field, Command
 class CreateStateCommand(Command):
     fields = [
         Field("name", "string", True),
-        Field("country_id", "integer", True),
+        Field("country_id", "integer", True, formatter=lambda x: int(x)),
 
     ]
 
