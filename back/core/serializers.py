@@ -51,5 +51,5 @@ class BenefitedSerializer(ModelSerializer):
 
     class Meta:
         model = Benefited
-        fields = ['id', 'name', 'email', 'birth_date', 'child_count', 'mothly_familiar_income', 'has_disablement',
+        fields = ['id', 'name', 'email', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
                   'marital_status', 'city']
