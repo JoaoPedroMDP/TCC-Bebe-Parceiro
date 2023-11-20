@@ -1,8 +1,10 @@
 #  coding: utf-8
 from django.db import models
 
+from core.utils.dictable import Dictable
 
-class BaseModel(models.Model):
+
+class BaseModel(models.Model, Dictable):
     readable_name = None
     objects = models.Manager()
 

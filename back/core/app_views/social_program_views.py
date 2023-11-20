@@ -23,7 +23,7 @@ class SocialProgramGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_SOCIAL-PROGRAMS----")
         list_social_programs_query: ListSocialProgramQuery = ListSocialProgramQuery.from_dict(request.query_params)
-        social_programs: List[SocialProgram] = SocialProgramService.list(list_social_programs_query)
+        social_programs: List[SocialProgram] = SocialProgramService.filter(list_social_programs_query)
         return SocialProgramSerializer(social_programs, many=True).data, status.HTTP_200_OK
 
     @endpoint

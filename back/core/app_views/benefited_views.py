@@ -23,7 +23,7 @@ class BenefitedGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_BENEFICIARIES----")
         list_beneficiaries_query: ListBenefitedQuery = ListBenefitedQuery.from_dict(request.query_params)
-        beneficiaries: List[Benefited] = BenefitedService.list(list_beneficiaries_query)
+        beneficiaries: List[Benefited] = BenefitedService.filter(list_beneficiaries_query)
         return BenefitedSerializer(beneficiaries, many=True).data, status.HTTP_200_OK
 
     @endpoint

@@ -12,7 +12,7 @@ class Service(ABC):
         pass
 
     @abstractmethod
-    def list(self, query):
+    def filter(self, query):
         pass
 
     @abstractmethod

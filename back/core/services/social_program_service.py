@@ -20,8 +20,8 @@ class SocialProgramService(Service):
         return SocialProgramRepository.patch(command.to_dict())
 
     @classmethod
-    def list(cls, query: ListSocialProgramQuery) -> List[SocialProgram]:
-        return SocialProgramRepository.list(**query.to_dict())
+    def filter(cls, query: ListSocialProgramQuery) -> List[SocialProgram]:
+        return SocialProgramRepository.filter(**query.to_dict())
 
     @classmethod
     def get(cls, query: GetSocialProgramQuery) -> SocialProgram:

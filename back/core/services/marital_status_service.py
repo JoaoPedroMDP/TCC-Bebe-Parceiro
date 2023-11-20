@@ -20,8 +20,8 @@ class MaritalStatusService(Service):
         return MaritalStatusRepository.patch(command.to_dict())
 
     @classmethod
-    def list(cls, query: ListMaritalStatusQuery) -> List[MaritalStatus]:
-        return MaritalStatusRepository.list(**query.to_dict())
+    def filter(cls, query: ListMaritalStatusQuery) -> List[MaritalStatus]:
+        return MaritalStatusRepository.filter(**query.to_dict())
 
     @classmethod
     def get(cls, query: GetMaritalStatusQuery) -> MaritalStatus:

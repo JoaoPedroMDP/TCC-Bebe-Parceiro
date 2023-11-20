@@ -23,7 +23,7 @@ class CountryGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_COUNTRIES----")
         list_countries_query: ListCountryQuery = ListCountryQuery.from_dict(request.query_params)
-        countries: List[Country] = CountryService.list(list_countries_query)
+        countries: List[Country] = CountryService.filter(list_countries_query)
         return CountrySerializer(countries, many=True).data, status.HTTP_200_OK
 
     @endpoint

@@ -32,21 +32,14 @@ class SocialProgram(TimestampedModel):
         return f"<Programa social: {self.name} - Habilitado: {self.enabled}"
 
 
-class BenefitedSocialProgram(TimestampedModel):
-    benefited = models.ForeignKey('Benefited', on_delete=models.CASCADE)
-    social_program = models.ForeignKey(SocialProgram, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"<Beneficiado: {self.benefited_id}, Programa social: {self.social_program_id}>"
-
-
 # TODO: Trocar para Beneficiary
 class Benefited(LoggableUser):
     readable_name = "Beneficiada"
     marital_status = models.ForeignKey(MaritalStatus, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
+    social_programs = models.ManyToManyField(SocialProgram)
 
-    birth_date = models.DateField()
+    birth_date = models.DateTimeField()
     child_count = models.IntegerField()
     monthly_familiar_income = models.DecimalField(max_digits=10, decimal_places=2)
     has_disablement = models.BooleanField(default=False)

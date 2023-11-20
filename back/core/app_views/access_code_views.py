@@ -24,7 +24,7 @@ class AccessCodeGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_ACCESS-CODES----")
         list_access_codes_query: ListAccessCodeQuery = ListAccessCodeQuery.from_dict(request.query_params)
-        access_codes: List[AccessCode] = AccessCodeService.list(list_access_codes_query)
+        access_codes: List[AccessCode] = AccessCodeService.filter(list_access_codes_query)
         return AccessCodeSerializer(access_codes, many=True).data, status.HTTP_200_OK
 
     @endpoint

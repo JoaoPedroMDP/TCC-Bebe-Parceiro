@@ -23,7 +23,7 @@ class CityGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_CITIES----")
         list_cities_query: ListCityQuery = ListCityQuery.from_dict(request.query_params)
-        cities: List[City] = CityService.list(list_cities_query)
+        cities: List[City] = CityService.filter(list_cities_query)
         return CitySerializer(cities, many=True).data, status.HTTP_200_OK
 
     @endpoint

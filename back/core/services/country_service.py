@@ -20,8 +20,8 @@ class CountryService(Service):
         return CountryRepository.patch(command.to_dict())
 
     @classmethod
-    def list(cls, query: ListCountryQuery) -> List[Country]:
-        return CountryRepository.list(**query.to_dict())
+    def filter(cls, query: ListCountryQuery) -> List[Country]:
+        return CountryRepository.filter(**query.to_dict())
 
     @classmethod
     def get(cls, query: GetCountryQuery) -> Country:

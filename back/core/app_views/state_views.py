@@ -23,7 +23,7 @@ class StateGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_STATES----")
         list_states_query: ListStateQuery = ListStateQuery.from_dict(request.query_params)
-        states: List[State] = StateService.list(list_states_query)
+        states: List[State] = StateService.filter(list_states_query)
         return StateSerializer(states, many=True).data, status.HTTP_200_OK
 
     @endpoint

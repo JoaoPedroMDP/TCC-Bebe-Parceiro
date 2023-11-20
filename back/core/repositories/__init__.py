@@ -32,7 +32,7 @@ class Repository(ABC):
         return obj
 
     @classmethod
-    def list(cls, **kwargs):
+    def filter(cls, **kwargs):
         return cls.model.objects.filter(**kwargs).order_by('id')
 
     @classmethod
