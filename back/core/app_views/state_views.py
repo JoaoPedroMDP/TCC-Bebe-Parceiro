@@ -63,7 +63,8 @@ class StateSpecificViews(APIView):
         lgr.debug("----GET_STATE----")
         query: GetStateQuery = GetStateQuery.from_dict({"id": pk})
         state: State = StateService.get(query)
-        if State:
-            return StateSerializer(State).data, status.HTTP_200_OK
+
+        if state:
+            return StateSerializer(state).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND

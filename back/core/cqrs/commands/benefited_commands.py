@@ -48,8 +48,7 @@ class CreateBenefitedCommand(Command):
 
         # Valido a data de nascimento
         birth_date = datetime.fromtimestamp(data["birth_date"])
-        if birth_date > datetime.now():
-            raise AssertionError("Data de nascimento não pode ser no futuro")
+        Validator.date_not_on_future(birth_date)
         data["birth_date"] = str(birth_date)
 
         # Valido a quantidade de filhos

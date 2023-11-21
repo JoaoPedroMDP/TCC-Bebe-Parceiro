@@ -13,7 +13,7 @@ from core.services import Service
 class CityService(Service):
     @classmethod
     def create(cls, command: CreateCityCommand) -> City:
-        # Verifica se o estado passado é válido
+        # Verifica se o a cidade passada é válida
         StateRepository.get(command.state_id)
 
         new_city = CityRepository.create(command.to_dict())

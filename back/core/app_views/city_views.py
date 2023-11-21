@@ -63,7 +63,8 @@ class CitySpecificViews(APIView):
         lgr.debug("----GET_CITY----")
         query: GetCityQuery = GetCityQuery.from_dict({"id": pk})
         city: City = CityService.get(query)
-        if City:
-            return CitySerializer(City).data, status.HTTP_200_OK
+
+        if city:
+            return CitySerializer(city).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND

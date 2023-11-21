@@ -5,6 +5,7 @@ from rest_framework import status
 
 from core.cqrs.commands.benefited_commands import CreateBenefitedCommand, PatchBenefitedCommand, \
     DeleteBenefitedCommand
+from core.cqrs.commands.child_commands import CreateChildCommand
 from core.cqrs.queries.benefited_queries import GetBenefitedQuery, ListBenefitedQuery
 from core.models import Benefited
 from core.repositories.access_code_repository import AccessCodeRepository
@@ -13,6 +14,7 @@ from core.repositories.city_repository import CityRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.services import Service
+from core.services.child_service import ChildService
 from core.utils.exceptions import HttpFriendlyError
 
 
@@ -56,10 +58,16 @@ class BenefitedService(Service):
 
         new_benefited.save()
 
-        # Pego o primeiro código de acesso válido (deve haver apenas um)
+        # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
         access_code = access_codes[0]
         access_code.used = True
         AccessCodeRepository.patch(access_code.to_dict())
+
+        # Armazeno os filhos da beneficiada
+        for child in command.children:
+            child["benefited_id"] = new_benefited.id
+            command = CreateChildCommand.from_dict(child)
+            ChildService.create(command)
 
         return new_benefited
 

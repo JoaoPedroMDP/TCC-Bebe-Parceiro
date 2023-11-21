@@ -3,7 +3,7 @@ from django.db import models
 
 from core.db_models.abstract_models import TimestampedModel
 
-
+# TODO: Typo no nome do arquivo
 class Country(TimestampedModel):
     readable_name = "País"
     name = models.CharField(max_length=255)

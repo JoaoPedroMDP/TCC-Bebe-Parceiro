@@ -1,6 +1,7 @@
 #  coding: utf-8
 import logging
 from copy import copy
+from datetime import datetime
 from typing import List, Dict, Callable, Union
 
 from grappa import should
@@ -59,6 +60,11 @@ class Validator(Formatter):
     Classe que contém métodos utilitários para validação de dados.
     TODO: Posso adicionar funções que validam tipos mais específicos, como timestamp, essas coisas
     """
+
+    @classmethod
+    def date_not_on_future(cls, date: datetime):
+        if date > datetime.now():
+            raise AssertionError("Data de nascimento não pode ser no futuro")
 
     @staticmethod
     def validates(func):

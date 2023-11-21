@@ -63,6 +63,7 @@ class CountrySpecificViews(APIView):
         lgr.debug("----GET_COUNTRY----")
         query: GetCountryQuery = GetCountryQuery.from_dict({"id": pk})
         country: Country = CountryService.get(query)
+
         if country:
             return CountrySerializer(country).data, status.HTTP_200_OK
 
