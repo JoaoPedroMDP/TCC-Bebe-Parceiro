@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from core.cqrs.commands.state_commands import CreateStateCommand, PatchStateCommand, \
     DeleteStateCommand
 from core.cqrs.queries.state_queries import GetStateQuery, ListStateQuery
-from core.db_models.adress_related_models import State
+from core.models import State
 from core.serializers import StateSerializer
 from core.services.state_service import StateService
 from core.utils.decorators import endpoint

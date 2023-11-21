@@ -1,7 +1,7 @@
 #  coding: utf-8
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.db_models.adress_related_models import Country, State, City
+from core.models import Country, State, City
 from core.models import AccessCode, SocialProgram, MaritalStatus, Benefited, Child
 
 

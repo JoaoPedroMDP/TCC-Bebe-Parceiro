@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from core.cqrs.commands.city_commands import CreateCityCommand, PatchCityCommand, \
     DeleteCityCommand
 from core.cqrs.queries.city_queries import GetCityQuery, ListCityQuery
-from core.db_models.adress_related_models import City
+from core.models import City
 from core.serializers import CitySerializer
 from core.services.city_service import CityService
 from core.utils.decorators import endpoint

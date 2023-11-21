@@ -1,8 +1,8 @@
 #  coding: utf-8
 import logging
-from abc import ABC, abstractmethod
+from abc import ABC
 
-from core.db_models.abstract_models import BaseModel
+from core.models import BaseModel
 from core.utils.exceptions import NotFoundError
 
 

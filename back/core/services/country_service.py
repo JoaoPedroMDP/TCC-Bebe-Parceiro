@@ -4,7 +4,7 @@ from typing import List
 from core.cqrs.commands.country_commands import CreateCountryCommand, PatchCountryCommand, \
     DeleteCountryCommand
 from core.cqrs.queries.country_queries import GetCountryQuery, ListCountryQuery
-from core.db_models.adress_related_models import Country
+from core.models import Country
 from core.repositories.country_repository import CountryRepository
 from core.services import Service
 

@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from core.cqrs.commands.country_commands import CreateCountryCommand, PatchCountryCommand, \
     DeleteCountryCommand
 from core.cqrs.queries.country_queries import GetCountryQuery, ListCountryQuery
-from core.db_models.adress_related_models import Country
+from core.models import Country
 from core.serializers import CountrySerializer
 from core.services.country_service import CountryService
 from core.utils.decorators import endpoint

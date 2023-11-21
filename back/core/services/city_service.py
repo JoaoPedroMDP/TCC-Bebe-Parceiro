@@ -4,7 +4,7 @@ from typing import List
 from core.cqrs.commands.city_commands import CreateCityCommand, PatchCityCommand, \
     DeleteCityCommand
 from core.cqrs.queries.city_queries import GetCityQuery, ListCityQuery
-from core.db_models.adress_related_models import City
+from core.models import City
 from core.repositories.city_repository import CityRepository
 from core.repositories.state_repository import StateRepository
 from core.services import Service

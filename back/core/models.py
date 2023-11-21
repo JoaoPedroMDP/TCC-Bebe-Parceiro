@@ -1,8 +1,64 @@
 from django.db import models
 
-# Alguns models estão nos arquivos importados aqui em cima para fins de melhor organização
-from core.db_models.abstract_models import TimestampedModel, LoggableUser, User
-from core.db_models.adress_related_models import City
+from core.utils.dictable import Dictable
+
+
+class BaseModel(models.Model, Dictable):
+    readable_name = None
+    objects = models.Manager()
+
+    class Meta:
+        abstract = True
+
+
+class TimestampedModel(BaseModel):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class User(TimestampedModel):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=30)
+
+    class Meta:
+        abstract = True
+
+
+class LoggableUser(User):
+    password = models.CharField(max_length=255)
+
+    class Meta:
+        abstract = True
+
+
+class Country(TimestampedModel):
+    readable_name = "País"
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"<País: {self.name}>"
+
+
+class State(TimestampedModel):
+    readable_name = "Estado"
+    name = models.CharField(max_length=255)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"<Estado: {self.name}>"
+
+
+class City(TimestampedModel):
+    readable_name = "Cidade"
+    name = models.CharField(max_length=255)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"<Cidade: {self.name}>"
 
 
 class AccessCode(TimestampedModel):

@@ -4,7 +4,7 @@ from typing import List
 from core.cqrs.commands.state_commands import CreateStateCommand, PatchStateCommand, \
     DeleteStateCommand
 from core.cqrs.queries.state_queries import GetStateQuery, ListStateQuery
-from core.db_models.adress_related_models import State
+from core.models import State
 from core.repositories.country_repository import CountryRepository
 from core.repositories.state_repository import StateRepository
 from core.services import Service
