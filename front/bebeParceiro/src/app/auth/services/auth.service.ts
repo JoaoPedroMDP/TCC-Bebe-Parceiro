@@ -42,8 +42,8 @@ export class AuthService {
     return this.http.get(`${this.baseURL}states?country_id=${countryId}`, {headers}); 
   }
 
-  getCities(id: number): Observable<any>{
+  getCities(stateId: number): Observable<any>{
     const headers = new HttpHeaders({ 'Content-Type': 'application/json'});
-    return this.http.get(this.baseURL + 'cities?', {headers});    
+    return this.http.get(`${this.baseURL}cities?state_id=${stateId}`, {headers});    
   }
 }

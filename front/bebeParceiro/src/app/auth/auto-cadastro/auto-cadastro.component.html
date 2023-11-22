@@ -11,10 +11,6 @@
         </small>
         <input type="text" class="form-control" placeholder="Seu Nome" required minlength="2" maxlength="100" 
               name="name" [(ngModel)]="beneficiada.name"  #name="ngModel">
-          <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
-              <div [hidden]="!name.errors?.['required']"> Digite o nome da pessoa. </div>
-              <div [hidden]="!name.errors?.['minlength']"> O nome deve conter ao menos 2 caracteres. </div>
-          </div>
       </div>
       <div class="row mt-1">
         <div class="col">
@@ -84,22 +80,22 @@
       <h4 class="text-center">Dados de endereço</h4>
       <div class="col">
         <small class="form-text font-weight-bold text-left">País</small>
-        <select class="form-select" (ngModelChange)="listStates(countrySelected)" [(ngModel)]="countrySelected">
-          <option [value]="null"> --- </option>
+        <select class="form-select" [(ngModel)]="countrySelected" (ngModelChange)="listStates()" name="pais">
+          <option [value]="undefined"> --- </option>
           <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>    
         </select>
       </div>
       <div class="col mt-1">
         <small class="form-text font-weight-bold text-left">Estado</small>
-        <select class="form-select" (ngModelChange)="listCities(stateSelected)" [(ngModel)]="stateSelected">
-          <option [value]="null"> --- </option>
+        <select class="form-select" [(ngModel)]="stateSelected" (ngModelChange)="listCities()" name="estado">
+          <option [value]="undefined"> --- </option>
           <option [value]="state.id" *ngFor="let state of states">{{state.name}}</option>   
         </select>
       </div>
       <div class="col mt-1">
         <small class="form-text font-weight-bold text-left">Cidade</small>
-        <select class="form-select" [(ngModel)]="beneficiada.city_id">
-          <option [value]="null"> --- </option>
+        <select class="form-select" [(ngModel)]="beneficiada.city_id" name="city_id">
+          <option [value]="undefined"> --- </option>
           <option [value]="city.id" *ngFor="let city of cities">{{city.name}}</option>  
         </select>
       </div>
@@ -125,7 +121,7 @@
         <div class="form-check" *ngFor="let programaSocial of programasSociais">
           <input  type="checkbox" class="form-check-input" 
                   [name]="programaSocial.name" 
-                  [ngModel]="programasSociaisSelecionados.includes(programaSocial.id)" 
+                  [ngModel]="programasSociaisSelecionados.includes(programaSocial)" 
                   (ngModelChange)="toggleProgramaSocial(programaSocial)">
           <label class="form-check-label">{{ programaSocial.name }}</label>
         </div>

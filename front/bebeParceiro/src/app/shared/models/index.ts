@@ -1,5 +1,5 @@
 export * from './estado-civil.model';
-export * from './programa-social.model';
+export * from './social-program.model';
 export * from './beneficiada.model';
-export * from './filho-beneficiada.model';
+export * from './children.model';
 export * from './locations';

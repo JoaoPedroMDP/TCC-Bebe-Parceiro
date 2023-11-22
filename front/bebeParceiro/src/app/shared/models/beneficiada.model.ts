@@ -1,5 +1,9 @@
+import { Children } from "./children.model";
+import { SocialProgram } from "./social-program.model";
+
 export class Beneficiada {
   constructor (
+    public id?: number,
     public name?: string,
     public birth_date?: Date,
     public child_count?: number,
@@ -9,23 +13,8 @@ export class Beneficiada {
     public mothly_familiar_income?: number,
     public password?: string,
     public phone?: string,
-    public city_id?: number
+    public city_id?: number,
+    public socialProgram?: SocialProgram[],
+    public children?: Children[]
   ) { }
 }
-
-/*
-  birth_date?: string
-  child_count?: number
-  dataNascimento?: string
-  email?: string
-  has_disablement?: boolean
-  marital_status_id?: any
-  mothly_familiar_income?: number
-  name?: string
-  nome?: string
-  numFilhos?: string
-  password?: string
-  passwordConfirm?: string
-  phone?: string
-*/
-

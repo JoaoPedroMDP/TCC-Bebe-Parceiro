@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Beneficiada, EstadoCivil, ProgramaSocial, SwalFacade, FilhoBeneficiada, Country, State, City } from 'src/app/shared';
+import { Beneficiada, EstadoCivil, SocialProgram, SwalFacade, Children, Country, State, City } from 'src/app/shared';
 
 
 @Component({
@@ -14,13 +14,13 @@ export class AutoCadastroComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
   beneficiada!: Beneficiada;
-  filho!: FilhoBeneficiada;
+  // children!: Children;
 
   estadoCivil!: EstadoCivil[];
-  programasSociaisSelecionados: number[] = [];
-  programasSociais: ProgramaSocial[] = [];
-  countrySelected!: Country;
-  stateSelected!: State;
+  programasSociaisSelecionados: SocialProgram[] = [];
+  programasSociais: SocialProgram[] = [];
+  countrySelected!: number | undefined;
+  stateSelected!: number | undefined;
 
   countries!: Country[];
   states!: State[];
@@ -36,22 +36,10 @@ export class AutoCadastroComponent implements OnInit {
   }
 
   cadastrar() {
-    //   // Filtrar propriedades que não são programas sociais
-    //   const chavesIncluir = ['dataNascimento', 'email', 'estadoCivil', 'invalidez', 'nome', 'nomeMae', 'numFilhos', 'rendaFamiliar', 'senha', 'senhaConfirma', 'telefone'];
+    this.beneficiada.socialProgram = this.programasSociaisSelecionados;
+    // this.beneficiada.children = ;
 
-    // // Filtrar propriedades que não são programas sociais
-    // const dadosNaoProgramasSociais = Object.keys(this)
-    //   .filter(key => chavesIncluir.includes(key))
-    //   .reduce((obj: any, key: any) => {
-    //     obj[key] = this[key];
-    //     return obj;
-    //   }, {});
-    // delete this.form.value.Aposentado;
     console.log(this.beneficiada);
-
-    //   // Aqui você pode enviar dadosNaoProgramasSociais junto com outros dados no seu POST
-    //   console.log('Dados para enviar:', dadosNaoProgramasSociais);
-    //   console.log('Programas Sociais Selecionados:', this.programasSociaisSelecionados);
 
     console.log(this.form.value)
     console.log('Programas Sociais Selecionados:', this.programasSociaisSelecionados);
@@ -71,10 +59,15 @@ export class AutoCadastroComponent implements OnInit {
     })
   }
 
-  listStates(country: Country) {
-    if (country.id != undefined) {
-      this.authService.getStates(country.id).subscribe({
+  listStates() {
+    this.states = []; // Trocou o país então precisa limpar os estados
+    this.cities = []; // Trocou o país então precisa limpar as cidades
+    this.stateSelected = undefined;
+    console.log(this.stateSelected)
+    if (this.countrySelected != null) {
+      this.authService.getStates(this.countrySelected).subscribe({
         next: (data: State[]) => {
+          console.log(data)
           if (data == null) {
             this.states = [];
           } else {
@@ -86,9 +79,10 @@ export class AutoCadastroComponent implements OnInit {
     }
   }
 
-  listCities(state: State) { 
-    if (state.id != undefined) {
-      this.authService.getCities(state.id).subscribe({
+  listCities() {
+    this.cities = []; // Trocou o estado então precisa limpar as cidades
+    if (this.stateSelected != null) {
+      this.authService.getCities(this.stateSelected).subscribe({
         next: (data: State[]) => {
           if (data == null) {
             this.cities = [];
@@ -116,7 +110,7 @@ export class AutoCadastroComponent implements OnInit {
 
   listprogramasSocial() {
     this.authService.getProgramasSociais().subscribe({
-      next: (data: ProgramaSocial[]) => {
+      next: (data: SocialProgram[]) => {
         if (data == null) {
           this.programasSociais = [];
         } else {
@@ -127,15 +121,15 @@ export class AutoCadastroComponent implements OnInit {
     })
   }
 
-  toggleProgramaSocial(programaSocial: ProgramaSocial) {
-    const index = this.programasSociaisSelecionados.indexOf(programaSocial.id);
+  toggleProgramaSocial(programaSocial: SocialProgram) {
+    const index = this.programasSociaisSelecionados.indexOf(programaSocial);
 
     if (index !== -1) {
       // Se já está no array, remova
       this.programasSociaisSelecionados.splice(index, 1);
     } else {
       // Se não está no array, adicione
-      this.programasSociaisSelecionados.push(programaSocial.id);
+      this.programasSociaisSelecionados.push(programaSocial);
     }
   }
 
