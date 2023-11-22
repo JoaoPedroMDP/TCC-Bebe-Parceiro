@@ -1,8 +1,8 @@
 #  coding: utf-8
 import logging
-from abc import ABC, abstractmethod
+from abc import ABC
 
-from core.db_models.abstract_models import BaseModel
+from core.models import BaseModel
 from core.utils.exceptions import NotFoundError
 
 
@@ -32,7 +32,7 @@ class Repository(ABC):
         return obj
 
     @classmethod
-    def list(cls, **kwargs):
+    def filter(cls, **kwargs):
         return cls.model.objects.filter(**kwargs).order_by('id')
 
     @classmethod

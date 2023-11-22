@@ -38,9 +38,9 @@ class AccessCodeService(Service):
         return AccessCodeRepository.patch(command.to_dict())
 
     @classmethod
-    def list(cls, query: ListAccessCodeQuery) -> List[AccessCode]:
+    def filter(cls, query: ListAccessCodeQuery) -> List[AccessCode]:
         lgr.debug("Listando com filtros: {}".format(query.to_dict()))
-        return AccessCodeRepository.list(**query.to_dict())
+        return AccessCodeRepository.filter(**query.to_dict())
 
     @classmethod
     def get(cls, query: GetAccessCodeQuery) -> AccessCode:

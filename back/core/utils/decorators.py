@@ -2,7 +2,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 
-from core.utils.exceptions import WithHttpStatusCode
+from core.utils.exceptions import HttpFriendlyError
 
 
 def endpoint(func):
@@ -13,7 +13,7 @@ def endpoint(func):
                 return_data[0],
                 status=return_data[1] if len(return_data) > 1 else 200
             )
-        except WithHttpStatusCode as e:
+        except HttpFriendlyError as e:
             return Response({"message": e.message}, status=e.status_code)
         except AssertionError as e:
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)

@@ -5,7 +5,7 @@ from core.cqrs import Validator, Field, Command
 class CreateCityCommand(Command):
     fields = [
         Field("name", "string", True),
-        Field("state_id", "integer", True),
+        Field("state_id", "integer", True, formatter=lambda x: int(x)),
 
     ]
 
@@ -25,7 +25,7 @@ class PatchCityCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
         Field("name", "string", False),
-        Field("state_id", "integer", True),
+        Field("state_id", "integer", True, formatter=lambda x: int(x)),
     ]
 
     def __init__(self, id: int, name: str = None, state_id: int = None):

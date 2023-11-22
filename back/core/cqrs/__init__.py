@@ -1,13 +1,14 @@
 #  coding: utf-8
 import logging
 from copy import copy
+from datetime import datetime
 from typing import List, Dict, Callable, Union
 
 from grappa import should
 from django.http.request import QueryDict
 
 from core.utils.dictable import Dictable
-from core.utils.exceptions import ValidationErrors, WithHttpStatusCode
+from core.utils.exceptions import ValidationErrors, HttpFriendlyError
 
 
 lgr = logging.getLogger(__name__)
@@ -17,27 +18,53 @@ class Field:
     """
     Classe que representa um campo enviado em uma requisição.
     """
-    def __init__(self, name: str, f_type: str, required: bool = False, default=None, formatter: Callable = None):
+    def __init__(
+            self, name: str, f_type: str, required: bool = False,
+            default=None, formatter: Callable = None):
         self.name = name
         self.f_type = f_type
         self.required = required
         self.default = default
+        # TODO: Definir se é melhor o Formatter ser usado antes ou depois de validar
         self.formatter = formatter
 
 
-class Validator:
-    """
-    Classe que contém métodos utilitários para validação de dados.
-    """
+class Formatter:
 
     @staticmethod
-    def to_bool(value: str) -> bool:
-        if value.lower() in ['true', '1', 't', 'y', 'yes']:
+    def to_bool(value: Union[str, bool, int]) -> bool:
+        if value is True or value is False:
+            return value
+        elif value.lower() in ['true', 1, '1', 't', 'y', 'yes']:
             return True
-        elif value.lower() in ['false', '0', 'f', 'n', 'no']:
+        elif value.lower() in ['false', 0, '0', 'f', 'n', 'no']:
             return False
         else:
             raise ValueError("Valor não é booleano")
+
+    @staticmethod
+    def to_int(value: str) -> int:
+        return int(value)
+
+    @staticmethod
+    def to_float(value: str) -> float:
+        return float(value.replace(",", "."))
+
+    @staticmethod
+    def to_string(value: str) -> str:
+        return value
+
+
+class Validator(Formatter):
+    """
+    Classe que contém métodos utilitários para validação de dados.
+    TODO: Posso adicionar funções que validam tipos mais específicos, como timestamp, essas coisas
+    """
+
+    @classmethod
+    def date_not_on_future(cls, date: datetime):
+        if date > datetime.now():
+            raise AssertionError("Data de nascimento não pode ser no futuro")
 
     @staticmethod
     def validates(func):
@@ -48,7 +75,7 @@ class Validator:
             try:
                 return func(*args, **kwargs)
             except AssertionError as e:
-                raise WithHttpStatusCode(str(e), 400)
+                raise HttpFriendlyError(str(e), 400)
 
         return wrapper
 
@@ -109,6 +136,10 @@ class Validator:
         return final_data
 
 
+# TODO: Criar uma função to_db que retorna apenas os campos daquele model no banco de dados
+# A ideia é que eu não precise montar na mão o dicionário com os dados, filtrando informações paralelas do front
+# Exemplo: Na rota POST de beneficiada, eu recebo o Access Code, e ele fica no command. Mas na hora de criar uma nova
+# beneficiada, eu não passo o Access Code pois ele não faz parte da tabela do banco de dados dela
 class Command(Validator, Dictable):
     pass
 

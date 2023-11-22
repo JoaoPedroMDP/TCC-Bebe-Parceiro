@@ -23,7 +23,7 @@ class MaritalStatusGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_MARITAL-STATUSS----")
         list_marital_statuss_query: ListMaritalStatusQuery = ListMaritalStatusQuery.from_dict(request.query_params)
-        marital_statuss: List[MaritalStatus] = MaritalStatusService.list(list_marital_statuss_query)
+        marital_statuss: List[MaritalStatus] = MaritalStatusService.filter(list_marital_statuss_query)
         return MaritalStatusSerializer(marital_statuss, many=True).data, status.HTTP_200_OK
 
     @endpoint

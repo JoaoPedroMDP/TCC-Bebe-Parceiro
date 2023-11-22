@@ -1,8 +1,8 @@
 #  coding: utf-8
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.db_models.adress_related_models import Country, State, City
-from core.models import AccessCode, SocialProgram, MaritalStatus, Benefited
+from core.models import Country, State, City
+from core.models import AccessCode, SocialProgram, MaritalStatus, Benefited, Child
 
 
 class CountrySerializer(ModelSerializer):
@@ -51,5 +51,14 @@ class BenefitedSerializer(ModelSerializer):
 
     class Meta:
         model = Benefited
-        fields = ['id', 'name', 'email', 'birth_date', 'child_count', 'mothly_familiar_income', 'has_disablement',
+        fields = ['id', 'name', 'email', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
                   'marital_status', 'city']
+
+
+class ChildSerializer(ModelSerializer):
+    benefited = SlugRelatedField(slug_field='id', read_only=True)
+    birth_date = DateField(format="%d/%m/%Y")
+
+    class Meta:
+        model = Child
+        fields = ['id', 'name', 'birth_date', 'sex', 'benefited']

@@ -3,6 +3,7 @@ from django.urls import path
 
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews
 from core.app_views.benefited_views import BenefitedGenericViews, BenefitedSpecificViews
+from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
 from core.app_views.marital_status_views import MaritalStatusGenericViews, MaritalStatusSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
 from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
@@ -23,6 +24,10 @@ urlpatterns = [
     path("beneficiaries", BenefitedGenericViews.as_view()),
     path("beneficiaries/<int:pk>", BenefitedSpecificViews.as_view()),
 
+    path("children", ChildGenericViews.as_view()),
+    path("children/<int:pk>", ChildSpecificViews.as_view()),
+
+    # Endereço
     path("countries", CountryGenericViews.as_view()),
     path("countries/<int:pk>", CountrySpecificViews.as_view()),
 

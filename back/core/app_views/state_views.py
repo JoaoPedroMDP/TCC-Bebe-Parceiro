@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from core.cqrs.commands.state_commands import CreateStateCommand, PatchStateCommand, \
     DeleteStateCommand
 from core.cqrs.queries.state_queries import GetStateQuery, ListStateQuery
-from core.db_models.adress_related_models import State
+from core.models import State
 from core.serializers import StateSerializer
 from core.services.state_service import StateService
 from core.utils.decorators import endpoint
@@ -23,7 +23,7 @@ class StateGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_STATES----")
         list_states_query: ListStateQuery = ListStateQuery.from_dict(request.query_params)
-        states: List[State] = StateService.list(list_states_query)
+        states: List[State] = StateService.filter(list_states_query)
         return StateSerializer(states, many=True).data, status.HTTP_200_OK
 
     @endpoint
@@ -63,7 +63,8 @@ class StateSpecificViews(APIView):
         lgr.debug("----GET_STATE----")
         query: GetStateQuery = GetStateQuery.from_dict({"id": pk})
         state: State = StateService.get(query)
-        if State:
-            return StateSerializer(State).data, status.HTTP_200_OK
+
+        if state:
+            return StateSerializer(state).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND

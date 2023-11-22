@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from core.cqrs.commands.city_commands import CreateCityCommand, PatchCityCommand, \
     DeleteCityCommand
 from core.cqrs.queries.city_queries import GetCityQuery, ListCityQuery
-from core.db_models.adress_related_models import City
+from core.models import City
 from core.serializers import CitySerializer
 from core.services.city_service import CityService
 from core.utils.decorators import endpoint
@@ -23,7 +23,7 @@ class CityGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_CITIES----")
         list_cities_query: ListCityQuery = ListCityQuery.from_dict(request.query_params)
-        cities: List[City] = CityService.list(list_cities_query)
+        cities: List[City] = CityService.filter(list_cities_query)
         return CitySerializer(cities, many=True).data, status.HTTP_200_OK
 
     @endpoint
@@ -63,7 +63,8 @@ class CitySpecificViews(APIView):
         lgr.debug("----GET_CITY----")
         query: GetCityQuery = GetCityQuery.from_dict({"id": pk})
         city: City = CityService.get(query)
-        if City:
-            return CitySerializer(City).data, status.HTTP_200_OK
+
+        if city:
+            return CitySerializer(city).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND

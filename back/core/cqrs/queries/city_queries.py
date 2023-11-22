@@ -20,7 +20,7 @@ class GetCityQuery(Query):
 class ListCityQuery(Query):
     fields = [
         Field("enabled", "bool", False, formatter=lambda x: Validator.to_bool(x)),
-        Field("state_id", "integer", False),
+        Field("state_id", "integer", False, formatter=lambda x: int(x)),
     ]
 
     def __init__(self, enabled: bool = None, state_id: int = None,):
