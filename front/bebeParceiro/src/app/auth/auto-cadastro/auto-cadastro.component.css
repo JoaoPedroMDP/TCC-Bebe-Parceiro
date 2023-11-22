@@ -1,0 +1,36 @@
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button{
+  --btn-bg: var(--bp-yellow);
+  --btn-bg-hover: var(--bp-black);
+  --btn-cor-hover: #FFFFFF;
+  --btn-bg-disabled: #817560;
+  --btn-cor-disabled: #000000;
+}
+
+.bp-footer{
+  display: flex;
+  justify-content: center;
+  padding: .5rem 2.5rem .8rem 2.5rem;
+  background: #f6f6f6;
+}
+
+.big-btn{
+  margin: 0 2rem;
+  padding: .2rem 1.35rem;
+}
+
+.small-btn{
+  margin: 1rem 0 0 1rem;
+}
+
+.input-group-text{
+  /* tive que arrumar na mão pois o bootstrap estava vindo com bordas aleatorias */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+  .big-btn{
+    margin: 0 7rem;
+  }
+}
