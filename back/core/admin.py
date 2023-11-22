@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .db_models.adress_related_models import *
+from .models import *
+
 # Register your models here.
 
 admin.site.register(Country)
