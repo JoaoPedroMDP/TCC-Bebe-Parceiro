@@ -103,26 +103,27 @@
     </div>
     <div>
       <h4 class="text-center">Possui alguma invalidez?</h4>
-        <div class="form-group d-flex justify-content-center">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="has_disablement" [value]=true [(ngModel)]="beneficiada.has_disablement">
-            <label class="form-check-label">Sim</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="has_disablement" [value]=false [(ngModel)]="beneficiada.has_disablement">
-            <label class="form-check-label">Não</label>
-          </div>
+      <div class="form-group d-flex justify-content-center">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="has_disablement" [value]=true
+            [(ngModel)]="beneficiada.has_disablement">
+          <label class="form-check-label">Sim</label>
         </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="has_disablement" [value]=false
+            [(ngModel)]="beneficiada.has_disablement">
+          <label class="form-check-label">Não</label>
+        </div>
+      </div>
       <hr>
     </div>
     <div>
       <h4 class="text-center">Acesso a benefícios sociais</h4>
       <div class="row px-4">
         <div class="form-check" *ngFor="let programaSocial of programasSociais">
-          <input  type="checkbox" class="form-check-input" 
-                  [name]="programaSocial.name" 
-                  [ngModel]="programasSociaisSelecionados.includes(programaSocial)" 
-                  (ngModelChange)="toggleProgramaSocial(programaSocial)">
+          <input type="checkbox" class="form-check-input" [name]="programaSocial.name"
+            [ngModel]="programasSociaisSelecionados.includes(programaSocial)"
+            (ngModelChange)="toggleSocialProgram(programaSocial)">
           <label class="form-check-label">{{ programaSocial.name }}</label>
         </div>
       </div>
@@ -130,32 +131,13 @@
     </div>
     <div>
       <h4 class="text-center">Dados do filho</h4>
-      <!-- aqui vai ter que fazer componente com eventemitter e tals -->
-      <!-- <div>
-        <div>
-          <small class="form-text font-weight-bold text-left">
-            Nome <span class="text-danger font-weight-bold">*</span>
-          </small>
-          <input type="text" class="form-control" placeholder="Seu Nome" name="nome" ngModel required>
-        </div>
-        <div class="row mt-1">
-          <div class="col">
-            <small class="form-text font-weight-bold text-left">Sexo<span
-                class="text-danger font-weight-bold">*</span></small>
-            <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="numFilhos"
-              ngModel>
-          </div>
-          <div class="col">
-            <small class="form-text font-weight-bold text-left">
-              Data de Nasc. ou DPP<span class="text-danger font-weight-bold">*</span>
-            </small>
-            <input type="date" class="form-control" name="dataNascimento" ngModel>
-          </div>
-        </div>
-        
-        <button class="bp-button small-btn">Novo Filho</button>
-      </div> -->
-      <!-- aqui vai ter que fazer componente com eventemitter e tals -->
+      <app-children *ngFor="let child of children; let i = index" 
+        [child]="child" 
+        (deleteChild)="deleteChild(i)">
+      </app-children>
+      <div>
+        <button class="bp-button small-btn" (click)="addChild()">Novo Filho</button>
+      </div>
     </div>
     <div class="fixed-bottom bp-footer">
       <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>

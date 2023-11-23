@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Beneficiada, Children, City, Country, EstadoCivil, SocialProgram, State, SwalFacade } from 'src/app/shared';
 import { AuthService } from '../services/auth.service';
-import { Beneficiada, EstadoCivil, SocialProgram, SwalFacade, Children, Country, State, City } from 'src/app/shared';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class AutoCadastroComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
   beneficiada!: Beneficiada;
-  // children!: Children;
+  children: Children[] = [];
 
   estadoCivil!: EstadoCivil[];
   programasSociaisSelecionados: SocialProgram[] = [];
@@ -30,19 +30,19 @@ export class AutoCadastroComponent implements OnInit {
 
   ngOnInit(): void {
     this.beneficiada = new Beneficiada();
+    this.beneficiada.children = [];
     this.listEstadoCivil();
-    this.listprogramasSocial();
+    this.listSocialProgram();
     this.listCountries();
+    this.addChild();
   }
 
   cadastrar() {
     this.beneficiada.socialProgram = this.programasSociaisSelecionados;
-    // this.beneficiada.children = ;
+    this.beneficiada.children = this.children;
 
     console.log(this.beneficiada);
 
-    console.log(this.form.value)
-    console.log('Programas Sociais Selecionados:', this.programasSociaisSelecionados);
     // this.router.navigate(['autocadastro/sucesso'])
   }
 
@@ -96,7 +96,7 @@ export class AutoCadastroComponent implements OnInit {
   }
 
   listEstadoCivil() {
-    this.authService.getEstadoCivil().subscribe({
+    this.authService.getMaritalStatuses().subscribe({
       next: (data: EstadoCivil[]) => {
         if (data == null) {
           this.estadoCivil = [];
@@ -108,7 +108,7 @@ export class AutoCadastroComponent implements OnInit {
     })
   }
 
-  listprogramasSocial() {
+  listSocialProgram() {
     this.authService.getProgramasSociais().subscribe({
       next: (data: SocialProgram[]) => {
         if (data == null) {
@@ -121,16 +121,23 @@ export class AutoCadastroComponent implements OnInit {
     })
   }
 
-  toggleProgramaSocial(programaSocial: SocialProgram) {
-    const index = this.programasSociaisSelecionados.indexOf(programaSocial);
+  toggleSocialProgram(socialProgram: SocialProgram) {
+    const index = this.programasSociaisSelecionados.indexOf(socialProgram);
 
     if (index !== -1) {
       // Se já está no array, remova
       this.programasSociaisSelecionados.splice(index, 1);
     } else {
       // Se não está no array, adicione
-      this.programasSociaisSelecionados.push(programaSocial);
+      this.programasSociaisSelecionados.push(socialProgram);
     }
   }
 
+  addChild() {
+    this.children.push(new Children());
+  }
+
+  deleteChild(index: number){
+    this.children.splice(index, 1);
+  }
 }

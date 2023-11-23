@@ -1,5 +1,4 @@
-import { Children } from "./children.model";
-import { SocialProgram } from "./social-program.model";
+import { Children, SocialProgram } from "./index";
 
 export class Beneficiada {
   constructor (

@@ -1,4 +1,4 @@
-import { Country } from "./country.model"
+import { Country } from "./index"
 
 export class State {
     constructor(
