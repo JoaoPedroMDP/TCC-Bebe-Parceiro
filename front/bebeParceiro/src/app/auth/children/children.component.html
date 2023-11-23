@@ -1,0 +1,31 @@
+<form>
+    <div class="row mt-1">
+        <div class="col-lg-11 col-xs-6">
+            <small class="form-text font-weight-bold text-left">
+                Nome <span class="text-danger font-weight-bold">*</span>
+            </small>
+            <input type="text" class="form-control" placeholder="Nome do Filho(a)" name="name" [(ngModel)]="child.name" required>
+        </div>
+        <div class="col-lg-1 col-xs-2 d-flex align-items-end pb-2">
+            <a type="submit" (click)="deleteChildComponent()">
+                <i class="fa-solid fa-trash-can"></i>
+            </a>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col">
+            <small class="form-text font-weight-bold text-left">Sexo<span class="text-danger font-weight-bold">*</span></small>
+            <select class="form-select" [(ngModel)]="child.sex" name="sex">
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Indefinido">Não sei</option>
+            </select>
+        </div>
+        <div class="col">
+            <small class="form-text font-weight-bold text-left">
+                Data de Nasc. ou DPP<span class="text-danger font-weight-bold">*</span>
+            </small>
+            <input type="date" class="form-control" name="dataNascimento" [(ngModel)]="child.birth_date">
+        </div>
+    </div>
+</form>
