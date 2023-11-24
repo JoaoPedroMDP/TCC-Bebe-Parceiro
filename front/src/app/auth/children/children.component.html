@@ -14,9 +14,9 @@
 </div>
 <div class="row mt-1 mb-3">
     <div class="col">
-        <small class="form-text font-weight-bold text-left">Sexo<span
+        <small class="form-text font-weight-bold text-left">Sexo <span
                 class="text-danger font-weight-bold">*</span></small>
-        <select class="form-select" [(ngModel)]="child.sex" name="sex">
+        <select class="form-select" [(ngModel)]="child.sex" name="sex" required>
             <option value="Indefinido">Não sei</option>
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
@@ -24,9 +24,9 @@
     </div>
     <div class="col">
         <small class="form-text font-weight-bold text-left">
-            Data de Nasc. ou DPP<span class="text-danger font-weight-bold">*</span>
+            Data de Nasc. ou DPP <span class="text-danger font-weight-bold">*</span>
         </small>
-        <input type="date" class="form-control" name="dataNascimento" [(ngModel)]="child.birth_date">
+        <input type="date" class="form-control" name="dataNascimento" [(ngModel)]="child.birth_date" required>
     </div>
 </div>
 <hr>

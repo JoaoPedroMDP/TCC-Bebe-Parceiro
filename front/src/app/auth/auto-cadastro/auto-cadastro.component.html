@@ -7,23 +7,23 @@
       <h4 class="text-center">Dados pessoais</h4>
       <div>
         <small class="form-text font-weight-bold text-left">
-          Nome Completo<span class="text-danger font-weight-bold">*</span>
+          Nome Completo <span class="text-danger font-weight-bold">*</span>
         </small>
-        <input type="text" class="form-control" placeholder="Seu Nome" required minlength="2" maxlength="100" 
-              name="name" [(ngModel)]="beneficiada.name"  #name="ngModel">
+        <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="100" 
+              name="name" [(ngModel)]="beneficiada.name"  #name="ngModel" required>
       </div>
       <div class="row mt-1">
         <div class="col">
-          <small class="form-text font-weight-bold text-left">Nº de filhos<span
+          <small class="form-text font-weight-bold text-left">Nº de filhos <span
               class="text-danger font-weight-bold">*</span></small>
           <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="child_count" 
-                 [(ngModel)]="beneficiada.child_count" child_count="ngModel">
+                 [(ngModel)]="beneficiada.child_count" child_count="ngModel" required> 
         </div>
         <div class="col">
           <small class="form-text font-weight-bold text-left">
-            Data de nascimento<span class="text-danger font-weight-bold">*</span>
+            Data de nascimento <span class="text-danger font-weight-bold">*</span>
           </small>
-          <input type="date" class="form-control" name="birth_date" [(ngModel)]="beneficiada.birth_date" birth_date="ngModel">
+          <input type="date" class="form-control" name="birth_date" [(ngModel)]="beneficiada.birth_date" birth_date="ngModel" required>
         </div>
       </div>
       <div class="row mt-1">
@@ -42,38 +42,41 @@
       </div>
       <div class="row mt-1">
         <div class="col">
-          <small class="form-text font-weight-bold text-left">Telefone<span
+          <small class="form-text font-weight-bold text-left">Telefone <span
               class="text-danger font-weight-bold">*</span></small>
           <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
-            name="phone" [(ngModel)]="beneficiada.phone" #phone="ngModel" minlength="10">
+            name="phone" [(ngModel)]="beneficiada.phone" #phone="ngModel" minlength="10" required>
         </div>
         <div class="col">
-          <small class="form-text font-weight-bold text-left">Renda familiar mensal<span
+          <small class="form-text font-weight-bold text-left">Renda familiar mensal <span
               class="text-danger font-weight-bold">*</span></small>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">R$</span>
             </div>
             <input type="text" step="any" class="form-control" placeholder="0000.00" mask="separator.2" thousandSeparator="."
-                   [(ngModel)]="beneficiada.mothly_familiar_income" mothly_familiar_income="ngModel" name="mothly_familiar_income">
+                   [(ngModel)]="beneficiada.mothly_familiar_income" mothly_familiar_income="ngModel" name="mothly_familiar_income" required>
           </div>
         </div>
       </div>
       <div class="row mt-1">
         <div class="col">
-          <small class="form-text font-weight-bold text-left">Crie uma senha<span
+          <small class="form-text font-weight-bold text-left">Crie uma senha <span
               class="text-danger font-weight-bold">*</span></small>
-          <input type="password" class="form-control" placeholder="Sua senha" name="password" [(ngModel)]="beneficiada.password" #password="ngModel">
+          <div class="input-with-icon">
+            <input type="password" class="form-control" placeholder="Sua senha" name="password" [(ngModel)]="beneficiada.password" #password="ngModel" required>
+            <i class="fa fa-eye" (click)="showPassword('password')"></i>
+          </div>
         </div>
         <div class="col">
-          <small class="form-text font-weight-bold text-left">Repita a senha<span
+          <small class="form-text font-weight-bold text-left">Repita a senha <span
               class="text-danger font-weight-bold">*</span></small>
-          <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm" #password_confirm ngModel>
+          <div class="input-with-icon">
+            <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm" #password_confirm ngModel required>
+            <i class="fa fa-eye" (click)="showPassword('password_confirm')"></i>
+          </div>
         </div>
       </div>
-      <!-- <div *ngIf="password != password_confirm && (password_confirm.dirty || password_confirm.touched)" class="alert alert-danger row">
-        <div [hidden]="password != password_confirm"> As senhas devem ser iguais! </div>
-      </div> -->
       <hr>
     </div>
     <div>

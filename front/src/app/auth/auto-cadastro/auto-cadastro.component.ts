@@ -187,4 +187,20 @@ export class AutoCadastroComponent implements OnInit {
         })
     }
   }
+
+  /**
+   * @description Altera o tipo dos inputs de senha para texto
+   * @param fieldName Qual é o input selecionado
+   */
+  showPassword(fieldName: string){
+    const inputElement = document.getElementsByName(fieldName)[0] as HTMLInputElement;
+
+    // Verifica se o elemento foi encontrado
+    if (inputElement) {
+      // Obtém o tipo atual do input (text ou password)
+      const currentType = inputElement.type;
+      // Altera o tipo do input
+      inputElement.type = currentType === 'password' ? 'text' : 'password';
+    }    
+  }
 }
