@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bebeParceiro": {
+    "front": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -29,7 +29,10 @@
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            ],
+            "allowedCommonJsDependencies": [
+              "sweetalert2"
+           ]
           },
           "configurations": {
             "production": {
@@ -68,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "bebeParceiro:build:production"
+              "browserTarget": "front:build:production"
             },
             "development": {
-              "browserTarget": "bebeParceiro:build:development"
+              "browserTarget": "front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bebeParceiro:build"
+            "browserTarget": "front:build"
           }
         },
         "test": {

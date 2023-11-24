@@ -30,8 +30,8 @@
         <div class="col">
           <small class="form-text font-weight-bold text-left">Estado civil</small>
           <select class="form-select" name="marital_status_id"  [(ngModel)]="beneficiada.marital_status_id"  #marital_status_id="ngModel">
-            <option [value]="null"> --- </option>
-            <option [value]="civil.id" *ngFor="let civil of estadoCivil">{{civil.name}}</option>
+            <option [value]="undefined"> --- </option>
+            <option [value]="marital.id" *ngFor="let marital of maritalStatus">{{marital.name}}</option>
           </select>
         </div>
         <div class="col">
@@ -68,7 +68,7 @@
         <div class="col">
           <small class="form-text font-weight-bold text-left">Repita a senha<span
               class="text-danger font-weight-bold">*</span></small>
-          <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm" #password_confirm ngModel [ngModelOptions]="{standalone: true}">
+          <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm" #password_confirm ngModel>
         </div>
       </div>
       <!-- <div *ngIf="password != password_confirm && (password_confirm.dirty || password_confirm.touched)" class="alert alert-danger row">
@@ -120,11 +120,11 @@
     <div>
       <h4 class="text-center">Acesso a benefícios sociais</h4>
       <div class="row px-4">
-        <div class="form-check" *ngFor="let programaSocial of programasSociais">
-          <input type="checkbox" class="form-check-input" [name]="programaSocial.name"
-            [ngModel]="programasSociaisSelecionados.includes(programaSocial)"
-            (ngModelChange)="toggleSocialProgram(programaSocial)">
-          <label class="form-check-label">{{ programaSocial.name }}</label>
+        <div class="form-check" *ngFor="let program of socialPrograms">
+          <input type="checkbox" class="form-check-input" [name]="program.name"
+            [ngModel]="selectedSocialPrograms.includes(program)"
+            (ngModelChange)="toggleSocialProgram(program)">
+          <label class="form-check-label">{{ program.name }}</label>
         </div>
       </div>
       <hr>
@@ -141,7 +141,7 @@
     </div>
     <div class="fixed-bottom bp-footer">
       <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>
-      <button class="bp-button big-btn" (click)="cadastrar()" [disabled]="!form.form.valid">Continuar</button>
+      <button class="bp-button big-btn" (click)="save()" [disabled]="!form.form.valid">Continuar</button>
     </div>
   </form>
 </div>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Children } from 'src/app/shared';
+import { Child } from 'src/app/shared';
 
 @Component({
   selector: 'app-children',
@@ -9,19 +9,19 @@ import { Children } from 'src/app/shared';
 export class ChildrenComponent implements OnInit {
 
   @Output() deleteChild  = new EventEmitter<any>();
-  @Output() addChildEvent = new EventEmitter<any>();
-  @Input() child: Children = new Children();
-  @Input() index: number = 0;
+  @Input() child: Child = new Child();
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.child.sex = 'Indefinido'
+  }
 
+  /**
+   * @description Emite um evento para indicar a exclusão do componente
+   */
   deleteChildComponent() {
     this.deleteChild.emit();
   }
 
-  addChildComponent() {
-    this.addChildEvent.emit(this.child);
-  }
 }

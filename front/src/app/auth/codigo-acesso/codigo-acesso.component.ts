@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../index';
 import { Router } from '@angular/router';
-import { SwalFacade } from 'src/app/shared/swal-facade';
+import { SwalFacade } from 'src/app/shared';
+import { AuthService } from '../index';
 
 @Component({
   selector: 'app-codigo-acesso',
@@ -18,20 +18,14 @@ export class CodigoAcessoComponent implements OnInit {
   }
 
   /**
-   * @description 
-   * Valida o código de acesso para redirecionar ao formulário de cadastro
-   * 
+   * @description Valida o código de acesso para redirecionar ao formulário de cadastro
    */
   validateAccessCode() {
     this.authService.sendCode(this.form.value.codigo).subscribe({
-      next: (aaa) => {
-        console.log('dados=>' + aaa)
-
-        if (aaa != '') {
+      next: (response) => {
+        if (response != '') {
           SwalFacade.success('Código Válido!')
-
           this.router.navigate(['autocadastro/dados'])
-
         } else {
           SwalFacade.error('Código Inválido', 'Entre em contato com a voluntária')
         }

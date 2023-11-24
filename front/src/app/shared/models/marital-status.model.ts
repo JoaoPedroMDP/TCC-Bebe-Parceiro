@@ -1,4 +1,4 @@
-export class EstadoCivil {
+export class MaritalStatus {
     constructor(
         public id: number,
         public name: string,

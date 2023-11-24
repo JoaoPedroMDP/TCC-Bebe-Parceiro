@@ -1,7 +1,7 @@
-import { Children, SocialProgram } from "./index";
+import { Child, SocialProgram } from "./index";
 
-export class Beneficiada {
-  constructor (
+export class Benefited {
+  constructor(
     public id?: number,
     public name?: string,
     public birth_date?: Date,
@@ -14,6 +14,6 @@ export class Beneficiada {
     public phone?: string,
     public city_id?: number,
     public socialProgram?: SocialProgram[],
-    public children?: Children[]
+    public children?: Child[]
   ) { }
 }
