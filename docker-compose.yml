@@ -1,9 +1,17 @@
 version: '3'
 
 services:
-  app:
+  front:
     build:
-      context: .
+      context: ./front
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./front:/app/front
+  
+  back:
+    build:
+      context: ./back
       dockerfile: Dockerfile
     image: app:v1
     ports:
@@ -17,6 +25,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - ./back:/app/back
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
 
   db:
     image: postgres:15-alpine
@@ -30,6 +42,6 @@ services:
       - ./data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 5s
+      interval: 2s
       timeout: 5s
       retries: 5
