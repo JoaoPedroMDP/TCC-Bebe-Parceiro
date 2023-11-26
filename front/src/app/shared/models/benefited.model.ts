@@ -13,6 +13,7 @@ export class Benefited {
     public password?: string,
     public phone?: string,
     public city_id?: number,
+    public access_code?: string,
     public socialProgram?: SocialProgram[],
     public children?: Child[]
   ) { }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { SwalFacade } from 'src/app/shared';
 import { AuthService } from '../index';
 
@@ -25,7 +25,8 @@ export class CodigoAcessoComponent implements OnInit {
       next: (response) => {
         if (response != '') {
           SwalFacade.success('Código Válido!')
-          this.router.navigate(['autocadastro/dados'])
+          const codigoAcesso = this.form.value.codigo
+          this.router.navigate(['autocadastro/dados', codigoAcesso])
         } else {
           SwalFacade.error('Código Inválido', 'Entre em contato com a voluntária')
         }

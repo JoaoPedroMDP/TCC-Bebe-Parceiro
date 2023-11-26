@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Benefited, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
 import { AuthService } from '../services/auth.service';
 
@@ -26,7 +26,7 @@ export class AutoCadastroComponent implements OnInit {
   states!: State[];
   cities!: City[];
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.beneficiada = new Benefited();
@@ -46,6 +46,10 @@ export class AutoCadastroComponent implements OnInit {
     // Atualiza os dados da beneficiada com as informações selecionadas
     this.beneficiada.socialProgram = this.selectedSocialPrograms;
     this.beneficiada.children = this.children;
+    const codigoAcesso = this.route.snapshot.paramMap.get('codigoAcesso');
+    if (codigoAcesso) {
+      this.beneficiada.access_code = codigoAcesso
+    }
 
     // Verificação se as senhas inseridas são iguais
     if (this.beneficiada.password != this.form.value.password_confirm) {
@@ -192,7 +196,7 @@ export class AutoCadastroComponent implements OnInit {
    * @description Altera o tipo dos inputs de senha para texto
    * @param fieldName Qual é o input selecionado
    */
-  showPassword(fieldName: string){
+  showPassword(fieldName: string) {
     const inputElement = document.getElementsByName(fieldName)[0] as HTMLInputElement;
 
     // Verifica se o elemento foi encontrado
@@ -201,6 +205,6 @@ export class AutoCadastroComponent implements OnInit {
       const currentType = inputElement.type;
       // Altera o tipo do input
       inputElement.type = currentType === 'password' ? 'text' : 'password';
-    }    
+    }
   }
 }
