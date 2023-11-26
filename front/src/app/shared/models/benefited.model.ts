@@ -9,7 +9,7 @@ export class Benefited {
     public email?: string,
     public has_disablement?: boolean,
     public marital_status_id?: any,
-    public mothly_familiar_income?: number,
+    public monthly_familiar_income?: number,
     public password?: string,
     public phone?: string,
     public city_id?: number,

@@ -19,8 +19,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   saveBenefited(benefited: Benefited): Observable<any> {
-    console.log(benefited); // temporario excluir depois
-    return this.http.post(`${this.baseURL}benefited`, benefited, { headers: this.headers })
+    return this.http.post(`${this.baseURL}beneficiaries`, benefited, { headers: this.headers })
   }
 
   /**
