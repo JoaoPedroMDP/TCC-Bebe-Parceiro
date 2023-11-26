@@ -5,4 +5,4 @@ WORKDIR /app
 
 RUN npm install
 
-CMD ["npm", "deploy"]
+CMD ["npm", "run", "deploy"]

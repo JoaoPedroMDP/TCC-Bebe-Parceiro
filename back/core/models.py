@@ -118,7 +118,7 @@ class Campaign(TimestampedModel):
 class Child(TimestampedModel):
     readable_name = "Filho/a"
     name = models.CharField(max_length=255)
-    birth_date = models.DateField()
+    birth_date = models.DateTimeField()
     benefited = models.ForeignKey(Benefited, on_delete=models.CASCADE)
     sex = models.CharField(max_length=1)
 

@@ -10,7 +10,7 @@ class CreateChildCommand(Command):
         Field("benefited_id", "integer", True, formatter=lambda x: int(x)),
         Field("sex", "string", True),
 
-        Field("birth_date", "integer", False, formatter=lambda x: int(x)),
+        Field("birth_date", "string", False),
     ]
 
     def __init__(self, name: str, birth_date: str, benefited_id: int, sex: str):
@@ -24,10 +24,12 @@ class CreateChildCommand(Command):
     def from_dict(args: dict) -> 'CreateChildCommand':
         data = Validator.validate_and_extract(CreateChildCommand.fields, args)
 
-        bd = data.get("birth_date", None)
-        if "birth_date":
-            bd = datetime.fromtimestamp(data["birth_date"])
-            data["birth_date"] = bd.strftime("%Y-%m-%d")
+        birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
+        if birth_date:
+            data["birth_date"] = birth_date.isoformat()
+
+        if "sex" in data:
+            data['sex'] = data['sex'][0]
 
         return CreateChildCommand(**data)
 

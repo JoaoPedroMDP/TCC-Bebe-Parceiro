@@ -13,7 +13,7 @@ class CreateBenefitedCommand(Command):
         Field("children", "list", True),
         Field("marital_status_id", "integer", True, formatter=lambda x: int(x)),
         Field("city_id", "integer", True, formatter=lambda x: int(x)),
-        Field("birth_date", "integer", True, formatter=lambda x: int(x)),
+        Field("birth_date", "string", True),
         Field("child_count", "integer", True, formatter=lambda x: int(x)),
         Field("monthly_familiar_income", "float", True, formatter=lambda x: float(x)),
         Field("has_disablement", "boolean", True, formatter=lambda x: Validator.to_bool(x)),
@@ -47,9 +47,9 @@ class CreateBenefitedCommand(Command):
         data = Validator.validate_and_extract(CreateBenefitedCommand.fields, args)
 
         # Valido a data de nascimento
-        birth_date = datetime.fromtimestamp(data["birth_date"])
+        birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
         Validator.date_not_on_future(birth_date)
-        data["birth_date"] = str(birth_date)
+        data["birth_date"] = birth_date.isoformat()
 
         # Valido a quantidade de filhos
         if data["child_count"] < 0:
