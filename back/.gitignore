@@ -6,3 +6,5 @@ docker-compose.yml
 __pycache__
 *log
 data/
+db.sqlite3
+migrations
