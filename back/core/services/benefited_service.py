@@ -7,7 +7,7 @@ from core.cqrs.commands.benefited_commands import CreateBenefitedCommand, PatchB
     DeleteBenefitedCommand
 from core.cqrs.commands.child_commands import CreateChildCommand
 from core.cqrs.queries.benefited_queries import GetBenefitedQuery, ListBenefitedQuery
-from core.models import Benefited
+from core.models import Beneficiary
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.benefited_repository import BenefitedRepository
 from core.repositories.city_repository import CityRepository
@@ -20,7 +20,7 @@ from core.utils.exceptions import HttpFriendlyError
 
 class BenefitedService(Service):
     @classmethod
-    def create(cls, command: CreateBenefitedCommand) -> Benefited:
+    def create(cls, command: CreateBenefitedCommand) -> Beneficiary:
         # Verifica se o estado civil passado é válido
         marital_status = MaritalStatusRepository.get(command.marital_status_id)
 
@@ -72,15 +72,15 @@ class BenefitedService(Service):
         return new_benefited
 
     @classmethod
-    def patch(cls, command: PatchBenefitedCommand) -> Benefited:
+    def patch(cls, command: PatchBenefitedCommand) -> Beneficiary:
         return BenefitedRepository.patch(command.to_dict())
 
     @classmethod
-    def filter(cls, query: ListBenefitedQuery) -> List[Benefited]:
+    def filter(cls, query: ListBenefitedQuery) -> List[Beneficiary]:
         return BenefitedRepository.filter(**query.to_dict())
 
     @classmethod
-    def get(cls, query: GetBenefitedQuery) -> Benefited:
+    def get(cls, query: GetBenefitedQuery) -> Beneficiary:
         return BenefitedRepository.get(query.id)
 
     @classmethod

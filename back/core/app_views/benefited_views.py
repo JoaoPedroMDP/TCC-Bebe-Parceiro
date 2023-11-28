@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from core.cqrs.commands.benefited_commands import CreateBenefitedCommand, PatchBenefitedCommand, \
     DeleteBenefitedCommand
 from core.cqrs.queries.benefited_queries import GetBenefitedQuery, ListBenefitedQuery
-from core.models import Benefited
+from core.models import Beneficiary
 from core.serializers import BenefitedSerializer
 from core.services.benefited_service import BenefitedService
 from core.utils.decorators import endpoint
@@ -23,14 +23,14 @@ class BenefitedGenericViews(APIView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_BENEFICIARIES----")
         list_beneficiaries_query: ListBenefitedQuery = ListBenefitedQuery.from_dict(request.query_params)
-        beneficiaries: List[Benefited] = BenefitedService.filter(list_beneficiaries_query)
+        beneficiaries: List[Beneficiary] = BenefitedService.filter(list_beneficiaries_query)
         return BenefitedSerializer(beneficiaries, many=True).data, status.HTTP_200_OK
 
     @endpoint
     def post(self, request: Request, format=None):
         lgr.debug("----CREATE_BENEFITED----")
         command: CreateBenefitedCommand = CreateBenefitedCommand.from_dict(request.data)
-        new_benefited: Benefited = BenefitedService.create(command)
+        new_benefited: Beneficiary = BenefitedService.create(command)
 
         return BenefitedSerializer(new_benefited).data, status.HTTP_201_CREATED
 
@@ -43,7 +43,7 @@ class BenefitedSpecificViews(APIView):
         data['id'] = pk
 
         command: PatchBenefitedCommand = PatchBenefitedCommand.from_dict(data)
-        patched_benefited: Benefited = BenefitedService.patch(command)
+        patched_benefited: Beneficiary = BenefitedService.patch(command)
 
         return BenefitedSerializer(patched_benefited).data, status.HTTP_200_OK
 
@@ -62,7 +62,7 @@ class BenefitedSpecificViews(APIView):
     def get(self, request: Request, pk, format=None):
         lgr.debug("----GET_BENEFITED----")
         query: GetBenefitedQuery = GetBenefitedQuery.from_dict({"id": pk})
-        benefited: Benefited = BenefitedService.get(query)
+        benefited: Beneficiary = BenefitedService.get(query)
         if benefited:
             return BenefitedSerializer(benefited).data, status.HTTP_200_OK
 

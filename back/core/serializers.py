@@ -2,7 +2,7 @@
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
 from core.models import Country, State, City
-from core.models import AccessCode, SocialProgram, MaritalStatus, Benefited, Child
+from core.models import AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child
 
 
 class CountrySerializer(ModelSerializer):
@@ -50,7 +50,7 @@ class BenefitedSerializer(ModelSerializer):
     marital_status = MaritalStatusSerializer(read_only=True)
 
     class Meta:
-        model = Benefited
+        model = Beneficiary
         fields = ['id', 'name', 'email', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
                   'marital_status', 'city']
 

@@ -88,8 +88,7 @@ class SocialProgram(TimestampedModel):
         return f"<Programa social: {self.name} - Habilitado: {self.enabled}"
 
 
-# TODO: Trocar para Beneficiary
-class Benefited(LoggableUser):
+class Beneficiary(LoggableUser):
     readable_name = "Beneficiada"
     marital_status = models.ForeignKey(MaritalStatus, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
@@ -119,7 +118,7 @@ class Child(TimestampedModel):
     readable_name = "Filho/a"
     name = models.CharField(max_length=255)
     birth_date = models.DateTimeField()
-    benefited = models.ForeignKey(Benefited, on_delete=models.CASCADE)
+    benefited = models.ForeignKey(Beneficiary, on_delete=models.CASCADE)
     sex = models.CharField(max_length=1)
 
 
@@ -160,7 +159,7 @@ class Professional(User):
 class Appointment(TimestampedModel):
     readable_name = "Agendamento"
     swap = models.ForeignKey(Swap, on_delete=models.CASCADE)
-    beneficiary = models.ForeignKey(Benefited, on_delete=models.CASCADE)
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE)
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE, null=True)
     professional = models.ForeignKey(Professional, on_delete=models.CASCADE, null=True)
 
@@ -173,5 +172,5 @@ class Register(TimestampedModel):
     readable_name = "Registro do prontuário"
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
-    beneficiary = models.ForeignKey(Benefited, on_delete=models.CASCADE)
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE)
     description = models.TextField()
