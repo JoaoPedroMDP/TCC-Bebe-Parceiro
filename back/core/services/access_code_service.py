@@ -17,7 +17,7 @@ lgr = logging.getLogger(__name__)
 class AccessCodeService(Service):
 
     @classmethod
-    def _generate_code(cls, prefix: str):
+    def generate_code(cls, prefix: str):
         letters = string.ascii_uppercase
         first_triad = ''.join(random.choice(string.digits) for i in range(3))
         second_triad = ''.join(random.choice(letters) for i in range(3))
@@ -26,10 +26,10 @@ class AccessCodeService(Service):
     @classmethod
     def create(cls, command: CreateAccessCodeCommand) -> AccessCode:
         # O código deve ser no formato prefix + 3 números + 3 letras, tudo maiúsculo
-        code = cls._generate_code(command.prefix)
+        code = cls.generate_code(command.prefix)
         while AccessCode.objects.filter(code=code).exists():
             lgr.warning("Código {} já existe, gerando outro".format(code))
-            code = cls._generate_code(command.prefix)
+            code = cls.generate_code(command.prefix)
 
         return AccessCodeRepository.create({"code": code})
 

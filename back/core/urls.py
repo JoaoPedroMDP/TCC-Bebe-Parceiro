@@ -10,30 +10,33 @@ from core.app_views.country_views import CountryGenericViews, CountrySpecificVie
 from core.app_views.state_views import StateGenericViews, StateSpecificViews
 from core.app_views.city_views import CityGenericViews, CitySpecificViews
 
+# gen = generic
+# spe = specific
+# pk = primary key
 
 urlpatterns = [
     path("access_codes", AccessCodeGenericViews.as_view(), name="gen_access_codes"),
-    path("access_codes/<int:pk>", AccessCodeSpecificViews.as_view(), name="spec_access_codes"),
+    path("access_codes/<int:pk>", AccessCodeSpecificViews.as_view(), name="spe_access_codes"),
 
     path("social_programs", SocialProgramGenericViews.as_view(), name="gen_social_programs"),
-    path("social_programs/<int:pk>", SocialProgramSpecificViews.as_view(), name="spec_social_programs"),
+    path("social_programs/<int:pk>", SocialProgramSpecificViews.as_view(), name="spe_social_programs"),
 
     path("marital_statuses", MaritalStatusGenericViews.as_view(), name="gen_marital_statuses"),
-    path("marital_statuses/<int:pk>", MaritalStatusSpecificViews.as_view(), name="spec_marital_statuses"),
+    path("marital_statuses/<int:pk>", MaritalStatusSpecificViews.as_view(), name="spe_marital_statuses"),
 
     path("beneficiaries", BenefitedGenericViews.as_view(), name="gen_beneficiaries"),
-    path("beneficiaries/<int:pk>", BenefitedSpecificViews.as_view(), name="spec_beneficiaries"),
+    path("beneficiaries/<int:pk>", BenefitedSpecificViews.as_view(), name="spe_beneficiaries"),
 
     path("children", ChildGenericViews.as_view(), name="gen_children"),
-    path("children/<int:pk>", ChildSpecificViews.as_view(), name="spec_children"),
+    path("children/<int:pk>", ChildSpecificViews.as_view(), name="spe_children"),
 
     # Endereço
     path("countries", CountryGenericViews.as_view(), name="gen_countries"),
-    path("countries/<int:pk>", CountrySpecificViews.as_view(), name="spec_countries"),
+    path("countries/<int:pk>", CountrySpecificViews.as_view(), name="spe_countries"),
 
     path("states", StateGenericViews.as_view(), name="gen_states"),
-    path("states/<int:pk>", StateSpecificViews.as_view(), name="spec_states"),
+    path("states/<int:pk>", StateSpecificViews.as_view(), name="spe_states"),
 
     path("cities", CityGenericViews.as_view(), name="gen_cities"),
-    path("cities/<int:pk>", CitySpecificViews.as_view(), name="spec_cities"),
+    path("cities/<int:pk>", CitySpecificViews.as_view(), name="spe_cities"),
 ]
