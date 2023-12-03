@@ -43,7 +43,7 @@ class Country(EnablableModel):
 class State(EnablableModel):
     readable_name = "Estado"
     name = models.CharField(max_length=255)
-    country = models.OneToOneField(Country, on_delete=models.CASCADE, related_name="states")
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="states")
 
     def __str__(self):
         return f"<Estado: {self.name}>"
@@ -52,7 +52,7 @@ class State(EnablableModel):
 class City(EnablableModel):
     readable_name = "Cidade"
     name = models.CharField(max_length=255)
-    state = models.OneToOneField(State, on_delete=models.CASCADE, related_name="cities")
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="cities")
 
     def __str__(self):
         return f"<Cidade: {self.name}>"

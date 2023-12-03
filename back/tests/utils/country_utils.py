@@ -5,13 +5,13 @@ from core.models import Country
 
 
 def create_country(name: str = "TES") -> Country:
-    ac = Country(name=name)
-    ac.save()
+    country = Country(name=name)
+    country.save()
 
-    return ac
+    return country
 
 
-def create_n_countries(name: str = "TEST COUNTRY", n: int = 1) -> List[Country]:
+def create_n_countries(name: str = "TEST_COUNTRY", n: int = 1) -> List[Country]:
     return [create_country(name + f"_{i}") for i in range(n)]
 
 
