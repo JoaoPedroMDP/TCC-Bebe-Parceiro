@@ -7,7 +7,7 @@ from tests.utils.state_utils import create_n_states
 
 @pytest.mark.django_db
 def test_can_filter_states_by_name(client):
-    state_to_filter = create_n_states(name="TCFCN", n=5)[2]
+    state_to_filter = create_n_states(name="TCFSN", n=5)[2]
 
     url = reverse("gen_states")
     data = {"name": state_to_filter.name}

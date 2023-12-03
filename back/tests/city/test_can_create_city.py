@@ -2,15 +2,15 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.country_utils import create_country
+from tests.utils.state_utils import create_state
 
 
 @pytest.mark.django_db
-def test_can_create_state(client):
-    test_country = create_country(name="TC")
+def test_can_create_city(client):
+    test_state = create_state(name="TS")
 
-    data = {'name': "TCCS", "country_id": test_country.id}
-    url = reverse('gen_states')
+    data = {'name': "TCCC", "state_id": test_state.id}
+    url = reverse('gen_cities')
     response = client.post(url, data=data)
 
     assert response.status_code == 201

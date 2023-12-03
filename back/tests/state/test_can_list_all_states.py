@@ -7,7 +7,7 @@ from tests.utils.state_utils import create_n_states
 
 @pytest.mark.django_db
 def test_can_list_all_states(client):
-    states = create_n_states(name="TCLAC", n=10)
+    states = create_n_states(name="TCLAS", n=10)
 
     url = reverse("gen_states")
     response = client.get(url)
