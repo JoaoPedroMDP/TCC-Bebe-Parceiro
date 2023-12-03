@@ -8,7 +8,7 @@ from core.models import AccessCode, SocialProgram, MaritalStatus, Beneficiary, C
 class CountrySerializer(ModelSerializer):
     class Meta:
         model = Country
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'enabled']
 
 
 class StateSerializer(ModelSerializer):
@@ -16,7 +16,7 @@ class StateSerializer(ModelSerializer):
 
     class Meta:
         model = State
-        fields = ['id', 'name', 'country']
+        fields = ['id', 'name', 'country', 'enabled']
 
 
 class CitySerializer(ModelSerializer):
@@ -24,7 +24,7 @@ class CitySerializer(ModelSerializer):
 
     class Meta:
         model = City
-        fields = ['id', 'name', 'state']
+        fields = ['id', 'name', 'state', 'enabled']
 
 
 class AccessCodeSerializer(ModelSerializer):

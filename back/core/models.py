@@ -25,7 +25,14 @@ class User(AbstractUser):
     phone = models.CharField(max_length=30, null=False)
 
 
-class Country(TimestampedModel):
+class EnablableModel(TimestampedModel):
+    enabled = models.BooleanField(default=True)
+
+    class Meta:
+        abstract = True
+
+
+class Country(EnablableModel):
     readable_name = "País"
     name = models.CharField(max_length=255)
 
@@ -33,7 +40,7 @@ class Country(TimestampedModel):
         return f"<País: {self.name}>"
 
 
-class State(TimestampedModel):
+class State(EnablableModel):
     readable_name = "Estado"
     name = models.CharField(max_length=255)
     country = models.OneToOneField(Country, on_delete=models.CASCADE, related_name="states")
@@ -42,7 +49,7 @@ class State(TimestampedModel):
         return f"<Estado: {self.name}>"
 
 
-class City(TimestampedModel):
+class City(EnablableModel):
     readable_name = "Cidade"
     name = models.CharField(max_length=255)
     state = models.OneToOneField(State, on_delete=models.CASCADE, related_name="cities")
@@ -60,19 +67,17 @@ class AccessCode(TimestampedModel):
         return f"<Código: {self.code}, Usado: {self.used}>"
 
 
-class MaritalStatus(TimestampedModel):
+class MaritalStatus(EnablableModel):
     readable_name = "Estado civil"
     name = models.CharField(max_length=255)
-    enabled = models.BooleanField(default=True)
 
     def __str__(self):
         return f"<Estado civil: {self.name}>"
 
 
-class SocialProgram(TimestampedModel):
+class SocialProgram(EnablableModel):
     readable_name = "Programa social"
     name = models.CharField(max_length=255)
-    enabled = models.BooleanField(default=True)
 
     def __str__(self):
         return f"<Programa social: {self.name} - Habilitado: {self.enabled}"
@@ -114,16 +119,14 @@ class Child(TimestampedModel):
     sex = models.CharField(max_length=1)
 
 
-class Size(TimestampedModel):
+class Size(EnablableModel):
     readable_name = "Tamanho"
     name = models.CharField(max_length=255)
-    enabled = models.BooleanField(default=True)
 
 
-class Status(TimestampedModel):
+class Status(EnablableModel):
     readable_name = "Status"
     name = models.CharField(max_length=255)
-    enabled = models.BooleanField(default=True)
 
 
 class Swap(TimestampedModel):
@@ -135,13 +138,12 @@ class Swap(TimestampedModel):
     status = models.OneToOneField(Status, on_delete=models.CASCADE)
 
 
-class Speciality(TimestampedModel):
+class Speciality(EnablableModel):
     readable_name = "Especialidade"
     name = models.CharField(max_length=255)
-    enabled = models.BooleanField(default=True)
 
 
-class Professional(TimestampedModel):
+class Professional(EnablableModel):
     readable_name = "Profissional"
     name = models.CharField(max_length=255)
     email = models.EmailField()

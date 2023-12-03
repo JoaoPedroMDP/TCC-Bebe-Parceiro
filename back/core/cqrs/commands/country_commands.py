@@ -4,12 +4,13 @@ from core.cqrs import Validator, Field, Command
 
 class CreateCountryCommand(Command):
     fields = [
-        Field("name", "string", True)
+        Field("name", "string", True),
+        Field("enabled", "boolean", False, formatter=lambda x: Validator.to_bool(x), default=True)
     ]
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, enabled: bool):
         self.name = name
-
+        self.enabled = enabled
 
     @staticmethod
     @Validator.validates
@@ -21,12 +22,14 @@ class CreateCountryCommand(Command):
 class PatchCountryCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
-        Field("name", "string", False)
+        Field("name", "string", False),
+        Field("enabled", "boolean", False, formatter=lambda x: Validator.to_bool(x))
     ]
 
-    def __init__(self, id: int, name: str = None):
+    def __init__(self, id: int, name: str = None, enabled: bool = None):
         self.id = id
         self.name = name
+        self.enabled = enabled
 
     @staticmethod
     @Validator.validates

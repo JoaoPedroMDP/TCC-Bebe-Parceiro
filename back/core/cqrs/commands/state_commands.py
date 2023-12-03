@@ -6,12 +6,13 @@ class CreateStateCommand(Command):
     fields = [
         Field("name", "string", True),
         Field("country_id", "integer", True, formatter=lambda x: int(x)),
-
+        Field("enabled", "boolean", False, formatter=lambda x: Validator.to_bool(x), default=True)
     ]
 
-    def __init__(self, name: str, country_id: int):
+    def __init__(self, name: str, country_id: int, enabled: bool):
         self.name = name
         self.country_id = country_id
+        self.enabled = enabled
 
     @staticmethod
     @Validator.validates
@@ -25,12 +26,14 @@ class PatchStateCommand(Command):
         Field("id", "integer", True, formatter=lambda x: int(x)),
         Field("name", "string", False),
         Field("country_id", "integer", True, formatter=lambda x: int(x)),
+        Field("enabled", "boolean", False, formatter=lambda x: Validator.to_bool(x))
     ]
 
-    def __init__(self, id: int, name: str = None, country_id: int = None):
+    def __init__(self, id: int, name: str = None, country_id: int = None, enabled: bool = None):
         self.id = id
         self.name = name
         self.country_id = country_id
+        self.enabled = enabled
 
     @staticmethod
     @Validator.validates

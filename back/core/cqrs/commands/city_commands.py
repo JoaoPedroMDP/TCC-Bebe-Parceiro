@@ -6,13 +6,13 @@ class CreateCityCommand(Command):
     fields = [
         Field("name", "string", True),
         Field("state_id", "integer", True, formatter=lambda x: int(x)),
-
+        Field("enabled", "boolean", False, formatter=lambda x: Validator.to_bool(x), default=True)
     ]
 
-    def __init__(self, name: str, state_id: int):
+    def __init__(self, name: str, state_id: int, enabled: bool):
         self.name = name
         self.state_id = state_id
-
+        self.enabled = enabled
 
     @staticmethod
     @Validator.validates
@@ -26,12 +26,14 @@ class PatchCityCommand(Command):
         Field("id", "integer", True, formatter=lambda x: int(x)),
         Field("name", "string", False),
         Field("state_id", "integer", True, formatter=lambda x: int(x)),
+        Field("enabled", "boolean", False, formatter=lambda x: Validator.to_bool(x))
     ]
 
-    def __init__(self, id: int, name: str = None, state_id: int = None):
+    def __init__(self, id: int, name: str = None, state_id: int = None, enabled: bool = None):
         self.id = id
         self.name = name
         self.state_id = state_id
+        self.enabled = enabled
 
     @staticmethod
     @Validator.validates
