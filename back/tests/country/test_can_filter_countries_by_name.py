@@ -7,7 +7,7 @@ from tests.utils.country_utils import create_n_countries
 
 @pytest.mark.django_db
 def test_can_filter_countries_by_name(client):
-    country_to_filter = create_n_countries(name="TCFCN", n=5)[2]
+    country_to_filter = create_n_countries(name="TCFCBN", n=5)[2]
 
     url = reverse("gen_countries")
     data = {"name": country_to_filter.name}
