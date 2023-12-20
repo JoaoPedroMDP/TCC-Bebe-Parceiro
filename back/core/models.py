@@ -24,6 +24,14 @@ class TimestampedModel(BaseModel):
 class User(AbstractUser):
     phone = models.CharField(max_length=30, null=False)
 
+    @property
+    def name(self):
+        return self.first_name
+
+    @name.setter
+    def name(self, value):
+        self.first_name = value
+
 
 class EnablableModel(TimestampedModel):
     enabled = models.BooleanField(default=True)
@@ -115,7 +123,7 @@ class Child(TimestampedModel):
     readable_name = "Filho/a"
     name = models.CharField(max_length=255)
     birth_date = models.DateTimeField()
-    beneficiary = models.OneToOneField(Beneficiary, on_delete=models.CASCADE, related_name="children")
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="children")
     sex = models.CharField(max_length=1)
 
 

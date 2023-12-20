@@ -4,7 +4,7 @@ from typing import List
 from core.models import Country
 
 
-def create_country(name: str = "TES") -> Country:
+def create_country(name: str = "TEST_COUNTRY") -> Country:
     country = Country(name=name)
     country.save()
 

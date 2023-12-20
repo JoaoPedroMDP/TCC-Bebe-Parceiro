@@ -14,10 +14,13 @@ from core.services import Service
 class ChildService(Service):
     @classmethod
     def create(cls, command: CreateChildCommand) -> Child:
-        # Verifica se a mãe passada é válida
-        BenefitedRepository.get(command.benefited_id)
+        beneficiary = BenefitedRepository.get(command.benefited_id)
 
-        new_child = ChildRepository.create(command.to_dict())
+        data = command.to_dict()
+        data["beneficiary"] = beneficiary
+        del data["benefited_id"]
+
+        new_child = ChildRepository.create(data)
         return new_child
 
     @classmethod

@@ -13,6 +13,7 @@ from core.repositories.benefited_repository import BenefitedRepository
 from core.repositories.city_repository import CityRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
+from core.repositories.user_repository import UserRepository
 from core.services import Service
 from core.services.child_service import ChildService
 from core.utils.exceptions import HttpFriendlyError
@@ -38,11 +39,15 @@ class BenefitedService(Service):
             for social_program_id in command.social_programs:
                 social_programs.append(SocialProgramRepository.get(social_program_id))
 
-        data = {
+        new_user = UserRepository.create({
             "name": command.name,
             "email": command.email,
             "phone": command.phone,
             "password": command.password,
+        })
+
+        data = {
+            "user": new_user,
             "birth_date": command.birth_date,
             "child_count": command.child_count,
             "monthly_familiar_income": command.monthly_familiar_income,

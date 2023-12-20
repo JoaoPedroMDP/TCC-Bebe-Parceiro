@@ -6,3 +6,4 @@ grappa==1.0.1
 django-cors-headers==4.3.1
 pytest-django==4.7.0
 pytest==7.4.3
+faker==21.0.0

@@ -1,7 +1,7 @@
 #  coding: utf-8
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.models import Country, State, City
+from core.models import Country, State, City, User
 from core.models import AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child
 
 
@@ -45,13 +45,20 @@ class MaritalStatusSerializer(ModelSerializer):
         fields = ['id', 'name', 'enabled']
 
 
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'name', 'email', 'phone']
+
+
 class BenefitedSerializer(ModelSerializer):
     city = CitySerializer(read_only=True)
     marital_status = MaritalStatusSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Beneficiary
-        fields = ['id', 'name', 'email', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
+        fields = ['id', 'user', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
                   'marital_status', 'city']
 
 
