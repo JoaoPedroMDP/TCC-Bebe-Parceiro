@@ -2,13 +2,13 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.city_utils import create_n_cities
+from tests.utils.factories import CityFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_cities_by_name(client):
-    city_to_filter = create_n_cities(name="TCFCN", n=5)[2]
-
+    CityFactory.create_batch(size=5)
+    city_to_filter = CityFactory.create(name="TESTE")
     url = reverse("gen_cities")
     data = {"name": city_to_filter.name}
     response = client.get(url, data=data)

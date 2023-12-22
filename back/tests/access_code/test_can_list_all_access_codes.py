@@ -2,12 +2,12 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.access_code_utils import create_n_access_codes
+from tests.utils.factories import AccessCodeFactory
 
 
 @pytest.mark.django_db
 def test_can_list_all_access_codes(client):
-    codes = create_n_access_codes(prefix="TCLAC", n=10)
+    codes = AccessCodeFactory.create_batch(size=5)
 
     url = reverse("gen_access_codes")
     response = client.get(url)

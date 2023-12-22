@@ -2,14 +2,13 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.marital_status_utils import create_n_marital_statuses, mark_marital_statuses_as_disabled
+from tests.utils.factories import MaritalStatusFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_marital_statuses_by_enabled(client):
-    enabled_marital_statuses = create_n_marital_statuses(name="TCFSPBE1", n=5)
-    mark_marital_statuses_as_disabled(enabled_marital_statuses)
-    create_n_marital_statuses(name="TCFSPBE2", n=3)
+    MaritalStatusFactory.create_batch(size=5, enabled=False)
+    MaritalStatusFactory.create_batch(size=3, enabled=True)
 
     url = reverse("gen_marital_statuses")
     data = {"enabled": True}

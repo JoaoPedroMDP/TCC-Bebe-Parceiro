@@ -2,12 +2,12 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.city_utils import create_city
+from tests.utils.factories import CityFactory
 
 
 @pytest.mark.django_db
 def test_can_get_city(client):
-    city = create_city(name="TCGC")
+    city = CityFactory.create()
     url = reverse("spe_cities", kwargs={"pk": city.id})
 
     response = client.get(url)

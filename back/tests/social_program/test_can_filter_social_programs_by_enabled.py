@@ -2,14 +2,13 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.social_program_utils import create_n_social_programs, mark_social_programs_as_disabled
+from tests.utils.factories import SocialProgramFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_social_programs_by_enabled(client):
-    enabled_social_programs = create_n_social_programs(name="TCFSPBE1", n=5)
-    mark_social_programs_as_disabled(enabled_social_programs)
-    create_n_social_programs(name="TCFSPBE2", n=3)
+    SocialProgramFactory.create_batch(size=5, enabled=False)
+    SocialProgramFactory.create_batch(size=3, enabled=True)
 
     url = reverse("gen_social_programs")
     data = {"enabled": True}

@@ -2,12 +2,13 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.social_program_utils import create_n_social_programs
+from tests.utils.factories import SocialProgramFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_social_programs_by_name(client):
-    social_program_to_filter = create_n_social_programs(name="TCFSPBN", n=5)[2]
+    SocialProgramFactory.create_batch(size=5)
+    social_program_to_filter = SocialProgramFactory.create(name="TESTE")
 
     url = reverse("gen_social_programs")
     data = {"name": social_program_to_filter.name}

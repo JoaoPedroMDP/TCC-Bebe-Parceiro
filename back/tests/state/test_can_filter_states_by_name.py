@@ -2,12 +2,13 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.state_utils import create_n_states
+from tests.utils.factories import StateFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_states_by_name(client):
-    state_to_filter = create_n_states(name="TCFSN", n=5)[2]
+    StateFactory.create_batch(size=5)
+    state_to_filter = StateFactory.create(name="TESTE")
 
     url = reverse("gen_states")
     data = {"name": state_to_filter.name}

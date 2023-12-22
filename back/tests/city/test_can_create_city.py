@@ -2,12 +2,12 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.state_utils import create_state
+from tests.utils.factories import StateFactory
 
 
 @pytest.mark.django_db
 def test_can_create_city(client):
-    test_state = create_state(name="TS")
+    test_state = StateFactory.create()
 
     data = {'name': "TCCC", "state_id": test_state.id}
     url = reverse('gen_cities')

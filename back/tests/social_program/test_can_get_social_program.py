@@ -2,12 +2,12 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.social_program_utils import create_social_program
+from tests.utils.factories import SocialProgramFactory
 
 
 @pytest.mark.django_db
 def test_can_get_social_program(client):
-    social_program = create_social_program(name="TCGSP")
+    social_program = SocialProgramFactory.create()
     url = reverse("spe_social_programs", kwargs={"pk": social_program.id})
 
     response = client.get(url)

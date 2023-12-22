@@ -2,14 +2,13 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.city_utils import create_n_cities, mark_cities_as_disabled
+from tests.utils.factories import CityFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_cities_by_enabled(client):
-    enabled_cities = create_n_cities(name="TCFCBE1", n=5)
-    mark_cities_as_disabled(enabled_cities)
-    create_n_cities(name="TCFCBE2", n=3)
+    CityFactory.create_batch(size=5, enabled=False)
+    CityFactory.create_batch(size=3, enabled=True)
 
     url = reverse("gen_cities")
     data = {"enabled": True}

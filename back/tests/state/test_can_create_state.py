@@ -2,12 +2,12 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.country_utils import create_country
+from tests.utils.factories import CountryFactory
 
 
 @pytest.mark.django_db
 def test_can_create_state(client):
-    test_country = create_country(name="TC")
+    test_country = CountryFactory.create(name="TC")
 
     data = {'name': "TCCS", "country_id": test_country.id}
     url = reverse('gen_states')

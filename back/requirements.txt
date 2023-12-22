@@ -1,4 +1,4 @@
-django==4.2.6
+django==5.0
 djangorestframework==3.14.0
 gunicorn==21.2.0
 psycopg2-binary==2.9.9
@@ -7,3 +7,4 @@ django-cors-headers==4.3.1
 pytest-django==4.7.0
 pytest==7.4.3
 faker==21.0.0
+factory-boy==3.3.0

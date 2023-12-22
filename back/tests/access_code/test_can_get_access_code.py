@@ -2,12 +2,12 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.access_code_utils import create_access_code
+from tests.utils.factories import AccessCodeFactory
 
 
 @pytest.mark.django_db
 def test_can_get_access_code(client):
-    ac = create_access_code(prefix="TCGAC")
+    ac = AccessCodeFactory.create()
     url = reverse("spe_access_codes", kwargs={"pk": ac.id})
 
     response = client.get(url)

@@ -2,12 +2,12 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.state_utils import create_state
+from tests.utils.factories import StateFactory
 
 
 @pytest.mark.django_db
 def test_can_get_state(client):
-    state = create_state(name="TCGS")
+    state = StateFactory.create(name="TCGS")
     url = reverse("spe_states", kwargs={"pk": state.id})
 
     response = client.get(url)

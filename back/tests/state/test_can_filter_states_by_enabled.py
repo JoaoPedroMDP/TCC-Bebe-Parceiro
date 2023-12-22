@@ -2,14 +2,13 @@
 import pytest
 from django.urls import reverse
 
-from tests.utils.state_utils import create_n_states, mark_states_as_disabled
+from tests.utils.factories import StateFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_states_by_enabled(client):
-    enabled_states = create_n_states(name="TCFSBE1", n=5)
-    mark_states_as_disabled(enabled_states)
-    create_n_states(name="TCFSBE2", n=3)
+    StateFactory.create_batch(size=5, enabled=False)
+    StateFactory.create_batch(size=3, enabled=True)
 
     url = reverse("gen_states")
     data = {"enabled": True}
