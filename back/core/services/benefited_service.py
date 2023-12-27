@@ -6,7 +6,8 @@ from rest_framework import status
 from core.cqrs.commands.benefited_commands import CreateBenefitedCommand, PatchBenefitedCommand, \
     DeleteBenefitedCommand
 from core.cqrs.commands.child_commands import CreateChildCommand
-from core.cqrs.queries.benefited_queries import GetBenefitedQuery, ListBenefitedQuery
+from core.cqrs.commands.user_commands import CreateUserCommand
+from core.cqrs.queries.beneficiary_queries import GetBenefitedQuery, ListBenefitedQuery
 from core.models import Beneficiary
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.benefited_repository import BenefitedRepository
@@ -16,6 +17,7 @@ from core.repositories.social_program_repository import SocialProgramRepository
 from core.repositories.user_repository import UserRepository
 from core.services import Service
 from core.services.child_service import ChildService
+from core.services.user_service import UserService
 from core.utils.exceptions import HttpFriendlyError
 
 
@@ -39,12 +41,7 @@ class BenefitedService(Service):
             for social_program_id in command.social_programs:
                 social_programs.append(SocialProgramRepository.get(social_program_id))
 
-        new_user = UserRepository.create({
-            "name": command.name,
-            "email": command.email,
-            "phone": command.phone,
-            "password": command.password,
-        })
+        new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
 
         data = {
             "user": new_user,
@@ -57,11 +54,16 @@ class BenefitedService(Service):
         }
 
         # Vinculo a beneficiada aos programas sociais
-        new_benefited = BenefitedRepository.create(data)
-        for social_program in social_programs:
-            new_benefited.social_programs.add(social_program)
+        try:
+            new_benefited = BenefitedRepository.create(data)
 
-        new_benefited.save()
+            for social_program in social_programs:
+                new_benefited.social_programs.add(social_program)
+
+            new_benefited.save()
+        except Exception as e:
+            new_user.delete()
+            raise e
 
         # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
         access_code = access_codes[0]

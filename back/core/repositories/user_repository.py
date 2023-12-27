@@ -9,3 +9,8 @@ lgr = logging.getLogger(__name__)
 
 class UserRepository(Repository):
     model = User
+
+    @classmethod
+    def create(cls, data: dict):
+        user = User.objects.create_user(**data)
+        return user

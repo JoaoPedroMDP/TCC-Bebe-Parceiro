@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 
 from core.cqrs.commands.benefited_commands import CreateBenefitedCommand, PatchBenefitedCommand, \
     DeleteBenefitedCommand
-from core.cqrs.queries.benefited_queries import GetBenefitedQuery, ListBenefitedQuery
+from core.cqrs.queries.beneficiary_queries import GetBenefitedQuery, ListBenefitedQuery
 from core.models import Beneficiary
 from core.serializers import BenefitedSerializer
 from core.services.benefited_service import BenefitedService

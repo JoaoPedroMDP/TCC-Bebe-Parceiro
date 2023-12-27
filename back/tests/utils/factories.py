@@ -28,6 +28,10 @@ class UserFactory(DjangoModelFactory):
         model = User
 
     phone = factory.Faker('phone_number')
+    email = factory.Faker('email')
+    password = factory.Faker('password')
+    username = factory.Faker('phone_number')
+    first_name = factory.Faker('first_name')
 
 
 class EnablableModelFactory(TimestampedModelFactory):

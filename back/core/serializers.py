@@ -48,7 +48,7 @@ class MaritalStatusSerializer(ModelSerializer):
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'phone']
+        fields = ['id', 'username', 'name', 'email', 'phone']
 
 
 class BenefitedSerializer(ModelSerializer):

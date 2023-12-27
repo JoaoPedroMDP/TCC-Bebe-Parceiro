@@ -17,7 +17,7 @@ def test_can_create_beneficiary(client: Client):
     url = reverse('gen_beneficiaries')
     response = client.post(url, data=data, content_type='application/json')
 
-    # print(response)
-
     assert response.status_code == 201
     assert response.data['user']['name'].startswith(data["name"]) is True
+    assert 'user' in response.data
+    assert response.data['user']['username'] == data['phone']
