@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import logging
+from datetime import timedelta
 from pathlib import Path
 
-from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
+from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, TOKEN_TTL_SECONDS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +31,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+APPEND_SLASH = False
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,8 +45,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'core',
-    "corsheaders",
+    'corsheaders',
+    'django_extensions',
+    'knox'
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'knox.auth.TokenAuthentication',
+    ]
+}
+
+
+REST_KNOX = {
+    'TOKEN_TTL': timedelta(minutes=TOKEN_TTL_SECONDS),
+    'TOKEN_LIMIT_PER_USER': 1,
+    # 'USER_SERIALIZER': 'core.serializers.UserSerializer',
+}
 
 
 LOGGING = {

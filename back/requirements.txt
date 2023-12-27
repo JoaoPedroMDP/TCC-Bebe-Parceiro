@@ -8,3 +8,5 @@ pytest-django==4.7.0
 pytest==7.4.3
 faker==21.0.0
 factory-boy==3.3.0
+django-extensions==3.2.3
+django-rest-knox==4.2.0

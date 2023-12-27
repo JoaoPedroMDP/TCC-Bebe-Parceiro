@@ -1,20 +1,26 @@
 #  coding: utf-8
+from django.conf.urls import include
 from django.urls import path
+from knox.views import LogoutView, LogoutAllView
 
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews
+from core.app_views.auth_views import LoginView
 from core.app_views.benefited_views import BenefitedGenericViews, BenefitedSpecificViews
 from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
+from core.app_views.city_views import CityGenericViews, CitySpecificViews
+from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
 from core.app_views.marital_status_views import MaritalStatusGenericViews, MaritalStatusSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
-from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
 from core.app_views.state_views import StateGenericViews, StateSpecificViews
-from core.app_views.city_views import CityGenericViews, CitySpecificViews
 
 # gen = generic
 # spe = specific
 # pk = primary key
 
 urlpatterns = [
+    path('auth/login', LoginView.as_view(), name='login'),
+    path('auth/logout', LogoutView.as_view(), name='logout'),
+
     path("access_codes", AccessCodeGenericViews.as_view(), name="gen_access_codes"),
     path("access_codes/<int:pk>", AccessCodeSpecificViews.as_view(), name="spe_access_codes"),
 
