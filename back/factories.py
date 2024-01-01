@@ -2,6 +2,7 @@
 import factory
 from factory.django import DjangoModelFactory
 from faker import Faker
+
 from core.models import (
     BaseModel, User, Country, State, City, AccessCode,
     MaritalStatus, SocialProgram, Beneficiary, Volunteer, Campaign, Child, Size, Status, Swap,

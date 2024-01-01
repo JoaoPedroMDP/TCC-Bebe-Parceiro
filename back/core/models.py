@@ -94,8 +94,8 @@ class SocialProgram(EnablableModel):
 class Beneficiary(TimestampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     readable_name = "Beneficiada"
-    marital_status = models.OneToOneField(MaritalStatus, on_delete=models.CASCADE, related_name="beneficiaries")
-    city = models.OneToOneField(City, on_delete=models.CASCADE, related_name="beneficiaries")
+    marital_status = models.ForeignKey(MaritalStatus, on_delete=models.CASCADE, related_name="beneficiaries")
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="beneficiaries")
     social_programs = models.ManyToManyField(SocialProgram)
 
     birth_date = models.DateTimeField()
@@ -108,7 +108,7 @@ class Volunteer(TimestampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     readable_name = "Voluntária"
     role = models.CharField(max_length=255)
-    city = models.OneToOneField(City, on_delete=models.CASCADE, related_name="volunteers")
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="volunteers")
 
 
 class Campaign(TimestampedModel):
@@ -140,10 +140,10 @@ class Status(EnablableModel):
 class Swap(TimestampedModel):
     """Troca de roupas"""
     readable_name = "Troca"
-    cloth_size = models.OneToOneField(Size, on_delete=models.CASCADE, related_name="clothes")
-    shoe_size = models.OneToOneField(Size, on_delete=models.CASCADE, related_name="shoes", null=True)
+    cloth_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="clothes")
+    shoe_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="shoes", null=True)
     description = models.TextField()
-    status = models.OneToOneField(Status, on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
 
 class Speciality(EnablableModel):
@@ -170,12 +170,12 @@ class Appointment(TimestampedModel):
 
     date = models.DateField(null=True)
     hour = models.TimeField(null=True)
-    status = models.OneToOneField(Status, on_delete=models.CASCADE, related_name="appointments")
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name="appointments")
 
 
 class Register(TimestampedModel):
     readable_name = "Registro do prontuário"
-    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, related_name="registers")
-    volunteer = models.OneToOneField(Volunteer, on_delete=models.CASCADE, related_name="registers")
-    beneficiary = models.OneToOneField(Beneficiary, on_delete=models.CASCADE, related_name="registers")
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="registers")
+    volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name="registers")
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="registers")
     description = models.TextField()
