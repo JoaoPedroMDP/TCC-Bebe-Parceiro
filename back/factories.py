@@ -34,6 +34,20 @@ class UserFactory(DjangoModelFactory):
     username = factory.Faker('phone_number')
     first_name = factory.Faker('first_name')
 
+    @staticmethod
+    def create(**kwargs):
+        user_data = UserFactory.build(**kwargs)
+        user = User.objects.create_user(**{
+                "username": user_data.username,
+                "email": user_data.email,
+                "password": user_data.password,
+                "first_name": user_data.first_name,
+                "phone": user_data.phone
+            }
+        )
+
+        return user
+
 
 class EnablableModelFactory(TimestampedModelFactory):
     enabled = factory.Faker('boolean')

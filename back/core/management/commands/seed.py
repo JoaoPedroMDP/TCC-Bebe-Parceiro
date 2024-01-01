@@ -31,14 +31,7 @@ class Command(BaseCommand):
         CityFactory.create(name="Maringá", state=parana, enabled=True)
         AccessCodeFactory.create_batch(5, used=False)
 
-        users: List[User] = UserFactory.build_batch(5)
-        for u in users:
-            User.objects.create_user(
-                username=u.username,
-                password=u.password,
-                first_name=u.first_name,
-                last_name=u.last_name,
-            )
+        UserFactory.create_batch(5)
         User.objects.create_user(username="teste", password="teste")
 
         BeneficiaryFactory.create_batch(5)
