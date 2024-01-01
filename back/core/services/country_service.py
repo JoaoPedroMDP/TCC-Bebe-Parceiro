@@ -6,10 +6,10 @@ from core.cqrs.commands.country_commands import CreateCountryCommand, PatchCount
 from core.cqrs.queries.country_queries import GetCountryQuery, ListCountryQuery
 from core.models import Country
 from core.repositories.country_repository import CountryRepository
-from core.services import Service
+from core.services import CrudService
 
 
-class CountryService(Service):
+class CountryService(CrudService):
     @classmethod
     def create(cls, command: CreateCountryCommand) -> Country:
         new_country = CountryRepository.create(command.to_dict())

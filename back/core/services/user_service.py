@@ -5,10 +5,10 @@ from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.queries.user_queries import ListUserQuery, GetUserQuery
 from core.models import User
 from core.repositories.user_repository import UserRepository
-from core.services import Service
+from core.services import CrudService
 
 
-class UserService(Service):
+class UserService(CrudService):
     @classmethod
     def create(cls, command: CreateUserCommand) -> User:
         data = command.to_dict()

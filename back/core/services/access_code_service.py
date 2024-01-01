@@ -9,12 +9,12 @@ from core.cqrs.commands.access_code_commands import CreateAccessCodeCommand, Pat
 from core.cqrs.queries.access_code_queries import GetAccessCodeQuery, ListAccessCodeQuery
 from core.models import AccessCode
 from core.repositories.access_code_repository import AccessCodeRepository
-from core.services import Service
+from core.services import CrudService
 
 lgr = logging.getLogger(__name__)
 
 
-class AccessCodeService(Service):
+class AccessCodeService(CrudService):
 
     @classmethod
     def generate_code(cls, prefix: str):

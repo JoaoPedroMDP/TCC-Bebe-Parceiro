@@ -6,10 +6,10 @@ from core.cqrs.commands.social_program_commands import CreateSocialProgramComman
 from core.cqrs.queries.social_program_queries import GetSocialProgramQuery, ListSocialProgramQuery
 from core.models import SocialProgram
 from core.repositories.social_program_repository import SocialProgramRepository
-from core.services import Service
+from core.services import CrudService
 
 
-class SocialProgramService(Service):
+class SocialProgramService(CrudService):
     @classmethod
     def create(cls, command: CreateSocialProgramCommand) -> SocialProgram:
         new_program = SocialProgramRepository.create(command.to_dict())

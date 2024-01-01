@@ -8,10 +8,10 @@ from core.repositories.child_repository import ChildRepository
 
 from core.models import Child
 from core.repositories.benefited_repository import BenefitedRepository
-from core.services import Service
+from core.services import CrudService
 
 
-class ChildService(Service):
+class ChildService(CrudService):
     @classmethod
     def create(cls, command: CreateChildCommand) -> Child:
         beneficiary = BenefitedRepository.get(command.benefited_id)

@@ -6,10 +6,10 @@ from core.cqrs.commands.marital_status_commands import CreateMaritalStatusComman
 from core.cqrs.queries.marital_status_queries import GetMaritalStatusQuery, ListMaritalStatusQuery
 from core.models import MaritalStatus
 from core.repositories.marital_status_repository import MaritalStatusRepository
-from core.services import Service
+from core.services import CrudService
 
 
-class MaritalStatusService(Service):
+class MaritalStatusService(CrudService):
     @classmethod
     def create(cls, command: CreateMaritalStatusCommand) -> MaritalStatus:
         new_status = MaritalStatusRepository.create(command.to_dict())

@@ -7,10 +7,10 @@ from core.cqrs.queries.city_queries import GetCityQuery, ListCityQuery
 from core.models import City
 from core.repositories.city_repository import CityRepository
 from core.repositories.state_repository import StateRepository
-from core.services import Service
+from core.services import CrudService
 
 
-class CityService(Service):
+class CityService(CrudService):
     @classmethod
     def create(cls, command: CreateCityCommand) -> City:
         # Verifica se o a cidade passada é válida

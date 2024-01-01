@@ -7,10 +7,10 @@ from core.cqrs.queries.state_queries import GetStateQuery, ListStateQuery
 from core.models import State
 from core.repositories.country_repository import CountryRepository
 from core.repositories.state_repository import StateRepository
-from core.services import Service
+from core.services import CrudService
 
 
-class StateService(Service):
+class StateService(CrudService):
     @classmethod
     def create(cls, command: CreateStateCommand) -> State:
         # Verifica se o estado passado é válido

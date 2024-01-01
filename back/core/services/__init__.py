@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 
 
-class Service(ABC):
+class CrudService(ABC):
     @abstractmethod
     def create(self, command):
         pass

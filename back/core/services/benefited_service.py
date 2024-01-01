@@ -15,13 +15,13 @@ from core.repositories.city_repository import CityRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.repositories.user_repository import UserRepository
-from core.services import Service
+from core.services import CrudService
 from core.services.child_service import ChildService
 from core.services.user_service import UserService
 from core.utils.exceptions import HttpFriendlyError
 
 
-class BenefitedService(Service):
+class BenefitedService(CrudService):
     @classmethod
     def create(cls, command: CreateBenefitedCommand) -> Beneficiary:
         # Verifica se o estado civil passado é válido
