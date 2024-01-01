@@ -1,12 +1,13 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
-from tests.utils.factories import CountryFactory
+from factories import CountryFactory
 
 
 @pytest.mark.django_db
-def test_can_create_state(client):
+def test_can_create_state(client: Client):
     test_country = CountryFactory.create(name="TC")
 
     data = {'name': "TCCS", "country_id": test_country.id}

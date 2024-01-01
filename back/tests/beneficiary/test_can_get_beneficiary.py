@@ -1,12 +1,13 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
-from tests.utils.factories import BeneficiaryFactory
+from factories import BeneficiaryFactory
 
 
 @pytest.mark.django_db
-def test_can_get_beneficiary(client):
+def test_can_get_beneficiary(client: Client):
     beneficiary = BeneficiaryFactory.create()
     url = reverse("spe_beneficiaries", kwargs={"pk": beneficiary.id})
 

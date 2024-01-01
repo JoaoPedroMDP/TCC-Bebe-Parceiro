@@ -1,12 +1,13 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
-from tests.utils.factories import AccessCodeFactory
+from factories import AccessCodeFactory
 
 
 @pytest.mark.django_db
-def test_can_get_access_code(client):
+def test_can_get_access_code(client: Client):
     ac = AccessCodeFactory.create()
     url = reverse("spe_access_codes", kwargs={"pk": ac.id})
 

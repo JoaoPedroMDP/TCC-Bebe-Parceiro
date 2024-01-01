@@ -1,10 +1,11 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
 
 @pytest.mark.django_db
-def test_can_create_social_program(client):
+def test_can_create_social_program(client: Client):
     data = {'name': "TCCSP"}
     url = reverse('gen_social_programs')
     response = client.post(url, data=data)

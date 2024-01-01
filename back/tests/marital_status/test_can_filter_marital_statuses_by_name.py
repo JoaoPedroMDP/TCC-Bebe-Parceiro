@@ -1,12 +1,13 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
-from tests.utils.factories import MaritalStatusFactory
+from factories import MaritalStatusFactory
 
 
 @pytest.mark.django_db
-def test_can_filter_marital_statuses_by_name(client):
+def test_can_filter_marital_statuses_by_name(client: Client):
     MaritalStatusFactory.create_batch(size=5)
     marital_status_to_filter = MaritalStatusFactory.create(name="TESTE")
     url = reverse("gen_marital_statuses")

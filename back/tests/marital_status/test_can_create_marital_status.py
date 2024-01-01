@@ -1,10 +1,11 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
 
 @pytest.mark.django_db
-def test_can_create_marital_status(client):
+def test_can_create_marital_status(client: Client):
     data = {'name': "TCCSP"}
     url = reverse('gen_marital_statuses')
     response = client.post(url, data=data)

@@ -1,12 +1,13 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
-from tests.utils.factories import CountryFactory
+from factories import CountryFactory
 
 
 @pytest.mark.django_db
-def test_can_filter_countries_by_name(client):
+def test_can_filter_countries_by_name(client: Client):
     CountryFactory.create_batch(size=5)
     country_to_filter = CountryFactory.create(name="TESTE")
 

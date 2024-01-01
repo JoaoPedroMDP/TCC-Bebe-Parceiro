@@ -1,12 +1,13 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
-from tests.utils.factories import StateFactory
+from factories import StateFactory
 
 
 @pytest.mark.django_db
-def test_can_filter_states_by_country_id(client):
+def test_can_filter_states_by_country_id(client: Client):
     state_to_filter = StateFactory.create()
 
     StateFactory.create_batch(size=5)

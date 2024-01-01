@@ -1,12 +1,13 @@
 #  coding: utf-8
 import pytest
+from django.test.client import Client
 from django.urls import reverse
 
-from tests.utils.factories import SocialProgramFactory
+from factories import SocialProgramFactory
 
 
 @pytest.mark.django_db
-def test_can_filter_social_programs_by_enabled(client):
+def test_can_filter_social_programs_by_enabled(client: Client):
     SocialProgramFactory.create_batch(size=5, enabled=False)
     SocialProgramFactory.create_batch(size=3, enabled=True)
 
