@@ -22,13 +22,13 @@ class GetChildQuery(Query):
 class ListChildQuery(Query):
     fields = [
         Field("birth_date", "integer", False, formatter=lambda x: int(x)),
-        Field("benefited_id", "integer", False, formatter=lambda x: int(x)),
+        Field("beneficiary_id", "integer", False, formatter=lambda x: int(x)),
         Field("sex", "string", False),
     ]
 
-    def __init__(self, birth_date: int = None, benefited_id: int = None, sex: str = None):
+    def __init__(self, birth_date: int = None, beneficiary_id: int = None, sex: str = None):
         self.birth_date = birth_date
-        self.benefited_id = benefited_id
+        self.beneficiary_id = beneficiary_id
         self.sex = sex
 
     @staticmethod

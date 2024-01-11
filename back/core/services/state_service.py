@@ -13,7 +13,7 @@ from core.services import CrudService
 class StateService(CrudService):
     @classmethod
     def create(cls, command: CreateStateCommand) -> State:
-        # Verifica se o estado passado é válido
+        # Verifica se o país passado é válido
         CountryRepository.get(command.country_id)
 
         new_state = StateRepository.create(command.to_dict())

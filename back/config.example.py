@@ -12,3 +12,7 @@ DB_PORT = os.getenv("DB_PORT", "5432")
 
 # Tempo de vida do token de acesso
 TOKEN_TTL_SECONDS = 60 * 60 * 3
+
+
+# Habilita login no sistema
+AUTH_ENABLED = False

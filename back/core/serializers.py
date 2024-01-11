@@ -1,7 +1,7 @@
 #  coding: utf-8
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.models import Country, State, City, User
+from core.models import Country, State, City, User, Volunteer
 from core.models import AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child
 
 
@@ -46,12 +46,14 @@ class MaritalStatusSerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    groups = SlugRelatedField(slug_field='name', read_only=True, many=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'name', 'email', 'phone']
+        fields = ['id', 'username', 'name', 'email', 'phone', 'groups']
 
 
-class BenefitedSerializer(ModelSerializer):
+class BeneficiarySerializer(ModelSerializer):
     city = CitySerializer(read_only=True)
     marital_status = MaritalStatusSerializer(read_only=True)
     user = UserSerializer(read_only=True)
@@ -63,9 +65,18 @@ class BenefitedSerializer(ModelSerializer):
 
 
 class ChildSerializer(ModelSerializer):
-    benefited = SlugRelatedField(slug_field='id', read_only=True)
+    beneficiary = SlugRelatedField(slug_field='id', read_only=True)
     birth_date = DateField(format="%d/%m/%Y")
 
     class Meta:
         model = Child
-        fields = ['id', 'name', 'birth_date', 'sex', 'benefited']
+        fields = ['id', 'name', 'birth_date', 'sex', 'beneficiary']
+
+
+class VolunteerSerializer(ModelSerializer):
+    user = UserSerializer(read_only=True)
+    city = CitySerializer(read_only=True)
+
+    class Meta:
+        model = Volunteer
+        fields = ['id', 'user', 'city']

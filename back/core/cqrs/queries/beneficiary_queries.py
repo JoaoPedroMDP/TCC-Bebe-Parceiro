@@ -2,7 +2,7 @@
 from core.cqrs import Query, Field, Validator
 
 
-class GetBenefitedQuery(Query):
+class GetBeneficiaryQuery(Query):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
     ]
@@ -12,12 +12,12 @@ class GetBenefitedQuery(Query):
 
     @staticmethod
     @Validator.validates
-    def from_dict(args: dict) -> 'GetBenefitedQuery':
-        data = Validator.validate_and_extract(GetBenefitedQuery.fields, args)
-        return GetBenefitedQuery(**data)
+    def from_dict(args: dict) -> 'GetBeneficiaryQuery':
+        data = Validator.validate_and_extract(GetBeneficiaryQuery.fields, args)
+        return GetBeneficiaryQuery(**data)
 
 
-class ListBenefitedQuery(Query):
+class ListBeneficiaryQuery(Query):
     fields = [
         Field("user_id", "integer", False, formatter=lambda x: int(x)),
         Field("marital_status_id", "integer", False, formatter=lambda x: int(x)),
@@ -43,6 +43,6 @@ class ListBenefitedQuery(Query):
 
     @staticmethod
     @Validator.validates
-    def from_dict(args: dict) -> 'ListBenefitedQuery':
-        data = Validator.validate_and_extract(ListBenefitedQuery.fields, args)
-        return ListBenefitedQuery(**data)
+    def from_dict(args: dict) -> 'ListBeneficiaryQuery':
+        data = Validator.validate_and_extract(ListBeneficiaryQuery.fields, args)
+        return ListBeneficiaryQuery(**data)

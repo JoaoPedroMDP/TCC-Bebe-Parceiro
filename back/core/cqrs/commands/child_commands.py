@@ -7,16 +7,16 @@ from core.cqrs import Validator, Field, Command
 class CreateChildCommand(Command):
     fields = [
         Field("name", "string", True),
-        Field("benefited_id", "integer", True, formatter=lambda x: int(x)),
+        Field("beneficiary_id", "integer", True, formatter=lambda x: int(x)),
         Field("sex", "string", True),
 
         Field("birth_date", "string", False),
     ]
 
-    def __init__(self, name: str, birth_date: str, benefited_id: int, sex: str):
+    def __init__(self, name: str, birth_date: str, beneficiary_id: int, sex: str):
         self.name = name
         self.birth_date = birth_date
-        self.benefited_id = benefited_id
+        self.beneficiary_id = beneficiary_id
         self.sex = sex
 
     @staticmethod

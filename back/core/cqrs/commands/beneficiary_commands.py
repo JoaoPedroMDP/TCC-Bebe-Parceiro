@@ -4,7 +4,7 @@ from datetime import datetime
 from core.cqrs import Validator, Field, Command
 
 
-class CreateBenefitedCommand(Command):
+class CreateBeneficiaryCommand(Command):
     fields = [
         Field("access_code", "string", True),
         Field("name", "string", True),
@@ -43,8 +43,8 @@ class CreateBenefitedCommand(Command):
 
     @staticmethod
     @Validator.validates
-    def from_dict(args: dict) -> 'CreateBenefitedCommand':
-        data = Validator.validate_and_extract(CreateBenefitedCommand.fields, args)
+    def from_dict(args: dict) -> 'CreateBeneficiaryCommand':
+        data = Validator.validate_and_extract(CreateBeneficiaryCommand.fields, args)
 
         # Valido a data de nascimento
         birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
@@ -55,10 +55,10 @@ class CreateBenefitedCommand(Command):
         if data["child_count"] < 0:
             raise AssertionError("Quantidade de filhos não pode ser negativa")
 
-        return CreateBenefitedCommand(**data)
+        return CreateBeneficiaryCommand(**data)
 
 
-class PatchBenefitedCommand(Command):
+class PatchBeneficiaryCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
 
@@ -89,12 +89,12 @@ class PatchBenefitedCommand(Command):
 
     @staticmethod
     @Validator.validates
-    def from_dict(args: dict) -> 'PatchBenefitedCommand':
-        data = Validator.validate_and_extract(PatchBenefitedCommand.fields, args)
-        return PatchBenefitedCommand(**data)
+    def from_dict(args: dict) -> 'PatchBeneficiaryCommand':
+        data = Validator.validate_and_extract(PatchBeneficiaryCommand.fields, args)
+        return PatchBeneficiaryCommand(**data)
 
 
-class DeleteBenefitedCommand(Command):
+class DeleteBeneficiaryCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x))
     ]
@@ -104,6 +104,6 @@ class DeleteBenefitedCommand(Command):
 
     @staticmethod
     @Validator.validates
-    def from_dict(args: dict) -> 'DeleteBenefitedCommand':
-        data = Validator.validate_and_extract(DeleteBenefitedCommand.fields, args)
-        return DeleteBenefitedCommand(**data)
+    def from_dict(args: dict) -> 'DeleteBeneficiaryCommand':
+        data = Validator.validate_and_extract(DeleteBeneficiaryCommand.fields, args)
+        return DeleteBeneficiaryCommand(**data)

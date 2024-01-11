@@ -3,27 +3,26 @@ from typing import List
 
 from rest_framework import status
 
-from core.cqrs.commands.benefited_commands import CreateBenefitedCommand, PatchBenefitedCommand, \
-    DeleteBenefitedCommand
+from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
+    DeleteBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand
 from core.cqrs.commands.user_commands import CreateUserCommand
-from core.cqrs.queries.beneficiary_queries import GetBenefitedQuery, ListBenefitedQuery
+from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
 from core.repositories.access_code_repository import AccessCodeRepository
-from core.repositories.benefited_repository import BenefitedRepository
+from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.city_repository import CityRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
-from core.repositories.user_repository import UserRepository
 from core.services import CrudService
 from core.services.child_service import ChildService
 from core.services.user_service import UserService
 from core.utils.exceptions import HttpFriendlyError
 
 
-class BenefitedService(CrudService):
+class BeneficiaryService(CrudService):
     @classmethod
-    def create(cls, command: CreateBenefitedCommand) -> Beneficiary:
+    def create(cls, command: CreateBeneficiaryCommand) -> Beneficiary:
         # Verifica se o estado civil passado é válido
         marital_status = MaritalStatusRepository.get(command.marital_status_id)
 
@@ -43,24 +42,22 @@ class BenefitedService(CrudService):
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
 
-        data = {
-            "user": new_user,
-            "birth_date": command.birth_date,
-            "child_count": command.child_count,
-            "monthly_familiar_income": command.monthly_familiar_income,
-            "has_disablement": command.has_disablement,
-            "city": city,
-            "marital_status": marital_status,
-        }
+        data = command.to_dict()
+        # As crianças eu associo depois
+        del data["children"]
 
         # Vinculo a beneficiada aos programas sociais
         try:
-            new_benefited = BenefitedRepository.create(data)
+            new_beneficiary = Beneficiary()
+            new_beneficiary = BeneficiaryRepository.fill(data, new_beneficiary)
+            new_beneficiary.user = new_user
+            new_beneficiary.city = city
+            new_beneficiary.marital_status = marital_status
 
             for social_program in social_programs:
-                new_benefited.social_programs.add(social_program)
+                new_beneficiary.social_programs.add(social_program)
 
-            new_benefited.save()
+            new_beneficiary.save()
         except Exception as e:
             new_user.delete()
             raise e
@@ -72,24 +69,24 @@ class BenefitedService(CrudService):
 
         # Armazeno os filhos da beneficiada
         for child in command.children:
-            child["benefited_id"] = new_benefited.id
+            child["beneficiary_id"] = new_beneficiary.id
             command = CreateChildCommand.from_dict(child)
             ChildService.create(command)
 
-        return new_benefited
+        return new_beneficiary
 
     @classmethod
-    def patch(cls, command: PatchBenefitedCommand) -> Beneficiary:
-        return BenefitedRepository.patch(command.to_dict())
+    def patch(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
+        return BeneficiaryRepository.patch(command.to_dict())
 
     @classmethod
-    def filter(cls, query: ListBenefitedQuery) -> List[Beneficiary]:
-        return BenefitedRepository.filter(**query.to_dict())
+    def filter(cls, query: ListBeneficiaryQuery) -> List[Beneficiary]:
+        return BeneficiaryRepository.filter(**query.to_dict())
 
     @classmethod
-    def get(cls, query: GetBenefitedQuery) -> Beneficiary:
-        return BenefitedRepository.get(query.id)
+    def get(cls, query: GetBeneficiaryQuery) -> Beneficiary:
+        return BeneficiaryRepository.get(query.id)
 
     @classmethod
-    def delete(cls, command: DeleteBenefitedCommand) -> bool:
-        return BenefitedRepository.delete(command.id)
+    def delete(cls, command: DeleteBeneficiaryCommand) -> bool:
+        return BeneficiaryRepository.delete(command.id)

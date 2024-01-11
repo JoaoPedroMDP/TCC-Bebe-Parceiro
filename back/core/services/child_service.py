@@ -7,20 +7,17 @@ from core.cqrs.queries.child_queries import GetChildQuery, ListChildQuery
 from core.repositories.child_repository import ChildRepository
 
 from core.models import Child
-from core.repositories.benefited_repository import BenefitedRepository
+from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.services import CrudService
 
 
 class ChildService(CrudService):
     @classmethod
     def create(cls, command: CreateChildCommand) -> Child:
-        beneficiary = BenefitedRepository.get(command.benefited_id)
+        # Verifico se a beneficiada existe
+        BeneficiaryRepository.get(command.beneficiary_id)
 
-        data = command.to_dict()
-        data["beneficiary"] = beneficiary
-        del data["benefited_id"]
-
-        new_child = ChildRepository.create(data)
+        new_child = ChildRepository.create(command.to_dict())
         return new_child
 
     @classmethod

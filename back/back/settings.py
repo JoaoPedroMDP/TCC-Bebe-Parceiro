@@ -13,7 +13,7 @@ import logging
 from datetime import timedelta
 from pathlib import Path
 
-from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, TOKEN_TTL_SECONDS
+from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, TOKEN_TTL_SECONDS, AUTH_ENABLED
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,13 +55,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'knox.auth.TokenAuthentication',
     ]
+} if AUTH_ENABLED else {
+    'DEFAULT_AUTHENTICATION_CLASSES': []
 }
 
 
 REST_KNOX = {
     'TOKEN_TTL': timedelta(minutes=TOKEN_TTL_SECONDS),
     'TOKEN_LIMIT_PER_USER': 1,
-    # 'USER_SERIALIZER': 'core.serializers.UserSerializer',
+    'USER_SERIALIZER': 'core.serializers.UserSerializer',
 }
 
 

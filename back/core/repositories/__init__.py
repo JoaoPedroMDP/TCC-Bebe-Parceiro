@@ -1,4 +1,5 @@
 #  coding: utf-8
+import json
 import logging
 from abc import ABC
 
@@ -13,21 +14,26 @@ class Repository(ABC):
     model: BaseModel = None
 
     @classmethod
+    def fill(cls, data: dict, model: BaseModel):
+        for key, value in data.items():
+            if hasattr(model, key):
+                lgr.debug(f"Atribuindo {value} para coluna {key}")
+                setattr(model, key, value)
+            else:
+                lgr.warning(f"Tentativa de atribuição em coluna inexistente: {key} ({cls.model.readable_name})")
+
+        return model
+
+    @classmethod
     def create(cls, data: dict):
-        obj = cls.model(**data)
+        obj = cls.fill(data, cls.model())
         obj.save()
         return obj
 
     @classmethod
     def patch(cls, data: dict):
         obj = cls.get(data['id'])
-
-        for key, value in data.items():
-            if hasattr(obj, key):
-                setattr(obj, key, value)
-            else:
-                lgr.warning(f"Tentativa de atribuição de atributo inexistente: {key} ({cls.model.readable_name})")
-
+        obj = cls.fill(data, obj)
         obj.save()
         return obj
 

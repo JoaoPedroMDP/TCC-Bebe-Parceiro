@@ -13,7 +13,7 @@ from core.services import CrudService
 class CityService(CrudService):
     @classmethod
     def create(cls, command: CreateCityCommand) -> City:
-        # Verifica se o a cidade passada é válida
+        # Verifica se o estado passado é válido
         StateRepository.get(command.state_id)
 
         new_city = CityRepository.create(command.to_dict())

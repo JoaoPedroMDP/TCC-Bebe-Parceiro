@@ -21,7 +21,16 @@ class TimestampedModel(BaseModel):
         abstract = True
 
 
+class EnablableModel(TimestampedModel):
+    enabled = models.BooleanField(default=True)
+
+    class Meta:
+        abstract = True
+
+
 class User(AbstractUser):
+    readable_name = "Usuária"
+
     phone = models.CharField(max_length=30, null=False)
 
     @property
@@ -33,15 +42,9 @@ class User(AbstractUser):
         self.first_name = value
 
 
-class EnablableModel(TimestampedModel):
-    enabled = models.BooleanField(default=True)
-
-    class Meta:
-        abstract = True
-
-
 class Country(EnablableModel):
     readable_name = "País"
+
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -50,6 +53,7 @@ class Country(EnablableModel):
 
 class State(EnablableModel):
     readable_name = "Estado"
+
     name = models.CharField(max_length=255)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="states")
 
@@ -59,6 +63,7 @@ class State(EnablableModel):
 
 class City(EnablableModel):
     readable_name = "Cidade"
+
     name = models.CharField(max_length=255)
     state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="cities")
 
@@ -68,6 +73,7 @@ class City(EnablableModel):
 
 class AccessCode(TimestampedModel):
     readable_name = "Código de acesso"
+
     code = models.CharField(max_length=20, unique=True)
     used = models.BooleanField(default=False)
 
@@ -77,6 +83,7 @@ class AccessCode(TimestampedModel):
 
 class MaritalStatus(EnablableModel):
     readable_name = "Estado civil"
+
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -85,6 +92,7 @@ class MaritalStatus(EnablableModel):
 
 class SocialProgram(EnablableModel):
     readable_name = "Programa social"
+
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -92,8 +100,9 @@ class SocialProgram(EnablableModel):
 
 
 class Beneficiary(TimestampedModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     readable_name = "Beneficiada"
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     marital_status = models.ForeignKey(MaritalStatus, on_delete=models.CASCADE, related_name="beneficiaries")
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="beneficiaries")
     social_programs = models.ManyToManyField(SocialProgram)
@@ -105,14 +114,15 @@ class Beneficiary(TimestampedModel):
 
 
 class Volunteer(TimestampedModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     readable_name = "Voluntária"
-    role = models.CharField(max_length=255)
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="volunteers")
 
 
 class Campaign(TimestampedModel):
     readable_name = "Campanha"
+
     name: models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -121,6 +131,7 @@ class Campaign(TimestampedModel):
 
 class Child(TimestampedModel):
     readable_name = "Filho/a"
+
     name = models.CharField(max_length=255)
     birth_date = models.DateTimeField()
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="children")
@@ -129,17 +140,20 @@ class Child(TimestampedModel):
 
 class Size(EnablableModel):
     readable_name = "Tamanho"
+
     name = models.CharField(max_length=255)
 
 
 class Status(EnablableModel):
     readable_name = "Status"
+
     name = models.CharField(max_length=255)
 
 
 class Swap(TimestampedModel):
     """Troca de roupas"""
     readable_name = "Troca"
+
     cloth_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="clothes")
     shoe_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="shoes", null=True)
     description = models.TextField()
@@ -148,11 +162,13 @@ class Swap(TimestampedModel):
 
 class Speciality(EnablableModel):
     readable_name = "Especialidade"
+
     name = models.CharField(max_length=255)
 
 
 class Professional(EnablableModel):
     readable_name = "Profissional"
+
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=30)
@@ -164,6 +180,7 @@ class Professional(EnablableModel):
 
 class Appointment(TimestampedModel):
     readable_name = "Agendamento"
+
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="appointments")
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE, null=True, related_name="appointments")
     professional = models.ForeignKey(Professional, on_delete=models.CASCADE, null=True, related_name="appointments")
@@ -175,6 +192,7 @@ class Appointment(TimestampedModel):
 
 class Register(TimestampedModel):
     readable_name = "Registro do prontuário"
+
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="registers")
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE, related_name="registers")
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="registers")
