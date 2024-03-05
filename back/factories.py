@@ -1,5 +1,6 @@
 #  coding: utf-8
 import factory
+from django.contrib.auth.models import Group, Permission
 from factory.django import DjangoModelFactory
 from faker import Faker
 
@@ -206,3 +207,20 @@ class RegisterFactory(TimestampedModelFactory):
     volunteer = factory.SubFactory(VolunteerFactory)
     beneficiary = factory.SubFactory(BeneficiaryFactory)
     description = factory.Faker('text')
+
+
+class GroupFactory(BaseModelFactory):
+    class Meta:
+        model = Group
+        skip_postgeneration_save = True
+
+    name = factory.Faker('word')
+
+    @factory.post_generation
+    def permissions(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        permissions = fake.random_choices(elements=Permission.objects.all(), length=3)
+        for perm in permissions:
+            self.permissions.add(perm)

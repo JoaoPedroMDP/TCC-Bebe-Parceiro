@@ -124,7 +124,12 @@ class Validator(Formatter):
                 data[field.name] | should.be.a(field.f_type)
                 final_data[field.name] = data[field.name]
             except AssertionError as e:
-                errors.append("Campo '{}' deve ser do tipo '{}'".format(field.name, field.f_type))
+                errors.append("Campo '{}' deve ser do tipo '{}'. Recebido: {} ({})".format(
+                    field.name,
+                    field.f_type,
+                    data[field.name],
+                    type(data[field.name])
+                ))
                 continue
             except ValueError as e:
                 errors.append("Campo '{}' não é válido".format(field.name))
