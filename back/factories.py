@@ -107,8 +107,8 @@ class BeneficiaryFactory(TimestampedModelFactory):
         model = Beneficiary
 
     user = factory.SubFactory(UserFactory)
-    marital_status = factory.SubFactory(MaritalStatusFactory)
-    city = factory.SubFactory(CityFactory)
+    marital_status = factory.Iterator(MaritalStatus.objects.all())
+    city = factory.Iterator(City.objects.all())
     birth_date = factory.Faker('date_time_this_century', tzinfo=None)
     child_count = factory.Faker('random_int', min=0, max=10)
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
@@ -120,7 +120,6 @@ class VolunteerFactory(TimestampedModelFactory):
         model = Volunteer
 
     user = factory.SubFactory(UserFactory)
-    role = factory.Faker('word')
     city = factory.SubFactory(CityFactory)
 
 

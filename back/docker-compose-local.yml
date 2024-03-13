@@ -14,9 +14,6 @@ services:
       DB_NAME: "bebeparceiro"
       DB_HOST: "db"
       DB_PORT: "5432"
-    depends_on:
-      db:
-        condition: service_healthy
     volumes:
       - .:/app/back
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]

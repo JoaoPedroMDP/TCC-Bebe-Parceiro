@@ -1,8 +1,10 @@
 version: '3'
 
 services:
-  front:
+  app:
     build:
       context: ./front
     ports:
       - "4200:4200"
+    volumes:
+      - ./front:/app/front

@@ -1,4 +1,5 @@
 #  coding: utf-8
+from django.contrib.auth.models import Group, Permission
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
 from core.models import Country, State, City, User, Volunteer
@@ -45,8 +46,22 @@ class MaritalStatusSerializer(ModelSerializer):
         fields = ['id', 'name', 'enabled']
 
 
+class PermissionSerializer(ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = ['id', 'name']
+
+
+class GroupSerializer(ModelSerializer):
+    permissions = PermissionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Group
+        fields = ['id', 'name', 'permissions']
+
+
 class UserSerializer(ModelSerializer):
-    groups = SlugRelatedField(slug_field='name', read_only=True, many=True)
+    groups = GroupSerializer(read_only=True, many=True)
 
     class Meta:
         model = User

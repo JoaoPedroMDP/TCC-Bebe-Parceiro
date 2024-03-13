@@ -116,7 +116,7 @@ class Beneficiary(TimestampedModel):
 class Volunteer(TimestampedModel):
     readable_name = "Voluntária"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="volunteers")
 
 

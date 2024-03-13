@@ -9,4 +9,3 @@ lgr = logging.getLogger(__name__)
 
 class AccessCodeRepository(Repository):
     model = AccessCode
-    pass
