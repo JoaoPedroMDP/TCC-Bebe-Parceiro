@@ -7,19 +7,23 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.access_code_commands import CreateAccessCodeCommand, PatchAccessCodeCommand, \
     DeleteAccessCodeCommand
 from core.cqrs.queries.access_code_queries import GetAccessCodeQuery, ListAccessCodeQuery
 from core.models import AccessCode
+from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.serializers import AccessCodeSerializer
 from core.services.access_code_service import AccessCodeService
 from core.utils.decorators import endpoint
 
-
 lgr = logging.getLogger(__name__)
 
 
-class AccessCodeGenericViews(APIView):
+class AccessCodeGenericViews(BaseView):
+    groups = ["manage_access_codes"]
+    permission_classes = (AtLeastOneGroup,)
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_ACCESS-CODES----")

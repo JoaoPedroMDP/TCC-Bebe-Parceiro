@@ -1,14 +1,12 @@
 #  coding: utf-8
 from datetime import timedelta
-from random import random, randint
+from random import randint
 from typing import List
 
-import factory
-from django.core.management import call_command
 from django.core.management.base import BaseCommand
-from django.db import connection
 from django.utils.timezone import now
 
+from config import GROUPS
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
@@ -19,11 +17,7 @@ class Command(BaseCommand):
     # Valores base para alguns cruds
     MARITAL_STATUSES = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo']
     SOCIAL_PROGRAMS = ['CRAS', "Minha Casa Minha Vida", 'Cadastro de Emprego', 'Bolsa Família', 'Cartão alimentação']
-    GROUPS = [
-        "manage_registrations", "manage_beneficiaries", "manage_swaps",
-        "manage_appointments", "manage_professionals", "manage_access_codes",
-        "manage_volunteers"
-    ]
+
 
     def add_arguments(self, parser):
         parser.add_argument("--test", action='store_true', help="Se deve criar dados para testes manuais")
@@ -36,7 +30,7 @@ class Command(BaseCommand):
 
         # Cargos e permissoes
         groups = []
-        for g in self.GROUPS:
+        for g in GROUPS:
             groups.append(GroupFactory.create(name=g))
 
         if not options['test']:

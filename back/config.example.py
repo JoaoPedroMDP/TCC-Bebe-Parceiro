@@ -15,4 +15,12 @@ TOKEN_TTL_SECONDS = 60 * 60 * 3
 
 
 # Habilita login no sistema
-AUTH_ENABLED = False
+AUTH_ENABLED = True
+
+
+# Grupos de permissões
+GROUPS = [
+    "manage_registrations", "manage_beneficiaries", "manage_swaps",
+    "manage_appointments", "manage_professionals", "manage_access_codes",
+    "manage_volunteers"
+]
