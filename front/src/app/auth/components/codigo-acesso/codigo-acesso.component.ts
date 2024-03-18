@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SwalFacade } from 'src/app/shared';
-import { AuthService } from '../index';
+import { AuthService } from '../../index';
 
 @Component({
   selector: 'app-codigo-acesso',
