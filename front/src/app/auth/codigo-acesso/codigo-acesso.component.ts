@@ -28,7 +28,7 @@ export class CodigoAcessoComponent implements OnInit {
           const codigoAcesso = this.form.value.codigo
           this.router.navigate(['autocadastro/dados', codigoAcesso])
         } else {
-          SwalFacade.error('Código Inválido', 'Entre em contato com a voluntária')
+          SwalFacade.error('Código Inválido', 'Entre em contato com uma voluntária')
         }
       },
       error: (e) => console.log(e)

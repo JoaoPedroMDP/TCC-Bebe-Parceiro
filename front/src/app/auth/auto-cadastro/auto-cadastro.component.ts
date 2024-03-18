@@ -26,6 +26,8 @@ export class AutoCadastroComponent implements OnInit {
   states!: State[];
   cities!: City[];
 
+  showSuccess = false;
+
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -56,7 +58,7 @@ export class AutoCadastroComponent implements OnInit {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     } else {
       this.authService.saveBenefited(this.beneficiada).subscribe();
-      this.router.navigate(['autocadastro/sucesso']);
+      this.showSuccess = true; 
     }
   }
 

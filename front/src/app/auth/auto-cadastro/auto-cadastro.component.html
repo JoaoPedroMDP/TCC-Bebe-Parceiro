@@ -1,4 +1,4 @@
-<div class="container mt-4 mb-5 pb-5">
+<div *ngIf="!showSuccess; else successTemplate" class="container mt-4 mb-5 pb-5">
   <h1>Coleta de Dados</h1>
   <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
   <form #form="ngForm">
@@ -54,7 +54,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">R$</span>
             </div>
-            <input type="text" step="any" class="form-control" placeholder="0000.00" mask="separator.2" thousandSeparator="."
+            <input type="text" step="any" class="form-control" placeholder="0000.00" mask="separator.2" thousandSeparator="." maxlength="10"
                    [(ngModel)]="beneficiada.monthly_familiar_income" monthly_familiar_income="ngModel" name="monthly_familiar_income" required>
           </div>
         </div>
@@ -148,3 +148,7 @@
     </div>
   </form>
 </div>
+
+<ng-template #successTemplate>
+  <app-sucesso-cadastro></app-sucesso-cadastro>
+</ng-template>
