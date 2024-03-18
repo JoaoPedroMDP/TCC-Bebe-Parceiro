@@ -1,0 +1,13 @@
+img{
+    height: 8rem;
+    margin: auto;
+}
+
+.bp-login-card{
+    background-color: #E0E0E0;
+    border: none;
+}
+
+.bp-button{
+    padding: .4rem 1rem;
+}

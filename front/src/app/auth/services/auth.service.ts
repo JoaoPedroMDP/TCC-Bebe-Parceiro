@@ -72,4 +72,12 @@ export class AuthService {
   getCities(stateId: number): Observable<any> {
     return this.http.get(`${this.baseURL}cities?state_id=${stateId}`, { headers: this.headers });
   }
+
+  /**
+   * @description Fazer
+   */
+  login(value: { phone: string, password: string }): Observable<any> {
+    console.log(value)
+    return new Observable<any>;
+  }
 }

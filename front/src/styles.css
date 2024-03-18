@@ -22,6 +22,7 @@
   color: var(--bp-black);
   font-weight: 600;
   transition: 0.5s;
+  padding: .4rem 1rem;
 }
   
 .bp-button:hover {

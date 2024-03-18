@@ -1,16 +1,33 @@
 <div class="container mt-4">
-    <div class="card">
+    <div class="card px-5 py-4 mb-5 bp-login-card">
         <img src="../../../assets/img/bp-logo.png" alt="Imagem Bebê Parceiro">
+        <form #form="ngForm">
+            <div>
+                <small class="form-text font-weight-bold text-left">Telefone</small>
+                <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
+                    name="phone" minlength="10" required #phone ngModel>
+            </div>
+            <div>
+                <small class="form-text font-weight-bold text-left">Senha</small>
+                <input type="password" class="form-control" placeholder="Senha" name="password" required #password ngModel>
+            </div>
+            <div class="text-center my-3">
+                <button class="bp-button" [disabled]="!form.form.valid" (click)="login()">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
+                    <span *ngIf="!isLoading">Entrar</span> 
+                </button>
+            </div>
+        </form>
+        <div class="text-center">
+            
+            <a href="">Esqueceu sua senha?</a>
+            <hr>
+            <button class="bp-button" routerLink="/autocadastro">Cadastrar-se</button>
+        </div>
+    </div>
 
-        <small class="form-text font-weight-bold text-left">Telefone</small>
-        <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
-            name="phone" minlength="10" required>
-        <small class="form-text font-weight-bold text-left">Senha</small>
-        <input type="password" class="form-control" placeholder="Senha">
-
-        <button class="bp-button">Entrar</button>
-        <a href="">Esqueceu sua senha?</a>
-        <hr>
-        <button class="bp-button">Cadastrar-se</button>
+    <div class="text-center">
+        <button class="bp-button" routerLink="/voluntario">Desejo me voluntariar!</button>
     </div>
 </div>
+
