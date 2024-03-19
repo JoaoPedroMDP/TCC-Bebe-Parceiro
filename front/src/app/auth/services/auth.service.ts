@@ -1,17 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { APP_CONFIG, Benefited } from 'src/app/shared';
+import { APP_CONFIG, Benefited, UserToken } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseURL = APP_CONFIG.baseURL;
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private baseURL!: string;
+  private headers!: HttpHeaders;
+  private user!: UserToken;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.baseURL = APP_CONFIG.baseURL;
+    this.headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  }
 
   /**
    * @description Faz um POST para inserir os dados de beneficiada
@@ -28,7 +32,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   sendCode(code: string): Observable<any> {
-    return this.http.get(`${this.baseURL}access_codes?code=${code}`, { headers: this.headers });
+    return this.http.get(`${this.baseURL}access_codes?code=${code}&used=false`, { headers: this.headers });
   }
 
   /**
@@ -75,9 +79,20 @@ export class AuthService {
 
   /**
    * @description Fazer
+   * @param username
+   * @param password 
+   * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  login(value: { phone: string, password: string }): Observable<any> {
+  login(value: { username: string, password: string }): Observable<any> {
     console.log(value)
-    return new Observable<any>;
+    return this.http.post(`${this.baseURL}auth/login`, value, { headers: this.headers });
+  }
+
+  setUser(user: UserToken) {
+    this.user = user;
+  }
+
+  getUser(): UserToken {
+    return this.user;
   }
 }

@@ -2,32 +2,54 @@
     <div class="card px-5 py-4 mb-5 bp-login-card">
         <img src="../../../assets/img/bp-logo.png" alt="Imagem Bebê Parceiro">
         <form #form="ngForm">
-            <div>
+            <div class="my-3">
                 <small class="form-text font-weight-bold text-left">Telefone</small>
                 <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
-                    name="phone" minlength="10" required #phone ngModel>
+                    name="username" minlength="10" required #username ngModel>
             </div>
-            <div>
+            <div class="my-3">
                 <small class="form-text font-weight-bold text-left">Senha</small>
-                <input type="password" class="form-control" placeholder="Senha" name="password" required #password ngModel>
+                <div class="input-with-icon">
+                    <input type="password" class="form-control mb-1" placeholder="Senha" name="password" required #password ngModel id="password">
+                    <i class="fa fa-eye" (click)="mostrarSenha()"></i>
+                </div>
+                <a href="">Esqueceu sua senha?</a>
             </div>
-            <div class="text-center my-3">
-                <button class="bp-button" [disabled]="!form.form.valid" (click)="login()">
+            <div class="text-center my-3 pt-2">
+                <button class="bp-button" id="actions-btn" [disabled]="!form.form.valid || isLoading" (click)="login()">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
                     <span *ngIf="!isLoading">Entrar</span> 
                 </button>
             </div>
+
         </form>
-        <div class="text-center">
-            
-            <a href="">Esqueceu sua senha?</a>
-            <hr>
-            <button class="bp-button" routerLink="/autocadastro">Cadastrar-se</button>
+        <hr>
+        <div class="text-center mt-3">
+            <button class="bp-button" id="actions-btn" routerLink="/autocadastro">Cadastrar-se</button>
         </div>
     </div>
+    <div class="pt-4 px-3">
+        <h1 class="text-center">Conheça o projeto</h1>
+        <p class="bp-text">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore consequuntur, fuga aut itaque dolorum 
+            repudiandae sequi id, quisquam, amet eos adipisci ad rem alias dolorem ullam ipsam impedit eaque hic?
+        </p>
+        <h3>Atendimentos</h3>
+        <p class="bp-text">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore consequuntur, fuga aut itaque dolorum 
+            repudiandae sequi id, quisquam, amet eos adipisci ad rem alias dolorem ullam ipsam impedit eaque hic?
+        </p>
+        <h3>Trocas</h3>
+        <p class="bp-text">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore consequuntur, fuga aut itaque dolorum 
+            repudiandae sequi id, quisquam, amet eos adipisci ad rem alias dolorem ullam ipsam impedit eaque hic? 
+        </p>
+    </div>
 
-    <div class="text-center">
+    <div class="text-center my-5">
         <button class="bp-button" routerLink="/voluntario">Desejo me voluntariar!</button>
     </div>
+    <div class="text-center">
+        <p>Email: email@bbprcr.com</p>
+    </div>   
 </div>
-
