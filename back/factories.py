@@ -5,7 +5,7 @@ from factory.django import DjangoModelFactory
 from faker import Faker
 
 from core.models import (
-    BaseModel, User, Country, State, City, AccessCode,
+    User, Country, State, City, AccessCode,
     MaritalStatus, SocialProgram, Beneficiary, Volunteer, Campaign, Child, Size, Status, Swap,
     Speciality, Professional, Appointment, Register
 )
@@ -13,14 +13,7 @@ from core.models import (
 fake = Faker()
 
 
-class BaseModelFactory(DjangoModelFactory):
-    class Meta:
-        model = BaseModel
-
-    id = factory.Faker('random_int', min=0, max=1000000)
-
-
-class TimestampedModelFactory(BaseModelFactory):
+class TimestampedModelFactory(DjangoModelFactory):
     created_at = factory.Faker('date_time_this_decade', tzinfo=None)
     updated_at = factory.Faker('date_time_this_decade', tzinfo=None)
 
@@ -114,6 +107,13 @@ class BeneficiaryFactory(TimestampedModelFactory):
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
     has_disablement = factory.Faker('boolean')
 
+    @classmethod
+    def create(cls, **kwargs):
+        b = super().create(**kwargs)
+        role = Group.objects.get(name='role_beneficiary')
+        b.user.groups.add(role)
+        return b
+
 
 class VolunteerFactory(TimestampedModelFactory):
     class Meta:
@@ -121,6 +121,13 @@ class VolunteerFactory(TimestampedModelFactory):
 
     user = factory.SubFactory(UserFactory)
     city = factory.SubFactory(CityFactory)
+
+    @classmethod
+    def create(cls, **kwargs):
+        v = super().create(**kwargs)
+        role = Group.objects.get(name='role_volunteer')
+        v.user.groups.add(role)
+        return v
 
 
 class CampaignFactory(TimestampedModelFactory):
@@ -208,7 +215,7 @@ class RegisterFactory(TimestampedModelFactory):
     description = factory.Faker('text')
 
 
-class GroupFactory(BaseModelFactory):
+class GroupFactory(DjangoModelFactory):
     class Meta:
         model = Group
         skip_postgeneration_save = True

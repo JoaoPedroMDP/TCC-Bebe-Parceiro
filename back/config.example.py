@@ -24,3 +24,11 @@ GROUPS = [
     "manage_appointments", "manage_professionals", "manage_access_codes",
     "manage_volunteers"
 ]
+
+
+# Cargos genéricos
+ROLES = ["role_beneficiary", "role_volunteer", "role_admin"]
+
+
+# Ambiente
+ENV = os.getenv("ENV", "prod")

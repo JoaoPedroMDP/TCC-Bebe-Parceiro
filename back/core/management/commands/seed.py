@@ -1,12 +1,11 @@
 #  coding: utf-8
 from datetime import timedelta
 from random import randint
-from typing import List
 
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS
+from config import GROUPS, ROLES
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
@@ -32,6 +31,10 @@ class Command(BaseCommand):
         for g in GROUPS:
             groups.append(GroupFactory.create(name=g))
 
+        roles = {}
+        for r in ROLES:
+            roles[r] = GroupFactory.create(name=r)
+
         if not options['test']:
             return
 
@@ -46,6 +49,7 @@ class Command(BaseCommand):
         for i in range(2):
             identification = f"ben_child_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+            u.groups.add(roles["role_beneficiary"])
 
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b)
@@ -54,6 +58,7 @@ class Command(BaseCommand):
         for i in range(2):
             identification = f"ben_pregnant_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+            u.groups.add(roles["role_beneficiary"])
 
             bdate = now() + timedelta(weeks=randint(3, 49))
             b = BeneficiaryFactory.create(user=u)
@@ -63,12 +68,12 @@ class Command(BaseCommand):
         for g in groups:
             identification = f"vol_{g.name}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.set([g])
+            u.groups.set([g, roles["role_volunteer"]])
             VolunteerFactory.create(user=u)
 
         # E uma voluntária admin
         admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
-        admin_user.groups.set(groups)
+        admin_user.groups.set([*groups, roles["role_volunteer"]])
         VolunteerFactory.create(user=admin_user)
 
         AccessCodeFactory.create_batch(5, used=False)
