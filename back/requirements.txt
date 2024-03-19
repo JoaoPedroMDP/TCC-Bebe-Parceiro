@@ -10,3 +10,4 @@ faker==21.0.0
 factory-boy==3.3.0
 django-extensions==3.2.3
 django-rest-knox==4.2.0
+djangorestframework-composed-permissions==0.2.1

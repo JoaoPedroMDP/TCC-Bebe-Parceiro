@@ -3,12 +3,15 @@ import pytest
 from django.test.client import Client
 from django.urls import reverse
 
-from factories import BeneficiaryFactory
+from factories import BeneficiaryFactory, CityFactory, MaritalStatusFactory
 
 
 @pytest.mark.django_db
 def test_can_get_beneficiary(client: Client):
-    beneficiary = BeneficiaryFactory.create()
+    city = CityFactory.create()
+    marital = MaritalStatusFactory.create()
+
+    beneficiary = BeneficiaryFactory.create(city=city, marital_status=marital)
     url = reverse("spe_beneficiaries", kwargs={"pk": beneficiary.id})
 
     response = client.get(url)

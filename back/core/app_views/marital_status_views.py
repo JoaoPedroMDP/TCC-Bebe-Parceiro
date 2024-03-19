@@ -5,8 +5,8 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.marital_status_commands import CreateMaritalStatusCommand, PatchMaritalStatusCommand, \
     DeleteMaritalStatusCommand
 from core.cqrs.queries.marital_status_queries import GetMaritalStatusQuery, ListMaritalStatusQuery
@@ -18,7 +18,7 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class MaritalStatusGenericViews(APIView):
+class MaritalStatusGenericViews(BaseView):
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_MARITAL-STATUSS----")
@@ -35,7 +35,7 @@ class MaritalStatusGenericViews(APIView):
         return MaritalStatusSerializer(new_marital_status).data, status.HTTP_201_CREATED
 
 
-class MaritalStatusSpecificViews(APIView):
+class MaritalStatusSpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_MARITAL-STATUS----")

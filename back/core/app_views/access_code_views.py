@@ -4,13 +4,13 @@ from copy import copy
 from typing import List
 
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
 from core.app_views import BaseView
 from core.cqrs.commands.access_code_commands import CreateAccessCodeCommand, PatchAccessCodeCommand, \
     DeleteAccessCodeCommand
-from core.cqrs.queries.access_code_queries import GetAccessCodeQuery, ListAccessCodeQuery
+from core.cqrs.queries.access_code_queries import GetAccessCodeQuery, ListAccessCodeQuery, CheckAccessCodeQuery
 from core.models import AccessCode
 from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.serializers import AccessCodeSerializer
@@ -40,7 +40,10 @@ class AccessCodeGenericViews(BaseView):
         return AccessCodeSerializer(new_access_code).data, status.HTTP_201_CREATED
 
 
-class AccessCodeSpecificViews(APIView):
+class AccessCodeSpecificViews(BaseView):
+    groups = ["manage_access_codes"]
+    permission_classes = (AtLeastOneGroup,)
+
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_ACCESS-CODE----")
@@ -70,5 +73,23 @@ class AccessCodeSpecificViews(APIView):
         access_code: AccessCode = AccessCodeService.get(query)
         if access_code:
             return AccessCodeSerializer(access_code).data, status.HTTP_200_OK
+
+        return {}, status.HTTP_404_NOT_FOUND
+
+
+class CheckAccessCodeView(BaseView):
+    authentication_classes = []
+    permission_classes = (AllowAny,)
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----CHECK_ACCESS-CODE----")
+        query: CheckAccessCodeQuery = CheckAccessCodeQuery.from_dict(request.query_params)
+        access_code: AccessCode = AccessCodeService.get_by_code(query.code)
+        if access_code:
+            if access_code.used is False:
+                return {}, status.HTTP_200_OK
+            else:
+                return {}, status.HTTP_403_FORBIDDEN
 
         return {}, status.HTTP_404_NOT_FOUND

@@ -12,7 +12,6 @@ lgr = logging.getLogger(__name__)
 class AtLeastOneGroup(BasePermission):
     def has_permission(self, request: Request, view: BaseView):
         groups = list(request.user.groups.all())
-        lgr.debug(groups)
         for g in groups:
             if g.name in view.groups:
                 return True

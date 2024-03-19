@@ -47,5 +47,9 @@ class AccessCodeService(CrudService):
         return AccessCodeRepository.get(query.id)
 
     @classmethod
+    def get_by_code(cls, code: str) -> AccessCode:
+        return AccessCodeRepository.filter(code=code).first()
+
+    @classmethod
     def delete(cls, command: DeleteAccessCodeCommand) -> bool:
         return AccessCodeRepository.delete(command.id)

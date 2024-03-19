@@ -27,4 +27,11 @@ def test_can_create_volunteer(client: Client):
     assert response.status_code == 201
     assert response.data['user']['id'] == user.id
     assert response.data['city']['id'] == city.id
-    assert response.data['user']['groups'] == [group.name for group in groups]
+    for g in [g.name for g in groups]:
+        found = False
+        for gr in response.data['user']['groups']:
+            if g == gr['name']:
+                found = True
+                break
+
+        assert found

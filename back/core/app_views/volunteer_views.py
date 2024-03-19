@@ -5,8 +5,8 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
@@ -18,7 +18,7 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class VolunteerGenericViews(APIView):
+class VolunteerGenericViews(BaseView):
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_VOLUNTEERS----")
@@ -35,7 +35,7 @@ class VolunteerGenericViews(APIView):
         return VolunteerSerializer(new_volunteer).data, status.HTTP_201_CREATED
 
 
-class VolunteerSpecificViews(APIView):
+class VolunteerSpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_VOLUNTEER----")

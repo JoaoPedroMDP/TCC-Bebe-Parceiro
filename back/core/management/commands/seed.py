@@ -18,7 +18,6 @@ class Command(BaseCommand):
     MARITAL_STATUSES = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo']
     SOCIAL_PROGRAMS = ['CRAS', "Minha Casa Minha Vida", 'Cadastro de Emprego', 'Bolsa Família', 'Cartão alimentação']
 
-
     def add_arguments(self, parser):
         parser.add_argument("--test", action='store_true', help="Se deve criar dados para testes manuais")
 
@@ -44,13 +43,18 @@ class Command(BaseCommand):
             SocialProgramFactory.create(name=s, enabled=True)
 
         # Beneficiárias com filhos nascidos
-        child_benef_users: List[User] = UserFactory.create_batch(2)
-        for u in child_benef_users:
+        for i in range(2):
+            identification = f"ben_child_{i}"
+            u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b)
 
-        pregnant_benef_users: List[User] = UserFactory.create_batch(2)
-        for u in pregnant_benef_users:
+        # Beneficiárias grávidas
+        for i in range(2):
+            identification = f"ben_pregnant_{i}"
+            u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+
             bdate = now() + timedelta(weeks=randint(3, 49))
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b, birth_date=bdate)
@@ -63,7 +67,7 @@ class Command(BaseCommand):
             VolunteerFactory.create(user=u)
 
         # E uma voluntária admin
-        admin_user = UserFactory.create(username="admin", password="admin")
+        admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
         admin_user.groups.set(groups)
         VolunteerFactory.create(user=admin_user)
 
