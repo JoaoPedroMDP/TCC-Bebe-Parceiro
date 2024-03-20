@@ -21,7 +21,7 @@ import { HomeComponent } from './index';
   providers: [
   ]
 })
-export class AdminModule { }
+export class BenefitedModule { }
 
 
 
