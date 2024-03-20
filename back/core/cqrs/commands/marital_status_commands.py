@@ -1,5 +1,12 @@
 #  coding: utf-8
 from core.cqrs import Validator, Field, Command
+from core.repositories.marital_status_repository import MaritalStatusRepository
+
+
+def check_for_duplicity(data: dict):
+    conflicts = MaritalStatusRepository.filter(name=data['name'])
+    if len(conflicts) > 0:
+        raise AssertionError("Estado Civil já cadastrado")
 
 
 class CreateMaritalStatusCommand(Command):
@@ -16,6 +23,7 @@ class CreateMaritalStatusCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'CreateMaritalStatusCommand':
         data = Validator.validate_and_extract(CreateMaritalStatusCommand.fields, args)
+        check_for_duplicity(data)
         return CreateMaritalStatusCommand(**data)
 
 
@@ -35,6 +43,7 @@ class PatchMaritalStatusCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchMaritalStatusCommand':
         data = Validator.validate_and_extract(PatchMaritalStatusCommand.fields, args)
+        check_for_duplicity(data)
         return PatchMaritalStatusCommand(**data)
 
 

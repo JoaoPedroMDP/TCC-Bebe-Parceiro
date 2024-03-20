@@ -1,5 +1,12 @@
 #  coding: utf-8
 from core.cqrs import Validator, Field, Command
+from core.repositories.social_program_repository import SocialProgramRepository
+
+
+def check_for_duplicity(data: dict):
+    conflicts = SocialProgramRepository.filter(name=data['name'])
+    if len(conflicts) > 0:
+        raise AssertionError("Programa Social já cadastrado")
 
 
 class CreateSocialProgramCommand(Command):
@@ -16,6 +23,7 @@ class CreateSocialProgramCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'CreateSocialProgramCommand':
         data = Validator.validate_and_extract(CreateSocialProgramCommand.fields, args)
+        check_for_duplicity(data)
         return CreateSocialProgramCommand(**data)
 
 
@@ -35,6 +43,7 @@ class PatchSocialProgramCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchSocialProgramCommand':
         data = Validator.validate_and_extract(PatchSocialProgramCommand.fields, args)
+        check_for_duplicity(data)
         return PatchSocialProgramCommand(**data)
 
 

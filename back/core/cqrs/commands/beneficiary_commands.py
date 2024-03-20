@@ -1,7 +1,11 @@
 #  coding: utf-8
+import logging
 from datetime import datetime
+from typing import Dict
 
 from core.cqrs import Validator, Field, Command
+
+lgr = logging.getLogger(__name__)
 
 
 class CreateBeneficiaryCommand(Command):
@@ -44,7 +48,7 @@ class CreateBeneficiaryCommand(Command):
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'CreateBeneficiaryCommand':
-        data = Validator.validate_and_extract(CreateBeneficiaryCommand.fields, args)
+        data: Dict = Validator.validate_and_extract(CreateBeneficiaryCommand.fields, args)
 
         # Valido a data de nascimento
         birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
@@ -91,6 +95,12 @@ class PatchBeneficiaryCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchBeneficiaryCommand':
         data = Validator.validate_and_extract(PatchBeneficiaryCommand.fields, args)
+
+        # Valido a data de nascimento
+        birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
+        Validator.date_not_on_future(birth_date)
+        data["birth_date"] = birth_date.isoformat()
+
         return PatchBeneficiaryCommand(**data)
 
 

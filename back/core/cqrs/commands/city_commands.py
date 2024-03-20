@@ -1,5 +1,12 @@
 #  coding: utf-8
 from core.cqrs import Validator, Field, Command
+from core.repositories.city_repository import CityRepository
+
+
+def check_for_duplicity(data: dict):
+    conflicts = CityRepository.filter(state_id=data['state_id'], name=data['name'])
+    if len(conflicts) > 0:
+        raise AssertionError("Cidade já cadastrada")
 
 
 class CreateCityCommand(Command):
@@ -18,6 +25,7 @@ class CreateCityCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'CreateCityCommand':
         data = Validator.validate_and_extract(CreateCityCommand.fields, args)
+        check_for_duplicity(data)
         return CreateCityCommand(**data)
 
 
@@ -39,6 +47,7 @@ class PatchCityCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchCityCommand':
         data = Validator.validate_and_extract(PatchCityCommand.fields, args)
+        check_for_duplicity(data)
         return PatchCityCommand(**data)
 
 

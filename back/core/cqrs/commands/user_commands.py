@@ -1,5 +1,17 @@
 #  coding: utf-8
 from core.cqrs import Command, Field, Validator
+from core.repositories.user_repository import UserRepository
+
+
+def check_for_duplicity(data: dict):
+    if 'email' in data:
+        conflicts = UserRepository.filter(email=data['email'])
+        if len(conflicts) > 0:
+            raise AssertionError("Email já cadastrado")
+
+    conflicts = UserRepository.filter(phone=data['phone'])
+    if len(conflicts) > 0:
+        raise AssertionError("Telefone já cadastrado")
 
 
 class CreateUserCommand(Command):
@@ -20,6 +32,7 @@ class CreateUserCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'CreateUserCommand':
         data = Validator.validate_and_extract(CreateUserCommand.fields, args)
+        check_for_duplicity(data)
         return CreateUserCommand(**data)
 
 
@@ -41,6 +54,7 @@ class PatchUserCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchUserCommand':
         data = Validator.validate_and_extract(PatchUserCommand.fields, args)
+        check_for_duplicity(data)
         return PatchUserCommand(**data)
 
 
