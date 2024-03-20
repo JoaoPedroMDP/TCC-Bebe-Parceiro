@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { APP_CONFIG, Benefited, UserToken } from 'src/app/shared';
 
 @Injectable({
@@ -84,8 +84,12 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   login(value: { username: string, password: string }): Observable<any> {
-    console.log(value)
-    return this.http.post(`${this.baseURL}auth/login`, value, { headers: this.headers });
+    return this.http.post(`${this.baseURL}auth/login`, value, { headers: this.headers })
+    .pipe(
+      catchError(error => {
+        return throwError(() => new Error(error.status));
+      })
+    );
   }
 
   setUser(user: UserToken) {
@@ -95,4 +99,5 @@ export class AuthService {
   getUser(): UserToken {
     return this.user;
   }
+
 }

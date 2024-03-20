@@ -30,27 +30,34 @@ export class LoginComponent implements OnInit {
     
     this.authService.login(this.form.value).subscribe({
       next: (response) => {
-        if (response.token != null) { 
-          // Caso o token exista, então o login foi feito com sucesso
-          SwalFacade.success("Login realizado com sucesso").then(() => {
-            // Atribui os dados do response para um objeto token e o salva no AuthService
-            this.token = response;
-            this.authService.setUser(this.token);
+        SwalFacade.success("Login realizado com sucesso",`Bem vindo(a) ${response.user.name}`).then(() => {
+          // Atribui os dados do response para um objeto token e o salva no AuthService
+          this.token = response;
+          this.authService.setUser(this.token);
+          console.log(this.token);
 
-            // if (this.token.role = 'benefited') {
-            //   // navega pro componente homepage beneficiada
-            // this.router.navigate(['/benefited']);
-            // }
-            // else {
-            //   // navega pro componente homepage admin/voluntaria
-            // }
-          })
-        } else {
-          SwalFacade.error("Erro ao fazer login", "Problema no servidor");
-        }
+          // if (this.token.role = 'benefited') {
+          //   // navega pro componente homepage beneficiada
+          // this.router.navigate(['/benefited']);
+          // }
+          // else {
+          //   // navega pro componente homepage admin/voluntaria
+          // }
+        })
       },
-      error: () => {
-        SwalFacade.error("Erro ao fazer login", "Usuário ou senha incorretos");
+      error: (e) => {
+        let errorMessage
+        switch (e.message) {
+          case '400':
+            errorMessage = 'Telefone ou senha incorretos!';
+            break;
+          case '403':
+            errorMessage = 'Acesso Proibido! Conta já logada.';
+            break;
+          default:
+            errorMessage = 'Erro inesperado. Tente novamente mais tarde.';
+        }
+        SwalFacade.error("Erro ao fazer login", errorMessage);
         this.isLoading = false; // Flag para carregamento do ícone
       },
       complete: () => {

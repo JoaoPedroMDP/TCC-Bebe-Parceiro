@@ -6,6 +6,8 @@ img {
 .bp-login-card {
     background-color: #E0E0E0;
     border: none;
+    margin: 1rem .75rem 5rem .75rem;
+    padding: 1.75rem 2rem;
 }
 
 .bp-button {
@@ -41,4 +43,12 @@ color: #000000;
 
 #actions-btn {
     width: 10rem;
+}
+
+@media (width >= 991px) {
+    .bp-login-card {
+        margin: 1rem 4rem 5rem 4rem;
+        padding: 1.75rem 6rem;
+    }
+    
 }
