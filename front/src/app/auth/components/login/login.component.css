@@ -45,7 +45,7 @@ color: #000000;
     width: 10rem;
 }
 
-@media (width >= 991px) {
+@media screen and (width >= 991px) {
     .bp-login-card {
         margin: 1rem 4rem 5rem 4rem;
         padding: 1.75rem 6rem;

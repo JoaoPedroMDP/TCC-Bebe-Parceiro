@@ -1,21 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AutoCadastroComponent, CodigoAcessoComponent, LoginComponent, PageNotFoundComponent, ValidCodeGuard } from './auth';
 import { AdminRouting } from './admin/admin-routing.module';
+import { AutoCadastroComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, LoginRedirectGuard, ValidCodeGuard } from './auth';
 import { BenefitedRouting } from './benefited/benefited-routing.module';
 import { VolunteerRouting } from './volunteer/volunteer-routing.module';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard]},
   { path: 'autocadastro', component: CodigoAcessoComponent },
   { path: 'autocadastro/dados/:codigoAcesso', component: AutoCadastroComponent, canActivate: [ValidCodeGuard] },
   // { path: 'voluntario', component: ProfissionalComponent},
   ...AdminRouting,
   ...BenefitedRouting,
   ...VolunteerRouting,
-  { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
+  { 
+    path: 'unauthorized', pathMatch: 'full', component: ErrorComponent, 
+    data: { errorType: 'Acesso não autorizado', errorMessage: ' O usuário não possui as permissões necessárias para acessar esta página!' } 
+  },
+  { 
+    path: '**', pathMatch: 'full', component: ErrorComponent, 
+    data: { errorType: 'Página não encontrada', errorMessage: 'A página selecionada não foi encontrada, verifique se o endereço do site está digitado corretamente.' } 
+  }
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { APP_CONFIG, Benefited, UserToken } from 'src/app/shared';
 
@@ -10,9 +11,8 @@ export class AuthService {
 
   private baseURL!: string;
   private headers!: HttpHeaders;
-  private user!: UserToken;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService) {
     this.baseURL = APP_CONFIG.baseURL;
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   }
@@ -85,19 +85,35 @@ export class AuthService {
    */
   login(value: { username: string, password: string }): Observable<any> {
     return this.http.post(`${this.baseURL}auth/login`, value, { headers: this.headers })
-    .pipe(
-      catchError(error => {
-        return throwError(() => new Error(error.status));
-      })
-    );
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(error.status));
+        })
+      );
+  }
+
+
+  logout() {
+    // Fazer
+    this.cookieService.delete('user', '/');
+    // return this.http.post(`${this.baseURL}auth/logout`, this.user.token, { headers: this.headers })
+    // .pipe(
+    //   catchError(error => {
+    //     return throwError(() => new Error(error.status));
+    //   }),
+    //   tap(() => {
+    //     this.cookieService.delete('user', '/');
+    //   })
+    // );
   }
 
   setUser(user: UserToken) {
-    this.user = user;
+    this.cookieService.set('user', JSON.stringify(user), 1, '/');
   }
 
   getUser(): UserToken {
-    return this.user;
+    const userToken = this.cookieService.get('user');
+    return userToken ? JSON.parse(userToken) : null;
   }
 
 }

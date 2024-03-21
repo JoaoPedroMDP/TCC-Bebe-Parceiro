@@ -13,7 +13,7 @@
                     <input type="password" class="form-control mb-1" placeholder="Senha" name="password" required #password ngModel id="password">
                     <i class="fa fa-eye" (click)="mostrarSenha()"></i>
                 </div>
-                <a href="">Esqueceu sua senha?</a>
+                <!-- <a href="">Esqueceu sua senha?</a> -->
             </div>
             <div class="text-center my-3 pt-2">
                 <button class="bp-button" id="actions-btn" [disabled]="!form.form.valid || isLoading" (click)="login()">

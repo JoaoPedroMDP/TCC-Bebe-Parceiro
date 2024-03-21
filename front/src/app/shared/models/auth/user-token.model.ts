@@ -13,7 +13,8 @@ export class User {
         public name?: string,
         public email?: string,
         public phone?: string,
-        public groups?: Group[]
+        public groups?: Group[],
+        public role?: string
     ) { }
 }
 

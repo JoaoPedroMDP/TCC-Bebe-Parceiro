@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { SwalFacade, User, UserToken } from 'src/app/shared';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   token!: UserToken;
   showPassword!: boolean;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLoading = false;
@@ -36,13 +37,16 @@ export class LoginComponent implements OnInit {
           this.authService.setUser(this.token);
           console.log(this.token);
 
-          // if (this.token.role = 'benefited') {
-          //   // navega pro componente homepage beneficiada
-          // this.router.navigate(['/benefited']);
-          // }
-          // else {
-          //   // navega pro componente homepage admin/voluntaria
-          // }
+          if (this.token.user?.role == "volunteer") {
+            // navega pro componente homepage voluntaria
+            this.router.navigate(['/admin']);
+          } else if(this.token.user?.role == "admin") {
+            // navega pro componente homepage admin
+            this.router.navigate(['/admin']);
+          } else {
+            // navega pro componente homepage beneficiada
+            this.router.navigate(['/beneficiada']);
+          }
         })
       },
       error: (e) => {
