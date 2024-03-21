@@ -24,7 +24,9 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * @Description A Fazer
+   * @Description Verifica os campos de usuário e senha e faz a chamada no
+   * Service para fazer o login, caso bem-sucedido, cria um cookie através
+   * do service e o encaminha para sua devida rota
    */
   login() {
     this.isLoading = true; // Flag para carregamento do ícone

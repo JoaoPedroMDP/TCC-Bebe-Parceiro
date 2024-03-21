@@ -20,6 +20,8 @@ export class LoginRedirectGuard implements CanActivate {
   }
 
   private redirectUserBasedOnRole(role?: string) {
+    // Verifica qual é a role do usuário para poder encaminhar
+    // ele quando ele acessar o login estando logado
     switch (role) {
       case 'volunteer':
         this.router.navigate(['/volunteer']);

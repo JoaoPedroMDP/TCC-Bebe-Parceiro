@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth';
 import { SwalFacade, UserToken } from 'src/app/shared';
 
@@ -18,7 +17,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.authService.getUser();
   }
-
+  
+  /**
+   * @Description Realiza o logout do usuário e retorna a página de login
+   */
   logout() {
     this.authService.logout();
     SwalFacade.success("Usuário desconectado","Redirecionando ao login;");
