@@ -4,17 +4,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, SucessoCadastroComponent, ValidCodeGuard } from './index';
+import { HomeComponent } from './index';
 
 
 @NgModule({
   declarations: [
-    CodigoAcessoComponent,
-    AutoCadastroComponent,
-    SucessoCadastroComponent,
-    ChildrenComponent,
-    LoginComponent,
-    ErrorComponent
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -24,10 +19,9 @@ import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorC
     NgxMaskModule.forRoot()
   ],
   providers: [
-    ValidCodeGuard
   ]
 })
-export class AuthModule { }
+export class BenefitedModule { }
 
 
 

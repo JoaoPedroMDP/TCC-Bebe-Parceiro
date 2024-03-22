@@ -1,4 +1,4 @@
-import { Child, SocialProgram } from "./index";
+import { Child, SocialProgram } from "../index";
 
 export class Benefited {
   constructor(

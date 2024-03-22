@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './index';
+import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
-export const AdminRouting: Routes = [
+export const BenefitedRouting: Routes = [
 //   { path: 'admin', component: HomeComponent},
-  {
-    path: 'admin',
+{
+    path: 'beneficiada',
     component: HomeComponent, 
     children: [
     //   { path: '', component: DashboardFinanceiroComponent, canActivate: [FinanceiroGuard] },,
     ],
     canActivate: [AuthGuard], 
-    data: { expectedRole: 'admin' }
+    data: { expectedRole: 'beneficiary' }
   },
 ];

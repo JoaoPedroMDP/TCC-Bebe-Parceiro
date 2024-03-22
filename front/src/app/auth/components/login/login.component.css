@@ -1,0 +1,54 @@
+img {
+    height: 8rem;
+    margin: auto;
+}
+
+.bp-login-card {
+    background-color: #E0E0E0;
+    border: none;
+    margin: 1rem .75rem 5rem .75rem;
+    padding: 1.75rem 2rem;
+}
+
+.bp-button {
+    padding: .4rem 1rem;
+}
+
+.bp-text {
+    text-align: justify;
+}
+
+.input-with-icon {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.input-with-icon i {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    right: .9rem;
+    cursor: pointer;
+}
+
+.fa-eye {
+    color: #166b12;
+    transition: 0.3s;
+}
+  
+.fa-eye:hover {
+color: #000000;
+}
+
+#actions-btn {
+    width: 10rem;
+}
+
+@media screen and (width >= 991px) {
+    .bp-login-card {
+        margin: 1rem 4rem 5rem 4rem;
+        padding: 1.75rem 6rem;
+    }
+    
+}

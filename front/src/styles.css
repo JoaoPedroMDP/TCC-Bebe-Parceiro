@@ -6,22 +6,27 @@
     --bp-yellow: #FFEFCE;
     --bp-black: #333333;
     --bp-error: #BA1414;
+
+    --btn-cor-hover: #FFFFFF;
+    --btn-bg-disabled: #817560;
+    --btn-cor-disabled: #000000;
 }
   
 
 
 /* -------------------------------------------  CLASS ------------------------------------------- */
 .bp-button {
-  background-color: var(--btn-bg);
+  background-color: var(--bp-yellow);
   border: 1px solid var(--bp-black);
   border-radius: 5px;
-  color: var(--btn-cor);
+  color: var(--bp-black);
   font-weight: 600;
   transition: 0.5s;
+  padding: .4rem 1rem;
 }
   
 .bp-button:hover {
-    background-color: var(--btn-bg-hover);
+    background-color: var(--bp-black);
     color: var(--btn-cor-hover);
 }
 

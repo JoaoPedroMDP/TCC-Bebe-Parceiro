@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Benefited, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -25,6 +25,8 @@ export class AutoCadastroComponent implements OnInit {
   countries!: Country[];
   states!: State[];
   cities!: City[];
+
+  showSuccess = false;
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
@@ -56,7 +58,7 @@ export class AutoCadastroComponent implements OnInit {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     } else {
       this.authService.saveBenefited(this.beneficiada).subscribe();
-      this.router.navigate(['autocadastro/sucesso']);
+      this.showSuccess = true; 
     }
   }
 
