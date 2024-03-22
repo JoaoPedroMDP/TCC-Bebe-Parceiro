@@ -58,10 +58,10 @@ export class AutoCadastroComponent implements OnInit {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     } else {
       this.authService.saveBenefited(this.beneficiada)
-      .subscribe({
-        next: () => this.showSuccess = true,
-        error: (e) => SwalFacade.error(e)
-      });
+        .subscribe({
+          next: () => this.showSuccess = true,
+          error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
+        });
     }
   }
 
@@ -136,7 +136,7 @@ export class AutoCadastroComponent implements OnInit {
           this.maritalStatus = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Estado Civil')
+      error: () => SwalFacade.alert('Erro ao listar os dados de Estado Civil')
     })
   }
 

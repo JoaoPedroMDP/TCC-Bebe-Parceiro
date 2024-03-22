@@ -9,7 +9,7 @@
         <small class="form-text font-weight-bold text-left">
           Nome Completo <span class="text-danger font-weight-bold">*</span>
         </small>
-        <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="100" 
+        <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="150" 
               name="name" [(ngModel)]="beneficiada.name"  #name="ngModel" required>
       </div>
       <div class="row mt-1">
@@ -17,7 +17,7 @@
           <small class="form-text font-weight-bold text-left">Nº de filhos <span
               class="text-danger font-weight-bold">*</span></small>
           <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="child_count" 
-                 [(ngModel)]="beneficiada.child_count" child_count="ngModel" required> 
+                 [(ngModel)]="beneficiada.child_count" child_count="ngModel" required mask="00"> 
         </div>
         <div class="col">
           <small class="form-text font-weight-bold text-left">

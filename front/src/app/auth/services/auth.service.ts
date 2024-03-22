@@ -18,7 +18,7 @@ export class AuthService {
 
   /**
    * @description Faz um GET para obter todas as cidades cadastradas no sistema
-   * @param countryId o Id do Estado/Província selecionado para filtrar as cidades
+   * @param stateId o Id do Estado/Província selecionado para filtrar as cidades
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   getCities(stateId: number): Observable<any> {
@@ -125,6 +125,11 @@ export class AuthService {
    */
   saveBenefited(benefited: Benefited): Observable<any> {
     return this.http.post(`${this.baseURL}beneficiaries`, benefited, { headers: this.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
   }
 
   /**
