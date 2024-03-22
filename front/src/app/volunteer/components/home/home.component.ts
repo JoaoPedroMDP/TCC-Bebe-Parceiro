@@ -22,8 +22,10 @@ export class HomeComponent implements OnInit {
    * @Description Realiza o logout do usuário e retorna a página de login
    */
   logout() {
-    this.authService.logout();
-    SwalFacade.success("Usuário desconectado","Redirecionando ao login;");
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe({
+      next: () => SwalFacade.success("Usuário desconectado","Redirecionando ao login"),
+      error: () => SwalFacade.success("Ocorreu um erro","Não foi possível fazer o logout"),
+      complete: () => this.router.navigate(['/login'])
+    });
   }
 }

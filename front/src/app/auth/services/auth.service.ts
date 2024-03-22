@@ -11,15 +11,9 @@ export class AuthService {
 
   private baseURL!: string;
   private headers!: HttpHeaders;
-  private user!: UserToken;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
-    this.getUser();
     this.baseURL = APP_CONFIG.baseURL;
-    this.headers = new HttpHeaders({ 
-      'Content-Type': 'application/json',
-      'Authorization': `Token ${this.user?.token}`
-    });
   }
 
   /**
@@ -28,7 +22,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   getCities(stateId: number): Observable<any> {
-    return this.http.get(`${this.baseURL}cities?state_id=${stateId}`, { headers: this.headers });
+    return this.http.get(`${this.baseURL}cities?state_id=${stateId}`, { headers: this.getHeaders() });
   }
 
   /**
@@ -36,7 +30,24 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   getCountries(): Observable<any> {
-    return this.http.get(`${this.baseURL}countries`, { headers: this.headers });
+    return this.http.get(`${this.baseURL}countries`, { headers: this.getHeaders() });
+  }
+
+  /**
+   * @description Dado que os Services em Angular são um singleton, então uma única instância
+   * será utilizada mesmo variando entre componentes, e pelo fato dos headers terem valores
+   * varíaveis como o token de authenticação nós precisamos alterar a depender do método,
+   * Eu havia pensado em utilizar um atributo e passar o valor no construtor, mas não
+   * estava sendo possível atualizar o valor como explicado acima, utilizando esse método
+   * a cada chamada de algum método do service terá o seus valores de headers atualizados
+   * @returns Os Headers para serem utilizados na chamada rest
+   */
+  getHeaders(): HttpHeaders {
+    const userToken = this.getUser(); // Retorna o UserToken atualizado
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${userToken?.token}`
+    });
   }
 
   /**
@@ -44,7 +55,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   getMaritalStatuses(): Observable<any> {
-    return this.http.get(`${this.baseURL}marital_statuses`, { headers: this.headers });
+    return this.http.get(`${this.baseURL}marital_statuses`, { headers: this.getHeaders() });
   }
 
   /**
@@ -52,7 +63,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   getSocialPrograms(): Observable<any> {
-    return this.http.get(`${this.baseURL}social_programs`, { headers: this.headers });
+    return this.http.get(`${this.baseURL}social_programs`, { headers: this.getHeaders() });
   }
 
   /**
@@ -61,7 +72,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   getStates(countryId: number): Observable<any> {
-    return this.http.get(`${this.baseURL}states?country_id=${countryId}`, { headers: this.headers });
+    return this.http.get(`${this.baseURL}states?country_id=${countryId}`, { headers: this.getHeaders() });
   }
 
   /**
@@ -79,7 +90,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   login(value: { username: string, password: string }): Observable<any> {
-    return this.http.post(`${this.baseURL}auth/login`, value, { headers: this.headers })
+    return this.http.post(`${this.baseURL}auth/login`, value, { headers: this.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(error.status));
@@ -91,25 +102,20 @@ export class AuthService {
    * @description Realiza um POST para fazer o logout do usuário e apagar os cookies
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  logout() {
-    /*
-    let userVasco = this.getUser();
-    console.log(userVasco?.token)
-    
-    let headers = new HttpHeaders({ 'Authorization':`Token ${userVasco?.token}` });
-    // headers.set('Authorization',`Basic ${userVasco?.token}`)
-    console.log(headers.getAll('Authorization'))
-    // let user: UserToken = this.getUser();
-    return this.http.get(`${this.baseURL}states?country_id=${1}`, { headers: this.headers });
-    // return this.http.post(`${this.baseURL}auth/logout`, 'TESTE' , { headers: headers })
-      // .pipe(
-      //   catchError(error => {
-      //     return throwError(() => new Error(error.status));
-      //   }),
-      //   tap(() => {
-      //     this.cookieService.delete('user', '/');
-      //   })
-      // );*/
+  logout(): Observable<any> {
+    // O Método post do HttpClient não aceita a chamada de um post sem o argumento do
+    // body, então é necessário incluir o um objeto vazio '{}' no segundo argumento, 
+    // caso contrário será retornado erro
+    return this.http.post(`${this.baseURL}auth/logout`, {}, { headers: this.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(error.status));
+        }),
+        tap(() => {
+          // Apaga o token no frontend
+          this.cookieService.delete('user', '/');
+        })
+      );
   }
 
   /**
@@ -118,7 +124,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   saveBenefited(benefited: Benefited): Observable<any> {
-    return this.http.post(`${this.baseURL}beneficiaries`, benefited, { headers: this.headers })
+    return this.http.post(`${this.baseURL}beneficiaries`, benefited, { headers: this.getHeaders() })
   }
 
   /**
@@ -127,7 +133,7 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   sendCode(code: string): Observable<any> {
-    return this.http.get(`${this.baseURL}access_codes?code=${code}&used=false`, { headers: this.headers });
+    return this.http.get(`${this.baseURL}access_codes?code=${code}&used=false`, { headers: this.getHeaders() });
   }
 
   /**
