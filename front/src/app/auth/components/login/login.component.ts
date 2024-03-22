@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
           if (this.token.user?.role == "volunteer") {
             // navega pro componente homepage voluntaria
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/voluntaria']);
           } else if(this.token.user?.role == "admin") {
             // navega pro componente homepage admin
             this.router.navigate(['/admin']);

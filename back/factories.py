@@ -122,13 +122,6 @@ class VolunteerFactory(TimestampedModelFactory):
     user = factory.SubFactory(UserFactory)
     city = factory.SubFactory(CityFactory)
 
-    @classmethod
-    def create(cls, **kwargs):
-        v = super().create(**kwargs)
-        role = Group.objects.get(name='role_volunteer')
-        v.user.groups.add(role)
-        return v
-
 
 class CampaignFactory(TimestampedModelFactory):
     class Meta:

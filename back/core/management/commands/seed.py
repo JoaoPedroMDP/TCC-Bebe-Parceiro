@@ -73,7 +73,7 @@ class Command(BaseCommand):
 
         # E uma voluntária admin
         admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
-        admin_user.groups.set([*groups, roles["role_volunteer"]])
+        admin_user.groups.set([*groups, roles["role_admin"]])
         VolunteerFactory.create(user=admin_user)
 
         AccessCodeFactory.create_batch(5, used=False)

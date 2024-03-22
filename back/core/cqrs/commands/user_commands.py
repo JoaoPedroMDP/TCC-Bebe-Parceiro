@@ -13,6 +13,10 @@ def check_for_duplicity(data: dict):
     if len(conflicts) > 0:
         raise AssertionError("Telefone já cadastrado")
 
+    conflicts = UserRepository.filter(username=data['phone'])
+    if len(conflicts) > 0:
+        raise AssertionError("Telefone já cadastrado")
+
 
 class CreateUserCommand(Command):
     fields = [

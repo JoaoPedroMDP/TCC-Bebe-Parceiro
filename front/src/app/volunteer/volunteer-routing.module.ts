@@ -3,7 +3,6 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
 export const VolunteerRouting: Routes = [
-//   { path: 'voluntaria', component: HomeComponent},
 {
     path: 'voluntaria',
     component: HomeComponent, 

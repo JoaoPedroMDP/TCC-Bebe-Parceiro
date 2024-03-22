@@ -57,8 +57,11 @@ export class AutoCadastroComponent implements OnInit {
     if (this.beneficiada.password != this.form.value.password_confirm) {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     } else {
-      this.authService.saveBenefited(this.beneficiada).subscribe();
-      this.showSuccess = true; 
+      this.authService.saveBenefited(this.beneficiada)
+      .subscribe({
+        next: () => this.showSuccess = true,
+        error: (e) => SwalFacade.error(e)
+      });
     }
   }
 
