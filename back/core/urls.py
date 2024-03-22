@@ -2,7 +2,7 @@
 from django.urls import path
 from knox.views import LogoutView
 
-from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews
+from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews, CheckAccessCodeView
 from core.app_views.auth_views import LoginView
 from core.app_views.beneficiary_views import BeneficiaryGenericViews, BeneficiarySpecificViews
 from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
@@ -21,6 +21,7 @@ from core.app_views.volunteer_views import VolunteerGenericViews, VolunteerSpeci
 urlpatterns = [
     path("access_codes", AccessCodeGenericViews.as_view(), name="gen_access_codes"),
     path("access_codes/<int:pk>", AccessCodeSpecificViews.as_view(), name="spe_access_codes"),
+    path("access_codes/check", CheckAccessCodeView.as_view(), name="check_access_code"),
 
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/logout', LogoutView.as_view(), name='logout'),

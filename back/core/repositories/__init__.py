@@ -3,6 +3,8 @@ import json
 import logging
 from abc import ABC
 
+from django.db import IntegrityError
+
 from core.models import BaseModel
 from core.utils.exceptions import NotFoundError
 

@@ -3,11 +3,15 @@ import pytest
 from django.test.client import Client
 from django.urls import reverse
 
-from factories import BeneficiaryFactory
+from factories import BeneficiaryFactory, CityFactory, MaritalStatusFactory, SocialProgramFactory
 
 
 @pytest.mark.django_db
 def test_can_filter_beneficiaries(client: Client):
+    CityFactory.create_batch(3)
+    MaritalStatusFactory.create_batch(3)
+    SocialProgramFactory.create_batch(3)
+
     BeneficiaryFactory.create_batch(10, child_count=2)
 
     beneficiary = BeneficiaryFactory.create(child_count=1)

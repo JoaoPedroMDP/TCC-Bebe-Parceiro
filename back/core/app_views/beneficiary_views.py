@@ -4,13 +4,17 @@ from copy import copy
 from typing import List
 
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
-from rest_framework.views import APIView
+from restfw_composed_permissions.base import Or
 
+from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
+from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.owns_it import OwnsIt
 from core.serializers import BeneficiarySerializer
 from core.services.beneficiary_service import BeneficiaryService
 from core.utils.decorators import endpoint
@@ -18,7 +22,13 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class BeneficiaryGenericViews(APIView):
+class BeneficiaryGenericViews(BaseView):
+    groups = ["manage_beneficiaries"]
+    permission_classes = (AtLeastOneGroup,)
+    permission_classes_by_method = {
+        "post": [AllowAny]
+    }
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_BENEFICIARIES----")
@@ -35,7 +45,13 @@ class BeneficiaryGenericViews(APIView):
         return BeneficiarySerializer(new_beneficiary).data, status.HTTP_201_CREATED
 
 
-class BeneficiarySpecificViews(APIView):
+class BeneficiarySpecificViews(BaseView):
+    groups = ["manage_beneficiaries"]
+    permission_classes = (AtLeastOneGroup,)
+    permission_classes_by_method = {
+        "patch": Or(OwnsIt, AtLeastOneGroup)
+    }
+
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_BENEFITED----")

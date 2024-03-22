@@ -12,5 +12,6 @@ def test_can_get_access_code(client: Client):
     url = reverse("spe_access_codes", kwargs={"pk": ac.id})
 
     response = client.get(url)
+    print(response.data)
     assert response.status_code == 200
     assert response.data["code"] == ac.code
