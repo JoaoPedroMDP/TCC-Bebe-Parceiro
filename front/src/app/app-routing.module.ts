@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard]},
   { path: 'autocadastro', component: CodigoAcessoComponent },
   { path: 'autocadastro/dados/:codigoAcesso', component: AutoCadastroComponent, canActivate: [ValidCodeGuard] },
-  // { path: 'voluntario', component: ProfissionalComponent},
+  // { path: 'profissional', component: ProfissionalComponent},
   ...AdminRouting,
   ...BenefitedRouting,
   ...VolunteerRouting,

@@ -11,10 +11,15 @@ export class AuthService {
 
   private baseURL!: string;
   private headers!: HttpHeaders;
+  private user!: UserToken;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.getUser();
     this.baseURL = APP_CONFIG.baseURL;
-    this.headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${this.user?.token}`
+    });
   }
 
   /**
@@ -87,17 +92,24 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   logout() {
-    // this.cookieService.delete('user', '/');
-    let user: UserToken = this.getUser();
-    return this.http.post(`${this.baseURL}auth/logout`, user.token, { headers: this.headers })
-      .pipe(
-        catchError(error => {
-          return throwError(() => new Error(error.status));
-        }),
-        tap(() => {
-          this.cookieService.delete('user', '/');
-        })
-      );
+    /*
+    let userVasco = this.getUser();
+    console.log(userVasco?.token)
+    
+    let headers = new HttpHeaders({ 'Authorization':`Token ${userVasco?.token}` });
+    // headers.set('Authorization',`Basic ${userVasco?.token}`)
+    console.log(headers.getAll('Authorization'))
+    // let user: UserToken = this.getUser();
+    return this.http.get(`${this.baseURL}states?country_id=${1}`, { headers: this.headers });
+    // return this.http.post(`${this.baseURL}auth/logout`, 'TESTE' , { headers: headers })
+      // .pipe(
+      //   catchError(error => {
+      //     return throwError(() => new Error(error.status));
+      //   }),
+      //   tap(() => {
+      //     this.cookieService.delete('user', '/');
+      //   })
+      // );*/
   }
 
   /**
