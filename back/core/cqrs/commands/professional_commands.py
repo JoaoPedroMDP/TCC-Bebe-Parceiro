@@ -31,14 +31,16 @@ class CreateProfessionalCommand(Command):
 
 class PatchProfessionalCommand(Command):
     fields = [
-        Field("name", "string", True),
-        Field("email", "string", True),
-        Field("phone", "string", True),
-        Field("speciality_id", "integer", True, formatter=lambda x: int(x)),
+        Field("id", "integer", True, formatter=lambda x: int(x)),
+        Field("name", "string", False),
+        Field("email", "string", False),
+        Field("phone", "string", False),
+        Field("speciality_id", "integer", False, formatter=lambda x: int(x)),
         Field("city_id", "integer", False, formatter=lambda x: int(x)),
     ]
 
-    def __init__(self, name: str, email: str, phone: str, speciality_id: int, city_id: int):
+    def __init__(self, id: int, name: str = None, email: str = None, phone: str = None, speciality_id: int = None, city_id: int = None):
+        self.id = id
         self.name = name
         self.email = email
         self.phone = phone

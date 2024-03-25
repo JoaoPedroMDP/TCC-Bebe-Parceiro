@@ -39,6 +39,7 @@ class ProfessionalSpecificViews(APIView):
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_PROFESSIONALS----")
         data = copy(request.data)
+
         data['id'] = pk
 
         command: PatchProfessionalCommand = PatchProfessionalCommand.from_dict(data)
