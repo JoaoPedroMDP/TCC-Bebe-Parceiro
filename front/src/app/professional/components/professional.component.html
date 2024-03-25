@@ -1,11 +1,9 @@
-<h1>Bem vindo voluntário!</h1>
-<p>{{user.user?.name}}</p>
-<button (click)="logout()" class="bp-button">Logout</button>
 
 
+<div class="container mt-4">
 <div>
     <hr>
-    <h4 class="text-center">Voluntariado Bebê Parceiro</h4>
+    <h4 class="text-center">Cadastro de Profissional Voluntário</h4>
     <p>Lorem ipsum dolor sit amet amit consectetur est napole</p>
     
     <div class="form-group">
@@ -26,6 +24,11 @@
       <small class="form-text font-weight-bold text-left">
         Escolha abaixo qual demanda do projeto você poderá suprir <span class="text-danger font-weight-bold">*</span>
       </small>
+      <div>
+      <small class="form-text font-weight-bold text-left">
+      Especialidade<span class="text-danger font-weight-bold">*</span>
+      </small>
+    </div>
       <select class="form-select" name="especialidade" [(ngModel)]="professional.specialty" #professional_specialty="ngModel" required>
         <option [value]="undefined"> --- </option>
         <option [value]="specialty.id" *ngFor="let specialty of specialties">{{specialty.name}}</option>
@@ -34,12 +37,15 @@
     
     <div class="form-check">
       <input type="checkbox" class="form-check-input" id="acceptTerms" [(ngModel)]="professional.acceptTerms" name="acceptTerms" #acceptTerms="ngModel" required>
-      <label class="form-check-label" for="acceptTerms">Aceito os Termos de Voluntariado</label>
+      <label class="form-check-label" href="URL_DO_SEU_TERMO" style="color: blue;" for="acceptTerms">Aceito os Termos de Voluntariado</label>
     </div>
   </div>
   
   <!-- Botão Continuar -->
-  <div class="fixed-bottom bp-footer">
-    <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>
-    <button class="bp-button big-btn" (click)="save()" [disabled]="!form.form.valid">Continuar</button>
+  <div class=" bp-footer">
+    <button routerLink="/" class="bp-button big-btn" (click)="save()" [disabled]="!form.form.valid" >Enviar</button>
   </div>
+
+
+</div>
+

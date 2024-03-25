@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { NgIfContext } from '@angular/common';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth';
 import { SwalFacade, UserToken } from 'src/app/shared';
 
-
- 
 
 @Component({
   selector: 'app-professional',
@@ -18,6 +17,8 @@ export class ProfessionalComponent implements OnInit {
   form: any;
   professional: any;
   specialties: any;
+  showSuccess = false;
+  
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -44,4 +45,6 @@ export class ProfessionalComponent implements OnInit {
       alert('Por favor, aceite os termos de voluntariado para continuar.');
     }
   }
+
+
 }
