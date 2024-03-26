@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminModule, AppComponent, AppRoutingModule, AuthModule, BenefitedModule } from './index';
 import { VolunteerModule } from './volunteer/volunteer.module';
 import { CookieService } from 'ngx-cookie-service';
-import { ProfessionalModule } from './professional/professional.module';
+
 
 
 @NgModule({
@@ -19,8 +19,8 @@ import { ProfessionalModule } from './professional/professional.module';
     AuthModule,
     AdminModule,
     BenefitedModule,
-    VolunteerModule,
-    ProfessionalModule,
+    VolunteerModule
+  
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

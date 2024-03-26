@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, SucessoCadastroComponent, ValidCodeGuard } from './index';
+import { ProfessionalComponent } from './components/components_professional/professional.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorC
     SucessoCadastroComponent,
     ChildrenComponent,
     LoginComponent,
-    ErrorComponent
+    ErrorComponent,
+    ProfessionalComponent
   ],
   imports: [
     CommonModule,

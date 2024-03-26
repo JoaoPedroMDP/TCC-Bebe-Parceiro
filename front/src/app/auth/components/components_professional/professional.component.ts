@@ -3,6 +3,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth';
 import { SwalFacade, UserToken } from 'src/app/shared';
+import { Professional, Speciality } from 'src/app/shared/models/professional';
 
 
 @Component({
@@ -15,9 +16,11 @@ export class ProfessionalComponent implements OnInit {
 
   user!: UserToken;
   form: any;
-  professional: any;
-  specialties: any;
+  professional!: Professional;
+  specialties!: Speciality[];
   showSuccess = false;
+
+
   
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -40,10 +43,12 @@ export class ProfessionalComponent implements OnInit {
   save() {
     if (this.professional.acceptTerms) {
       console.log('Dados do voluntário:', this.professional);
-      // Aqui, você pode adicionar a lógica para enviar esses dados para um back-end ou serviço.
+      
     } else {
       alert('Por favor, aceite os termos de voluntariado para continuar.');
     }
+    this.showSuccess=true;
+    console.log(this.showSuccess)
   }
 
 

@@ -4,7 +4,7 @@ import { AdminRouting } from './admin/admin-routing.module';
 import { AutoCadastroComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, LoginRedirectGuard, ValidCodeGuard } from './auth';
 import { BenefitedRouting } from './benefited/benefited-routing.module';
 import { VolunteerRouting } from './volunteer/volunteer-routing.module';
-import { ProfessionalComponent } from './professional/components/professional.component';
+import { ProfessionalComponent } from './auth/components/components_professional/professional.component';
 
 
 const routes: Routes = [
