@@ -1,8 +1,10 @@
 #  coding: utf-8
 from datetime import time
+from typing import List
 
 import pytest
 from django.contrib.auth.models import Group
+from rest_framework.test import APIClient
 
 from config import GROUPS, ROLES
 from core.models import User
@@ -28,9 +30,13 @@ def seed_db(db):
         GroupFactory.create(name=r)
 
 
-# @pytest.fixture()
-# def ac_user(db):
-#     group: Group = Group.objects.get(name='manage_access_codes')
-#     user: User = UserFactory.create(username="ac_user", password="ac_user")
-#     user.groups.add(group)
-#     yield user
+@pytest.fixture
+def client():
+    return APIClient()
+
+
+def make_user(u_permissions: List[str]):
+    groups = Group.objects.filter(name__in=u_permissions)
+    user: User = UserFactory.create(username="user", password="user")
+    user.groups.add(*groups)
+    return user
