@@ -5,8 +5,8 @@ from django.contrib.auth.models import Group, Permission
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.models import Country, State, City, User, Volunteer
-from core.models import AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child
+from core.models import (Country, State, City, User, Volunteer, Professional, Speciality,
+                         AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child)
 
 
 class CountrySerializer(ModelSerializer):
@@ -111,3 +111,19 @@ class VolunteerSerializer(ModelSerializer):
     class Meta:
         model = Volunteer
         fields = ['id', 'user', 'city']
+
+
+class SpecialitySerializer(ModelSerializer):
+    class Meta:
+        model = Speciality
+        fields = ['id', 'name']
+
+
+class ProfessionalSerializer(ModelSerializer):
+    speciality = SpecialitySerializer(read_only=True)
+    city = CitySerializer(read_only=True)
+
+    class Meta:
+        model = Professional
+        fields = ['id', 'name', 'email', 'phone', 'speciality', 'city', 'accepted_volunteer_terms']
+
