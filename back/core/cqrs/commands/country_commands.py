@@ -1,5 +1,12 @@
 #  coding: utf-8
 from core.cqrs import Validator, Field, Command
+from core.repositories.country_repository import CountryRepository
+
+
+def check_for_duplicity(data: dict):
+    conflicts = CountryRepository.filter(name=data['name'])
+    if len(conflicts) > 0:
+        raise AssertionError("País já cadastrado")
 
 
 class CreateCountryCommand(Command):
@@ -16,6 +23,7 @@ class CreateCountryCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'CreateCountryCommand':
         data = Validator.validate_and_extract(CreateCountryCommand.fields, args)
+        check_for_duplicity(data)
         return CreateCountryCommand(**data)
 
 
@@ -35,6 +43,7 @@ class PatchCountryCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchCountryCommand':
         data = Validator.validate_and_extract(PatchCountryCommand.fields, args)
+        check_for_duplicity(data)
         return PatchCountryCommand(**data)
 
 

@@ -1,0 +1,154 @@
+<div *ngIf="!showSuccess; else successTemplate" class="container mt-4 mb-5 pb-5">
+  <h1>Coleta de Dados</h1>
+  <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
+  <form #form="ngForm">
+    <div>
+      <hr>
+      <h4 class="text-center">Dados pessoais</h4>
+      <div>
+        <small class="form-text font-weight-bold text-left">
+          Nome Completo <span class="text-danger font-weight-bold">*</span>
+        </small>
+        <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="150" 
+              name="name" [(ngModel)]="beneficiada.name"  #name="ngModel" required>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Nº de filhos <span
+              class="text-danger font-weight-bold">*</span></small>
+          <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!" name="child_count" 
+                 [(ngModel)]="beneficiada.child_count" child_count="ngModel" required mask="00"> 
+        </div>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">
+            Data de nascimento <span class="text-danger font-weight-bold">*</span>
+          </small>
+          <input type="date" class="form-control" name="birth_date" [(ngModel)]="beneficiada.birth_date" birth_date="ngModel" required>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Estado civil</small>
+          <select class="form-select" name="marital_status_id"  [(ngModel)]="beneficiada.marital_status_id"  #marital_status_id="ngModel">
+            <option [value]="undefined"> --- </option>
+            <option [value]="marital.id" *ngFor="let marital of maritalStatus">{{marital.name}}</option>
+          </select>
+        </div>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Email</small>
+          <input type="email" class="form-control" placeholder="Email@mail.com" name="email" 
+                  [(ngModel)]="beneficiada.email" email="ngModel">
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Telefone <span
+              class="text-danger font-weight-bold">*</span></small>
+          <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
+            name="phone" [(ngModel)]="beneficiada.phone" #phone="ngModel" minlength="10" required>
+        </div>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Renda familiar mensal <span
+              class="text-danger font-weight-bold">*</span></small>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">R$</span>
+            </div>
+            <input type="text" step="any" class="form-control" placeholder="0000.00" mask="separator.2" thousandSeparator="." maxlength="10"
+                   [(ngModel)]="beneficiada.monthly_familiar_income" monthly_familiar_income="ngModel" name="monthly_familiar_income" required>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Crie uma senha <span
+              class="text-danger font-weight-bold">*</span></small>
+          <div class="input-with-icon">
+            <input type="password" class="form-control" placeholder="Sua senha" name="password" [(ngModel)]="beneficiada.password" #password="ngModel" required>
+            <i class="fa fa-eye" (click)="showPassword('password')"></i>
+          </div>
+        </div>
+        <div class="col">
+          <small class="form-text font-weight-bold text-left">Repita a senha <span
+              class="text-danger font-weight-bold">*</span></small>
+          <div class="input-with-icon">
+            <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm" #password_confirm ngModel required>
+            <i class="fa fa-eye" (click)="showPassword('password_confirm')"></i>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div>
+      <h4 class="text-center">Dados de endereço</h4>
+      <div class="col">
+        <small class="form-text font-weight-bold text-left">País</small>
+        <select class="form-select" [(ngModel)]="countrySelected" (ngModelChange)="listStates()" name="pais">
+          <option [value]="undefined"> --- </option>
+          <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>    
+        </select>
+      </div>
+      <div class="col mt-1">
+        <small class="form-text font-weight-bold text-left">Estado</small>
+        <select class="form-select" [(ngModel)]="stateSelected" (ngModelChange)="listCities()" name="estado">
+          <option [value]="undefined"> --- </option>
+          <option [value]="state.id" *ngFor="let state of states">{{state.name}}</option>   
+        </select>
+      </div>
+      <div class="col mt-1">
+        <small class="form-text font-weight-bold text-left">Cidade</small>
+        <select class="form-select" [(ngModel)]="beneficiada.city_id" name="city_id">
+          <option [value]="undefined"> --- </option>
+          <option [value]="city.id" *ngFor="let city of cities">{{city.name}}</option>  
+        </select>
+      </div>
+      <hr>
+    </div>
+    <div>
+      <h4 class="text-center">Possui alguma invalidez?</h4>
+      <div class="form-group d-flex justify-content-center">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="has_disablement" [value]=true
+            [(ngModel)]="beneficiada.has_disablement">
+          <label class="form-check-label">Sim</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="has_disablement" [value]=false
+            [(ngModel)]="beneficiada.has_disablement">
+          <label class="form-check-label">Não</label>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div>
+      <h4 class="text-center">Acesso a benefícios sociais</h4>
+      <div class="row px-4">
+        <div class="form-check" *ngFor="let program of socialPrograms">
+          <input type="checkbox" class="form-check-input" [name]="program.name"
+            [ngModel]="selectedSocialPrograms.includes(program)"
+            (ngModelChange)="toggleSocialProgram(program)">
+          <label class="form-check-label">{{ program.name }}</label>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div>
+      <h4 class="text-center">Dados do filho</h4>
+      <app-children *ngFor="let child of children; let i = index" 
+        [child]="child" 
+        (deleteChild)="deleteChild(i)">
+      </app-children>
+      <div>
+        <button class="bp-button small-btn" (click)="addChild()">Novo Filho</button>
+      </div>
+    </div>
+    <div class="fixed-bottom bp-footer">
+      <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>
+      <button class="bp-button big-btn" (click)="save()" [disabled]="!form.form.valid">Continuar</button>
+    </div>
+  </form>
+</div>
+
+<ng-template #successTemplate>
+  <app-sucesso-cadastro></app-sucesso-cadastro>
+</ng-template>

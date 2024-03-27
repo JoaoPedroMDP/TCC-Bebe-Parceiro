@@ -1,0 +1,60 @@
+<div *ngIf="!showSuccess; else successTemplate" class="container mt-4 mb-5 pb-5">
+
+  <div class="container mt-4">
+    <div>
+      <hr>
+      <h4 class="text-center">Cadastro de Profissional Voluntário </h4>
+      <p class="text-center"> Lorem ipsum dolor sit amet amit consectetur est napole </p>
+
+      <div class="form-group">
+        <small class="form-text font-weight-bold text-left">
+          Nome Completo <span class="text-danger font-weight-bold">*</span>
+        </small>
+        <input type="text" class="form-control" placeholder="Seu nome" name="professional_name"
+          [(ngModel)]="professional.name"  required>
+      </div>
+
+      <div class="form-group">
+        <small class="form-text font-weight-bold text-left">
+          Telefone (com Whatsapp) <span class="text-danger font-weight-bold">*</span>
+        </small>
+        <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
+          name="professional_phone" [(ngModel)]="professional.phone" #professional_phone="ngModel" minlength="10"
+          required>
+      </div>
+
+      <div class="form-group">
+        <small class="form-text font-weight-bold">
+          Escolha abaixo qual demanda do projeto você poderá suprir <span class="text-danger font-weight-bold">*</span>
+        </small>
+        <div>
+          <small class="form-text font-weight-bold text-left">
+            Especialidade<span class="text-danger font-weight-bold">*</span>
+          </small>
+        </div>
+        <select class="form-select" name="especialidade" [(ngModel)]="professional.specialty"
+          #professional_specialty="ngModel" required>
+          <option [value]="undefined"> --- </option>
+          <option [value]="specialty.id" *ngFor="let specialty of specialties">{{specialty.name}}</option>
+        </select>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="acceptTerms" [(ngModel)]="professional.acceptTerms"
+          name="acceptTerms"  required>
+        <label class="form-check-label" href="URL_DO_SEU_TERMO" style="color: blue;" for="acceptTerms">Aceito os Termos
+          de Voluntariado</label>
+      </div>
+    </div>
+
+    <!-- Botão Continuar -->
+    <div class=" bp-footer">
+      <button class="bp-button big-btn" (click)="save()" [disabled]="!form.form.valid">Enviar</button>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #successTemplate>
+  <app-sucesso-cadastro></app-sucesso-cadastro>
+</ng-template>

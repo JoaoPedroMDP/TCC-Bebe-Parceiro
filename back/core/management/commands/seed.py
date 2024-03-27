@@ -1,14 +1,11 @@
 #  coding: utf-8
 from datetime import timedelta
-from random import random, randint
-from typing import List
+from random import randint
 
-import factory
-from django.core.management import call_command
 from django.core.management.base import BaseCommand
-from django.db import connection
 from django.utils.timezone import now
 
+from config import GROUPS, ROLES
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
@@ -19,11 +16,6 @@ class Command(BaseCommand):
     # Valores base para alguns cruds
     MARITAL_STATUSES = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo']
     SOCIAL_PROGRAMS = ['CRAS', "Minha Casa Minha Vida", 'Cadastro de Emprego', 'Bolsa Família', 'Cartão alimentação']
-    GROUPS = [
-        "manage_registrations", "manage_beneficiaries", "manage_swaps",
-        "manage_appointments", "manage_professionals", "manage_access_codes",
-        "manage_volunteers"
-    ]
 
     def add_arguments(self, parser):
         parser.add_argument("--test", action='store_true', help="Se deve criar dados para testes manuais")
@@ -36,8 +28,12 @@ class Command(BaseCommand):
 
         # Cargos e permissoes
         groups = []
-        for g in self.GROUPS:
+        for g in GROUPS:
             groups.append(GroupFactory.create(name=g))
+
+        roles = {}
+        for r in ROLES:
+            roles[r] = GroupFactory.create(name=r)
 
         if not options['test']:
             return
@@ -50,13 +46,20 @@ class Command(BaseCommand):
             SocialProgramFactory.create(name=s, enabled=True)
 
         # Beneficiárias com filhos nascidos
-        child_benef_users: List[User] = UserFactory.create_batch(2)
-        for u in child_benef_users:
+        for i in range(2):
+            identification = f"ben_child_{i}"
+            u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+            u.groups.add(roles["role_beneficiary"])
+
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b)
 
-        pregnant_benef_users: List[User] = UserFactory.create_batch(2)
-        for u in pregnant_benef_users:
+        # Beneficiárias grávidas
+        for i in range(2):
+            identification = f"ben_pregnant_{i}"
+            u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+            u.groups.add(roles["role_beneficiary"])
+
             bdate = now() + timedelta(weeks=randint(3, 49))
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b, birth_date=bdate)
@@ -65,12 +68,12 @@ class Command(BaseCommand):
         for g in groups:
             identification = f"vol_{g.name}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.set([g])
+            u.groups.set([g, roles["role_volunteer"]])
             VolunteerFactory.create(user=u)
 
         # E uma voluntária admin
-        admin_user = UserFactory.create(username="admin", password="admin")
-        admin_user.groups.set(groups)
+        admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
+        admin_user.groups.set([*groups, roles["role_admin"]])
         VolunteerFactory.create(user=admin_user)
 
         AccessCodeFactory.create_batch(5, used=False)

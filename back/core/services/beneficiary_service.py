@@ -12,6 +12,7 @@ from core.models import Beneficiary
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.city_repository import CityRepository
+from core.repositories.group_repository import GroupRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.services import CrudService
@@ -41,6 +42,8 @@ class BeneficiaryService(CrudService):
                 social_programs.append(SocialProgramRepository.get(social_program_id))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
+        b_role = GroupRepository.filter(name='role_beneficiary')[0]
+        new_user.groups.add(b_role)
 
         data = command.to_dict()
         # As crianças eu associo depois

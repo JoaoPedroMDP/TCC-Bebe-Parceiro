@@ -5,8 +5,8 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand, \
     DeleteChildCommand
 from core.cqrs.queries.child_queries import GetChildQuery, ListChildQuery
@@ -18,7 +18,7 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class ChildGenericViews(APIView):
+class ChildGenericViews(BaseView):
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_CHILDREN----")
@@ -35,7 +35,7 @@ class ChildGenericViews(APIView):
         return ChildSerializer(new_child).data, status.HTTP_201_CREATED
 
 
-class ChildSpecificViews(APIView):
+class ChildSpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_CHILD----")

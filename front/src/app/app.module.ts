@@ -1,20 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { AppComponent, AppRoutingModule, AuthModule } from './index';
+import { AdminModule, AppComponent, AppRoutingModule, AuthModule, BenefitedModule } from './index';
+import { VolunteerModule } from './volunteer/volunteer.module';
+import { CookieService } from 'ngx-cookie-service';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    AuthModule
+    AuthModule,
+    AdminModule,
+    BenefitedModule,
+    VolunteerModule
+  
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,8 @@
 #  coding: utf-8
+from typing import List
+
 from django.contrib.auth.models import Group, Permission
+from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
 from core.models import (Country, State, City, User, Volunteer, Professional, Speciality,
@@ -62,10 +65,23 @@ class GroupSerializer(ModelSerializer):
 
 class UserSerializer(ModelSerializer):
     groups = GroupSerializer(read_only=True, many=True)
+    role = SerializerMethodField()
+
+    def get_role(self, obj: User):
+        def role_filter(group):
+            return group.name.startswith('role_')
+
+        groups: List = obj.groups.all()
+        role = list(filter(role_filter, groups))
+        if len(role) > 0:
+            return role[0].name.split("_")[1]
+
+        return "Unknown"
+
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'name', 'email', 'phone', 'groups']
+        fields = ['id', 'username', 'name', 'email', 'phone', 'groups', 'role']
 
 
 class BeneficiarySerializer(ModelSerializer):
@@ -100,7 +116,7 @@ class VolunteerSerializer(ModelSerializer):
 class SpecialitySerializer(ModelSerializer):
     class Meta:
         model = Speciality
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class ProfessionalSerializer(ModelSerializer):
@@ -109,4 +125,5 @@ class ProfessionalSerializer(ModelSerializer):
 
     class Meta:
         model = Professional
-        fields = ['name', 'email', 'phone', 'speciality', 'city', 'accepted_volunteer_terms']
+        fields = ['id', 'name', 'email', 'phone', 'speciality', 'city', 'accepted_volunteer_terms']
+

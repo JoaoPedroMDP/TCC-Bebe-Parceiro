@@ -2,6 +2,21 @@
 from core.cqrs import Query, Field, Validator
 
 
+class CheckAccessCodeQuery(Query):
+    fields = [
+        Field("code", "string", True),
+    ]
+
+    def __init__(self, code: str):
+        self.code = code
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'CheckAccessCodeQuery':
+        data = Validator.validate_and_extract(CheckAccessCodeQuery.fields, args)
+        return CheckAccessCodeQuery(**data)
+
+
 class GetAccessCodeQuery(Query):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
