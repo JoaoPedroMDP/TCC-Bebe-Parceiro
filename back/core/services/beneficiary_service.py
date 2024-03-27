@@ -3,6 +3,7 @@ from typing import List
 
 from rest_framework import status
 
+from config import ROLE_BENEFICIARY
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand
@@ -42,7 +43,7 @@ class BeneficiaryService(CrudService):
                 social_programs.append(SocialProgramRepository.get(social_program_id))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
-        b_role = GroupRepository.filter(name='role_beneficiary')[0]
+        b_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
         new_user.groups.add(b_role)
 
         data = command.to_dict()

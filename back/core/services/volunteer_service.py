@@ -1,6 +1,7 @@
 #  coding: utf-8
 from typing import List
 
+from config import ROLE_VOLUNTEER
 from core.cqrs.commands.user_commands import CreateUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
@@ -30,7 +31,7 @@ class VolunteerService(CrudService):
             for g_id in command.group_ids:
                 new_volunteer.user.groups.add(g_id)
 
-            role = GroupRepository.filter(name='role_volunteer')[0]
+            role = GroupRepository.filter(name=ROLE_VOLUNTEER)[0]
             new_volunteer.user.groups.add(role)
             new_volunteer.save()
         except Exception as e:

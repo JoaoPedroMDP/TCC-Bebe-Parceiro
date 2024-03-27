@@ -5,7 +5,7 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS, ROLES
+from config import GROUPS, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
@@ -49,7 +49,7 @@ class Command(BaseCommand):
         for i in range(2):
             identification = f"ben_child_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.add(roles["role_beneficiary"])
+            u.groups.add(roles[ROLE_BENEFICIARY])
 
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b)
@@ -58,7 +58,7 @@ class Command(BaseCommand):
         for i in range(2):
             identification = f"ben_pregnant_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.add(roles["role_beneficiary"])
+            u.groups.add(roles[ROLE_BENEFICIARY])
 
             bdate = now() + timedelta(weeks=randint(3, 49))
             b = BeneficiaryFactory.create(user=u)
@@ -68,12 +68,12 @@ class Command(BaseCommand):
         for g in groups:
             identification = f"vol_{g.name}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.set([g, roles["role_volunteer"]])
+            u.groups.set([g, roles[ROLE_VOLUNTEER]])
             VolunteerFactory.create(user=u)
 
         # E uma voluntária admin
         admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
-        admin_user.groups.set([*groups, roles["role_admin"]])
+        admin_user.groups.set([*groups, roles[ROLE_ADMIN]])
         VolunteerFactory.create(user=admin_user)
 
         AccessCodeFactory.create_batch(5, used=False)
