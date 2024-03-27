@@ -27,7 +27,7 @@ class BeneficiaryGenericViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
-        "post": [AllowAny]
+        "post": (),
     }
 
     @endpoint

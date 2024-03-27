@@ -23,10 +23,10 @@ def test_can_create_access_code(client: APIClient):
     # Com autenticação
     client.force_authenticate(make_user([MANAGE_ACCESS_CODES]))
     response = client.post(url, data=data)
-    lgr.debug(response.data)
     assert response.status_code == 201
     assert response.data['code'].startswith("TCCAC") is True
     assert response.data['used'] is False
+    # TODO TROCAR AS DUAS LINHAS ACIMA PELAS DUAS DE BAIXO DEPOIS DE MERGEAR A BRANCH B11
     # assert response.data[0]['code'].startswith("TCCAC") is True
     # assert response.data[0]['used'] is False
 
