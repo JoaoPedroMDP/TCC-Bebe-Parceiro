@@ -1,1 +1,18 @@
-<router-outlet></router-outlet>
+<header class="bp-header">
+    <!-- Logo -->
+    <a class="bp-header-logo" routerLink="/">Bebê Parceiro</a>
+    <!-- Hamburger icon -->
+    <input class="bp-side-menu" type="checkbox" id="bp-side-menu"/>
+    <label class="bp-hamb" for="bp-side-menu"><span class="bp-hamb-line"></span></label>
+    <!-- Menu -->
+    <nav class="bp-header-nav">
+        <hr>
+        <div class="bp-header-menu">
+            <div id="bp-home-menu"><a routerLink="/" >Menu Inicial</a></div>
+            <div id="bp-logout-menu"><a (click)="logout()" >Sair</a></div>
+        </div>
+    </nav>
+</header>
+<main class="bp-content">
+    <router-outlet></router-outlet>
+</main>

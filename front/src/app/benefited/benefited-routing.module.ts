@@ -4,7 +4,6 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { MainComponent } from './index';
 
 export const BenefitedRouting: Routes = [
-  //   { path: 'admin', component: HomeComponent},
   {
     path: 'beneficiada',
     component: MainComponent,
