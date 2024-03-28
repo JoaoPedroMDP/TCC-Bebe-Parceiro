@@ -4,13 +4,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { AcessCodesModalComponent, HomeComponent, VolunteerService } from './index';
-
+import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    AcessCodesModalComponent
+    AcessCodesModalComponent,
+    MainComponent
   ],
   imports: [
     CommonModule,
