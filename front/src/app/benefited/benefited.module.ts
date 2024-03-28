@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { HomeComponent } from './index';
+import { MainComponent } from './components/main/main.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    MainComponent
   ],
   imports: [
     CommonModule,
