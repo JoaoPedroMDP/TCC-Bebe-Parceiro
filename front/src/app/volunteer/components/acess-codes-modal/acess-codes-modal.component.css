@@ -1,30 +1,47 @@
-#btn-salvar{
-    --btn-cor-hover : #000000;
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-save {
     border-bottom-left-radius: 5px;
     background-color: var(--bp-green);
 }
 
-
-#btn-fechar{
+#btn-close {
+    background-color: var(--bp-light-gray);
     border-bottom-right-radius: 5px;
 }
 
+#btn-confirm {
+    /* --btn-cor-hover : #000000; */
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: var(--bp-green);
+}
+
+/* Por algum motivo quando eu alterei as cores nos botões 
+   parou de funcionar os hovers, por isso reeecrevi abaixo */
+#btn-save:hover{ background-color: var(--bp-black); }
+#btn-close:hover{ background-color: var(--bp-black); }
+#btn-confirm:hover{ background-color: var(--bp-black); } 
+/* -------------------------------------------  CLASS ------------------------------------------- */
 .bp-button {
     margin: 0;
-    font-size: 1.2rem;
     border-radius: 0;
+    bottom: 0;
 }
 
-.modal-footer {
+.bp-form {
+    padding: .5rem 2rem;
+}
+
+.bp-modal-footer {
     padding: 0;
 }
-
-.bp-form{
-    padding: 1rem 2rem;
-}
-
+/* -------------------------------------------  MEDIA ------------------------------------------- */
 @media screen and (width > 991px) {
-    .bp-form{
+    .bp-form {
         padding: 2rem 6rem;
     }
+    .bp-button {
+        font-size: 1.2rem;
+    }
+    
 }
