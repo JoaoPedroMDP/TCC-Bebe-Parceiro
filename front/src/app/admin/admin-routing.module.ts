@@ -1,14 +1,13 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './index';
+import { HomeComponent, MainComponent } from './index';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
 export const AdminRouting: Routes = [
-//   { path: 'admin', component: HomeComponent},
   {
     path: 'admin',
-    component: HomeComponent, 
+    component: MainComponent, 
     children: [
-    //   { path: '', component: DashboardFinanceiroComponent, canActivate: [FinanceiroGuard] },,
+      { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     ],
     canActivate: [AuthGuard], 
     data: { expectedRole: 'admin' }
