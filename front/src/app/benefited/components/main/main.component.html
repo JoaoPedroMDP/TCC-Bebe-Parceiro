@@ -2,14 +2,17 @@
     <!-- Logo -->
     <a class="bp-header-logo" routerLink="/">Bebê Parceiro</a>
     <!-- Hamburger icon -->
-    <input class="bp-side-menu" type="checkbox" id="bp-side-menu"/>
-    <label class="bp-hamb" for="bp-side-menu"><span class="bp-hamb-line"></span></label>
+    <input class="bp-side-menu" type="checkbox" id="bp-side-menu" />
+    <label class="bp-hamb" (click)="toggleMenu()">
+        <i *ngIf="!menuOpen" class="fa-solid fa-bars bp-fa"></i>
+        <i *ngIf="menuOpen" class="fa-solid fa-xmark bp-fa"></i>
+    </label>
     <!-- Menu -->
-    <nav class="bp-header-nav">
+    <nav class="bp-header-nav" [class.bp-header-nav-open]="menuOpen">
         <hr>
         <div class="bp-header-menu">
-            <div id="bp-home-menu"><a routerLink="/" >Menu Inicial</a></div>
-            <div id="bp-logout-menu"><a (click)="logout()" >Sair</a></div>
+            <div id="bp-home-menu" (click)="toggleMenu()"><a routerLink="/">Menu Inicial</a></div>
+            <div id="bp-logout-menu" (click)="logout()"><a>Sair</a></div>
         </div>
     </nav>
 </header>

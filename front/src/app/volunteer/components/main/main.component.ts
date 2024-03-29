@@ -10,6 +10,8 @@ import { SwalFacade } from 'src/app/shared';
 })
 export class MainComponent implements OnInit {
 
+  menuOpen = false;
+
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -19,10 +21,15 @@ export class MainComponent implements OnInit {
    * @Description Realiza o logout do usuário e retorna a página de login
    */
   logout() {
+    this.toggleMenu();
     this.authService.logout().subscribe({
       next: () => SwalFacade.success("Usuário desconectado","Redirecionando ao login"),
       error: () => SwalFacade.error("Ocorreu um erro","Não foi possível fazer o logout"),
       complete: () => this.router.navigate(['/login'])
     });
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 }

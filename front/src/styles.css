@@ -112,6 +112,7 @@ small{
 .bp-header-menu a:active { background-color: var(--black); }
 
 .bp-header-nav {
+  /* Estilos quando o menu está fechado */
   width: 100%;
   height: max-content;
   position: fixed;
@@ -121,62 +122,22 @@ small{
   transition: max-height .5s ease-in-out;
 }
 
+.bp-header-nav-open {
+  /* Estilos para quando o menu está aberto */
+  max-height: 500px;
+}
+
 .bp-hamb {
   cursor: pointer;
   float: right;
-  padding: 20px 20px;
+  padding: 10px 20px;
   margin-right: 10px;
-}
-
-.bp-hamb-line {
-  background: var(--black);
-  display: block;
-  height: 2px;
-  position: relative;
-  width: 24px;
-}
-
-.bp-hamb-line::before,
-.bp-hamb-line::after {
-  background: var(--black);
-  content: '';
-  display: block;
-  height: 100%;
-  position: absolute;
-  transition: all .2s ease-out;
-  width: 100%;
-}
-
-.bp-hamb-line::before {
-  top: 5px;
-}
-
-.bp-hamb-line::after {
-  top: -5px;
+  font-size: 1.1rem;
 }
 
 .bp-side-menu {
   /* Hide checkbox */
   display: none;
-}
-
-/* Toggle menu icon */
-.bp-side-menu:checked~nav {
-  max-height: 100%;
-}
-
-.bp-side-menu:checked~.bp-hamb .bp-hamb-line {
-  background: transparent;
-}
-
-.bp-side-menu:checked~.bp-hamb .bp-hamb-line::before {
-  transform: rotate(-45deg);
-  top: 0;
-}
-
-.bp-side-menu:checked~.bp-hamb .bp-hamb-line::after {
-  transform: rotate(45deg);
-  top: 0;
 }
 
 /* -------------------------------------------  MEDIA ------------------------------------------- */

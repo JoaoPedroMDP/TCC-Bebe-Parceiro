@@ -12,6 +12,7 @@ export class MainComponent implements OnInit {
 
   user!: UserToken;
   dropdownOpen: boolean = false;
+  menuOpen = false;
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -30,7 +31,7 @@ export class MainComponent implements OnInit {
     });
   }
 
-  toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen;
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 }
