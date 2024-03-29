@@ -20,8 +20,9 @@ export class VolunteerService {
    * @param amount Quantidade de códigos a serem gerados
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  createAcessCodes(amount: number): Observable<any> {
-    return this.http.post(`${this.baseURL}access_codes`, amount, { headers: this.authService.getHeaders() })
+  createAccessCodes(amount: number): Observable<any> {
+    let body: { amount: number } = {amount} // Não pode só enviar um int, tem que ser um objeto
+    return this.http.post(`${this.baseURL}access_codes`, body, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
@@ -33,7 +34,7 @@ export class VolunteerService {
    * @description Faz um GET para obter todos os códigos de acesso que não foram usados
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  listAcessCodes(): Observable<any> {
+  listAccessCodes(): Observable<any> {
     return this.http.get(`${this.baseURL}access_codes?used=false`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {

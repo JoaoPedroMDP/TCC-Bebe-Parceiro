@@ -20,7 +20,7 @@ export class AcessCodesModalComponent implements OnInit {
   ngOnInit(): void {
     // Caso já exista algum código de acesso então vamos optar por já mostrar eles ao usuário
     // Antes dele criar novos códigos
-    this.volunteerService.listAcessCodes().subscribe({
+    this.volunteerService.listAccessCodes().subscribe({
       next: (codes) => {
         // Só pega os 10 primeiros códigos, para não ficar muito bagunçado e cheio de dados
         this.accessCodes = codes.slice(0, 10);
@@ -46,7 +46,7 @@ export class AcessCodesModalComponent implements OnInit {
     // Garantir que mesmo sem valor possa ser gerado códigos
     let amount: number = this.form.value.amount >= 1 ? this.form.value.amount : 1
 
-    this.volunteerService.createAcessCodes(amount).subscribe({
+    this.volunteerService.createAccessCodes(amount).subscribe({
       next: (codes) => {
         this.showSuccess = true;
         SwalFacade.success("Códigos criados com sucesso!", `${amount} novos códigos de acesso`)
