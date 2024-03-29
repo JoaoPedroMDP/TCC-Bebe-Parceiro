@@ -4,11 +4,12 @@ from core.cqrs import Validator, Field, Command
 
 class CreateAccessCodeCommand(Command):
     fields = [
-        Field("prefix", "string", True)
+        Field("amount", "integer", default=1, formatter=lambda x: int(x))
     ]
 
-    def __init__(self, prefix: str):
-        self.prefix = prefix
+    def __init__(self, amount: int):
+        self.amount = amount
+        self.user = None
 
     @staticmethod
     @Validator.validates

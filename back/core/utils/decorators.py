@@ -1,9 +1,15 @@
 #  coding: utf-8
+import logging
+from traceback import format_exc
+
 from rest_framework import status
 from rest_framework.response import Response
 
 from config import ENV
 from core.utils.exceptions import HttpFriendlyError
+
+
+lgr = logging.getLogger(__name__)
 
 
 def endpoint(func):
@@ -15,10 +21,13 @@ def endpoint(func):
                 status=return_data[1] if len(return_data) > 1 else 200
             )
         except HttpFriendlyError as e:
+            lgr.error(format_exc())
             return Response({"message": e.message}, status=e.status_code)
         except AssertionError as e:
+            lgr.error(format_exc())
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
+            lgr.error(format_exc())
             if ENV == 'dev':
                 raise e
             else:
