@@ -35,6 +35,7 @@ class AccessCodeGenericViews(BaseView):
     def post(self, request: Request, format=None):
         lgr.debug("----CREATE_ACCESS-CODE----")
         command: CreateAccessCodeCommand = CreateAccessCodeCommand.from_dict(request.data)
+        command.user = request.user
         new_access_codes: List[AccessCode] = AccessCodeService.create(command)
 
         return AccessCodeSerializer(new_access_codes, many=True).data, status.HTTP_201_CREATED

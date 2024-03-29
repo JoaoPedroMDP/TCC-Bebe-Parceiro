@@ -27,11 +27,12 @@ class AccessCodeService(CrudService):
     def create(cls, command: CreateAccessCodeCommand) -> List[AccessCode]:
         # O código deve ser no formato prefix + 3 números + 3 letras, tudo maiúsculo
         all_codes = []
+        prefix: str = command.user.first_name[:3].upper() if command.user else "UNK"
         for i in range(command.amount):
-            code = cls.generate_code(command.prefix)
+            code = cls.generate_code(prefix)
             while AccessCode.objects.filter(code=code).exists():
                 lgr.warning("Código {} já existe, gerando outro".format(code))
-                code = cls.generate_code(command.prefix)
+                code = cls.generate_code(prefix)
             all_codes.append(AccessCodeRepository.create({"code": code}))
 
         return all_codes
