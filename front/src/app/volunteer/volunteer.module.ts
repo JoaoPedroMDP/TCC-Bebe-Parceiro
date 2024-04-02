@@ -5,12 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+import { ListBeneficiaryComponent } from './components/beneficiary';
+
 
 @NgModule({
   declarations: [
     HomeComponent,
     AcessCodesModalComponent,
-    MainComponent
+    MainComponent,
+    ListBeneficiaryComponent
   ],
   imports: [
     CommonModule,

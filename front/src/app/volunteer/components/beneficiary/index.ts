@@ -1,0 +1,1 @@
+export * from './list-beneficiary/list-beneficiary.component';
