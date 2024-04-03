@@ -1,3 +1,18 @@
-<h1>Bem vindo beneficiada!</h1>
-<p>{{user.user?.name}}</p>
-<button (click)="logout()" class="bp-button">Logout</button>
+<div class="container">
+    <div class="text-center">
+        <h1>Bem vinda beneficiada!</h1>
+        <p>Usuário: {{user.user?.name}}</p>
+    </div>
+    <a class="row bp-menu-option" routerLink="meus-dados">
+        <span>Meus dados</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="atendimentos">
+        <span>Meus atendimentos</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="trocas">
+        <span>Pedir troca</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="campanhas">
+        <span>Campanhas</span>
+    </a>
+</div>
