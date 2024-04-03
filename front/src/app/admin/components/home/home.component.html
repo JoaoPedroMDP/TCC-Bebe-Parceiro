@@ -1,3 +1,42 @@
-<h1>Bem vindo admin!</h1>
-<p>{{user.user?.name}}</p>
-<button (click)="logout()" class="bp-button">Logout</button>
+<div class="container">
+    <div class="text-center">
+        <h1>Bem vinda admin!</h1>
+        <p>Usuário: {{user.user?.name}}</p>
+    </div>
+    <a class="row bp-menu-option" routerLink="voluntarias">
+        <span>Voluntárias</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="especialidades">
+        <span>Especialidades</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="campanhas">
+        <span>Campanhas</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="relatorios">
+        <span>Relatórios</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="funcoes">
+        <span>Funções</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="prontuarios">
+        <span>Prontuários</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="beneficiadas">
+        <span>Beneficiadas</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="trocas">
+        <span>Trocas</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="atendimentos">
+        <span>Atendimentos</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="profissionais">
+        <span>Profissionais</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="solitacoes">
+        <span>Solicitações de cadastro</span>
+    </a>
+    <a class="row bp-menu-option" (click)="openAcessCodesModal()">
+        <span>Códigos de acesso</span>
+    </a>
+</div>

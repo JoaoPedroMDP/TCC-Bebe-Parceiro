@@ -28,4 +28,8 @@ export class HomeComponent implements OnInit {
       complete: () => this.router.navigate(['/login'])
     });
   }
+
+  openAcessCodesModal(){
+    // fazer
+  }
 }
