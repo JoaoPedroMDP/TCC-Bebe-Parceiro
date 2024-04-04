@@ -12,7 +12,7 @@ from tests.conftest import make_user
 
 @pytest.mark.django_db
 def test_can_get_country(client: APIClient):
-    country = CountryFactory.create()
+    country = CountryFactory.create(name="TCGC")
     url = reverse("spe_countries", kwargs={"pk": country.id})
 
     # Sem autenticação
