@@ -2,7 +2,7 @@
 from typing import List
 
 from django.contrib.auth.models import Group, Permission
-from rest_framework.fields import SerializerMethodField
+from rest_framework.fields import SerializerMethodField, DateTimeField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
 from core.models import Country, State, City, User, Volunteer
@@ -78,30 +78,42 @@ class UserSerializer(ModelSerializer):
 
         return "Unknown"
 
-
     class Meta:
         model = User
         fields = ['id', 'username', 'name', 'email', 'phone', 'groups', 'role']
 
 
-class BeneficiarySerializer(ModelSerializer):
-    city = CitySerializer(read_only=True)
-    marital_status = MaritalStatusSerializer(read_only=True)
-    user = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Beneficiary
-        fields = ['id', 'user', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
-                  'marital_status', 'city']
-
-
 class ChildSerializer(ModelSerializer):
-    beneficiary = SlugRelatedField(slug_field='id', read_only=True)
-    birth_date = DateField(format="%d/%m/%Y")
+    benefited_id = SlugRelatedField(slug_field='id', read_only=True, source='beneficiary')
+    birth_date = DateTimeField(format="%d/%m/%Y")
 
     class Meta:
         model = Child
-        fields = ['id', 'name', 'birth_date', 'sex', 'beneficiary']
+        fields = ['id', 'name', 'birth_date', 'sex', 'benefited_id']
+
+
+class BeneficiarySerializer(ModelSerializer):
+    city_id = SlugRelatedField(slug_field='id', read_only=True, source='city')
+    marital_status_id = SlugRelatedField(slug_field='id', read_only=True, source='marital_status')
+    social_programs = SocialProgramSerializer(many=True, read_only=True)
+    children = ChildSerializer(many=True, read_only=True)
+    name = SerializerMethodField()
+    phone = SerializerMethodField()
+    email = SerializerMethodField()
+
+    class Meta:
+        model = Beneficiary
+        fields = ['id', 'name', 'phone', 'email', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
+                  'marital_status_id', 'children', 'city_id', 'social_programs']
+
+    def get_name(self, obj: Beneficiary):
+        return obj.user.name
+
+    def get_phone(self, obj: Beneficiary):
+        return obj.user.phone
+
+    def get_email(self, obj: Beneficiary):
+        return obj.user.email
 
 
 class VolunteerSerializer(ModelSerializer):
