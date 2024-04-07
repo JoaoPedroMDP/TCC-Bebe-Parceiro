@@ -5,6 +5,7 @@ export class Benefited {
     public id?: number,
     public name?: string,
     public birth_date?: Date,
+    public created_at?: Date,
     public child_count?: number,
     public email?: string,
     public has_disablement?: boolean,
