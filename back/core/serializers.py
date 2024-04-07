@@ -103,8 +103,8 @@ class BeneficiarySerializer(ModelSerializer):
 
     class Meta:
         model = Beneficiary
-        fields = ['id', 'name', 'phone', 'email', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
-                  'marital_status_id', 'children', 'city_id', 'social_programs']
+        fields = ['id', 'name', 'phone', 'email', 'birth_date', 'child_count', 'monthly_familiar_income',
+                  'has_disablement', 'marital_status_id', 'children', 'city_id', 'social_programs', 'created_at']
 
     def get_name(self, obj: Beneficiary):
         return obj.user.name
