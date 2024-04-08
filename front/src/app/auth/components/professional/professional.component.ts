@@ -1,9 +1,10 @@
 import { NgIfContext } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth';
+
 import { SwalFacade, UserToken } from 'src/app/shared';
 import { Professional, Speciality } from 'src/app/shared/models/professional';
+import { ProfessionalService } from '../../services/professional.service';
 
 
 @Component({
@@ -17,28 +18,32 @@ export class ProfessionalComponent implements OnInit {
   user!: UserToken;
   form: any;
   professional!: Professional;
-  specialties!: Speciality[];
+  specialities!: Speciality[];
   showSuccess = false;
 
 
-  
-
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private ProfessionalService: ProfessionalService, private router: Router) { }
 
   ngOnInit(): void {
-    this.user = this.authService.getUser();
+    this.user = this.ProfessionalService.getUser();
+    this.ProfessionalService.getSpecialities();
   }
+
   
-  /**
-   * @Description Realiza o logout do usuário e retorna a página de login
-   */
-  logout() {
-    this.authService.logout().subscribe({
-      next: () => SwalFacade.success("Usuário desconectado","Redirecionando ao login"),
-      error: () => SwalFacade.error("Ocorreu um erro","Não foi possível fazer o logout"),
-      complete: () => this.router.navigate(['/login'])
-    });
+  listSpecialities() {
+    this.ProfessionalService.getSpecialities().subscribe({
+      next: (data: Speciality[]) => {
+        if (data == null) {
+          this.specialities = [];
+        } else {
+          this.specialities = data;
+        }
+      },
+      error: () => SwalFacade.error('Erro ao listar os dados de Paises')
+    })
   }
+
+
 
   save() {
     if (this.professional.acceptTerms) {

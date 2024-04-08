@@ -35,7 +35,7 @@
         <select class="form-select" name="especialidade" [(ngModel)]="professional.specialty"
           #professional_specialty="ngModel" required>
           <option [value]="undefined"> --- </option>
-          <option [value]="specialty.id" *ngFor="let specialty of specialties">{{specialty.name}}</option>
+          <option [value]="specialty.id" *ngFor="let specialty of specialities">{{specialty.name}}</option>
         </select>
       </div>
 

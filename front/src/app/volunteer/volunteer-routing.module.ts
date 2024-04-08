@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
+
 export const VolunteerRouting: Routes = [
 {
     path: 'voluntaria',
@@ -12,5 +13,7 @@ export const VolunteerRouting: Routes = [
     canActivate: [AuthGuard], 
     data: { expectedRole: 'volunteer' }
   },
+
+
 ];
 
