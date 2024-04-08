@@ -1,4 +1,3 @@
-import { NgIfContext } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -39,7 +38,7 @@ export class ProfessionalComponent implements OnInit {
           this.specialities = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Paises')
+      error: () => SwalFacade.error('Erro ao listar os dados de Especialidades')
     })
   }
 
