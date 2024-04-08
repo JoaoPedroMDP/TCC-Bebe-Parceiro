@@ -38,7 +38,7 @@
 
 .bp-button:hover {
   background-color: var(--bp-black);
-  color: var(--btn-cor-hover);
+  color: var(--white);
 }
 
 .bp-button:disabled {

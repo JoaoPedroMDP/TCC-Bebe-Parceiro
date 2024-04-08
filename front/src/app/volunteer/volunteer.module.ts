@@ -6,6 +6,9 @@ import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 import { ListBeneficiaryComponent } from './components/beneficiary';
+import { DeleteBeneficiaryComponent } from './components/beneficiary/delete-beneficiary/delete-beneficiary.component';
+import { CreateEditBeneficiaryComponent } from './components/beneficiary/create-edit-beneficiary/create-edit-beneficiary.component';
+
 
 
 @NgModule({
@@ -13,7 +16,9 @@ import { ListBeneficiaryComponent } from './components/beneficiary';
     HomeComponent,
     AcessCodesModalComponent,
     MainComponent,
-    ListBeneficiaryComponent
+    ListBeneficiaryComponent,
+    DeleteBeneficiaryComponent,
+    CreateEditBeneficiaryComponent
   ],
   imports: [
     CommonModule,

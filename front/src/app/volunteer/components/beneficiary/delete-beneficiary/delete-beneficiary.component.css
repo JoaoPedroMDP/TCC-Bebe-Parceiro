@@ -1,0 +1,36 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-delete {
+    border-bottom-left-radius: 5px;
+    background-color: var(--bp-light-red);
+    color: var(--bp-red);
+}
+
+#btn-close {
+    background-color: var(--bp-light-gray);
+    border-bottom-right-radius: 5px;
+}
+
+/* Por algum motivo quando eu alterei as cores nos botões 
+   parou de funcionar os hovers, por isso reeecrevi abaixo */
+#btn-delete:hover{ 
+    background-color: var(--bp-black);
+    color: var(--white);
+}
+
+#btn-close:hover{ background-color: var(--bp-black); }
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+.bp-modal-footer { padding: 0; }
+/* -------------------------------------------  TAG  -------------------------------------------- */
+p{ font-weight: 500; }
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .bp-button {
+        font-size: 1.2rem;
+    }    
+}

@@ -57,10 +57,10 @@ export class VolunteerService {
   }
 
   /**
- * @description Faz um DELETE para obter excluir uma beneficiada
- * @param id o Id da beneficiada a ser excluída
- * @returns Um Observable contendo os dados de sucesso ou falha
- */
+   * @description Faz um DELETE para obter excluir uma beneficiada
+   * @param id o Id da beneficiada a ser excluída
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
   deleteBenefited(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
