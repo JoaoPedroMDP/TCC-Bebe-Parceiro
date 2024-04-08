@@ -31,7 +31,10 @@ export class ListBeneficiaryComponent implements OnInit {
     })
   }
 
-
+  inspectBenefited(benefited: Benefited){
+    console.log(benefited);
+    
+  }
 
   newBenefited() {
 

@@ -3,7 +3,7 @@
     <div class="bp-input-with-icon">
         <input type="text" class="form-control" placeholder="Filtrar Beneficiadas" (input)="filterBenefited($event)"
             [(ngModel)]="filter">
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-magnifying-glass"></i>
     </div>
     <table class="table table-hover table-striped">
         <thead class="table-dark">
@@ -16,11 +16,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let benefited of beneficiaries; let even = even">
-                <td class="align-middle">{{benefited.name}}</td>
-                <td class="align-middle">{{benefited.child_count}}</td>
-                <td class="align-middle">{{benefited.created_at | date: 'dd/MM/yyyy'}}</td>
+                <td class="align-middle" (click)="inspectBenefited(benefited)">{{benefited.name}}</td>
+                <td class="align-middle" (click)="inspectBenefited(benefited)">{{benefited.child_count}}</td>
+                <td class="align-middle" (click)="inspectBenefited(benefited)">{{benefited.created_at | date: 'dd/MM/yyyy'}}</td>
                 <td>
-                    <i class="fa-solid fa-rectangle-list col-12 col-md-2"(click)="appointmentsForBenefited(benefited)"></i>
+                    <i class="fa-solid fa-rectangle-list col-12 col-md-2"
+                        (click)="appointmentsForBenefited(benefited)"></i>
                     <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editBenefited(benefited)"></i>
                     <i class="fa-solid fa-trash col-12 col-md-2" (click)="deleteBenefited(benefited)"></i>
                 </td>
