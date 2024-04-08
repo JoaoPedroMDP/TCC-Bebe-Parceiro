@@ -1,17 +1,34 @@
 <div class="container">
-    <h1>Beneficiadas</h1>
-    <input type="text" placeholder="Filtrar Beneficiadas">
-    <table>
-        <thead>
+    <h1 class="bp-big-title">Beneficiadas</h1>
+    <div class="bp-input-with-icon">
+        <input type="text" class="form-control" placeholder="Filtrar Beneficiadas" (input)="filterBenefited($event)"
+            [(ngModel)]="filter">
+            <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <table class="table table-hover table-striped">
+        <thead class="table-dark">
             <tr>
                 <th>Nome</th>
-                <th>Filho</th>
+                <th>Filhos</th>
                 <th>Data Entrada</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            
+            <tr *ngFor="let benefited of beneficiaries; let even = even">
+                <td class="align-middle">{{benefited.name}}</td>
+                <td class="align-middle">{{benefited.child_count}}</td>
+                <td class="align-middle">{{benefited.created_at | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <i class="fa-solid fa-rectangle-list col-12 col-md-2"(click)="appointmentsForBenefited(benefited)"></i>
+                    <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editBenefited(benefited)"></i>
+                    <i class="fa-solid fa-trash col-12 col-md-2" (click)="deleteBenefited(benefited)"></i>
+                </td>
+            </tr>
         </tbody>
     </table>
+    <div class="fixed-bottom bp-footer align-">
+        <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>
+        <button class="bp-button big-btn" (click)="newBenefited()">Nova Beneficiada</button>
+    </div>
 </div>

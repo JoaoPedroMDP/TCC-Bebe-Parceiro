@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Benefited } from 'src/app/shared';
+
+import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
+import { DeleteBeneficiaryComponent } from '../delete-beneficiary/delete-beneficiary.component';
 
 @Component({
   selector: 'app-list-beneficiary',
@@ -7,9 +12,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListBeneficiaryComponent implements OnInit {
 
-  constructor() { }
+  beneficiaries!: Benefited[];
+  filter!: string;
+
+  constructor(private volunteerService: VolunteerService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this.listBenefited();
   }
 
+  listBenefited() {
+    this.volunteerService.listBenefited().subscribe({
+      next: (filtro) => (
+        // Filtro de data, só traz os dados que estão entre a dataInicio e dataFim
+        console.log(filtro),
+        this.beneficiaries = filtro
+      ),
+    })
+  }
+
+
+
+  newBenefited() {
+
+  }
+
+  editBenefited(benefited: Benefited) {
+
+  }
+
+  deleteBenefited(benefited: Benefited) {
+    this.modalService.open(
+      DeleteBeneficiaryComponent, { size: 'xl' }
+    ).componentInstance.benefited = benefited;
+  }
+
+  filterBenefited(event: Event) {
+    console.log(this.filter);
+  }
+
+  appointmentsForBenefited(benefited: Benefited) { }
 }

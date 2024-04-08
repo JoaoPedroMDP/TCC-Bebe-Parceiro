@@ -21,7 +21,7 @@ export class VolunteerService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   createAccessCodes(amount: number): Observable<any> {
-    let body: { amount: number } = {amount} // Não pode só enviar um int, tem que ser um objeto
+    let body: { amount: number } = { amount } // Não pode só enviar um int, tem que ser um objeto
     return this.http.post(`${this.baseURL}access_codes`, body, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
@@ -36,6 +36,33 @@ export class VolunteerService {
    */
   listAccessCodes(): Observable<any> {
     return this.http.get(`${this.baseURL}access_codes?used=false`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para obter todas as beneficiadas cadastradas
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listBenefited(): Observable<any> {
+    return this.http.get(`${this.baseURL}beneficiaries`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+ * @description Faz um DELETE para obter excluir uma beneficiada
+ * @param id o Id da beneficiada a ser excluída
+ * @returns Um Observable contendo os dados de sucesso ou falha
+ */
+  deleteBenefited(id: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
