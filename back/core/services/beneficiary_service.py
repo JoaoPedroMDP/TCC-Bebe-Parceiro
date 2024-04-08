@@ -8,7 +8,7 @@ from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, Pa
 from core.cqrs.commands.child_commands import CreateChildCommand
 from core.cqrs.commands.user_commands import CreateUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
-from core.models import Beneficiary
+from core.models import Beneficiary, User
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.city_repository import CityRepository
@@ -30,10 +30,11 @@ class BeneficiaryService(CrudService):
         # Verifica se a cidade passada é válida
         city = CityRepository.get(command.city_id)
 
-        # Verifico se o código de acesso já existe e não foi usado
-        access_codes = AccessCodeRepository.filter(code=command.access_code, used=False)
-        if not access_codes:
-            raise HttpFriendlyError("Código de acesso inválido", status.HTTP_400_BAD_REQUEST)
+        if command.access_code:
+            # Verifico se o código de acesso já existe e não foi usado
+            access_codes = AccessCodeRepository.filter(code=command.access_code, used=False)
+            if not access_codes:
+                raise HttpFriendlyError("Código de acesso inválido", status.HTTP_400_BAD_REQUEST)
 
         # Verifico se os programas sociais existem de fato
         social_programs = []
@@ -65,10 +66,11 @@ class BeneficiaryService(CrudService):
             new_user.delete()
             raise e
 
-        # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
-        access_code = access_codes[0]
-        access_code.used = True
-        AccessCodeRepository.patch(access_code.to_dict())
+        if command.access_code:
+            # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
+            access_code = access_codes[0]
+            access_code.used = True
+            AccessCodeRepository.patch(access_code.to_dict())
 
         # Armazeno os filhos da beneficiada
         for child in command.children:

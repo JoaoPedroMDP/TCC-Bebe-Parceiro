@@ -3,14 +3,16 @@ import logging
 from datetime import datetime
 from typing import Dict
 
+from config import MANAGE_BENEFICIARIES
 from core.cqrs import Validator, Field, Command
+from core.models import User
 
 lgr = logging.getLogger(__name__)
 
 
 class CreateBeneficiaryCommand(Command):
     fields = [
-        Field("access_code", "string", True),
+        Field("access_code", "string", False),
         Field("name", "string", True),
         Field("phone", "string", True),
         Field("password", "string", True),
@@ -24,13 +26,14 @@ class CreateBeneficiaryCommand(Command):
 
         Field("email", "string", False),
         Field("social_programs", "list", False),
+        Field("user", "object", False)
     ]
 
     def __init__(self,
                  marital_status_id: int, city_id: int, birth_date: str, child_count: int,
                  monthly_familiar_income: float, has_disablement: bool, social_programs: list = None,
                  access_code: str = None, name: str = None, phone: str = None, password: str = None,
-                 children: list = None, email: str = None):
+                 children: list = None, email: str = None, user: User = None):
         self.marital_status_id = marital_status_id
         self.city_id = city_id
         self.birth_date = birth_date
@@ -44,6 +47,7 @@ class CreateBeneficiaryCommand(Command):
         self.email = email
         self.password = password
         self.children = children
+        self.user = user
 
     @staticmethod
     @Validator.validates
@@ -58,6 +62,11 @@ class CreateBeneficiaryCommand(Command):
         # Valido a quantidade de filhos
         if data["child_count"] < 0:
             raise AssertionError("Quantidade de filhos não pode ser negativa")
+
+        # Valido a permissão do usuário. Caso seja uma voluntária que está criando uma beneficiada, não é necessário
+        # passar o código de acesso
+        if "access_code" not in data and not data["user"].groups.filter(name=MANAGE_BENEFICIARIES).exists():
+            raise AssertionError("Usuário não tem permissão para criar beneficiadas sem código de acesso")
 
         return CreateBeneficiaryCommand(**data)
 

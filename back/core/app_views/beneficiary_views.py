@@ -8,6 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from restfw_composed_permissions.base import Or
 
+from config import MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
@@ -22,11 +23,31 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
+class BeneficiaryCreationByVolunteer(BaseView):
+    groups = ["manage_beneficiaries"]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def post(self, request: Request, format=None):
+        lgr.debug("----CREATE_BENEFITED----")
+        command: CreateBeneficiaryCommand = CreateBeneficiaryCommand.from_dict({
+            **request.data,
+            'user': request.user
+        })
+
+        new_beneficiary: Beneficiary = BeneficiaryService.create(command)
+
+        return BeneficiarySerializer(new_beneficiary).data, status.HTTP_201_CREATED
+
+
 class BeneficiaryGenericViews(BaseView):
     groups = ["manage_beneficiaries"]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
-        "post": [AllowAny]
+        "post": ()
+    }
+    authentication_classes_by_method = {
+        "post": ()
     }
 
     @endpoint
