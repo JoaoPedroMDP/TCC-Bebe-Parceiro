@@ -6,6 +6,8 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.views import APIView
+from core.app_views import BaseView
+
 
 from core.cqrs.commands.professional_commands import CreateProfessionalCommand, PatchProfessionalCommand, DeleteProfessionalCommand
 from core.cqrs.queries.professional_queries import GetProfessionalQuery, ListProfessionalQuery
@@ -17,7 +19,7 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class ProfessionalGenericViews(APIView):
+class ProfessionalGenericViews(BaseView):
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_PROFESSIONALS----")
@@ -34,7 +36,7 @@ class ProfessionalGenericViews(APIView):
         return ProfessionalSerializer(new_professional).data, status.HTTP_201_CREATED
 
 
-class ProfessionalSpecificViews(APIView):
+class ProfessionalSpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_PROFESSIONALS----")
