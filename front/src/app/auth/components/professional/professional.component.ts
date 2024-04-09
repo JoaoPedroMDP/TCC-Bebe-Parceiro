@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { SwalFacade, UserToken } from 'src/app/shared';
 import { Professional, Speciality } from 'src/app/shared/models/professional';
 import { ProfessionalService } from '../../services/professional.service';
@@ -13,20 +12,22 @@ import { ProfessionalService } from '../../services/professional.service';
 })
 export class ProfessionalComponent implements OnInit {
 
-
   user!: UserToken;
-  form: any;
   professional!: Professional;
   specialities!: Speciality[];
   showSuccess = false;
+  specialitySelected!: number | undefined;
+  speciality: any;
+
 
 
   constructor(private ProfessionalService: ProfessionalService, private router: Router) { }
 
   ngOnInit(): void {
-    this.user = this.ProfessionalService.getUser();
-    this.ProfessionalService.getSpecialities();
+    this.professional = new Professional();
+    this.listSpecialities();
   }
+
 
   
   listSpecialities() {
@@ -43,8 +44,8 @@ export class ProfessionalComponent implements OnInit {
   }
 
 
-
   save() {
+    this.professional.speciality= this.specialitySelected;
     if (this.professional.acceptTerms) {
       console.log('Dados do voluntário:', this.professional);
       
