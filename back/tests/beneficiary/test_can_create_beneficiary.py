@@ -26,7 +26,7 @@ def test_can_create_beneficiary(client: APIClient):
         "phone": "4495263859",
         "city_id": city.id,
         "access_code": access_code.code,
-        "socialProgram": [],
+        "social_program": [],
         "children": [
             {
                 "name": "João ",
