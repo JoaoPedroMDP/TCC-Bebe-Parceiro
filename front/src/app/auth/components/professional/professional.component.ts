@@ -14,10 +14,10 @@ export class ProfessionalComponent implements OnInit {
 
   user!: UserToken;
   professional!: Professional;
-  specialities!: Speciality[];
   showSuccess = false;
   specialitySelected!: number | undefined;
-  speciality: any;
+  specialities!: Speciality[];
+  
 
 
 

@@ -2,7 +2,7 @@
 
   <h4 class="text-center">Cadastro de Profissional Voluntário </h4>
       <p class="text-center"> Lorem ipsum dolor sit amet amit consectetur est napole </p>
-  <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
+ 
   <form #form="ngForm">
     <div>
       
@@ -29,9 +29,9 @@
      
       <div class="col">
         <small class="form-text font-weight-bold text-left">Especialidade</small>
-        <select class="form-select" [(ngModel)]="specialitySelected" (ngModelChange)="listSpecialities()" name="pais">
+        <select class="form-select" [(ngModel)]="specialitySelected" (ngModelChange)="listSpecialities()" name="speciality">
           <option [value]="undefined"> --- </option>
-          <option [value]="speciality.id" *ngFor="let country of specialities">{{speciality.name}}</option>    
+          <option [value]="speciality.id" *ngFor="let speciality of specialities">{{speciality.name}}</option>    
         </select>
       </div>
 
@@ -42,10 +42,14 @@
           de Voluntariado</label>
       </div>
 
+      <small class="form-text font-weight-bold text-left">
+        Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios
+      </small>
+     
     </div>
 
     <div class="bp-footer">
-      <button routerLink="/autocadastro/" class="bp-button big-btn">Voltar</button>
+      <button routerLink="/login/" class="bp-button big-btn">Voltar</button>
       <button class="bp-button big-btn" (click)="save()" [disabled]="!form.form.valid">Continuar</button>
     </div>
   
