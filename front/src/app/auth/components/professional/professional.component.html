@@ -28,8 +28,9 @@
     <div>
      
       <div class="col">
-        <small class="form-text font-weight-bold text-left">Especialidade</small>
-        <select class="form-select" [(ngModel)]="specialitySelected" (ngModelChange)="listSpecialities()" name="speciality">
+        <small class="form-text font-weight-bold text-left">Especialidade <span
+          class="text-danger font-weight-bold">*</span></small>
+        <select class="form-select" [(ngModel)]="specialitySelected" (ngModelChange)="listSpecialities()" name="speciality" required>
           <option [value]="undefined"> --- </option>
           <option [value]="speciality.id" *ngFor="let speciality of specialities">{{speciality.name}}</option>    
         </select>
