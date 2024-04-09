@@ -23,6 +23,12 @@
             name="phone" [(ngModel)]="professional.phone" #phone="ngModel" minlength="10" required>
         </div>
       </div>
+
+      <div class="col">
+        <small class="form-text font-weight-bold text-left">Email</small>
+        <input type="email" class="form-control" placeholder="Email@mail.com" name="email" 
+                [(ngModel)]="professional.email" email="ngModel">
+      </div>
      
     </div>
     <div>
@@ -37,7 +43,7 @@
       </div>
 
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="acceptTerms" [(ngModel)]="professional.acceptTerms"
+        <input type="checkbox" class="form-check-input" id="acceptTerms" [(ngModel)]="professional.accepted_volunteer_terms"
           name="acceptTerms"  required>
         <label class="form-check-label" href="URL_DO_SEU_TERMO" style="color: blue;" for="acceptTerms">Aceito os Termos
           de Voluntariado</label>

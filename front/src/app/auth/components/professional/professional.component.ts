@@ -44,17 +44,24 @@ export class ProfessionalComponent implements OnInit {
   }
 
 
+ 
+
   save() {
+    // Atualiza os dados da beneficiada com as informações selecionadas
     this.professional.speciality= this.specialitySelected;
-    if (this.professional.acceptTerms) {
-      console.log('Dados do voluntário:', this.professional);
-      
-    } else {
-      alert('Por favor, aceite os termos de voluntariado para continuar.');
+    if (this.professional.accepted_volunteer_terms) {
+      this.ProfessionalService.saveProfessional(this.professional)
+        .subscribe({
+          next: () => this.showSuccess = true,
+          error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
+        });
+        this.showSuccess=true;
+      } else {
+        alert('Por favor, aceite os termos de voluntariado para continuar.');
+      }
+     
     }
-    this.showSuccess=true;
-    console.log(this.showSuccess)
   }
 
 
-}
+

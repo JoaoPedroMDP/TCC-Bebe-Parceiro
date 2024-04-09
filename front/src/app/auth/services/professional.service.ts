@@ -47,7 +47,7 @@ export class ProfessionalService {
   }
 
 
-  save(professional: Professional): Observable<any> {
+  saveProfessional(professional: Professional): Observable<any> {
     return this.http.post(`${this.baseURL}professionals`, professional)
       .pipe(
         catchError(error => {
