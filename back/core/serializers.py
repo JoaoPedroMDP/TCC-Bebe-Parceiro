@@ -121,7 +121,7 @@ class SpecialitySerializer(ModelSerializer):
 
 class ProfessionalSerializer(ModelSerializer):
     speciality = SpecialitySerializer(read_only=True)
-    city = CitySerializer(read_only=True)
+   
 
     class Meta:
         model = Professional

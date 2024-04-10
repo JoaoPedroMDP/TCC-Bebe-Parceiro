@@ -10,7 +10,7 @@ class CreateProfessionalCommand(Command):
         Field("accepted_volunteer_terms", "boolean", True, formatter=lambda x: Validator.to_bool(x)),
     ]
 
-    def __init__(self, name: str, email: str, phone: str, speciality_id: int,
+    def __init__(self, name: str, phone: str, speciality_id: int,
                  accepted_volunteer_terms: bool):
         self.name = name
         self.phone = phone

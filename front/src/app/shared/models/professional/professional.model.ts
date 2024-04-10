@@ -2,11 +2,10 @@
 
 export class Professional {
   constructor(
-    public id?: string,
+    public id?: number,
     public name?: string,
-    public email?: string,
     public phone?: string,
-    public speciality?: number,
+    public speciality_id?: number,
     public accepted_volunteer_terms?: boolean
   ) { }
 }

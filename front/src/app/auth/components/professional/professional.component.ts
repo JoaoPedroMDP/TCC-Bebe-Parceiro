@@ -15,11 +15,9 @@ export class ProfessionalComponent implements OnInit {
   user!: UserToken;
   professional!: Professional;
   showSuccess = false;
-  specialitySelected!: number | undefined;
+  specialitySelected!: number ;
   specialities!: Speciality[];
   
-
-
 
   constructor(private ProfessionalService: ProfessionalService, private router: Router) { }
 
@@ -43,19 +41,16 @@ export class ProfessionalComponent implements OnInit {
     })
   }
 
-
- 
-
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.professional.speciality= this.specialitySelected;
+    this.professional.speciality_id= this.specialitySelected;
+    console.log(this.professional)
     if (this.professional.accepted_volunteer_terms) {
       this.ProfessionalService.saveProfessional(this.professional)
         .subscribe({
           next: () => this.showSuccess = true,
           error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
-        });
-        this.showSuccess=true;
+        })
       } else {
         alert('Por favor, aceite os termos de voluntariado para continuar.');
       }

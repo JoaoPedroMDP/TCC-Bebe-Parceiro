@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { APP_CONFIG, Benefited, UserToken } from 'src/app/shared';
-import { Professional } from 'src/app/shared/models/professional';
+import { Professional, Speciality } from 'src/app/shared/models/professional';
 
 @Injectable({
   providedIn: 'root'
