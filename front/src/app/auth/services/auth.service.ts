@@ -4,10 +4,12 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { APP_CONFIG, Benefited, UserToken } from 'src/app/shared';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+ 
 
   private baseURL!: string;
 
@@ -147,5 +149,7 @@ export class AuthService {
   setUser(user: UserToken) {
     this.cookieService.set('user', JSON.stringify(user), 1, '/');
   }
+
+  
 
 }
