@@ -1,4 +1,6 @@
 #  coding: utf-8
+import json
+
 import pytest
 from django.test.client import Client
 from django.urls import reverse
@@ -24,7 +26,7 @@ def test_can_create_beneficiary(client: Client):
         "phone": "4495263859",
         "city_id": city.id,
         "access_code": access_code.code,
-        "socialProgram": [],
+        "social_programs": [],
         "children": [
             {
                 "name": "João ",
@@ -40,7 +42,7 @@ def test_can_create_beneficiary(client: Client):
     }
 
     url = reverse('gen_beneficiaries')
-    response = client.post(url, data=data, content_type='application/json')
+    response = client.post(url, data=json.dumps(data), content_type='application/json')
 
     assert response.status_code == 201
     assert response.data['user']['name'].startswith(data["name"]) is True

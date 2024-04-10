@@ -88,11 +88,12 @@ class BeneficiarySerializer(ModelSerializer):
     city = CitySerializer(read_only=True)
     marital_status = MaritalStatusSerializer(read_only=True)
     user = UserSerializer(read_only=True)
+    social_programs = SocialProgramSerializer(read_only=True, many=True)
 
     class Meta:
         model = Beneficiary
         fields = ['id', 'user', 'birth_date', 'child_count', 'monthly_familiar_income', 'has_disablement',
-                  'marital_status', 'city']
+                  'marital_status', 'city', 'social_programs']
 
 
 class ChildSerializer(ModelSerializer):

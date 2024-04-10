@@ -47,24 +47,26 @@ class BeneficiaryService(CrudService):
         new_user.groups.add(b_role)
 
         data = command.to_dict()
-        # As crianças eu associo depois
-        del data["children"]
 
-        # Vinculo a beneficiada aos programas sociais
+        # Relacionamentos N:N eu associo depois
+        del data["children"]
+        del data["social_programs"]
+
         try:
             new_beneficiary = Beneficiary()
             new_beneficiary = BeneficiaryRepository.fill(data, new_beneficiary)
             new_beneficiary.user = new_user
             new_beneficiary.city = city
-            new_beneficiary.marital_status = marital_status
-
-            for social_program in social_programs:
-                new_beneficiary.social_programs.add(social_program)
 
             new_beneficiary.save()
         except Exception as e:
             new_user.delete()
             raise e
+
+        # Vinculo a beneficiada aos programas sociais
+        new_beneficiary.marital_status = marital_status
+        for social_program in social_programs:
+            new_beneficiary.social_programs.add(social_program)
 
         # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
         access_code = access_codes[0]
