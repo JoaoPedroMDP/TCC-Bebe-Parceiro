@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth';
 import { SwalFacade, UserToken } from 'src/app/shared';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AcessCodesModalComponent } from '../acess-codes-modal/acess-codes-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   user!: UserToken;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
@@ -27,5 +29,9 @@ export class HomeComponent implements OnInit {
       error: () => SwalFacade.error("Ocorreu um erro","Não foi possível fazer o logout"),
       complete: () => this.router.navigate(['/login'])
     });
+  }
+
+  openAcessCodesModal(){
+    this.modalService.open(AcessCodesModalComponent, { size: 'xl' });
   }
 }

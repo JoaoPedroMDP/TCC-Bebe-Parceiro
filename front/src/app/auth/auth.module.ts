@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, SucessoCadastroComponent, ValidCodeGuard } from './index';
+import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, SucessoCadastroComponent, ValidCodeGuard, ProfessionalComponent} from './index';
+
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorC
     SucessoCadastroComponent,
     ChildrenComponent,
     LoginComponent,
-    ErrorComponent
+    ErrorComponent,
+    ProfessionalComponent,
   ],
   imports: [
     CommonModule,

@@ -18,7 +18,7 @@ def test_can_get_access_code(client: APIClient):
     assert response.status_code == 401
 
     # Com autenticação
-    client.force_authenticate(make_user(["manage_access_codes"]))
+    client.force_authenticate(make_user([MANAGE_ACCESS_CODES]))
     response = client.get(url)
 
     assert response.status_code == 200

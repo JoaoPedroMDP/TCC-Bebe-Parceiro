@@ -24,7 +24,7 @@ export class LoginRedirectGuard implements CanActivate {
     // ele quando ele acessar o login estando logado
     switch (role) {
       case 'volunteer':
-        this.router.navigate(['/volunteer']);
+        this.router.navigate(['/voluntaria']);
         break;
       case 'admin':
         this.router.navigate(['/admin']);

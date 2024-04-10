@@ -4,12 +4,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { HomeComponent } from './index';
-
+import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    AcessCodesModalComponent,
+    MainComponent
   ],
   imports: [
     CommonModule,
@@ -19,6 +20,7 @@ import { HomeComponent } from './index';
     NgxMaskModule.forRoot()
   ],
   providers: [
+    VolunteerService
   ]
 })
 export class VolunteerModule { }

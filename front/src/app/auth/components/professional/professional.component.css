@@ -1,0 +1,8 @@
+.bp-footer {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente (se houver altura suficiente) */
+    width: 100%; /* Garante que a div ocupe a largura inteira */
+    left: 0;
+  }
