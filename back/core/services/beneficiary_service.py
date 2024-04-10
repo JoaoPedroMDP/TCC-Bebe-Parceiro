@@ -31,6 +31,7 @@ class BeneficiaryService(CrudService):
         # Verifica se a cidade passada é válida
         city = CityRepository.get(command.city_id)
 
+        access_codes = []
         if command.access_code:
             # Verifico se o código de acesso já existe e não foi usado
             access_codes = AccessCodeRepository.filter(code=command.access_code, used=False)
@@ -69,10 +70,11 @@ class BeneficiaryService(CrudService):
         for social_program in social_programs:
             new_beneficiary.social_programs.add(social_program)
 
-        # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
-        access_code = access_codes[0]
-        access_code.used = True
-        AccessCodeRepository.patch(access_code.to_dict())
+        if command.access_code:
+            # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
+            access_code = access_codes[0]
+            access_code.used = True
+            AccessCodeRepository.patch(access_code.to_dict())
 
         # Armazeno os filhos da beneficiada
         for child in command.children:
