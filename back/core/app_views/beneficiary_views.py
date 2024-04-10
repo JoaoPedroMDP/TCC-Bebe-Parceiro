@@ -8,6 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from restfw_composed_permissions.base import Or
 
+from config import MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
@@ -23,10 +24,10 @@ lgr = logging.getLogger(__name__)
 
 
 class BeneficiaryGenericViews(BaseView):
-    groups = ["manage_beneficiaries"]
+    groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
-        "post": [AllowAny]
+        "post": (),
     }
 
     @endpoint
@@ -46,7 +47,7 @@ class BeneficiaryGenericViews(BaseView):
 
 
 class BeneficiarySpecificViews(BaseView):
-    groups = ["manage_beneficiaries"]
+    groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
         "patch": Or(OwnsIt, AtLeastOneGroup)

@@ -1,17 +1,20 @@
 #  coding: utf-8
+import json
 from typing import List
 
 import pytest
 from django.contrib.auth.models import Group
-from django.test.client import Client
+from rest_framework.test import APIClient
 from django.urls import reverse
 
+from config import MANAGE_VOLUNTEERS
 from core.models import User, City
 from factories import UserFactory, CityFactory, GroupFactory
+from tests.conftest import make_user
 
 
 @pytest.mark.django_db
-def test_can_create_volunteer(client: Client):
+def test_can_create_volunteer(client: APIClient):
     url = reverse('gen_volunteers')
     user: User = UserFactory.build()
     city: City = CityFactory.create()
@@ -25,7 +28,14 @@ def test_can_create_volunteer(client: Client):
         "city_id": city.id,
         "group_ids": [group.id for group in groups],
     }
-    response = client.post(url, data=data, content_type='application/json')
+
+    # Sem autenticação
+    response = client.post(url, data=json.dumps(data), content_type='application/json')
+    assert response.status_code == 401
+
+    # Com autenticação
+    client.force_authenticate(make_user([MANAGE_VOLUNTEERS]))
+    response = client.post(url, data=json.dumps(data), content_type='application/json')
 
     assert response.status_code == 201
     assert response.data['user']['name'] == user.name

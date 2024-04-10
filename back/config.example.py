@@ -17,17 +17,27 @@ TOKEN_TTL_SECONDS = 60 * 60 * 3
 # Habilita login no sistema
 AUTH_ENABLED = True
 
-
+MANAGE_REGISTRATIONS = "manage_registrations"
+MANAGE_BENEFICIARIES = "manage_beneficiaries"
+MANAGE_SWAPS = "manage_swaps"
+MANAGE_APPOINTMENTS = "manage_appointments"
+MANAGE_PROFESSIONALS = "manage_professionals"
+MANAGE_ACCESS_CODES = "manage_access_codes"
+MANAGE_VOLUNTEERS = "manage_volunteers"
+MANAGE_ADDRESSES = "manage_addresses"
 # Grupos de permissões
 GROUPS = [
-    "manage_registrations", "manage_beneficiaries", "manage_swaps",
-    "manage_appointments", "manage_professionals", "manage_access_codes",
-    "manage_volunteers"
+    MANAGE_REGISTRATIONS, MANAGE_BENEFICIARIES, MANAGE_SWAPS,
+    MANAGE_APPOINTMENTS, MANAGE_PROFESSIONALS, MANAGE_ACCESS_CODES,
+    MANAGE_VOLUNTEERS,MANAGE_ADDRESSES
 ]
 
 
+ROLE_BENEFICIARY = "role_beneficiary"
+ROLE_VOLUNTEER = "role_volunteer"
+ROLE_ADMIN = "role_admin"
 # Cargos genéricos
-ROLES = ["role_beneficiary", "role_volunteer", "role_admin"]
+ROLES = [ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN]
 
 
 # Ambiente

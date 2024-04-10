@@ -6,11 +6,13 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
+from config import MANAGE_VOLUNTEERS
 from core.app_views import BaseView
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
 from core.models import Volunteer
+from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.serializers import VolunteerSerializer
 from core.services.volunteer_service import VolunteerService
 from core.utils.decorators import endpoint
@@ -19,6 +21,9 @@ lgr = logging.getLogger(__name__)
 
 
 class VolunteerGenericViews(BaseView):
+    groups = [MANAGE_VOLUNTEERS]
+    permission_classes = (AtLeastOneGroup,)
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_VOLUNTEERS----")

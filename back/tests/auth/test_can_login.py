@@ -3,6 +3,7 @@ import pytest
 from django.test.client import Client
 from django.urls import reverse
 
+from config import ROLE_VOLUNTEER
 from core.repositories.group_repository import GroupRepository
 from factories import UserFactory, BeneficiaryFactory, CityFactory, MaritalStatusFactory, VolunteerFactory
 
@@ -27,7 +28,7 @@ def beneficiary(password: str, client: Client, url: str):
 
 
 def volunteer(password: str, client: Client, url: str):
-    group = list(GroupRepository.filter(name='role_volunteer'))[0]
+    group = list(GroupRepository.filter(name=ROLE_VOLUNTEER))[0]
     v_user = UserFactory.create(password=password)
     v_user.groups.add(group)
     city = CityFactory.create()
