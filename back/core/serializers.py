@@ -40,7 +40,7 @@ class AccessCodeSerializer(ModelSerializer):
 class SocialProgramSerializer(ModelSerializer):
     class Meta:
         model = SocialProgram
-        fields = ['id', 'name', 'enabled']
+        fields = ['id', 'name']
 
 
 class MaritalStatusSerializer(ModelSerializer):
