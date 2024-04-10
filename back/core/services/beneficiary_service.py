@@ -40,8 +40,8 @@ class BeneficiaryService(CrudService):
         # Verifico se os programas sociais existem de fato
         social_programs = []
         if command.social_programs:
-            for social_program_id in command.social_programs:
-                social_programs.append(SocialProgramRepository.get(social_program_id))
+            for social_program in command.social_programs:
+                social_programs.append(SocialProgramRepository.get(social_program['id']))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
         b_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
