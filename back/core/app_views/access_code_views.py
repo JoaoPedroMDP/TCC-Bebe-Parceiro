@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 
+from config import MANAGE_ACCESS_CODES
 from core.app_views import BaseView
 from core.cqrs.commands.access_code_commands import CreateAccessCodeCommand, PatchAccessCodeCommand, \
     DeleteAccessCodeCommand
@@ -21,7 +22,7 @@ lgr = logging.getLogger(__name__)
 
 
 class AccessCodeGenericViews(BaseView):
-    groups = ["manage_access_codes"]
+    groups = [MANAGE_ACCESS_CODES]
     permission_classes = (AtLeastOneGroup,)
 
     @endpoint
@@ -42,7 +43,7 @@ class AccessCodeGenericViews(BaseView):
 
 
 class AccessCodeSpecificViews(BaseView):
-    groups = ["manage_access_codes"]
+    groups = [MANAGE_ACCESS_CODES]
     permission_classes = (AtLeastOneGroup,)
 
     @endpoint

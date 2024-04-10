@@ -3,6 +3,7 @@ from typing import List
 
 from rest_framework import status
 
+from config import ROLE_BENEFICIARY
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand
@@ -43,34 +44,35 @@ class BeneficiaryService(CrudService):
                 social_programs.append(SocialProgramRepository.get(social_program_id))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
-        b_role = GroupRepository.filter(name='role_beneficiary')[0]
+        b_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
         new_user.groups.add(b_role)
 
         data = command.to_dict()
-        # As crianças eu associo depois
-        del data["children"]
 
-        # Vinculo a beneficiada aos programas sociais
+        # Relacionamentos N:N eu associo depois
+        del data["children"]
+        del data["social_programs"]
+
         try:
             new_beneficiary = Beneficiary()
             new_beneficiary = BeneficiaryRepository.fill(data, new_beneficiary)
             new_beneficiary.user = new_user
             new_beneficiary.city = city
-            new_beneficiary.marital_status = marital_status
-
-            for social_program in social_programs:
-                new_beneficiary.social_programs.add(social_program)
 
             new_beneficiary.save()
         except Exception as e:
             new_user.delete()
             raise e
 
-        if command.access_code:
-            # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
-            access_code = access_codes[0]
-            access_code.used = True
-            AccessCodeRepository.patch(access_code.to_dict())
+        # Vinculo a beneficiada aos programas sociais
+        new_beneficiary.marital_status = marital_status
+        for social_program in social_programs:
+            new_beneficiary.social_programs.add(social_program)
+
+        # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
+        access_code = access_codes[0]
+        access_code.used = True
+        AccessCodeRepository.patch(access_code.to_dict())
 
         # Armazeno os filhos da beneficiada
         for child in command.children:

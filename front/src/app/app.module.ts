@@ -6,9 +6,11 @@ import { VolunteerModule } from './volunteer/volunteer.module';
 import { CookieService } from 'ngx-cookie-service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -18,6 +20,7 @@ import { CookieService } from 'ngx-cookie-service';
     AdminModule,
     BenefitedModule,
     VolunteerModule
+  
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

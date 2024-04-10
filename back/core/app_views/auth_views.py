@@ -15,6 +15,7 @@ class LoginView(KnoxLoginView):
     authentication_classes = ()
     permission_classes = ()
 
+
     # Request.data precisa ter username e password, lembre-se disso
     @endpoint
     def post(self, request, format=None):

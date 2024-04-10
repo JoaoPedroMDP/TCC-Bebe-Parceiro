@@ -1,6 +1,8 @@
 #  coding: utf-8
+import logging
 from typing import List
 
+from config import ROLE_VOLUNTEER
 from core.cqrs.commands.user_commands import CreateUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
@@ -11,6 +13,8 @@ from core.repositories.group_repository import GroupRepository
 from core.repositories.volunteer_repository import VolunteerRepository
 from core.services import CrudService
 from core.services.user_service import UserService
+
+lgr = logging.getLogger(__name__)
 
 
 class VolunteerService(CrudService):
@@ -30,7 +34,7 @@ class VolunteerService(CrudService):
             for g_id in command.group_ids:
                 new_volunteer.user.groups.add(g_id)
 
-            role = GroupRepository.filter(name='role_volunteer')[0]
+            role = GroupRepository.filter(name=ROLE_VOLUNTEER)[0]
             new_volunteer.user.groups.add(role)
             new_volunteer.save()
         except Exception as e:
@@ -45,6 +49,9 @@ class VolunteerService(CrudService):
 
     @classmethod
     def filter(cls, query: ListVolunteerQuery) -> List[Volunteer]:
+        if query.group_ids:
+            return VolunteerRepository.filter(user__groups__id__in=query.group_ids)
+
         return VolunteerRepository.filter(**query.to_dict())
 
     @classmethod

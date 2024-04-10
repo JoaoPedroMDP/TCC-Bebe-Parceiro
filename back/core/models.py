@@ -170,11 +170,9 @@ class Professional(EnablableModel):
     readable_name = "Profissional"
 
     name = models.CharField(max_length=255)
-    email = models.EmailField()
     phone = models.CharField(max_length=30)
 
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, related_name="professionals")
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="professionals")
     accepted_volunteer_terms = models.BooleanField(default=False)
 
 

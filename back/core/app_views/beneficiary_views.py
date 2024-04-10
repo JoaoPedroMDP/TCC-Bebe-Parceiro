@@ -41,7 +41,7 @@ class BeneficiaryCreationByVolunteer(BaseView):
 
 
 class BeneficiaryGenericViews(BaseView):
-    groups = ["manage_beneficiaries"]
+    groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
         "post": ()
@@ -67,7 +67,7 @@ class BeneficiaryGenericViews(BaseView):
 
 
 class BeneficiarySpecificViews(BaseView):
-    groups = ["manage_beneficiaries"]
+    groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
         "patch": Or(OwnsIt, AtLeastOneGroup)

@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group, Permission
 from factory.django import DjangoModelFactory
 from faker import Faker
 
+from config import ROLE_BENEFICIARY
 from core.models import (
     User, Country, State, City, AccessCode,
     MaritalStatus, SocialProgram, Beneficiary, Volunteer, Campaign, Child, Size, Status, Swap,
@@ -110,7 +111,7 @@ class BeneficiaryFactory(TimestampedModelFactory):
     @classmethod
     def create(cls, **kwargs):
         b = super().create(**kwargs)
-        role = Group.objects.get(name='role_beneficiary')
+        role = Group.objects.get(name=ROLE_BENEFICIARY)
         b.user.groups.add(role)
         return b
 
