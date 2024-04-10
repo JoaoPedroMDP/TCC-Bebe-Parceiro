@@ -15,7 +15,7 @@ export class Benefited {
     public phone?: string,
     public city_id?: number,
     public access_code?: string,
-    public socialProgram?: SocialProgram[],
+    public social_programs?: SocialProgram[],
     public children?: Child[]
   ) { }
 }
