@@ -5,7 +5,7 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN
+from config import GROUPS, ROLES, ROLE_BENEFICIARY
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
@@ -63,6 +63,15 @@ class Command(BaseCommand):
             bdate = now() + timedelta(weeks=randint(3, 49))
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b, birth_date=bdate)
+
+        # Beneficiárias com programas sociais
+        for i in range(2):
+            identification = f"ben_social_{i}"
+            u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+            u.groups.add(roles[ROLE_BENEFICIARY])
+
+            b = BeneficiaryFactory.create(user=u)
+            b.social_programs.add(*SocialProgramFactory.create_batch(2))
 
         # Uma voluntária pra cada cargo
         for g in groups:

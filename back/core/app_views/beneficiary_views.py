@@ -23,11 +23,31 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
+class BeneficiaryCreationByVolunteer(BaseView):
+    groups = ["manage_beneficiaries"]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def post(self, request: Request, format=None):
+        lgr.debug("----CREATE_BENEFITED----")
+        command: CreateBeneficiaryCommand = CreateBeneficiaryCommand.from_dict({
+            **request.data,
+            'user': request.user
+        })
+
+        new_beneficiary: Beneficiary = BeneficiaryService.create(command)
+
+        return BeneficiarySerializer(new_beneficiary).data, status.HTTP_201_CREATED
+
+
 class BeneficiaryGenericViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
-        "post": (),
+        "post": ()
+    }
+    authentication_classes_by_method = {
+        "post": ()
     }
 
     @endpoint
