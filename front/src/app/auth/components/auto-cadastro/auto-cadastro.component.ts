@@ -28,7 +28,7 @@ export class AutoCadastroComponent implements OnInit {
 
   showSuccess = false;
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.beneficiada = new Benefited();
@@ -46,12 +46,13 @@ export class AutoCadastroComponent implements OnInit {
    */
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.beneficiada.socialProgram = this.selectedSocialPrograms;
+    this.beneficiada.social_programs = this.selectedSocialPrograms;
     this.beneficiada.children = this.children;
     const codigoAcesso = this.route.snapshot.paramMap.get('codigoAcesso');
     if (codigoAcesso) {
       this.beneficiada.access_code = codigoAcesso
     }
+    // console.log(this.beneficiada)
 
     // Verificação se as senhas inseridas são iguais
     if (this.beneficiada.password != this.form.value.password_confirm) {
