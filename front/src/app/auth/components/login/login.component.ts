@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
           // Atribui os dados do response para um objeto token e o salva no AuthService
           this.token = response;
           this.authService.setUser(this.token);
-          console.log(this.token);
 
           if (this.token.user?.role == "volunteer") {
             // navega pro componente homepage voluntaria

@@ -15,4 +15,5 @@ def test_can_list_all_beneficiaries(client: Client):
 
     url = reverse("gen_beneficiaries")
     response = client.get(url)
+    assert response.status_code == 200
     assert len(response.data) == len(beneficiaries)
