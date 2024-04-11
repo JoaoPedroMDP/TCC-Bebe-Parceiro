@@ -18,6 +18,7 @@ def test_can_create_marital_status(client: APIClient):
 
     # Com autenticação
     client.force_authenticate(make_user([MANAGE_MARITAL_STATUSES]))
+    response = client.post(url, data=data)
 
     assert response.status_code == 201
     assert response.data['name'].startswith(data["name"]) is True

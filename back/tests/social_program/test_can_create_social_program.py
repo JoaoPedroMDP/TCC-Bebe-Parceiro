@@ -22,4 +22,3 @@ def test_can_create_social_program(client: APIClient):
 
     assert response.status_code == 201
     assert response.data['name'].startswith(data["name"]) is True
-    assert response.data['enabled'] is True

@@ -55,7 +55,7 @@ def test_can_create_beneficiary(client: APIClient):
     data.pop("access_code")
     data['email'] += '2'
     data['phone'] += '2'
-    response = client.post(url, data=data, content_type='application/json')
+    response = client.post(url, data=json.dumps(data), content_type='application/json')
     assert response.status_code == 201
     assert response.data['name'].startswith(data["name"]) is True
 

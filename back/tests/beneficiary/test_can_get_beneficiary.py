@@ -24,4 +24,4 @@ def test_can_get_beneficiary(client: APIClient):
     client.force_authenticate(make_user([MANAGE_BENEFICIARIES]))
     response = client.get(url)
     assert response.status_code == 200
-    assert response.data["user"]["name"] == beneficiary.user.name
+    assert response.data["name"] == beneficiary.user.name

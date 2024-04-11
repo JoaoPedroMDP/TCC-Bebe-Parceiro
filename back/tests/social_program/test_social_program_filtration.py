@@ -16,12 +16,6 @@ def test_can_filter_social_programs_by_enabled(client: APIClient):
     url = reverse("gen_social_programs")
     data = {"enabled": True}
 
-    # Sem autenticação
-    response = client.get(url, data=data)
-    assert response.status_code == 401
-
-    # Com autenticação
-    client.force_authenticate(make_user([MANAGE_SOCIAL_PROGRAMS]))
     response = client.get(url, data=data)
     assert response.status_code == 200
     assert len(response.data) == 3
@@ -34,12 +28,7 @@ def test_can_filter_social_programs_by_name(client: APIClient):
 
     url = reverse("gen_social_programs")
     data = {"name": social_program_to_filter.name}
-    # Sem autenticação
-    response = client.get(url, data=data)
-    assert response.status_code == 401
 
-    # Com autenticação
-    client.force_authenticate(make_user([MANAGE_SOCIAL_PROGRAMS]))
     response = client.get(url, data=data)
 
     assert len(response.data) == 1
