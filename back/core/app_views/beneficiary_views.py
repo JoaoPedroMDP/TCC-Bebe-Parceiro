@@ -70,7 +70,7 @@ class BeneficiarySpecificViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
     permission_classes_by_method = {
-        "patch": Or(OwnsIt, AtLeastOneGroup)
+        "patch": [(OwnsIt | AtLeastOneGroup)]
     }
 
     @endpoint

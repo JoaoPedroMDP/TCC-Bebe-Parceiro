@@ -105,10 +105,11 @@ class PatchBeneficiaryCommand(Command):
     def from_dict(args: dict) -> 'PatchBeneficiaryCommand':
         data = Validator.validate_and_extract(PatchBeneficiaryCommand.fields, args)
 
-        # Valido a data de nascimento
-        birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
-        Validator.date_not_on_future(birth_date)
-        data["birth_date"] = birth_date.isoformat()
+        if 'birth_date' in data:
+            # Valido a data de nascimento
+            birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
+            Validator.date_not_on_future(birth_date)
+            data["birth_date"] = birth_date.isoformat()
 
         return PatchBeneficiaryCommand(**data)
 
