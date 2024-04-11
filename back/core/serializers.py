@@ -97,6 +97,8 @@ class BeneficiarySerializer(ModelSerializer):
     marital_status_id = SlugRelatedField(slug_field='id', read_only=True, source='marital_status')
     social_programs = SocialProgramSerializer(many=True, read_only=True)
     children = ChildSerializer(many=True, read_only=True)
+    birth_date = DateTimeField(format="%d/%m/%Y")
+
     name = SerializerMethodField()
     phone = SerializerMethodField()
     email = SerializerMethodField()
