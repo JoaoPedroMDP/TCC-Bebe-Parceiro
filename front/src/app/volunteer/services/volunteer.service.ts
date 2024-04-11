@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth';
-import { APP_CONFIG } from 'src/app/shared';
+import { APP_CONFIG, Benefited } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,20 @@ import { APP_CONFIG } from 'src/app/shared';
 export class VolunteerService {
 
   private baseURL!: string;
+  // O Subject irá emitir um valor quando um valor novo for publicado.
+  _refreshPage$ = new Subject<void>();
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.baseURL = APP_CONFIG.baseURL;
+  }
+
+  /**
+   * @description Método getter público que expõe _refreshPage$ como um Observable.
+   * Isso permite que os componentes se inscrevam no Observable, 
+   * mas não podem emitir valores para ele, mantendo o encapsulamento.
+   */
+  get refreshPage$() {
+    return this._refreshPage$;
   }
 
   /**
@@ -63,6 +74,48 @@ export class VolunteerService {
    */
   deleteBenefited(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        tap(() => this.refreshPage$.next() ), // Após a execução bem-sucedida, emite um evento para os assinantes.
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um POST para inserir os dados de beneficiada
+   * @param benefited O objeto beneficiada para ser enviado no body da requisição
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  createBenefited(benefited: Benefited): Observable<any> {
+    return this.http.post(`${this.baseURL}beneficiaries/create`, benefited, { headers: this.authService.getHeaders()  })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  findBenefited(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders()  })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  findCity(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}cities/${id}`, { headers: this.authService.getHeaders()  })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  findMaritalStatus(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}marital_statuses/${id}`, { headers: this.authService.getHeaders()  })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));

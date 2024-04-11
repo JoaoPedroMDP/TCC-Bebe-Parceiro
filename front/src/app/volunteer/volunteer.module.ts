@@ -5,7 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
-import { ListBeneficiaryComponent, DeleteBeneficiaryComponent, CreateEditBeneficiaryComponent, InspectBeneficiaryComponent } from './components/beneficiary';
+import { ListBeneficiaryComponent, DeleteBeneficiaryComponent, CreateBeneficiaryComponent, InspectBeneficiaryComponent } from './components/beneficiary';
+import { AuthModule } from '../auth/auth.module';
+import { EditBeneficiaryComponent } from './components/beneficiary/edit-beneficiary/edit-beneficiary.component';
 
 
 
@@ -14,16 +16,19 @@ import { ListBeneficiaryComponent, DeleteBeneficiaryComponent, CreateEditBenefic
     HomeComponent,
     AcessCodesModalComponent,
     MainComponent,
+    // BENEFICIARY
     ListBeneficiaryComponent,
+    InspectBeneficiaryComponent,
+    CreateBeneficiaryComponent,
+    EditBeneficiaryComponent,
     DeleteBeneficiaryComponent,
-    CreateEditBeneficiaryComponent,
-    InspectBeneficiaryComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
     RouterModule,
+    AuthModule,
     NgxMaskModule.forRoot()
   ],
   providers: [
