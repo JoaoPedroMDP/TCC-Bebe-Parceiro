@@ -9,14 +9,16 @@ import { Child } from 'src/app/shared';
 })
 export class ChildrenComponent implements OnInit {
 
-  @Output() deleteChild  = new EventEmitter<any>();
+  @Output() deleteChild = new EventEmitter<any>();
   @Input() child: Child = new Child();
   @ViewChild('form') form!: NgForm;
 
   constructor() { }
 
-  ngOnInit(): void { 
-    this.child.sex = 'Indefinido'
+  ngOnInit(): void {
+    if (this.child.sex == undefined) {
+      this.child.sex = 'I'
+    }
   }
 
   /**
