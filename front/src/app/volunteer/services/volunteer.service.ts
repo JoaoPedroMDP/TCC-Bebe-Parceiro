@@ -42,6 +42,92 @@ export class VolunteerService {
   }
 
   /**
+   * @description Faz um POST para inserir os dados de beneficiada
+   * @param benefited O objeto beneficiada para ser enviado no body da requisição
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  createBenefited(benefited: Benefited): Observable<any> {
+    return this.http.post(`${this.baseURL}beneficiaries/create`, benefited, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um DELETE para obter excluir uma beneficiada
+   * @param id o Id da beneficiada a ser excluída
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  deleteBenefited(id: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        tap(() => this.refreshPage$.next()), // Após a execução bem-sucedida, emite um evento para os assinantes.
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um PATCH para obter editar uma beneficiada
+   * @param id ID da beneficiada necessário para a rota de patch
+   * @param benefited valor a ser atualizado no body da requisição
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  editBenefited(id: number, benefited: Benefited): Observable<any> {
+    return this.http.patch(`${this.baseURL}beneficiaries/${id}`, benefited, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para obter dados de uma especifica beneficiada
+   * @param id da beneficiada
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  findBenefited(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para pegar os dados do Estado Civil  
+   * @param id id do Estado Civil
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  findCity(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}cities/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para pegar os dados do Estado Civil  
+   * @param id id do Estado Civil
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  findMaritalStatus(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}marital_statuses/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
    * @description Faz um GET para obter todos os códigos de acesso que não foram usados
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
@@ -60,62 +146,6 @@ export class VolunteerService {
    */
   listBenefited(): Observable<any> {
     return this.http.get(`${this.baseURL}beneficiaries`, { headers: this.authService.getHeaders() })
-      .pipe(
-        catchError(error => {
-          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-        })
-      );
-  }
-
-  /**
-   * @description Faz um DELETE para obter excluir uma beneficiada
-   * @param id o Id da beneficiada a ser excluída
-   * @returns Um Observable contendo os dados de sucesso ou falha
-   */
-  deleteBenefited(id: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
-      .pipe(
-        tap(() => this.refreshPage$.next() ), // Após a execução bem-sucedida, emite um evento para os assinantes.
-        catchError(error => {
-          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-        })
-      );
-  }
-
-  /**
-   * @description Faz um POST para inserir os dados de beneficiada
-   * @param benefited O objeto beneficiada para ser enviado no body da requisição
-   * @returns Um Observable contendo os dados de sucesso ou falha
-   */
-  createBenefited(benefited: Benefited): Observable<any> {
-    return this.http.post(`${this.baseURL}beneficiaries/create`, benefited, { headers: this.authService.getHeaders()  })
-      .pipe(
-        catchError(error => {
-          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-        })
-      );
-  }
-
-  findBenefited(id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders()  })
-      .pipe(
-        catchError(error => {
-          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-        })
-      );
-  }
-
-  findCity(id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}cities/${id}`, { headers: this.authService.getHeaders()  })
-      .pipe(
-        catchError(error => {
-          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-        })
-      );
-  }
-
-  findMaritalStatus(id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}marital_statuses/${id}`, { headers: this.authService.getHeaders()  })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
