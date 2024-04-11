@@ -1,18 +1,20 @@
 /* -------------------------------------------  CLASS ------------------------------------------- */
 .bp-footer {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   padding: .5rem 2.5rem .8rem 2.5rem;
-  background: #f6f6f6;
+  background-color: var(--bp-light-gray);
 }
 
 .big-btn {
   margin: 0 2rem;
   padding: .2rem 1.35rem;
+  font-size: .9rem;
 }
 
 .small-btn {
   margin: 1rem 0 0 1rem;
+  font-size: .9rem;
 }
 
 .input-group-text {

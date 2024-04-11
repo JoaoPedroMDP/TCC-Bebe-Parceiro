@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Child } from 'src/app/shared';
 
 @Component({
@@ -10,6 +11,7 @@ export class ChildrenComponent implements OnInit {
 
   @Output() deleteChild  = new EventEmitter<any>();
   @Input() child: Child = new Child();
+  @ViewChild('form') form!: NgForm;
 
   constructor() { }
 

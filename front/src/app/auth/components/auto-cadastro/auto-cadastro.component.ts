@@ -49,10 +49,12 @@ export class AutoCadastroComponent implements OnInit {
     this.beneficiada.social_programs = this.selectedSocialPrograms;
     this.beneficiada.children = this.children;
     const codigoAcesso = this.route.snapshot.paramMap.get('codigoAcesso');
-    if (codigoAcesso) {
-      this.beneficiada.access_code = codigoAcesso
+    // Operação ternária só para garantir que não seja nulo o codigo de acesso
+    codigoAcesso ? this.beneficiada.access_code = codigoAcesso : this.beneficiada.access_code = ''
+    // Validação da quantidade de filhos
+    if (this.beneficiada.child_count! > 30 || this.beneficiada.child_count! < 1) {
+      this.beneficiada.child_count = this.beneficiada.children.length
     }
-    // console.log(this.beneficiada)
 
     // Verificação se as senhas inseridas são iguais
     if (this.beneficiada.password != this.form.value.password_confirm) {

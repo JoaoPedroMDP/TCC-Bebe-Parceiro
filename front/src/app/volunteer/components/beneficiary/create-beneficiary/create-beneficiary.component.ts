@@ -43,12 +43,13 @@ export class CreateBeneficiaryComponent implements OnInit {
    * e navega para a página de sucesso do autocadastro.
    */
   save() {
-    console.log(this.form.form.valid);
-    console.log(this.form.value);
-    console.log(this.benefited);
     // Atualiza os dados da beneficiada com as informações selecionadas
     this.benefited.social_programs = this.selectedSocialPrograms;
     this.benefited.children = this.children;
+    // Validação da quantidade de filhos
+    if (this.benefited.child_count! > 30 || this.benefited.child_count! < 1) {
+      this.benefited.child_count = this.benefited.children.length
+    }
 
     // Verificação se as senhas inseridas são iguais
     if (this.benefited.password != this.form.value.password_confirm) {
