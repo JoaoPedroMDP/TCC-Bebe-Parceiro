@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateEditBeneficiaryComponent } from './create-edit-beneficiary.component';
+import { CreateEditBeneficiaryComponent } from './create-beneficiary.component';
 
 describe('CreateEditBeneficiaryComponent', () => {
   let component: CreateEditBeneficiaryComponent;

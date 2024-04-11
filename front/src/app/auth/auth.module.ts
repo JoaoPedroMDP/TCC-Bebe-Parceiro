@@ -25,7 +25,8 @@ import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorC
   ],
   providers: [
     ValidCodeGuard
-  ]
+  ],
+  exports: [ChildrenComponent]
 })
 export class AuthModule { }
 
