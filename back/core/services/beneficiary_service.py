@@ -86,6 +86,12 @@ class BeneficiaryService(CrudService):
 
     @classmethod
     def patch(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+
+        if command.password:
+            beneficiary.user.set_password(command.password)
+            del command.password
+
         return BeneficiaryRepository.patch(command.to_dict())
 
     @classmethod

@@ -1,7 +1,7 @@
 #  coding: utf-8
 import logging
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Optional
 
 from config import MANAGE_BENEFICIARIES
 from core.cqrs import Validator, Field, Command
@@ -90,8 +90,13 @@ class PatchBeneficiaryCommand(Command):
 
     def __init__(self, id: int, marital_status_id: int = None, city_id: int = None,
                  birth_date: str = None, child_count: int = None, monthly_familiar_income: float = None,
-                 has_disablement: bool = None, social_programs: list = None):
+                 has_disablement: bool = None, social_programs: list = None, name: str = None, phone: str = None,
+                 password: str = None, children: list = None):
         self.id = id
+        self.name = name
+        self.phone = phone
+        self.children = children
+        self.password = password
         self.marital_status_id = marital_status_id
         self.city_id = city_id
         self.birth_date = birth_date
@@ -99,6 +104,7 @@ class PatchBeneficiaryCommand(Command):
         self.monthly_familiar_income = monthly_familiar_income
         self.has_disablement = has_disablement
         self.social_programs = social_programs
+        self.user: Optional[User] = None
 
     @staticmethod
     @Validator.validates
