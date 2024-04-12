@@ -81,7 +81,7 @@ class PatchBeneficiaryCommand(Command):
         Field("children", "list", False),
         Field("marital_status_id", "integer", False, formatter=lambda x: int(x)),
         Field("city_id", "integer", False, formatter=lambda x: int(x)),
-        Field("birth_date", "integer", False, formatter=lambda x: int(x)),
+        Field("birth_date", "string", False),
         Field("child_count", "integer", False, formatter=lambda x: int(x)),
         Field("monthly_familiar_income", "float", False, formatter=lambda x: float(x)),
         Field("has_disablement", "boolean", False, formatter=lambda x: Validator.to_bool(x)),
