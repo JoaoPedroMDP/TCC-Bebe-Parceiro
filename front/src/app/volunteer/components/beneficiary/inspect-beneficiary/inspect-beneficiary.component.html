@@ -1,0 +1,102 @@
+<div class="container">
+    <p class="mb-0">Beneficiada</p>
+    <h1 class="bp-big-title mb-4">{{benefited.name}}</h1>
+    <div>
+        <h4 class="text-center fw-bolder mb-3">Dados gerais</h4>
+        <div class="row">
+            <p><strong>Nome:</strong> {{benefited.name}}</p>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <p><strong>Data Nascimento:</strong> {{benefited.birth_date | date: 'dd/MM/yyyy'}}</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <p><strong>Telefone:</strong> {{benefited.phone! | mask: "(00) 0 0000-0000||(00) 0000-0000"}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <p><strong>Estado Civil:</strong> {{ maritalStatus}}</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <p><strong>Email:</strong> {{benefited.email}}</p>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div>
+        <h4 class="text-center fw-bolder mb-3">Dados de endereço</h4>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p><strong>País:</strong> {{country}}</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <p><strong>Estado:</strong> {{state}}</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <p><strong>Cidade:</strong> {{city}}</p>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div>
+        <h4 class="text-center fw-bolder mb-3">Filhos cadastrados</h4>
+        <div *ngFor="let child of benefited.children" class="justify-content-center">
+            <div class="row mb-3">
+                <div class="col-1 text-end">
+                    <i [class]="child.sex == 'F' ? 'fa-solid fa-child-dress align-middle' : 'fa-solid fa-child align-middle'"></i>
+                </div>
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col-12 col-md-5">
+                            <p><strong>Nome:</strong> {{child.name}}</p>
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <p><strong>Data Nasc.:</strong> {{child.birth_date}}</p>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <p><strong>Sexo:</strong> {{child.sex}}</p>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div>
+        <h4 class="text-center fw-bolder mb-3">Outras informações</h4>
+        <p>
+            <strong>Benefícios Sociais: </strong>
+            <ng-template [ngIf]="benefited.social_programs?.length! <= 0">
+                <span>Nenhum</span>
+            </ng-template>
+            <ng-template [ngIf]="benefited.social_programs?.length! > 0">
+                <span *ngFor="let social of benefited.social_programs">
+                    <span> | {{social.name}} </span>
+                </span>
+            </ng-template>
+        </p>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <p><strong>Renda familiar mensal:</strong> R$ {{benefited.monthly_familiar_income}}</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <p><strong>Possui invalidez:</strong> {{ benefited.has_disablement ? 'Sim': 'Não' }}</p>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="row mb-5">
+        <div class="col-2 d-flex align-items-end">
+            <button class="bp-button" routerLink="/voluntaria/beneficiadas">Voltar</button>
+        </div>
+        <div class="col d-flex flex-column">
+            <div class="d-flex justify-content-end mb-3">
+                <button class="bp-button" (click)="editBenefited(benefited)">Editar Informações</button>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="bp-button" id="bp-remove" (click)="deleteBenefited(benefited)">Remover Cadastro</button>
+            </div>
+        </div>
+    </div>
+</div>

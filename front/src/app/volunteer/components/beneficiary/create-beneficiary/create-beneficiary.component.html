@@ -1,0 +1,205 @@
+<div class="container mt-4 mb-5 pb-5">
+    <h1 class="bp-big-title">Nova Beneficiada</h1>
+    <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
+    <form #form="ngForm">
+        <div>
+            <hr>
+            <h4 class="text-center">Dados pessoais</h4>
+            <div>
+                <small class="form-text font-weight-bold text-left">
+                    Nome Completo <span class="text-danger font-weight-bold">*</span>
+                </small>
+                <input type="text" class="form-control" placeholder="Nome da Beneficiada" minlength="2" maxlength="150"
+                    name="name" [(ngModel)]="benefited.name" required>
+                <div *ngIf="form.controls['name']">
+                    <div
+                        *ngIf="form.controls['name'].errors && (form.controls['name'].dirty || form.controls['name'].touched)">
+                        <div *ngIf="form.controls['name'].errors['required']" class="alert alert-danger">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">Nº de filhos <span
+                            class="text-danger font-weight-bold">*</span></small>
+                    <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!"
+                        name="child_count" [(ngModel)]="benefited.child_count" required min="1" max="30">
+                    <div *ngIf="form.controls['child_count']">
+                        <div
+                            *ngIf="form.controls['child_count'].errors && (form.controls['child_count'].dirty || form.controls['child_count'].touched)">
+                            <div *ngIf="form.controls['child_count'].errors['required']" class="alert alert-danger">
+                                O campo é obrigatório.
+                            </div>
+                            <div *ngIf="form.controls['child_count'].errors['min']" class="alert alert-danger">
+                                O número deve ser no mínimo 1.
+                            </div>
+                            <div *ngIf="form.controls['child_count'].errors['max']" class="alert alert-danger">
+                                O número deve ser no máximo 30.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">
+                        Data de nascimento <span class="text-danger font-weight-bold">*</span>
+                    </small>
+                    <input type="date" class="form-control" name="birth_date" [(ngModel)]="benefited.birth_date"
+                        required>
+                    <div *ngIf="form.controls['birth_date']">
+                        <div
+                            *ngIf="form.controls['birth_date'].errors && (form.controls['birth_date'].dirty || form.controls['birth_date'].touched)">
+                            <div *ngIf="form.controls['birth_date'].errors['required']" class="alert alert-danger">
+                                O campo é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">Estado civil</small>
+                    <select class="form-select" name="marital_status_id" [(ngModel)]="benefited.marital_status_id">
+                        <option [value]="undefined"> --- </option>
+                        <option [value]="marital.id" *ngFor="let marital of maritalStatus">{{marital.name}}</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">Email</small>
+                    <input type="email" class="form-control" placeholder="Email@mail.com" name="email"
+                        [(ngModel)]="benefited.email">
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">Telefone <span
+                            class="text-danger font-weight-bold">*</span></small>
+                    <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" name="phone"
+                        placeholder="(XX) X XXXX-XXXX" [(ngModel)]="benefited.phone" minlength="10" required>
+                    <div *ngIf="form.controls['phone']">
+                        <div
+                            *ngIf="form.controls['phone'].errors && (form.controls['phone'].dirty || form.controls['phone'].touched)">
+                            <div *ngIf="form.controls['phone'].errors['required']" class="alert alert-danger">
+                                O campo é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">Renda familiar <span
+                            class="text-danger font-weight-bold">*</span></small>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">R$</span>
+                        </div>
+                        <input type="text" step="any" class="form-control" placeholder="0000.00" mask="separator.2"
+                            thousandSeparator="." maxlength="10" [(ngModel)]="benefited.monthly_familiar_income"
+                            name="monthly_familiar_income" required>
+                    </div>
+                    <div *ngIf="form.controls['monthly_familiar_income']">
+                        <div
+                            *ngIf="form.controls['monthly_familiar_income'].errors && (form.controls['monthly_familiar_income'].dirty || form.controls['monthly_familiar_income'].touched)">
+                            <div *ngIf="form.controls['monthly_familiar_income'].errors['required']" class="alert alert-danger">
+                                O campo é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">Crie uma senha <span
+                            class="text-danger font-weight-bold">*</span></small>
+                    <div class="input-with-icon">
+                        <input type="password" class="form-control" placeholder="Senha" name="password"
+                            [(ngModel)]="benefited.password" required>
+                        <i class="fa fa-eye" (click)="showPassword('password')"></i>
+                    </div>
+                    <div *ngIf="form.controls['password']">
+                        <div *ngIf="form.controls['password'].errors && (form.controls['password'].dirty || form.controls['password'].touched)">
+                            <div *ngIf="form.controls['password'].errors['required']" class="alert alert-danger">
+                                O campo é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <small class="form-text font-weight-bold text-left">Repita a senha <span
+                            class="text-danger font-weight-bold">*</span></small>
+                    <div class="input-with-icon">
+                        <input type="password" class="form-control" placeholder="Senha" name="password_confirm"
+                            #password_confirm ngModel required>
+                        <i class="fa fa-eye" (click)="showPassword('password_confirm')"></i>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div>
+            <h4 class="text-center">Dados de endereço</h4>
+            <div class="col">
+                <small class="form-text font-weight-bold text-left">País</small>
+                <select class="form-select" [(ngModel)]="countrySelected" (ngModelChange)="listStates()" name="pais">
+                    <option [value]="undefined"> --- </option>
+                    <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>
+                </select>
+            </div>
+            <div class="col mt-1">
+                <small class="form-text font-weight-bold text-left">Estado</small>
+                <select class="form-select" [(ngModel)]="stateSelected" (ngModelChange)="listCities()" name="estado">
+                    <option [value]="undefined"> --- </option>
+                    <option [value]="state.id" *ngFor="let state of states">{{state.name}}</option>
+                </select>
+            </div>
+            <div class="col mt-1">
+                <small class="form-text font-weight-bold text-left">Cidade</small>
+                <select class="form-select" [(ngModel)]="benefited.city_id" name="city_id">
+                    <option [value]="undefined"> --- </option>
+                    <option [value]="city.id" *ngFor="let city of cities">{{city.name}}</option>
+                </select>
+            </div>
+            <hr>
+        </div>
+        <div>
+            <h4 class="text-center">Possui alguma invalidez?</h4>
+            <div class="form-group d-flex justify-content-center">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="has_disablement" [value]=true
+                        [(ngModel)]="benefited.has_disablement">
+                    <label class="form-check-label">Sim</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="has_disablement" [value]=false
+                        [(ngModel)]="benefited.has_disablement">
+                    <label class="form-check-label">Não</label>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div>
+            <h4 class="text-center">Acesso a benefícios sociais</h4>
+            <div class="row px-4">
+                <div class="form-check" *ngFor="let program of socialPrograms">
+                    <input type="checkbox" class="form-check-input" [name]="program.name"
+                        [ngModel]="selectedSocialPrograms.includes(program)"
+                        (ngModelChange)="toggleSocialProgram(program)">
+                    <label class="form-check-label">{{ program.name }}</label>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div>
+            <h4 class="text-center">Dados do filho</h4>
+            <app-children *ngFor="let child of children; let i = index" [child]="child" (deleteChild)="deleteChild(i)">
+            </app-children>
+            <div>
+                <button class="bp-button small-btn" (click)="addChild()">Novo Filho</button>
+            </div>
+        </div>
+        <div class="fixed-bottom bp-footer">
+            <button routerLink="/voluntaria/beneficiadas" class="bp-button big-btn">Voltar</button>
+            <button class="bp-button big-btn" (click)="save()" [disabled]="!form.form.valid">Continuar</button>
+        </div>
+    </form>
+</div>

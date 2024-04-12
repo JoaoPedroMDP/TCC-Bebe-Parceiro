@@ -3,23 +3,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --bp-yellow: #FFEFCE;
-    --bp-black: #333333;
-    --bp-error: #BA1414;
-    --bp-green: #E8FFB6;
-    --bp-light-gray: #B1B1B1;
+  --bp-yellow: #FFEFCE;
+  --bp-black: #333333;
+  --bp-error: #BA1414;
+  --bp-green: #E8FFB6;
+  --bp-light-gray: #D9D9D9;
+  --bp-dark-gray: #585858;
+  --bp-red: #9D0000;
+  --bp-dark-red: #500000;
+  --bp-light-red: #FBD0D0;
 
-    --header: #A7CA90;
-    --white: #FFFFFF;
-    --black: #000000;
-    --btn-cor-hover: #FFFFFF;
-    --btn-bg-disabled: #817560;
-    --btn-cor-disabled: #000000;
+  --header: #A7CA90;
+  --white: #FFFFFF;
+  --black: #000000;
+  --btn-cor-hover: #FFFFFF;
+  --btn-bg-disabled: #817560;
+  --btn-cor-disabled: #000000;
 }
-  
+
 
 
 /* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-big-title {
+  font-weight: 600;
+}
+
 .bp-button {
   background-color: var(--bp-yellow);
   border: 1px solid var(--bp-black);
@@ -29,37 +37,45 @@
   transition: 0.5s;
   padding: .4rem 1rem;
 }
-  
+
 .bp-button:hover {
-    background-color: var(--bp-black);
-    color: var(--btn-cor-hover);
+  background-color: var(--bp-black);
+  color: var(--white);
 }
 
 .bp-button:disabled {
-    background-color: var(--btn-bg-disabled);
-    color: var(--btn-cor-disabled);
-    cursor: not-allowed;
+  background-color: var(--btn-bg-disabled);
+  color: var(--btn-cor-disabled);
+  cursor: not-allowed;
 }
 
-.modal-header{
+.modal-header {
   /* Classe Bootstrap, so mudei a cor */
   background-color: var(--black);
   color: var(--white);
 }
 
 /* -------------------------------------------   TAG  ------------------------------------------- */
-*{
+* {
   font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-small{
+small {
   font-weight: 500;
 }
 
 /* -------------------------------------------  NAV -------------------------------------------- */
-#bp-home-menu { --hover: #333333;}
-#bp-logout-menu { --hover: #960A0A; }
-#bp-logout-menu:hover { color: #FFFFFF; }
+#bp-home-menu {
+  --hover: #333333;
+}
+
+#bp-logout-menu {
+  --hover: #960A0A;
+}
+
+#bp-logout-menu:hover {
+  color: #FFFFFF;
+}
 
 .bp-content {
   margin-top: 6rem;
@@ -74,6 +90,7 @@ small{
   top: 0;
   width: 100%;
   padding: 1rem 0;
+  z-index: 5;
 }
 
 .bp-header-logo {
@@ -109,7 +126,9 @@ small{
   cursor: pointer;
 }
 
-.bp-header-menu a:active { background-color: var(--black); }
+.bp-header-menu a:active {
+  background-color: var(--black);
+}
 
 .bp-header-nav {
   /* Estilos quando o menu está fechado */
@@ -146,8 +165,8 @@ small{
     margin-left: 50px;
   }
 
-  .bp-hamb{
+  .bp-hamb {
     margin-right: 50px;
   }
-  
+
 }

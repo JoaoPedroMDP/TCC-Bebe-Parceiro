@@ -5,6 +5,7 @@ export class Benefited {
     public id?: number,
     public name?: string,
     public birth_date?: Date,
+    public created_at?: Date,
     public child_count?: number,
     public email?: string,
     public has_disablement?: boolean,
@@ -14,7 +15,7 @@ export class Benefited {
     public phone?: string,
     public city_id?: number,
     public access_code?: string,
-    public socialProgram?: SocialProgram[],
+    public social_programs?: SocialProgram[],
     public children?: Child[]
   ) { }
 }

@@ -23,7 +23,7 @@ export class CodigoAcessoComponent implements OnInit {
   validateAccessCode() {
     this.authService.sendCode(this.form.value.codigo).subscribe({
       next: (response) => {
-        if (response != '') {
+        if (response.status === 200) {
           SwalFacade.success('Código Válido!')
           const codigoAcesso = this.form.value.codigo
           this.router.navigate(['autocadastro/dados', codigoAcesso])

@@ -1,7 +1,27 @@
-<h1>Bem vindo voluntaria!</h1>
-<p>{{user.user?.name}}</p>
-<button (click)="logout()" class="bp-button">Logout</button>
-
-<h4 class="mt-5">Botão abaixo é temporário pois a chamada será feita da listagem de beneficiadas, ainda não implementado
-</h4>
-<button class="bp-button" (click)="openAcessCodesModal()">Gerar códigos de acesso</button>
+<div class="container">
+    <div class="text-center">
+        <h1>Bem vinda voluntaria!</h1>
+        <p>Usuário: {{user.user?.name}}</p>
+    </div>
+    <a class="row bp-menu-option" routerLink="prontuarios">
+        <span>Prontuários</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="beneficiadas">
+        <span>Beneficiadas</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="trocas">
+        <span>Trocas</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="atendimentos">
+        <span>Atendimentos</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="profissionais">
+        <span>Profissionais</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="solicitacoes">
+        <span>Solicitações de cadastro</span>
+    </a>
+    <a class="row bp-menu-option" (click)="openAcessCodesModal()">
+        <span>Códigos de acesso</span>
+    </a>
+</div>

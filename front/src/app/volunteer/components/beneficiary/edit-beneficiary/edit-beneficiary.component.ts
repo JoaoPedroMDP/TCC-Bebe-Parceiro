@@ -1,19 +1,20 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/auth';
 import { Benefited, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
-import { AuthService } from '../../services/auth.service';
-
+import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 
 @Component({
-  selector: 'app-auto-cadastro',
-  templateUrl: './auto-cadastro.component.html',
-  styleUrls: ['./auto-cadastro.component.css']
+  selector: 'app-edit-beneficiary',
+  templateUrl: './edit-beneficiary.component.html',
+  styleUrls: ['./edit-beneficiary.component.css']
 })
-export class AutoCadastroComponent implements OnInit {
+export class EditBeneficiaryComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  beneficiada!: Benefited;
+  benefited!: Benefited;
 
   children: Child[] = [];
   selectedSocialPrograms: SocialProgram[] = [];
@@ -26,46 +27,93 @@ export class AutoCadastroComponent implements OnInit {
   states!: State[];
   cities!: City[];
 
-  showSuccess = false;
-
-  constructor(private authService: AuthService, private route: ActivatedRoute) { }
+  constructor(
+    private authService: AuthService,
+    private volunteerService: VolunteerService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.beneficiada = new Benefited();
-    this.beneficiada.children = [];
-    this.beneficiada.has_disablement = false;
-    this.listMaritalStatus();
-    this.listSocialProgram();
-    this.listCountries();
-    this.addChild();
+    // Inicializa um objeto vazio para evitar erros de undefined
+    this.benefited = new Benefited();
+    // Recupera o objeto da beneficiada através do ID presente na rota
+    // Ou seja na url /beneficiadas/inspecionar/9 será recuperado o ID 9 
+    // e irá buscar a beneficiada com esse ID e  mostrar os dados dela
+    this.route.paramMap.subscribe(params => {
+      const benefitedId = Number(params.get('idBeneficiada'));
+      if (benefitedId) {
+        this.volunteerService.findBenefited(benefitedId).subscribe({
+          next: (response) => {
+            // Chama a listagem dos dados e atribui a response para as variaveis locais
+            this.benefited = response;
+            this.listMaritalStatus();
+            this.listSocialProgram();
+            this.listCountries();
+            this.getAddress();
+            this.children = this.benefited.children!;
+            this.selectedSocialPrograms = this.benefited.social_programs!;
+          },
+          error: (e) => {
+            SwalFacade.error("Ocorreu um erro! Redirecionando para a listagem", e)
+            this.router.navigate(['/voluntaria/beneficiadas'])
+          }
+        });
+      }
+    });
   }
 
   /**
-   * @description Salva os dados da beneficiada, incluindo programas sociais e filhos,
-   * e navega para a página de sucesso do autocadastro.
+   * @description Atualiza os dados da beneficiada, incluindo programas sociais e 
+   * filhos, e navega para a página de sucesso do autocadastro.
    */
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.beneficiada.social_programs = this.selectedSocialPrograms;
-    this.beneficiada.children = this.children;
-    const codigoAcesso = this.route.snapshot.paramMap.get('codigoAcesso');
-    // Operação ternária só para garantir que não seja nulo o codigo de acesso
-    codigoAcesso ? this.beneficiada.access_code = codigoAcesso : this.beneficiada.access_code = ''
+    this.benefited.social_programs = this.selectedSocialPrograms;
+    this.benefited.children = this.children;
     // Validação da quantidade de filhos
-    if (this.beneficiada.child_count! > 30 || this.beneficiada.child_count! < 1) {
-      this.beneficiada.child_count = this.beneficiada.children.length
+    if (this.benefited.child_count! > 30 || this.benefited.child_count! < 1) {
+      this.benefited.child_count = this.benefited.children.length
     }
-
-    // Verificação se as senhas inseridas são iguais
-    if (this.beneficiada.password != this.form.value.password_confirm) {
-      SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
-    } else {
-      this.authService.saveBenefited(this.beneficiada)
+    console.log(this.benefited)
+    // Verificação se as senhas inseridas são iguais ou então se não foi digitado nada no campo de senha
+    if ((this.benefited.password == this.form.value.password_confirm) || this.benefited.password == undefined) {
+      this.volunteerService.editBenefited(this.benefited.id!, this.benefited)
         .subscribe({
-          next: () => this.showSuccess = true,
+          next: () => {
+            SwalFacade.success("Beneficiada alterada com sucesso", `Beneficiada: ${this.benefited.name}`)
+            this.router.navigate(['/voluntaria/beneficiadas'])
+          },
           error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
         });
+    } else {
+      SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     }
+  }
+
+  /**
+   * @description Procura qual é o endereço da beneficiada através do id
+   */
+  getAddress() {
+    this.volunteerService.findCity(this.benefited.city_id!).subscribe({
+      next: (response) => {
+        this.countrySelected = response.state.country.id
+        this.stateSelected = response.state.id
+        this.benefited.city_id = response.id
+        this.authService.getStates(response.state.country.id).subscribe({
+          next: (data: State[]) => {
+            if (data == null) {
+              this.states = [];
+            } else {
+              this.states = data;
+            }
+          },
+          error: (e) => SwalFacade.error("Erro ao listar os dados de Estados", e),
+        })
+        this.listCities();
+      },
+      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
+    })
   }
 
   /** 
@@ -80,7 +128,7 @@ export class AutoCadastroComponent implements OnInit {
           this.countries = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Paises')
+      error: (e) => SwalFacade.error("Erro ao listar os dados de Paises", e),
     })
   }
 
@@ -92,6 +140,7 @@ export class AutoCadastroComponent implements OnInit {
     this.states = []; // Trocou o país então precisa limpar os estados
     this.cities = []; // Trocou o país então precisa limpar as cidades
     this.stateSelected = undefined;
+    this.benefited.city_id = undefined;
 
     if (this.countrySelected != null) {
       this.authService.getStates(this.countrySelected).subscribe({
@@ -102,7 +151,7 @@ export class AutoCadastroComponent implements OnInit {
             this.states = data;
           }
         },
-        error: () => SwalFacade.error('Erro ao listar os dados de Estados')
+        error: (e) => SwalFacade.error("Erro ao listar os dados de Estados", e)
       })
     }
   }
@@ -122,7 +171,7 @@ export class AutoCadastroComponent implements OnInit {
             this.cities = data;
           }
         },
-        error: () => SwalFacade.error('Erro ao listar os dados de Cidades')
+        error: (e) => SwalFacade.error("Erro ao listar os dados de Cidades", e)
       })
     }
   }
@@ -139,7 +188,8 @@ export class AutoCadastroComponent implements OnInit {
           this.maritalStatus = data;
         }
       },
-      error: () => SwalFacade.alert('Erro ao listar os dados de Estado Civil')
+      error: (e) => SwalFacade.alert("Erro ao listar os dados de Estado Civil", e)
+
     })
   }
 
@@ -155,7 +205,7 @@ export class AutoCadastroComponent implements OnInit {
           this.socialPrograms = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Estado Civil')
+      error: (e) => SwalFacade.error("Erro ao listar os dados de Estado Civil", e)
     })
   }
 
@@ -215,4 +265,14 @@ export class AutoCadastroComponent implements OnInit {
       inputElement.type = currentType === 'password' ? 'text' : 'password';
     }
   }
+
+  /**
+   * @description Verifica se o programa social especificado está atualmente selecionado.
+   * @param program Um objeto do tipo SocialProgram que representa o programa a ser verificado.
+   * @returns Retorna `true` se o programa está selecionado, caso contrário retorna `false`.
+  */
+  isSocialProgramSelected(program: SocialProgram): boolean {
+    return this.selectedSocialPrograms.some(p => p.id === program.id);
+  }
+
 }

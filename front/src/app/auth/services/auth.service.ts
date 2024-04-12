@@ -139,7 +139,10 @@ export class AuthService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   sendCode(code: string): Observable<any> {
-    return this.http.get(`${this.baseURL}access_codes?code=${code}&used=false`, { headers: this.getHeaders() });
+    return this.http.get(`${this.baseURL}access_codes/check?code=${code}&used=false`,
+      {
+        observe: 'response', headers: this.getHeaders()
+      });
   }
 
   /**

@@ -1,32 +1,50 @@
-<div class="row mt-1">
-    <div class="col">
-        <small class="form-text font-weight-bold text-left">
-            Nome <span class="text-danger font-weight-bold">*</span>
-        </small>
-        <input type="text" class="form-control" placeholder="Nome do Filho(a)" name="name" [(ngModel)]="child.name"
-            required>
+<form #form="ngForm">
+    <div class="row mt-1">
+        <div class="col">
+            <small class="form-text font-weight-bold text-left">
+                Nome <span class="text-danger font-weight-bold">*</span>
+            </small>
+            <input type="text" class="form-control" placeholder="Nome do Filho(a)" name="name" [(ngModel)]="child.name"
+                required>
+            <div *ngIf="form.controls['name']">
+                <div
+                    *ngIf="form.controls['name'].errors && (form.controls['name'].dirty || form.controls['name'].touched)">
+                    <div *ngIf="form.controls['name'].errors['required']" class="alert alert-danger">
+                        O campo é obrigatório.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 col-lg-1 d-flex align-items-end justify-content-center">
+            <button class="btn btn-danger" type="submit" (click)="deleteChildComponent()">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+        </div>
     </div>
-    <div class="col-2 col-lg-1 d-flex align-items-end justify-content-center">
-        <button class="btn btn-danger" type="submit" (click)="deleteChildComponent()">
-            <i class="fa-solid fa-trash-can"></i>
-        </button>
+    <div class="row mt-1 mb-3">
+        <div class="col">
+            <small class="form-text font-weight-bold text-left">Sexo <span
+                    class="text-danger font-weight-bold">*</span></small>
+            <select class="form-select" [(ngModel)]="child.sex" name="sex" required>
+                <option value="I">Não sei</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+            </select>
+        </div>
+        <div class="col">
+            <small class="form-text font-weight-bold text-left">
+                Data de Nasc. ou DPP <span class="text-danger font-weight-bold">*</span>
+            </small>
+            <input type="date" class="form-control" name="birth_date" [(ngModel)]="child.birth_date" required>
+            <div *ngIf="form.controls['birth_date']">
+                <div
+                    *ngIf="form.controls['birth_date'].errors && (form.controls['birth_date'].dirty || form.controls['birth_date'].touched)">
+                    <div *ngIf="form.controls['birth_date'].errors['required']" class="alert alert-danger">
+                        O campo é obrigatório.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="row mt-1 mb-3">
-    <div class="col">
-        <small class="form-text font-weight-bold text-left">Sexo <span
-                class="text-danger font-weight-bold">*</span></small>
-        <select class="form-select" [(ngModel)]="child.sex" name="sex" required>
-            <option value="Indefinido">Não sei</option>
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-        </select>
-    </div>
-    <div class="col">
-        <small class="form-text font-weight-bold text-left">
-            Data de Nasc. ou DPP <span class="text-danger font-weight-bold">*</span>
-        </small>
-        <input type="date" class="form-control" name="dataNascimento" [(ngModel)]="child.birth_date" required>
-    </div>
-</div>
-<hr>
+    <hr>
+</form>

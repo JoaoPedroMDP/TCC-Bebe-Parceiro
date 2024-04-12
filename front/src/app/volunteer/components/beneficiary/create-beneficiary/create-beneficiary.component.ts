@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/auth';
 import { Benefited, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
-import { AuthService } from '../../services/auth.service';
-
+import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 
 @Component({
-  selector: 'app-auto-cadastro',
-  templateUrl: './auto-cadastro.component.html',
-  styleUrls: ['./auto-cadastro.component.css']
+  selector: 'app-create-beneficiary',
+  templateUrl: './create-beneficiary.component.html',
+  styleUrls: ['./create-beneficiary.component.css']
 })
-export class AutoCadastroComponent implements OnInit {
+export class CreateBeneficiaryComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  beneficiada!: Benefited;
+  benefited!: Benefited;
 
   children: Child[] = [];
   selectedSocialPrograms: SocialProgram[] = [];
@@ -26,14 +26,12 @@ export class AutoCadastroComponent implements OnInit {
   states!: State[];
   cities!: City[];
 
-  showSuccess = false;
-
-  constructor(private authService: AuthService, private route: ActivatedRoute) { }
+  constructor( private authService: AuthService, private volunteerService: VolunteerService, private router: Router) { }
 
   ngOnInit(): void {
-    this.beneficiada = new Benefited();
-    this.beneficiada.children = [];
-    this.beneficiada.has_disablement = false;
+    this.benefited = new Benefited();
+    this.benefited.children = [];
+    this.benefited.has_disablement = false;
     this.listMaritalStatus();
     this.listSocialProgram();
     this.listCountries();
@@ -46,23 +44,23 @@ export class AutoCadastroComponent implements OnInit {
    */
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.beneficiada.social_programs = this.selectedSocialPrograms;
-    this.beneficiada.children = this.children;
-    const codigoAcesso = this.route.snapshot.paramMap.get('codigoAcesso');
-    // Operação ternária só para garantir que não seja nulo o codigo de acesso
-    codigoAcesso ? this.beneficiada.access_code = codigoAcesso : this.beneficiada.access_code = ''
+    this.benefited.social_programs = this.selectedSocialPrograms;
+    this.benefited.children = this.children;
     // Validação da quantidade de filhos
-    if (this.beneficiada.child_count! > 30 || this.beneficiada.child_count! < 1) {
-      this.beneficiada.child_count = this.beneficiada.children.length
+    if (this.benefited.child_count! > 30 || this.benefited.child_count! < 1) {
+      this.benefited.child_count = this.benefited.children.length
     }
 
     // Verificação se as senhas inseridas são iguais
-    if (this.beneficiada.password != this.form.value.password_confirm) {
+    if (this.benefited.password != this.form.value.password_confirm) {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     } else {
-      this.authService.saveBenefited(this.beneficiada)
+      this.volunteerService.createBenefited(this.benefited)
         .subscribe({
-          next: () => this.showSuccess = true,
+          next: () => {
+            SwalFacade.success("Beneficiada criada com sucesso", `Beneficiada: ${this.benefited.name}`)
+            this.router.navigate(['/voluntaria/beneficiadas'])
+          },
           error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
         });
     }
