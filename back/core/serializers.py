@@ -85,7 +85,7 @@ class UserSerializer(ModelSerializer):
 
 class ChildSerializer(ModelSerializer):
     benefited_id = SlugRelatedField(slug_field='id', read_only=True, source='beneficiary')
-    birth_date = DateTimeField(format="%d/%m/%Y")
+    birth_date = DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = Child
@@ -97,7 +97,7 @@ class BeneficiarySerializer(ModelSerializer):
     marital_status_id = SlugRelatedField(slug_field='id', read_only=True, source='marital_status')
     social_programs = SocialProgramSerializer(many=True, read_only=True)
     children = ChildSerializer(many=True, read_only=True)
-    birth_date = DateTimeField(format="%d/%m/%Y")
+    birth_date = DateTimeField(format="%Y-%m-%d")
 
     name = SerializerMethodField()
     phone = SerializerMethodField()
