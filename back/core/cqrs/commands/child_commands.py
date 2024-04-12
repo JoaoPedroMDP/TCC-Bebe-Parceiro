@@ -39,7 +39,7 @@ class PatchChildCommand(Command):
         Field("id", "integer", True, formatter=lambda x: int(x)),
 
         Field("name", "string", False),
-        Field("birth_date", "integer", False, formatter=lambda x: int(x)),
+        Field("birth_date", "string", False),
         Field("sex", "string", False),
     ]
 
@@ -53,12 +53,6 @@ class PatchChildCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchChildCommand':
         data = Validator.validate_and_extract(PatchChildCommand.fields, args)
-
-        bd = data.get("birth_date", None)
-        if bd:
-            bd = datetime.fromtimestamp(data["birth_date"])
-            data["birth_date"] = bd.strftime("%Y-%m-%d")
-
         return PatchChildCommand(**data)
 
 

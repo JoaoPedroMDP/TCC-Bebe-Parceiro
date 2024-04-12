@@ -6,7 +6,7 @@ from rest_framework import status
 from config import ROLE_BENEFICIARY
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
-from core.cqrs.commands.child_commands import CreateChildCommand
+from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
 from core.cqrs.commands.user_commands import CreateUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary, User
@@ -91,6 +91,12 @@ class BeneficiaryService(CrudService):
         if command.password:
             beneficiary.user.set_password(command.password)
             del command.password
+
+        for child in command.children:
+            command = PatchChildCommand.from_dict(child)
+            ChildService.patch(command)
+
+        command.children = None
 
         return BeneficiaryRepository.patch(command.to_dict())
 
