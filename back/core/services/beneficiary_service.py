@@ -1,4 +1,5 @@
 #  coding: utf-8
+import logging
 from typing import List
 
 from rest_framework import status
@@ -20,6 +21,9 @@ from core.services import CrudService
 from core.services.child_service import ChildService
 from core.services.user_service import UserService
 from core.utils.exceptions import HttpFriendlyError
+
+
+lgr = logging.getLogger(__name__)
 
 
 class BeneficiaryService(CrudService):
@@ -86,6 +90,7 @@ class BeneficiaryService(CrudService):
 
     @classmethod
     def patch(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
+        # TODO Os dados de usuário (nome, phone, email) não estão sendo alterados
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
 
         if command.password:
@@ -93,9 +98,13 @@ class BeneficiaryService(CrudService):
             del command.password
 
         for child in command.children:
-            command = PatchChildCommand.from_dict(child)
-            ChildService.patch(command)
+            c_command = PatchChildCommand.from_dict(child)
+            ChildService.patch(c_command)
 
+        for social_p in command.social_programs:
+            beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
+
+        command.social_programs = None
         command.children = None
 
         return BeneficiaryRepository.patch(command.to_dict())
