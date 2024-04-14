@@ -130,7 +130,7 @@ class VolunteerSerializer(ModelSerializer):
 class SpecialitySerializer(ModelSerializer):
     class Meta:
         model = Speciality
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'enabled']
 
 
 class ProfessionalSerializer(ModelSerializer):
@@ -139,5 +139,5 @@ class ProfessionalSerializer(ModelSerializer):
 
     class Meta:
         model = Professional
-        fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms']
+        fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled']
 

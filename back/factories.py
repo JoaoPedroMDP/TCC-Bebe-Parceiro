@@ -180,10 +180,8 @@ class ProfessionalFactory(EnablableModelFactory):
         model = Professional
 
     name = factory.Faker('name')
-    email = factory.Faker('email')
     phone = factory.Faker('phone_number')
     speciality = factory.SubFactory(SpecialityFactory)
-    city = factory.SubFactory(CityFactory)
     accepted_volunteer_terms = factory.Faker('boolean')
 
 
