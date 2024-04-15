@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { APP_CONFIG } from 'src/app/shared';
 import { Professional } from 'src/app/shared/models/professional';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ProfessionalService {
   private baseURL!: string;
 
   constructor(private http: HttpClient) {
-    this.baseURL = APP_CONFIG.baseURL;
+    this.baseURL = environment.baseURL;
   }
 
   /**

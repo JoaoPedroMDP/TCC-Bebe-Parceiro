@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth';
-import { APP_CONFIG, Benefited } from 'src/app/shared';
+import { Benefited } from 'src/app/shared';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class VolunteerService {
   _refreshPage$ = new Subject<void>();
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.baseURL = APP_CONFIG.baseURL;
+    this.baseURL = environment.baseURL;
   }
 
   /**

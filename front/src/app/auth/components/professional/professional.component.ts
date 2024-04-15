@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { SwalFacade, UserToken } from 'src/app/shared';
+import { SwalFacade } from 'src/app/shared';
 import { Professional, Speciality } from 'src/app/shared/models/professional';
+import { environment } from 'src/environments/environment';
 import { ProfessionalService } from '../../services/professional.service';
 
 
@@ -17,10 +17,13 @@ export class ProfessionalComponent implements OnInit {
   professional!: Professional;
   specialities!: Speciality[];
   showSuccess = false;
+  captchaResponse!: string;
+  siteKey!: string;
 
   constructor(private ProfessionalService: ProfessionalService) { }
 
   ngOnInit(): void {
+    this.siteKey = environment.recaptchaSiteKey;
     this.professional = new Professional();
     this.listSpecialities();
   }
@@ -41,15 +44,27 @@ export class ProfessionalComponent implements OnInit {
     })
   }
 
+  /**
+   * @description Armazena a resposta do reCAPTCHA em uma variável de instância local
+   * @param response Token de resposta do reCAPTCHA
+   */
+  resolvedCaptcha(response: string): void {
+    this.captchaResponse = response;
+  }
+
+  /**
+   * @description Verifica se o profissional preencheu todos os campos e 
+   * executa o método do service.
+   */
   save() {
-    if (this.professional.accepted_volunteer_terms) {
+    if (this.professional.accepted_volunteer_terms && this.captchaResponse) {
       this.ProfessionalService.saveProfessional(this.professional)
         .subscribe({
           next: () => this.showSuccess = true,
           error: (e) => SwalFacade.error("Ocorreu um erro!", e)
         })
     } else {
-      SwalFacade.alert('Por favor, aceite os termos de voluntariado para continuar.')
+      SwalFacade.alert('Aceite os termos de voluntariado e campo "Não sou robô" para continuar.')
     }
   }
 }
