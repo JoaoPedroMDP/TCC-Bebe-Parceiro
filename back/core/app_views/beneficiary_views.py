@@ -68,10 +68,7 @@ class BeneficiaryGenericViews(BaseView):
 
 class BeneficiarySpecificViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (AtLeastOneGroup,)
-    permission_classes_by_method = {
-        "patch": [(OwnsIt | AtLeastOneGroup)]
-    }
+    permission_classes = [(OwnsIt | AtLeastOneGroup)]
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
