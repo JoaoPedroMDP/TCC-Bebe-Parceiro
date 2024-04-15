@@ -1,5 +1,12 @@
 #  coding: utf-8
 from core.cqrs import Validator, Field, Command
+from core.repositories.professional_repository import ProfessionalRepository
+
+
+def check_for_duplicity(data: dict):
+    conflicts = ProfessionalRepository.filter(phone=data['phone'])
+    if len(conflicts) > 0:
+        raise AssertionError("Telefone já cadastrado")
 
 
 class CreateProfessionalCommand(Command):
@@ -17,11 +24,11 @@ class CreateProfessionalCommand(Command):
         self.speciality_id = speciality_id
         self.accepted_volunteer_terms = accepted_volunteer_terms
 
-
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'CreateProfessionalCommand':
         data = Validator.validate_and_extract(CreateProfessionalCommand.fields, args)
+        check_for_duplicity(data)
         return CreateProfessionalCommand(**data)
 
 
@@ -43,6 +50,7 @@ class PatchProfessionalCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchProfessionalCommand':
         data = Validator.validate_and_extract(PatchProfessionalCommand.fields, args)
+        check_for_duplicity(data)
         return PatchProfessionalCommand(**data)
 
 

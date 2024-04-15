@@ -1,7 +1,8 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { SwalFacade, UserToken } from 'src/app/shared';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { SwalFacade } from 'src/app/shared';
 import { Professional, Speciality } from 'src/app/shared/models/professional';
+import { environment } from 'src/environments/environment';
 import { ProfessionalService } from '../../services/professional.service';
 
 
@@ -12,22 +13,24 @@ import { ProfessionalService } from '../../services/professional.service';
 })
 export class ProfessionalComponent implements OnInit {
 
-  user!: UserToken;
+  @ViewChild('form') form!: NgForm;
   professional!: Professional;
-  showSuccess = false;
-  specialitySelected!: number ;
   specialities!: Speciality[];
-  
+  showSuccess = false;
+  captchaResponse!: string;
+  siteKey!: string;
 
-  constructor(private ProfessionalService: ProfessionalService, private router: Router) { }
+  constructor(private ProfessionalService: ProfessionalService) { }
 
   ngOnInit(): void {
+    this.siteKey = environment.recaptchaSiteKey;
     this.professional = new Professional();
     this.listSpecialities();
   }
 
-
-  
+  /**
+   * @description Lista as especialidades do profissional para realizar o cadastro
+   */
   listSpecialities() {
     this.ProfessionalService.getSpecialities().subscribe({
       next: (data: Speciality[]) => {
@@ -37,26 +40,34 @@ export class ProfessionalComponent implements OnInit {
           this.specialities = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Especialidades')
+      error: (e) => SwalFacade.error('Erro ao listar os dados de Especialidades', e)
     })
   }
 
+  /**
+   * @description Armazena a resposta do reCAPTCHA em uma variável de instância local
+   * @param response Token de resposta do reCAPTCHA
+   */
+  resolvedCaptcha(response: string): void {
+    this.captchaResponse = response;
+  }
+
+  /**
+   * @description Verifica se o profissional preencheu todos os campos e 
+   * executa o método do service.
+   */
   save() {
-    // Atualiza os dados da beneficiada com as informações selecionadas
-    this.professional.speciality_id= this.specialitySelected;
-    console.log(this.professional)
-    if (this.professional.accepted_volunteer_terms) {
+    if (this.professional.accepted_volunteer_terms && this.captchaResponse) {
       this.ProfessionalService.saveProfessional(this.professional)
         .subscribe({
           next: () => this.showSuccess = true,
-          error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
+          error: (e) => SwalFacade.error("Ocorreu um erro!", e)
         })
-      } else {
-        alert('Por favor, aceite os termos de voluntariado para continuar.');
-      }
-     
+    } else {
+      SwalFacade.alert('Aceite os termos de voluntariado e campo "Não sou robô" para continuar.')
     }
   }
+}
 
 
 

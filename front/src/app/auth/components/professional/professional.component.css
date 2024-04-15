@@ -1,8 +1,18 @@
+#bp-description-text {
+  margin-bottom: .5rem;
+  font-weight: 500;
+}
+
+#bp-speciality-text{
+  margin-bottom: 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: .85rem;
+}
+
 .bp-footer {
-    padding-top: 20px;
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente (se houver altura suficiente) */
-    width: 100%; /* Garante que a div ocupe a largura inteira */
-    left: 0;
-  }
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

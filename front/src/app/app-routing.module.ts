@@ -16,7 +16,6 @@ const routes: Routes = [
   ...AdminRouting,
   ...BenefitedRouting,
   ...VolunteerRouting,
-  
   { 
     path: 'unauthorized', pathMatch: 'full', component: ErrorComponent, 
     data: { errorType: 'Acesso não autorizado', errorMessage: ' O usuário não possui as permissões necessárias para acessar esta página!' } 

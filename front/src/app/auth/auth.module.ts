@@ -3,8 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
 import { NgxMaskModule } from 'ngx-mask';
-import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, SucessoCadastroComponent, ValidCodeGuard, ProfessionalComponent} from './index';
+import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, ProfessionalComponent, SucessoCadastroComponent, ValidCodeGuard } from './index';
 
 
 
@@ -23,6 +24,7 @@ import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorC
     FormsModule,
     HttpClientModule,
     RouterModule,
+    RecaptchaModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

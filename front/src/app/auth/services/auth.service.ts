@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, tap, throwError } from 'rxjs';
-import { APP_CONFIG, Benefited, UserToken } from 'src/app/shared';
+import { Benefited, UserToken } from 'src/app/shared';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class AuthService {
   private baseURL!: string;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
-    this.baseURL = APP_CONFIG.baseURL;
+    this.baseURL = environment.baseURL;
   }
 
   /**

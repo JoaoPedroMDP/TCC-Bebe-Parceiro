@@ -75,7 +75,7 @@ export class EditBeneficiaryComponent implements OnInit {
     if (this.benefited.child_count! > 30 || this.benefited.child_count! < 1) {
       this.benefited.child_count = this.benefited.children.length
     }
-    console.log(this.benefited)
+
     // Verificação se as senhas inseridas são iguais ou então se não foi digitado nada no campo de senha
     if ((this.benefited.password == this.form.value.password_confirm) || this.benefited.password == undefined) {
       this.volunteerService.editBenefited(this.benefited.id!, this.benefited)
@@ -84,7 +84,7 @@ export class EditBeneficiaryComponent implements OnInit {
             SwalFacade.success("Beneficiada alterada com sucesso", `Beneficiada: ${this.benefited.name}`)
             this.router.navigate(['/voluntaria/beneficiadas'])
           },
-          error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
+          error: (e) => SwalFacade.error("Ocorreu um erro!", e)
         });
     } else {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')

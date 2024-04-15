@@ -26,7 +26,7 @@ export class CreateBeneficiaryComponent implements OnInit {
   states!: State[];
   cities!: City[];
 
-  constructor( private authService: AuthService, private volunteerService: VolunteerService, private router: Router) { }
+  constructor(private authService: AuthService, private volunteerService: VolunteerService, private router: Router) { }
 
   ngOnInit(): void {
     this.benefited = new Benefited();
@@ -61,7 +61,7 @@ export class CreateBeneficiaryComponent implements OnInit {
             SwalFacade.success("Beneficiada criada com sucesso", `Beneficiada: ${this.benefited.name}`)
             this.router.navigate(['/voluntaria/beneficiadas'])
           },
-          error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
+          error: (e) => SwalFacade.error("Erro ao salvar!", e)
         });
     }
   }
@@ -78,7 +78,7 @@ export class CreateBeneficiaryComponent implements OnInit {
           this.countries = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Paises')
+      error: (e) => SwalFacade.error('Erro ao listar os dados de Paises', e)
     })
   }
 
@@ -100,7 +100,7 @@ export class CreateBeneficiaryComponent implements OnInit {
             this.states = data;
           }
         },
-        error: () => SwalFacade.error('Erro ao listar os dados de Estados')
+        error: (e) => SwalFacade.error('Erro ao listar os dados de Estados', e)
       })
     }
   }
@@ -120,7 +120,7 @@ export class CreateBeneficiaryComponent implements OnInit {
             this.cities = data;
           }
         },
-        error: () => SwalFacade.error('Erro ao listar os dados de Cidades')
+        error: (e) => SwalFacade.error('Erro ao listar os dados de Cidades', e)
       })
     }
   }
@@ -153,7 +153,7 @@ export class CreateBeneficiaryComponent implements OnInit {
           this.socialPrograms = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Estado Civil')
+      error: (e) => SwalFacade.error('Erro ao listar os dados de Estado Civil', e)
     })
   }
 
