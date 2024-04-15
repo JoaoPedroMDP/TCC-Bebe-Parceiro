@@ -60,7 +60,7 @@ export class InspectBeneficiaryComponent implements OnInit {
         this.state = response.state.name
         this.country = response.state.country.name
       },
-      error: (e) => { SwalFacade.error("Ocorreu um erro!", e) },
+      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
     })
   }
 

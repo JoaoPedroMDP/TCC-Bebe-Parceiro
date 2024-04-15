@@ -15,9 +15,9 @@ export class ProfessionalComponent implements OnInit {
   user!: UserToken;
   professional!: Professional;
   showSuccess = false;
-  specialitySelected!: number ;
+  specialitySelected!: number;
   specialities!: Speciality[];
-  
+
 
   constructor(private ProfessionalService: ProfessionalService, private router: Router) { }
 
@@ -27,7 +27,7 @@ export class ProfessionalComponent implements OnInit {
   }
 
 
-  
+
   listSpecialities() {
     this.ProfessionalService.getSpecialities().subscribe({
       next: (data: Speciality[]) => {
@@ -37,26 +37,25 @@ export class ProfessionalComponent implements OnInit {
           this.specialities = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Especialidades')
+      error: (e) => SwalFacade.error('Erro ao listar os dados de Especialidades', e)
     })
   }
 
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.professional.speciality_id= this.specialitySelected;
-    console.log(this.professional)
+    this.professional.speciality_id = this.specialitySelected;
     if (this.professional.accepted_volunteer_terms) {
       this.ProfessionalService.saveProfessional(this.professional)
         .subscribe({
           next: () => this.showSuccess = true,
-          error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
+          error: (e) => SwalFacade.error("Ocorreu um erro!", e)
         })
-      } else {
-        alert('Por favor, aceite os termos de voluntariado para continuar.');
-      }
-     
+    } else {
+      SwalFacade.alert('Por favor, aceite os termos de voluntariado para continuar.')
     }
+
   }
+}
 
 
 

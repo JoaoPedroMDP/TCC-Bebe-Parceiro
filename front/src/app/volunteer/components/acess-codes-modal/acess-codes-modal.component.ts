@@ -25,7 +25,7 @@ export class AcessCodesModalComponent implements OnInit {
         // Só pega os 10 primeiros códigos, para não ficar muito bagunçado e cheio de dados
         this.accessCodes = codes.slice(0, 10);
       },
-      error: (e) => { SwalFacade.error("Ocorreu um erro!", e) },
+      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
       complete: () => {
         if (this.accessCodes.length > 0) {
           // Existe códigos salvos então mostra eles antes
@@ -53,7 +53,7 @@ export class AcessCodesModalComponent implements OnInit {
         this.accessCodes.push(...codes); // Adiciona os novos códigos ao atributo
         this.accessCodes.slice(0, 10); // Remove da visualização o resto e mantém somente 10 códigos
       },
-      error: (e) => { SwalFacade.error("Ocorreu um erro!", e) },
+      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
     })
   }
 

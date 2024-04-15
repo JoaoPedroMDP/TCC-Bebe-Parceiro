@@ -27,7 +27,7 @@ export class DeleteBeneficiaryComponent implements OnInit {
         this.activeModal.close(),
         SwalFacade.success("Beneficiada excluída", `${this.benefited.name} foi excluída com sucesso!`)
       },
-      error: () => SwalFacade.error("Ocorreu um erro", "Não foi possível fazer excluir a beneficiada")
+      error: (e) => SwalFacade.error("Ocorreu um erro!", `Não foi possível fazer excluir a beneficiada: ${e}`)
     })
   }
 

@@ -36,8 +36,6 @@ export class ValidCodeGuard implements CanActivate {
         }
       }),
       catchError((err) => {
-        console.log(err);
-        
         // Tratamento de erro 
         this.router.navigate(['/autocadastro']);
         SwalFacade.error('Código Inválido', 'Entre em contato com uma voluntária');

@@ -24,7 +24,7 @@ export class MainComponent implements OnInit {
     this.toggleMenu();
     this.authService.logout().subscribe({
       next: () => SwalFacade.success("Usuário desconectado","Redirecionando ao login"),
-      error: () => SwalFacade.error("Ocorreu um erro","Não foi possível fazer o logout"),
+      error: (e) => SwalFacade.error("Ocorreu um erro! Não foi possível fazer o logout", e),
       complete: () => this.router.navigate(['/login'])
     });
   }

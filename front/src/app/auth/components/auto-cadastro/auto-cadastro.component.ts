@@ -63,7 +63,7 @@ export class AutoCadastroComponent implements OnInit {
       this.authService.saveBenefited(this.beneficiada)
         .subscribe({
           next: () => this.showSuccess = true,
-          error: (e) => { SwalFacade.error("Erro ao salvar!", e) }
+          error: (e) => SwalFacade.error("Erro ao salvar!", e)
         });
     }
   }
@@ -80,7 +80,7 @@ export class AutoCadastroComponent implements OnInit {
           this.countries = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Paises')
+      error: (e) => SwalFacade.error('Erro ao listar os dados de Paises', e)
     })
   }
 
@@ -102,7 +102,7 @@ export class AutoCadastroComponent implements OnInit {
             this.states = data;
           }
         },
-        error: () => SwalFacade.error('Erro ao listar os dados de Estados')
+        error: (e) => SwalFacade.error('Erro ao listar os dados de Estados', e)
       })
     }
   }
@@ -122,7 +122,7 @@ export class AutoCadastroComponent implements OnInit {
             this.cities = data;
           }
         },
-        error: () => SwalFacade.error('Erro ao listar os dados de Cidades')
+        error: (e) => SwalFacade.error('Erro ao listar os dados de Cidades', e)
       })
     }
   }
@@ -155,7 +155,7 @@ export class AutoCadastroComponent implements OnInit {
           this.socialPrograms = data;
         }
       },
-      error: () => SwalFacade.error('Erro ao listar os dados de Estado Civil')
+      error: (e) => SwalFacade.error('Erro ao listar os dados de Estado Civil', e)
     })
   }
 
