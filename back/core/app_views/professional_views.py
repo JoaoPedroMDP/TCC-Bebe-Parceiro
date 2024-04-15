@@ -15,11 +15,22 @@ from core.models import Professional
 from core.serializers import ProfessionalSerializer
 from core.services.professional_service import ProfessionalService
 from core.utils.decorators import endpoint
+from config import MANAGE_PROFESSIONALS
+from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.owns_it import OwnsIt
+
 
 lgr = logging.getLogger(__name__)
 
 
 class ProfessionalGenericViews(BaseView):
+    groups = [MANAGE_PROFESSIONALS]
+    permission_classes_by_method = {
+        "post": ()
+    }
+    authentication_classes_by_method = {
+        "post": ()
+    }
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_PROFESSIONALS----")
@@ -37,6 +48,10 @@ class ProfessionalGenericViews(BaseView):
 
 
 class ProfessionalSpecificViews(BaseView):
+    groups = [MANAGE_PROFESSIONALS]
+    permission_classes = (AtLeastOneGroup,)
+    permission_classes_by_method = {
+    }
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_PROFESSIONALS----")
