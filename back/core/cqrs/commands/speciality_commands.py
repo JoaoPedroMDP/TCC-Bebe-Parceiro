@@ -1,5 +1,12 @@
 #  coding: utf-8
 from core.cqrs import Validator, Field, Command
+from core.repositories.speciality_repository import SpecialityRepository
+
+
+def check_for_duplicity(data: dict):
+    conflicts = SpecialityRepository.filter(name=data['name'])
+    if len(conflicts) > 0:
+        raise AssertionError("Especialidade já cadastrada")
 
 
 class CreateSpecialityCommand(Command):
@@ -16,6 +23,7 @@ class CreateSpecialityCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'CreateSpecialityCommand':
         data = Validator.validate_and_extract(CreateSpecialityCommand.fields, args)
+        check_for_duplicity(data)
         return CreateSpecialityCommand(**data)
 
 
@@ -35,6 +43,7 @@ class PatchSpecialityCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchSpecialityCommand':
         data = Validator.validate_and_extract(PatchSpecialityCommand.fields, args)
+        check_for_duplicity(data)
         return PatchSpecialityCommand(**data)
 
 
