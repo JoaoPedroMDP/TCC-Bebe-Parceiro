@@ -1,4 +1,5 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SwalFacade, UserToken } from 'src/app/shared';
 import { Professional, Speciality } from 'src/app/shared/models/professional';
@@ -12,22 +13,21 @@ import { ProfessionalService } from '../../services/professional.service';
 })
 export class ProfessionalComponent implements OnInit {
 
-  user!: UserToken;
+  @ViewChild('form') form!: NgForm;
   professional!: Professional;
-  showSuccess = false;
-  specialitySelected!: number;
   specialities!: Speciality[];
+  showSuccess = false;
 
-
-  constructor(private ProfessionalService: ProfessionalService, private router: Router) { }
+  constructor(private ProfessionalService: ProfessionalService) { }
 
   ngOnInit(): void {
     this.professional = new Professional();
     this.listSpecialities();
   }
 
-
-
+  /**
+   * @description Lista as especialidades do profissional para realizar o cadastro
+   */
   listSpecialities() {
     this.ProfessionalService.getSpecialities().subscribe({
       next: (data: Speciality[]) => {
@@ -42,8 +42,6 @@ export class ProfessionalComponent implements OnInit {
   }
 
   save() {
-    // Atualiza os dados da beneficiada com as informações selecionadas
-    this.professional.speciality_id = this.specialitySelected;
     if (this.professional.accepted_volunteer_terms) {
       this.ProfessionalService.saveProfessional(this.professional)
         .subscribe({
@@ -53,7 +51,6 @@ export class ProfessionalComponent implements OnInit {
     } else {
       SwalFacade.alert('Por favor, aceite os termos de voluntariado para continuar.')
     }
-
   }
 }
 
