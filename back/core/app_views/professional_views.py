@@ -26,10 +26,12 @@ lgr = logging.getLogger(__name__)
 class ProfessionalGenericViews(BaseView):
     groups = [MANAGE_PROFESSIONALS]
     permission_classes_by_method = {
-        "post": ()
+        "post": (),
+        "get": ()
     }
     authentication_classes_by_method = {
-        "post": ()
+        "post": (),
+        "get": ()
     }
     @endpoint
     def get(self, request: Request, format=None):
