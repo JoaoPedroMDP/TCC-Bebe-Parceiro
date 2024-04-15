@@ -5,7 +5,7 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS, ROLES, ROLE_BENEFICIARY
+from config import GROUPS, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
