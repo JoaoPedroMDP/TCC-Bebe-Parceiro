@@ -9,5 +9,3 @@ export class Professional {
     public accepted_volunteer_terms?: boolean
   ) { }
 }
-
-
