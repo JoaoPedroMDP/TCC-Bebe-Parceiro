@@ -4,50 +4,50 @@
         <p>Usuário: {{user.user?.name}}</p>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias" [class.disabled]="!hasGroup('manage_volunteers')">
             <span>Voluntárias</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades"  [class.disabled]="!hasGroup('especialidades')">
             <span>Especialidades</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas" [class.disabled]="!hasGroup('campanhas')">
             <span>Campanhas</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios" [class.disabled]="!hasGroup('relatorios')">
             <span>Relatórios</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="funcoes">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="funcoes" [class.disabled]="!hasGroup('funcoes')">
             <span>Funções</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios" [class.disabled]="!hasGroup('prontuarios')">
             <span>Prontuários</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="beneficiadas">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="beneficiadas" [class.disabled]="!hasGroup('manage_beneficiaries')">
             <span>Beneficiadas</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="trocas">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="trocas" [class.disabled]="!hasGroup('manage_swaps')">
             <span>Trocas</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="atendimentos">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="atendimentos" [class.disabled]="!hasGroup('manage_appointments')">
             <span>Atendimentos</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="profissionais">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="profissionais" [class.disabled]="!hasGroup('manage_professionals')">
             <span>Profissionais</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="solitacoes">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="solitacoes" [class.disabled]="!hasGroup('manage_beneficiaries')">
             <span>Solicitações de cadastro</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" (click)="openAcessCodesModal()">
+        <a class="col-10 col-lg-5 bp-menu-option" (click)="openAcessCodesModal()" [class.disabled]="!hasGroup('manage_access_codes')">
             <span>Códigos de acesso</span>
         </a>
     </div>
