@@ -37,13 +37,9 @@ export class LoginComponent implements OnInit {
           // Atribui os dados do response para um objeto token e o salva no AuthService
           this.token = response;
           this.authService.setUser(this.token);
-
           if (this.token.user?.role == "volunteer") {
             // navega pro componente homepage voluntaria
             this.router.navigate(['/voluntaria']);
-          } else if(this.token.user?.role == "admin") {
-            // navega pro componente homepage admin
-            this.router.navigate(['/admin']);
           } else {
             // navega pro componente homepage beneficiada
             this.router.navigate(['/beneficiada']);

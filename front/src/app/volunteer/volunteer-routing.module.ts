@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { MainComponent } from './index';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
+import { HomeComponent } from './components/home/home.component';
+import { MainComponent } from './index';
 
 
 export const VolunteerRouting: Routes = [

@@ -3,25 +3,52 @@
         <h1>Bem vinda voluntaria!</h1>
         <p>Usuário: {{user.user?.name}}</p>
     </div>
-    <a class="row bp-menu-option" routerLink="prontuarios">
-        <span>Prontuários</span>
-    </a>
-    <a class="row bp-menu-option" routerLink="beneficiadas">
-        <span>Beneficiadas</span>
-    </a>
-    <a class="row bp-menu-option" routerLink="trocas">
-        <span>Trocas</span>
-    </a>
-    <a class="row bp-menu-option" routerLink="atendimentos">
-        <span>Atendimentos</span>
-    </a>
-    <a class="row bp-menu-option" routerLink="profissionais">
-        <span>Profissionais</span>
-    </a>
-    <a class="row bp-menu-option" routerLink="solicitacoes">
-        <span>Solicitações de cadastro</span>
-    </a>
-    <a class="row bp-menu-option" (click)="openAcessCodesModal()">
-        <span>Códigos de acesso</span>
-    </a>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias">
+            <span>Voluntárias</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades">
+            <span>Especialidades</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas">
+            <span>Campanhas</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios">
+            <span>Relatórios</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="funcoes">
+            <span>Funções</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios">
+            <span>Prontuários</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="beneficiadas">
+            <span>Beneficiadas</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="trocas">
+            <span>Trocas</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="atendimentos">
+            <span>Atendimentos</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="profissionais">
+            <span>Profissionais</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="solitacoes">
+            <span>Solicitações de cadastro</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" (click)="openAcessCodesModal()">
+            <span>Códigos de acesso</span>
+        </a>
+    </div>
 </div>
