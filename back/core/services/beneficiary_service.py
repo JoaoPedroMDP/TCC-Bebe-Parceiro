@@ -120,3 +120,10 @@ class BeneficiaryService(CrudService):
     @classmethod
     def delete(cls, command: DeleteBeneficiaryCommand) -> bool:
         return BeneficiaryRepository.delete(command.id)
+
+    @classmethod
+    def anonimize(cls, command: DeleteBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        beneficiary.user.first_name = 'ANONIMIZADO'
+        beneficiary.save()
+        return BeneficiaryRepository.patch(command.to_dict())

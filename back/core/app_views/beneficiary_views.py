@@ -86,10 +86,16 @@ class BeneficiarySpecificViews(BaseView):
     def delete(self, request: Request, pk, format=None):
         lgr.debug("----DELETE_BENEFITED----")
         command: DeleteBeneficiaryCommand = DeleteBeneficiaryCommand.from_dict({'id': int(pk)})
-        deleted: bool = BeneficiaryService.delete(command)
+       # if request.user.groups.filter(name="role_volunteer").exists():
+        #    deleted: bool = BeneficiaryService.delete(command)
+        #    if deleted:
+         #       return {}, status.HTTP_204_NO_CONTENT
 
-        if deleted:
-            return {}, status.HTTP_204_NO_CONTENT
+          #  return {}, status.HTTP_404_NOT_FOUND
+        #else:
+        anonimized: Beneficiary = BeneficiaryService.anonimize(command)
+        if anonimized:
+         return {}, status.HTTP_204_NO_CONTENT
 
         return {}, status.HTTP_404_NOT_FOUND
 
