@@ -36,6 +36,8 @@
   font-weight: 600;
   transition: 0.5s;
   padding: .4rem 1rem;
+  white-space: nowrap; /* Impede a quebra de linha */
+  width: auto; /* Permite que o botão ajuste automaticamente a largura */
 }
 
 .bp-button:hover {

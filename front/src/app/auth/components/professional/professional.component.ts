@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SwalFacade } from 'src/app/shared';
-import { Professional, Speciality } from 'src/app/shared/models/professional';
+import { Professional, ProfessionalPost, Speciality } from 'src/app/shared/models/professional';
+import { ProfessionalService } from 'src/app/volunteer';
 import { environment } from 'src/environments/environment';
-import { ProfessionalService } from '../../services/professional.service';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { ProfessionalService } from '../../services/professional.service';
 export class ProfessionalComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  professional!: Professional;
+  professional!: ProfessionalPost;
   specialities!: Speciality[];
   showSuccess = false;
   captchaResponse!: string;

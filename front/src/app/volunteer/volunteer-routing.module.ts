@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
-import { HomeComponent } from './components/home/home.component';
-import { MainComponent } from './index';
+import { ListProfessionalComponent } from './components/professional';
+import { HomeComponent, MainComponent } from './index';
 
 
 export const VolunteerRouting: Routes = [
@@ -16,6 +16,10 @@ export const VolunteerRouting: Routes = [
       { path: 'beneficiadas/criar', component: CreateBeneficiaryComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
       { path: 'beneficiadas/inspecionar/:idBeneficiada', component: InspectBeneficiaryComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
       { path: 'beneficiadas/editar/:idBeneficiada', component: EditBeneficiaryComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
+      // PROFISSIONAL
+      { path: 'profissionais', component: ListProfessionalComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
+      // { path: 'profissionais/pendentes', component: PendingProfessionalsComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
+      // { path: 'especialidades', component: SpecialitiesComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
     ],
     canActivate: [AuthGuard],
     data: { expectedRole: 'volunteer' }

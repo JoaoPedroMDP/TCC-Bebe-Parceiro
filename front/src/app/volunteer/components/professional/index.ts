@@ -1,0 +1,1 @@
+export * from './list-professional/list-professional.component';

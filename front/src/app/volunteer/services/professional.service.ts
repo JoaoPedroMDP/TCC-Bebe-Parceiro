@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Professional } from 'src/app/shared/models/professional';
+import { Professional, ProfessionalPost } from 'src/app/shared/models/professional';
 import { environment } from 'src/environments/environment';
-
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +28,7 @@ export class ProfessionalService {
    * @param professional O objeto contendo os dados do profissional
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  saveProfessional(professional: Professional): Observable<any> {
+  saveProfessional(professional: ProfessionalPost): Observable<any> {
     return this.http.post(`${this.baseURL}professionals`, professional)
       .pipe(
         catchError(error => {
@@ -37,5 +36,15 @@ export class ProfessionalService {
         })
       );
   }
-}
 
+
+
+  listProfessionals(): Observable<any> {
+    return this.http.get(`${this.baseURL}professionals`)
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+}
