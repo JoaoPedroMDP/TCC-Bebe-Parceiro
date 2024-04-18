@@ -1,23 +1,15 @@
 /* -------------------------------------------  ID ------------------------------------------- */
 #btn-delete {
+    --bg-btn: var(--bp-light-red);
+    --color-btn: var(--bp-red);
     border-bottom-left-radius: 5px;
-    background-color: var(--bp-light-red);
-    color: var(--bp-red);
 }
 
 #btn-close {
-    background-color: var(--bp-light-gray);
+    --bg-btn: var(--bp-light-gray);
     border-bottom-right-radius: 5px;
 }
 
-/* Por algum motivo quando eu alterei as cores nos botões 
-   parou de funcionar os hovers, por isso reeecrevi abaixo */
-#btn-delete:hover{ 
-    background-color: var(--bp-black);
-    color: var(--white);
-}
-
-#btn-close:hover{ background-color: var(--bp-black); }
 /* -------------------------------------------  CLASS ------------------------------------------- */
 .bp-button {
     margin: 0;

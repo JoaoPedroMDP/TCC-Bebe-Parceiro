@@ -4,10 +4,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
-import { ListBeneficiaryComponent, DeleteBeneficiaryComponent, CreateBeneficiaryComponent, InspectBeneficiaryComponent, EditBeneficiaryComponent } from './components/beneficiary';
 import { AuthModule } from '../auth/auth.module';
-import { ListProfessionalComponent } from './components/professional/list-professional/list-professional.component';
+import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
+import { DeleteProfessionalComponent, InspectProfessionalComponent, ListProfessionalComponent } from './components/professional';
+import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 
 
 
@@ -24,6 +24,8 @@ import { ListProfessionalComponent } from './components/professional/list-profes
     DeleteBeneficiaryComponent,
     // PROFESSIONAL
     ListProfessionalComponent,
+    InspectProfessionalComponent,
+    DeleteProfessionalComponent,
   ],
   imports: [
     CommonModule,

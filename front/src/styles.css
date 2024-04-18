@@ -16,7 +16,6 @@
   --header: #A7CA90;
   --white: #FFFFFF;
   --black: #000000;
-  --btn-cor-hover: #FFFFFF;
   --btn-bg-disabled: #817560;
   --btn-cor-disabled: #000000;
 }
@@ -29,10 +28,12 @@
 }
 
 .bp-button {
-  background-color: var(--bp-yellow);
+  --bg-btn: var(--bp-yellow);
+  --color-btn: var(--bp-black);
+  background-color: var(--bg-btn);
   border: 1px solid var(--bp-black);
   border-radius: 5px;
-  color: var(--bp-black);
+  color: var(--color-btn);
   font-weight: 600;
   transition: 0.5s;
   padding: .4rem 1rem;
