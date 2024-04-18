@@ -12,12 +12,14 @@ from config import MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
+from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
 from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.permissions.owns_it import OwnsIt
 from core.serializers import BeneficiarySerializer
 from core.services.beneficiary_service import BeneficiaryService
+from core.services.user_service import UserService
 from core.utils.decorators import endpoint
 
 lgr = logging.getLogger(__name__)
@@ -86,6 +88,8 @@ class BeneficiarySpecificViews(BaseView):
     def delete(self, request: Request, pk, format=None):
         lgr.debug("----DELETE_BENEFITED----")
         command: DeleteBeneficiaryCommand = DeleteBeneficiaryCommand.from_dict({'id': int(pk)})
+        command_user: DeleteUserCommand = DeleteUserCommand.from_dict({'id': int(pk)})
+
         if request.user.groups.filter(name="role_beneficiary").exists():
             anonimized: Beneficiary = BeneficiaryService.anonimize(command)
             if anonimized:
@@ -93,7 +97,8 @@ class BeneficiarySpecificViews(BaseView):
 
             return {}, status.HTTP_404_NOT_FOUND
         else:
-            deleted: bool = BeneficiaryService.delete(command)
+            # Aqui chamamos o delete de User para apagar tudo (user, beneficiary e child, visto que são filhos de user)
+            deleted: bool = UserService.delete(command_user)
             if deleted:
                return {}, status.HTTP_204_NO_CONTENT
 
