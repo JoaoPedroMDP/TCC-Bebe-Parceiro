@@ -125,5 +125,13 @@ class BeneficiaryService(CrudService):
     def anonimize(cls, command: DeleteBeneficiaryCommand) -> Beneficiary:
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
         beneficiary.user.first_name = 'ANONIMIZADO'
-        beneficiary.save()
+        beneficiary.user.last_name = 'ANONIMIZADO'
+        beneficiary.user.email = 'ANONIMIZADO'
+        beneficiary.user.phone = 'ANONIMIZADO'
+        beneficiary.user.save()
+
+        for child in beneficiary.children.all():
+            child.name = 'ANONIMIZADO'
+            child.save()
+
         return BeneficiaryRepository.patch(command.to_dict())
