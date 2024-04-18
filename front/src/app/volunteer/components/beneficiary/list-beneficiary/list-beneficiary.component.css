@@ -12,17 +12,9 @@
     background-color: var(--bp-light-gray);
 }
 
-.bp-input-with-icon {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-}
-
-.bp-input-with-icon i {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: .9rem;
+.bp-nome-limit {
+    max-width: 140px; /* Defina o limite máximo de largura para o texto */
+    word-wrap: break-word; /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
 }
 
 .fa-solid{ margin: .5rem .2rem; }
