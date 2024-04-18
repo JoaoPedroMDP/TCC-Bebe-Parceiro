@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from restfw_composed_permissions.base import Or
 
-from config import MANAGE_BENEFICIARIES
+from config import MANAGE_BENEFICIARIES, ROLE_BENEFICIARY
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
@@ -17,6 +17,7 @@ from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBenef
 from core.models import Beneficiary
 from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.permissions.owns_it import OwnsIt
+from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.serializers import BeneficiarySerializer
 from core.services.beneficiary_service import BeneficiaryService
 from core.services.user_service import UserService
@@ -87,10 +88,11 @@ class BeneficiarySpecificViews(BaseView):
     @endpoint
     def delete(self, request: Request, pk, format=None):
         lgr.debug("----DELETE_BENEFITED----")
+        beneficiary: Beneficiary = BeneficiaryRepository.get(pk)
+        command_user: DeleteUserCommand = DeleteUserCommand.from_dict({'id': beneficiary.user_id})
         command: DeleteBeneficiaryCommand = DeleteBeneficiaryCommand.from_dict({'id': int(pk)})
-        command_user: DeleteUserCommand = DeleteUserCommand.from_dict({'id': int(pk)})
 
-        if request.user.groups.filter(name="role_beneficiary").exists():
+        if request.user.groups.filter(name=ROLE_BENEFICIARY).exists():
             anonimized: Beneficiary = BeneficiaryService.anonimize(command)
             if anonimized:
                 return {}, status.HTTP_204_NO_CONTENT

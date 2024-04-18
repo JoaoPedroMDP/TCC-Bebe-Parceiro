@@ -134,4 +134,4 @@ class BeneficiaryService(CrudService):
             child.name = 'ANONIMIZADO'
             child.save()
 
-        return BeneficiaryRepository.patch(command.to_dict())
+        return beneficiary #ver se retorna so um true ou se n retorna nada ou desse jeito (retornando obj atualizado)

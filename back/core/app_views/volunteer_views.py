@@ -14,6 +14,7 @@ from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchV
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
 from core.models import Volunteer
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.repositories.volunteer_repository import VolunteerRepository
 from core.serializers import VolunteerSerializer
 from core.services.user_service import UserService
 from core.services.volunteer_service import VolunteerService
@@ -59,7 +60,8 @@ class VolunteerSpecificViews(BaseView):
         # deletamos o usuário e não a voluntária, pois a classe pai é o usuário
 
         lgr.debug("----DELETE_VOLUNTEER----")
-        command: DeleteUserCommand = DeleteUserCommand.from_dict({'id': int(pk)})
+        volunteer: Volunteer = VolunteerRepository.get(pk)
+        command: DeleteUserCommand = DeleteUserCommand.from_dict({'id': volunteer.user_id})
         deleted: bool = UserService.delete(command)
 
         if deleted:
