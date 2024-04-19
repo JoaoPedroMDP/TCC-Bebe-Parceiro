@@ -74,7 +74,8 @@ class UserSerializer(ModelSerializer):
         groups: List = obj.groups.all()
         role = list(filter(role_filter, groups))
         if len(role) > 0:
-            return role[0].name.split("_")[1]
+            role = 'beneficiary' if role[0].name.split("_")[1] == 'beneficiary' else 'volunteer'
+            return role
 
         return "Unknown"
 
