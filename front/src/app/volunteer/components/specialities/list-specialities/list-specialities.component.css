@@ -1,0 +1,88 @@
+/* -------------------------------------------   ID   ------------------------------------------- */
+#bp-big-btn {
+    padding: .5rem 1rem;
+    font-size: .9rem;
+}
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: .5rem 2.5rem .8rem 2.5rem;
+    background-color: var(--bp-light-gray);
+}
+
+.bp-footer-left{
+    display: flex;
+    justify-content: flex-start;
+    margin: .2rem 0;
+}
+.bp-footer-right{
+    display: flex;
+    justify-content: flex-end;
+    margin: .2rem 0;
+}
+.bp-nome-limit {
+    max-width: 140px; /* Defina o limite máximo de largura para o texto */
+    word-wrap: break-word; /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
+}
+
+.fa-solid{ margin: .5rem .2rem; }
+.fa-pen-to-square { color: var(--bp-black); }
+.fa-pen-to-square:hover { color: var(--black); }
+.fa-trash { color: var(--bp-red); }
+.fa-trash:hover { color: var(--bp-dark-red); }
+/* -------------------------------------------   TAG  ------------------------------------------- */
+table {
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 1rem;
+    margin-bottom: 12rem;
+    text-align: center;
+}
+
+td {
+    border: 1px solid var(--bp-light-gray);
+    padding: .4rem;
+    cursor: pointer;
+}
+
+th { border: 1px solid var(--bp-light-gray); }
+
+thead {
+    border-radius: 5px;
+    border: 1px solid var(--bp-light-gray);
+}
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width < 991px) {
+    .fa-solid{ margin: .3rem; }
+    td, th { font-size: .9rem; }
+    #bp-big-btn{ margin: 0 .2rem; }
+}
+
+@media screen and (width < 390px) {
+    #bp-big-btn{ padding: .35rem 1rem; }
+    .bp-footer{ 
+        display: grid;
+        justify-content: center;
+        padding: .3rem 0 .3rem 0;
+    }
+    .bp-button{ width: 100%; }
+    .bp-footer-left,
+    .bp-footer-right {
+        justify-content: center;      
+        margin: .15rem 0; 
+    }
+
+    td, th {
+        font-size: .75rem;
+        font-weight: 600;
+        padding: 2.5px;
+    }
+
+    .fa-solid{
+        font-size: 1.2rem;
+        padding: .75rem 0;
+        margin: 0;
+    }
+}

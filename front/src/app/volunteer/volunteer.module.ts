@@ -7,6 +7,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { AuthModule } from '../auth/auth.module';
 import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
 import { DeleteProfessionalComponent, InspectProfessionalComponent, ListProfessionalComponent } from './components/professional';
+import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 
 
@@ -26,6 +27,10 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     ListProfessionalComponent,
     InspectProfessionalComponent,
     DeleteProfessionalComponent,
+    // ESPECIALIDADES
+    ListSpecialitiesComponent,
+    CreateEditSpecialityComponent,
+    DeleteSpecialityComponent,
   ],
   imports: [
     CommonModule,
