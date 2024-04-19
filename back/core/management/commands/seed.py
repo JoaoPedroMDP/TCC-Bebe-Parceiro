@@ -5,7 +5,7 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN
+from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
@@ -44,6 +44,14 @@ class Command(BaseCommand):
 
         for s in self.SOCIAL_PROGRAMS:
             SocialProgramFactory.create(name=s, enabled=True)
+
+        # Beneficiárias esperando por aprovação
+        for i in range(5):
+            identification = f"ben_pending_{i}"
+            u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+            u.groups.add(roles[ROLE_PENDING_BENEFICIARY])
+
+            BeneficiaryFactory.create(user=u)
 
         # Beneficiárias com filhos nascidos
         for i in range(2):

@@ -56,11 +56,9 @@ class PermissionSerializer(ModelSerializer):
 
 
 class GroupSerializer(ModelSerializer):
-    permissions = PermissionSerializer(many=True, read_only=True)
-
     class Meta:
         model = Group
-        fields = ['id', 'name', 'permissions']
+        fields = ['id', 'name']
 
 
 class UserSerializer(ModelSerializer):
@@ -68,16 +66,7 @@ class UserSerializer(ModelSerializer):
     role = SerializerMethodField()
 
     def get_role(self, obj: User):
-        def role_filter(group):
-            return group.name.startswith('role_')
-
-        groups: List = obj.groups.all()
-        role = list(filter(role_filter, groups))
-        if len(role) > 0:
-            role = 'beneficiary' if role[0].name.split("_")[1] == 'beneficiary' else 'volunteer'
-            return role
-
-        return "Unknown"
+        return obj.get_formatted_role()
 
     class Meta:
         model = User
@@ -100,23 +89,10 @@ class BeneficiarySerializer(ModelSerializer):
     children = ChildSerializer(many=True, read_only=True)
     birth_date = DateTimeField(format="%Y-%m-%d")
 
-    name = SerializerMethodField()
-    phone = SerializerMethodField()
-    email = SerializerMethodField()
-
     class Meta:
         model = Beneficiary
-        fields = ['id', 'name', 'phone', 'email', 'birth_date', 'child_count', 'monthly_familiar_income',
+        fields = ['id', 'birth_date', 'child_count', 'monthly_familiar_income',
                   'has_disablement', 'marital_status_id', 'children', 'city_id', 'social_programs', 'created_at']
-
-    def get_name(self, obj: Beneficiary):
-        return obj.user.name
-
-    def get_phone(self, obj: Beneficiary):
-        return obj.user.phone
-
-    def get_email(self, obj: Beneficiary):
-        return obj.user.email
 
 
 class VolunteerSerializer(ModelSerializer):

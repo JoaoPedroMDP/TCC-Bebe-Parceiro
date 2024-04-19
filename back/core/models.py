@@ -1,4 +1,5 @@
-from django.contrib.auth.models import AbstractUser
+from typing import List
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
 from core.utils.dictable import Dictable
@@ -40,6 +41,18 @@ class User(AbstractUser):
     @name.setter
     def name(self, value):
         self.first_name = value
+
+    @property
+    def role(self) -> str:
+        def role_filter(group):
+            return group.name.startswith('role_')
+
+        groups: List[Group] = self.groups.all()
+        role: Group = list(filter(role_filter, groups))[0]
+        return role.name
+
+    def get_formatted_role(self):
+        return "_".join(self.role.split("_")[1:])
 
 
 class Country(EnablableModel):

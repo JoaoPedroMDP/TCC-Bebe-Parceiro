@@ -39,10 +39,11 @@ GROUPS = [
 
 
 # Cargos genéricos
+ROLE_PENDING_BENEFICIARY = "role_pending_beneficiary"
 ROLE_BENEFICIARY = "role_beneficiary"
 ROLE_VOLUNTEER = "role_volunteer"
 ROLE_ADMIN = "role_admin"
-ROLES = [ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN]
+ROLES = [ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN, ROLE_PENDING_BENEFICIARY]
 
 
 # Ambiente
