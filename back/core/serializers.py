@@ -83,16 +83,17 @@ class ChildSerializer(ModelSerializer):
 
 
 class BeneficiarySerializer(ModelSerializer):
-    city_id = SlugRelatedField(slug_field='id', read_only=True, source='city')
     marital_status_id = SlugRelatedField(slug_field='id', read_only=True, source='marital_status')
     social_programs = SocialProgramSerializer(many=True, read_only=True)
     children = ChildSerializer(many=True, read_only=True)
+    user = UserSerializer(many=False, read_only=True)
+    city = CitySerializer(many=False, read_only=True)
     birth_date = DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = Beneficiary
-        fields = ['id', 'birth_date', 'child_count', 'monthly_familiar_income',
-                  'has_disablement', 'marital_status_id', 'children', 'city_id', 'social_programs', 'created_at']
+        fields = ['id', 'user', 'birth_date', 'child_count', 'monthly_familiar_income',
+                  'has_disablement', 'marital_status_id', 'children', 'city', 'social_programs', 'created_at']
 
 
 class VolunteerSerializer(ModelSerializer):
