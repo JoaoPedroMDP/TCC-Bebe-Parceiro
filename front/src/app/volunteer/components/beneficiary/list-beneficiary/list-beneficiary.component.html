@@ -13,7 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let benefited of beneficiaries; let even = even"
+                <tr *ngFor="let benefited of beneficiaries"
                     [title]="'Clique para ver mais dados da beneficiada: '+ benefited.name">
                     <td class="align-middle bp-nome-limit" (click)="inspectBenefited(benefited)">{{benefited.name}}</td>
                     <td class="align-middle" (click)="inspectBenefited(benefited)">{{benefited.child_count}}</td>

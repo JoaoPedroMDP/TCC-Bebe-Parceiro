@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
 import { Speciality } from 'src/app/shared/models/professional';
 import { SpecialityService } from 'src/app/volunteer/services/speciality.service';
+import { DeleteSpecialityComponent } from '../delete-speciality/delete-speciality.component';
+import { CreateEditSpecialityComponent } from '../create-edit-speciality/create-edit-speciality.component';
 
 @Component({
   selector: 'app-list-specialities',
@@ -31,6 +33,10 @@ export class ListSpecialitiesComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe(); // Cancela a subscrição para evitar vazamentos de memória.
   }
 
+  /**
+   * @description Lista todas as especialidades no componente
+   * @param isFiltering boolean que indica se a listagem será filtrada ou não
+   */
   listSpecialities(isFiltering: boolean){
     this.isLoading = true; // Flag de carregamento
     this.specialityService.listSpecialities().subscribe({
@@ -54,14 +60,24 @@ export class ListSpecialitiesComponent implements OnInit, OnDestroy {
     })
   }
 
-  
+  /**
+   * @description Abre o modal de exclusão
+   * @param speciality objeto da especialidade para ir como parâmetro na rota
+   */
   deleteSpeciality(speciality: Speciality){
-
+    this.modalService.open(
+      DeleteSpecialityComponent, { size: 'xl' }
+    ).componentInstance.speciality = speciality;
   }
   
-
+  /**
+   * @description Abre o modal de edição
+   * @param speciality objeto da especialidade para ir como parâmetro na rota
+   */
   editSpeciality(speciality: Speciality){
-
+    let modalRef = this.modalService.open(CreateEditSpecialityComponent, { size: 'xl' });
+    modalRef.componentInstance.speciality = speciality;  // Passando o especialidade
+    modalRef.componentInstance.editMode = true;          // Passando o modo de edição
   }
 
   /**
@@ -82,7 +98,13 @@ export class ListSpecialitiesComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * @description Abre o modal de criação
+   * @param speciality objeto da especialidade para ir como parâmetro na rota
+   */
   newSpeciality(){
-
+    let modalRef = this.modalService.open(CreateEditSpecialityComponent, { size: 'xl' });
+    modalRef.componentInstance.speciality = new Speciality();  // Passando o especialidade
+    modalRef.componentInstance.editMode = false;          // Passando o modo de edição
   }
 }

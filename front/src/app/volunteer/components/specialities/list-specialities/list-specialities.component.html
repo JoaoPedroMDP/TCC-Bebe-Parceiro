@@ -12,7 +12,7 @@
             </thead>
              <tbody>
                 <tr *ngFor="let speciality of specialities">
-                    <td class="align-middle">{{speciality.name}}</td>
+                    <td class="align-middle bp-nome-limit">{{speciality.name}}</td>
                     <td>
                         <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editSpeciality(speciality)"
                             [title]="'Editar a especialidade: '+ speciality.name"></i>

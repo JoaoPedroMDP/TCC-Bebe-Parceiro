@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
 import { Professional } from 'src/app/shared/models/professional';
 import { ProfessionalService } from 'src/app/volunteer/services/professional.service';
+import { InspectProfessionalComponent } from '../index';
 
 @Component({
   selector: 'app-list-professional',
   templateUrl: './list-professional.component.html',
   styleUrls: ['./list-professional.component.css']
 })
-export class ListProfessionalComponent implements OnInit {
+export class ListProfessionalComponent implements OnInit, OnDestroy {
 
   professionals!: Professional[];
   filter!: string;
@@ -23,32 +24,33 @@ export class ListProfessionalComponent implements OnInit {
   ngOnInit(): void {
     this.listProfessionals(false)
   }
+  
+  ngOnDestroy(): void {
+    // Cancela a subscrição para evitar vazamentos de memória.
+    this.subscription?.unsubscribe();
+  }
 
   listProfessionals(isFiltering: boolean){
     this.isLoading = true; // Flag de carregamento
-
-    if (isFiltering) {
-      this.professionalService.listProfessionals()
-        .subscribe(response => {
-          this.professionals = response.filter(
-            // Compara filtro com o array tudo em lowercase
-            (p: { name: string; }) => p.name.toLowerCase().includes(this.filter.toLowerCase())
+    this.professionalService.listProfessionals().subscribe({
+      next: (response) => {
+        this.professionals = response
+        // Ordena por nome crescente
+        this.professionals.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
+      },
+      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
+      complete: () => { 
+        if (isFiltering) {
+          this.professionals = this.professionals.filter(
+            (professional: Professional) => {
+              // Asegura que name é uma string antes de chamar métodos de string
+              return professional.name ? professional.name.toLowerCase().includes(this.filter.toLowerCase()) : false;
+            }
           );
-          // Ordena por nome crescente
-          this.professionals.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
-          this.isLoading = false;
-        });
-    } else {
-      this.professionalService.listProfessionals().subscribe({
-        next: (response) => {
-          this.professionals = response
-          this.isLoading = false;
-          console.log(this.professionals);
-          
-        },
-        error: (e) => SwalFacade.error("Ocorreu um erro!", e)
-      })
-    }    
+        }
+        this.isLoading = false;
+      }
+    }) 
   }
 
   /**
@@ -69,7 +71,11 @@ export class ListProfessionalComponent implements OnInit {
     }
   }
 
-  inspectProfessional(professional: Professional){}
+  inspectProfessional(professional: Professional){
+    this.modalService.open(
+      InspectProfessionalComponent, { size: 'xl' }
+    ).componentInstance.professional = professional;
+  }
   editProfessional(professional: Professional) {}
   deleteProfessional(professional: Professional) {}
   newProfessional(){}

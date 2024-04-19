@@ -1,0 +1,28 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-delete {
+    --bg-btn: var(--bp-light-red);
+    --color-btn: var(--bp-red);
+    border-bottom-left-radius: 5px;
+}
+
+#btn-close {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-right-radius: 5px;
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+.bp-modal-footer { padding: 0; }
+/* -------------------------------------------  TAG  -------------------------------------------- */
+p{ font-weight: 500; }
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .bp-button {
+        font-size: 1.2rem;
+    }    
+}

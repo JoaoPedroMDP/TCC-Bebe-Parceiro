@@ -12,7 +12,7 @@
                 </tr>
             </thead>
              <tbody>
-                <tr *ngFor="let professional of professionals; let even = even"
+                <tr *ngFor="let professional of professionals"
                     [title]="'Clique para ver mais dados do profissional: '+ professional.name">
                     <td class="align-middle" (click)="inspectProfessional(professional)">{{professional.name}}</td>
                     <td class="align-middle" (click)="inspectProfessional(professional)">{{professional.speciality?.name}}</td>
