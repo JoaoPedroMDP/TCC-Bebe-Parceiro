@@ -66,7 +66,16 @@ class UserSerializer(ModelSerializer):
     role = SerializerMethodField()
 
     def get_role(self, obj: User):
-        return obj.get_formatted_role()
+        def role_filter(group):
+            return group.name.startswith('role_')
+
+        groups: List = obj.groups.all()
+        role = list(filter(role_filter, groups))
+        if len(role) > 0:
+            role = 'beneficiary' if role[0].name.split("_")[1] == 'beneficiary' else 'volunteer'
+            return role
+
+        return "Unknown"
 
     class Meta:
         model = User
