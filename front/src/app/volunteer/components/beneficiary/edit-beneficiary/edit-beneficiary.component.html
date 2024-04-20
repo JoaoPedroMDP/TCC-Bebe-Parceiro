@@ -10,7 +10,7 @@
                     Nome Completo <span class="text-danger font-weight-bold">*</span>
                 </small>
                 <input type="text" class="form-control" placeholder="Nome da Beneficiada" minlength="2" maxlength="150"
-                    name="name" [(ngModel)]="benefited.name" required>
+                    name="name" [(ngModel)]="beneficiary.name" required>
                 <div *ngIf="form.controls['name']">
                     <div
                         *ngIf="form.controls['name'].errors && (form.controls['name'].dirty || form.controls['name'].touched)">
@@ -25,7 +25,7 @@
                     <small class="form-text font-weight-bold text-left">Nº de filhos <span
                             class="text-danger font-weight-bold">*</span></small>
                     <input type="number" class="form-control" placeholder="Incluindo o que irá nascer!"
-                        name="child_count" [(ngModel)]="benefited.child_count" required min="1" max="30">
+                        name="child_count" [(ngModel)]="beneficiary.child_count" required min="1" max="30">
                     <div *ngIf="form.controls['child_count']">
                         <div
                             *ngIf="form.controls['child_count'].errors && (form.controls['child_count'].dirty || form.controls['child_count'].touched)">
@@ -45,7 +45,7 @@
                     <small class="form-text font-weight-bold text-left">
                         Data de nascimento <span class="text-danger font-weight-bold">*</span>
                     </small>
-                    <input type="date" class="form-control" name="birth_date" [(ngModel)]="benefited.birth_date"
+                    <input type="date" class="form-control" name="birth_date" [(ngModel)]="beneficiary.birth_date"
                         required>
                     <div *ngIf="form.controls['birth_date']">
                         <div
@@ -60,7 +60,7 @@
             <div class="row mt-1">
                 <div class="col">
                     <small class="form-text font-weight-bold text-left">Estado civil</small>
-                    <select class="form-select" name="marital_status_id" [(ngModel)]="benefited.marital_status_id">
+                    <select class="form-select" name="marital_status_id" [(ngModel)]="beneficiary.marital_status_id">
                         <option [value]="undefined"> --- </option>
                         <option [value]="marital.id" *ngFor="let marital of maritalStatus">{{marital.name}}</option>
                     </select>
@@ -68,7 +68,7 @@
                 <div class="col">
                     <small class="form-text font-weight-bold text-left">Email</small>
                     <input type="email" class="form-control" placeholder="Email@mail.com" name="email"
-                        [(ngModel)]="benefited.email">
+                        [(ngModel)]="beneficiary.email">
                 </div>
             </div>
             <div class="row mt-1">
@@ -76,7 +76,7 @@
                     <small class="form-text font-weight-bold text-left">Telefone <span
                             class="text-danger font-weight-bold">*</span></small>
                     <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" name="phone"
-                        placeholder="(XX) X XXXX-XXXX" [(ngModel)]="benefited.phone" minlength="10" required>
+                        placeholder="(XX) X XXXX-XXXX" [(ngModel)]="beneficiary.phone" minlength="10" required>
                     <div *ngIf="form.controls['phone']">
                         <div
                             *ngIf="form.controls['phone'].errors && (form.controls['phone'].dirty || form.controls['phone'].touched)">
@@ -93,8 +93,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">R$</span>
                         </div>
-                        <input type="text" step="any" class="form-control" placeholder="0000,00" mask="separator.2"
-                            thousandSeparator="." maxlength="10" [(ngModel)]="benefited.monthly_familiar_income"
+                        <input type="text" step="any" class="form-control" placeholder="0.000,00" mask="separator.2"
+                            thousandSeparator="." decimalMarker="," maxlength="10" [(ngModel)]="beneficiary.monthly_familiar_income"
                             name="monthly_familiar_income" required>
                     </div>
                     <div *ngIf="form.controls['monthly_familiar_income']">
@@ -113,7 +113,7 @@
                     <small class="form-text font-weight-bold text-left">Nova senha</small>
                     <div class="input-with-icon">
                         <input type="password" class="form-control" placeholder="Senha" name="password"
-                            [(ngModel)]="benefited.password">
+                            [(ngModel)]="beneficiary.password">
                         <i class="fa fa-eye" (click)="showPassword('password')"></i>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
             </div>
             <div class="col mt-1">
                 <small class="form-text font-weight-bold text-left">Cidade</small>
-                <select class="form-select" [(ngModel)]="benefited.city_id" name="city_id">
+                <select class="form-select" [(ngModel)]="beneficiary.city_id" name="city_id">
                     <option [value]="undefined"> --- </option>
                     <option [value]="city.id" *ngFor="let city of cities">{{city.name}}</option>
                 </select>
@@ -158,12 +158,12 @@
             <div class="form-group d-flex justify-content-center">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="has_disablement" [value]=true
-                        [(ngModel)]="benefited.has_disablement">
+                        [(ngModel)]="beneficiary.has_disablement">
                     <label class="form-check-label">Sim</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="has_disablement" [value]=false
-                        [(ngModel)]="benefited.has_disablement">
+                        [(ngModel)]="beneficiary.has_disablement">
                     <label class="form-check-label">Não</label>
                 </div>
             </div>

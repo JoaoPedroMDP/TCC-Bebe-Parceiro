@@ -1,9 +1,8 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth';
-import { Benefited, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
+import { BeneficiaryPOST, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
 import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 
 @Component({
@@ -14,7 +13,7 @@ import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 export class EditBeneficiaryComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  benefited!: Benefited;
+  beneficiary!: BeneficiaryPOST;
 
   children: Child[] = [];
   selectedSocialPrograms: SocialProgram[] = [];
@@ -36,23 +35,25 @@ export class EditBeneficiaryComponent implements OnInit {
 
   ngOnInit(): void {
     // Inicializa um objeto vazio para evitar erros de undefined
-    this.benefited = new Benefited();
+    this.beneficiary = new BeneficiaryPOST();
     // Recupera o objeto da beneficiada através do ID presente na rota
     // Ou seja na url /beneficiadas/inspecionar/9 será recuperado o ID 9 
     // e irá buscar a beneficiada com esse ID e  mostrar os dados dela
     this.route.paramMap.subscribe(params => {
-      const benefitedId = Number(params.get('idBeneficiada'));
-      if (benefitedId) {
-        this.volunteerService.findBenefited(benefitedId).subscribe({
+      const beneficiaryId = Number(params.get('idBeneficiada'));
+      if (beneficiaryId) {
+        this.volunteerService.findBeneficiary(beneficiaryId).subscribe({
           next: (response) => {
-            // Chama a listagem dos dados e atribui a response para as variaveis locais
-            this.benefited = response;
+            // A response vem com o formato de Beneciary mas como precisamos de
+            // BeneficiaryPOST entao eu faco uma conversao aqui
+            this.beneficiary.transformObjectToEdit(response);
+
             this.listMaritalStatus();
             this.listSocialProgram();
             this.listCountries();
             this.getAddress();
-            this.children = this.benefited.children!;
-            this.selectedSocialPrograms = this.benefited.social_programs!;
+            this.children = this.beneficiary.children!;
+            this.selectedSocialPrograms = this.beneficiary.social_programs!;
           },
           error: (e) => {
             SwalFacade.error("Ocorreu um erro! Redirecionando para a listagem", e)
@@ -69,19 +70,19 @@ export class EditBeneficiaryComponent implements OnInit {
    */
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.benefited.social_programs = this.selectedSocialPrograms;
-    this.benefited.children = this.children;
+    this.beneficiary.social_programs = this.selectedSocialPrograms;
+    this.beneficiary.children = this.children;
     // Validação da quantidade de filhos
-    if (this.benefited.child_count! > 30 || this.benefited.child_count! < 1) {
-      this.benefited.child_count = this.benefited.children.length
+    if (this.beneficiary.child_count! > 30 || this.beneficiary.child_count! < 1) {
+      this.beneficiary.child_count = this.beneficiary.children.length
     }
 
     // Verificação se as senhas inseridas são iguais ou então se não foi digitado nada no campo de senha
-    if ((this.benefited.password == this.form.value.password_confirm) || this.benefited.password == undefined) {
-      this.volunteerService.editBenefited(this.benefited.id!, this.benefited)
+    if ((this.beneficiary.password == this.form.value.password_confirm) || this.beneficiary.password == undefined) {
+      this.volunteerService.editBeneficiary(this.beneficiary.id!, this.beneficiary)
         .subscribe({
           next: () => {
-            SwalFacade.success("Beneficiada alterada com sucesso", `Beneficiada: ${this.benefited.name}`)
+            SwalFacade.success("Beneficiada alterada com sucesso", `Beneficiada: ${this.beneficiary.name}`)
             this.router.navigate(['/voluntaria/beneficiadas'])
           },
           error: (e) => SwalFacade.error("Ocorreu um erro!", e)
@@ -95,11 +96,11 @@ export class EditBeneficiaryComponent implements OnInit {
    * @description Procura qual é o endereço da beneficiada através do id
    */
   getAddress() {
-    this.volunteerService.findCity(this.benefited.city_id!).subscribe({
+    this.volunteerService.findCity(this.beneficiary.city_id!).subscribe({
       next: (response) => {
         this.countrySelected = response.state.country.id
         this.stateSelected = response.state.id
-        this.benefited.city_id = response.id
+        this.beneficiary.city_id = response.id
         this.authService.getStates(response.state.country.id).subscribe({
           next: (data: State[]) => {
             if (data == null) {
@@ -140,7 +141,7 @@ export class EditBeneficiaryComponent implements OnInit {
     this.states = []; // Trocou o país então precisa limpar os estados
     this.cities = []; // Trocou o país então precisa limpar as cidades
     this.stateSelected = undefined;
-    this.benefited.city_id = undefined;
+    this.beneficiary.city_id = undefined;
 
     if (this.countrySelected != null) {
       this.authService.getStates(this.countrySelected).subscribe({
@@ -272,6 +273,8 @@ export class EditBeneficiaryComponent implements OnInit {
    * @returns Retorna `true` se o programa está selecionado, caso contrário retorna `false`.
   */
   isSocialProgramSelected(program: SocialProgram): boolean {
+    // console.log(this.selectedSocialPrograms.some(p => p.id === program.id));
+    
     return this.selectedSocialPrograms.some(p => p.id === program.id);
   }
 
