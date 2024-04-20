@@ -3,7 +3,7 @@ import logging
 
 from django.contrib.auth import login
 from core.utils.exceptions import HttpFriendlyError
-from config import ROLE_ADMIN, ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY, ROLE_VOLUNTEER
+from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY, ROLE_VOLUNTEER
 from core.models import Beneficiary, User, Volunteer
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.volunteer_repository import VolunteerRepository
@@ -20,10 +20,9 @@ class LoginView(KnoxLoginView):
     authentication_classes = ()
     permission_classes = ()
 
-
-    # Request.data precisa ter username e password, lembre-se disso
     @endpoint
     def post(self, request, format=None):
+        # Request.data precisa ter username e password, lembre-se disso
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user: User = serializer.validated_data['user']
@@ -31,7 +30,7 @@ class LoginView(KnoxLoginView):
         response = super(LoginView, self).post(request, format=None)
         role: str = user.role
 
-        if role in [ROLE_ADMIN, ROLE_VOLUNTEER]:
+        if role == ROLE_VOLUNTEER:
             person: Volunteer = VolunteerRepository.filter(user=user)[0]
         elif role in [ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY]:
             person: Beneficiary = BeneficiaryRepository.filter(user=user)[0]

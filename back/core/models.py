@@ -52,6 +52,8 @@ class User(AbstractUser):
         return role.name
 
     def get_formatted_role(self):
+        # Aqui tem esse join pra quando a role tiver mais de duas palavras
+        # Por exemplo, "role_pending_beneficiary" retorna "pending_beneficiary"
         return "_".join(self.role.split("_")[1:])
 
 

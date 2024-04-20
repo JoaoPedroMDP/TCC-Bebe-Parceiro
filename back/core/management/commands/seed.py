@@ -5,7 +5,7 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_ADMIN
+from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
@@ -90,7 +90,7 @@ class Command(BaseCommand):
 
         # E uma voluntária admin
         admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
-        admin_user.groups.set([*groups, roles[ROLE_ADMIN]])
+        admin_user.groups.set([*groups, roles[ROLE_VOLUNTEER]])
         VolunteerFactory.create(user=admin_user)
 
         AccessCodeFactory.create_batch(5, used=False)
