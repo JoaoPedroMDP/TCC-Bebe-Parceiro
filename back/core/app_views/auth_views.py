@@ -1,9 +1,17 @@
 #  coding: utf-8
 import logging
+from typing import List
 
 from django.contrib.auth import login
+from django.contrib.auth.models import Group
+from rest_framework.request import Request
+
+from core.app_views import BaseView
+from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.serializers import GroupSerializer
+from core.services.group_service import GroupService
 from core.utils.exceptions import HttpFriendlyError
-from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY, ROLE_VOLUNTEER
+from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY, ROLE_VOLUNTEER, MANAGE_VOLUNTEERS
 from core.models import Beneficiary, User, Volunteer
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.volunteer_repository import VolunteerRepository
@@ -39,3 +47,13 @@ class LoginView(KnoxLoginView):
 
         response.data['person_id'] = person.id
         return response.data, response.status_code
+
+
+class GroupGenericView(BaseView):
+    groups = [MANAGE_VOLUNTEERS]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        groups: List[Group] = GroupService.get_groups()
+        return GroupSerializer(groups, many=True).data, 200

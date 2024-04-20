@@ -3,7 +3,7 @@ from django.urls import path
 from knox.views import LogoutView
 
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews, CheckAccessCodeView
-from core.app_views.auth_views import LoginView
+from core.app_views.auth_views import LoginView, GroupGenericView
 from core.app_views.beneficiary_views import BeneficiaryGenericViews, BeneficiarySpecificViews, \
     BeneficiaryCreationByVolunteer
 from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/logout', LogoutView.as_view(), name='logout'),
+    path('auth/groups', GroupGenericView.as_view(), name='gen_groups'),
 
     path("beneficiaries/create", BeneficiaryCreationByVolunteer.as_view(), name="create_beneficiaries"),
     path("beneficiaries", BeneficiaryGenericViews.as_view(), name="gen_beneficiaries"),
