@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { SwalFacade } from 'src/app/shared';
 import { Professional, ProfessionalPost, Speciality } from 'src/app/shared/models/professional';
 import { ProfessionalService } from 'src/app/volunteer';
+import { SpecialityService } from 'src/app/volunteer/services/speciality.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -20,7 +21,7 @@ export class ProfessionalComponent implements OnInit {
   captchaResponse!: string;
   siteKey!: string;
 
-  constructor(private ProfessionalService: ProfessionalService) { }
+  constructor(private ProfessionalService: ProfessionalService, private specialityService: SpecialityService) { }
 
   ngOnInit(): void {
     this.siteKey = environment.recaptchaSiteKey;
@@ -32,7 +33,7 @@ export class ProfessionalComponent implements OnInit {
    * @description Lista as especialidades do profissional para realizar o cadastro
    */
   listSpecialities() {
-    this.ProfessionalService.getSpecialities().subscribe({
+    this.specialityService.listSpecialities().subscribe({
       next: (data: Speciality[]) => {
         if (data == null) {
           this.specialities = [];
@@ -58,7 +59,7 @@ export class ProfessionalComponent implements OnInit {
    */
   save() {
     if (this.professional.accepted_volunteer_terms && this.captchaResponse) {
-      this.ProfessionalService.saveProfessional(this.professional)
+      this.ProfessionalService.createProfessional(this.professional)
         .subscribe({
           next: () => this.showSuccess = true,
           error: (e) => SwalFacade.error("Ocorreu um erro!", e)

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth';
-import { Benefited } from 'src/app/shared';
+import { BeneficiaryPOST } from 'src/app/shared';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -44,11 +44,11 @@ export class VolunteerService {
 
   /**
    * @description Faz um POST para inserir os dados de beneficiada
-   * @param benefited O objeto beneficiada para ser enviado no body da requisição
+   * @param beneficiary O objeto beneficiada para ser enviado no body da requisição
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  createBenefited(benefited: Benefited): Observable<any> {
-    return this.http.post(`${this.baseURL}beneficiaries/create`, benefited, { headers: this.authService.getHeaders() })
+  createBeneficiary(beneficiary: BeneficiaryPOST): Observable<any> {
+    return this.http.post(`${this.baseURL}beneficiaries/create`, beneficiary, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
@@ -61,7 +61,7 @@ export class VolunteerService {
    * @param id o Id da beneficiada a ser excluída
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  deleteBenefited(id: number): Observable<any> {
+  deleteBeneficiary(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this.refreshPage$.next()), // Após a execução bem-sucedida, emite um evento para os assinantes.
@@ -74,11 +74,11 @@ export class VolunteerService {
   /**
    * @description Faz um PATCH para obter editar uma beneficiada
    * @param id ID da beneficiada necessário para a rota de patch
-   * @param benefited valor a ser atualizado no body da requisição
+   * @param beneficiary valor a ser atualizado no body da requisição
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  editBenefited(id: number, benefited: Benefited): Observable<any> {
-    return this.http.patch(`${this.baseURL}beneficiaries/${id}`, benefited, { headers: this.authService.getHeaders() })
+  editBeneficiary(id: number, beneficiary: BeneficiaryPOST): Observable<any> {
+    return this.http.patch(`${this.baseURL}beneficiaries/${id}`, beneficiary, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
@@ -91,7 +91,7 @@ export class VolunteerService {
    * @param id da beneficiada
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  findBenefited(id: number): Observable<any> {
+  findBeneficiary(id: number): Observable<any> {
     return this.http.get(`${this.baseURL}beneficiaries/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
@@ -145,7 +145,7 @@ export class VolunteerService {
    * @description Faz um GET para obter todas as beneficiadas cadastradas
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  listBenefited(): Observable<any> {
+  listBeneficiary(): Observable<any> {
     return this.http.get(`${this.baseURL}beneficiaries`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {

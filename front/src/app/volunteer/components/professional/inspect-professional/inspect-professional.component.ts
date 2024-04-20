@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Professional } from 'src/app/shared/models/professional';
+import { DeleteProfessionalComponent } from '../delete-professional/delete-professional.component';
 
 @Component({
   selector: 'app-inspect-professional',
@@ -19,10 +20,14 @@ export class InspectProfessionalComponent implements OnInit {
   }
 
   editProfessional(professional: Professional){
-
+    // this.modalService.open(
+    //   CreateEditProfessionalComponent, { size: 'xl' }
+    // ).componentInstance.professional = professional;
   }
 
   deleteProfessional(professional: Professional){
-
+    this.modalService.open(
+      DeleteProfessionalComponent, { size: 'xl' }
+    ).componentInstance.professional = professional;
   }
 }

@@ -4,13 +4,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { HomeComponent, MainComponent } from './index';
+import { BeneficiaryService, HomeComponent, MainComponent, ViewInformationComponent } from './index';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    MainComponent
+    MainComponent,
+    ViewInformationComponent
   ],
   imports: [
     CommonModule,
@@ -20,9 +21,10 @@ import { HomeComponent, MainComponent } from './index';
     NgxMaskModule.forRoot()
   ],
   providers: [
+    BeneficiaryService
   ]
 })
-export class BenefitedModule { }
+export class BeneficiaryModule { }
 
 
 

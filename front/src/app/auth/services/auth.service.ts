@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, tap, throwError } from 'rxjs';
-import { Benefited, UserToken } from 'src/app/shared';
+import { BeneficiaryPOST, UserToken } from 'src/app/shared';
 import { environment } from 'src/environments/environment';
 
 
@@ -122,11 +122,11 @@ export class AuthService {
 
   /**
    * @description Faz um POST para inserir os dados de beneficiada
-   * @param benefited O objeto beneficiada para ser enviado no body da requisição
+   * @param beneficiary O objeto beneficiada para ser enviado no body da requisição
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  saveBenefited(benefited: Benefited): Observable<any> {
-    return this.http.post(`${this.baseURL}beneficiaries`, benefited, { headers: this.getHeaders() })
+  saveBeneficiary(beneficiary: BeneficiaryPOST): Observable<any> {
+    return this.http.post(`${this.baseURL}beneficiaries`, beneficiary, { headers: this.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
