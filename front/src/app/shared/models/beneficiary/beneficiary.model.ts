@@ -1,4 +1,4 @@
-import { Child, City, SocialProgram, User } from "../index";
+import { Child, City, MaritalStatus, SocialProgram, User } from "../index";
 
 export class BeneficiaryPOST {
   constructor(
@@ -27,7 +27,7 @@ export class Beneficiary {
     public child_count?: number,
     public monthly_familiar_income?: string,
     public has_disablement?: boolean,
-    public marital_status_id?: number,
+    public marital_status?: MaritalStatus,
     public children?: Child[],
     public city?: City,
     public social_programs?: SocialProgram[],
