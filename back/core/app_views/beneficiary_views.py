@@ -77,7 +77,6 @@ class BeneficiarySpecificViews(BaseView):
         data['id'] = pk
 
         command: PatchBeneficiaryCommand = PatchBeneficiaryCommand.from_dict(data)
-        command.user = request.user
         patched_beneficiary: Beneficiary = BeneficiaryService.patch(command)
 
         return BeneficiarySerializer(patched_beneficiary).data, status.HTTP_200_OK

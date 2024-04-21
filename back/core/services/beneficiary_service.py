@@ -8,7 +8,7 @@ from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
-from core.cqrs.commands.user_commands import CreateUserCommand
+from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary, User
 from core.repositories.access_code_repository import AccessCodeRepository
@@ -93,16 +93,21 @@ class BeneficiaryService(CrudService):
         # TODO Os dados de usuário (nome, phone, email) não estão sendo alterados
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
 
-        if command.password:
-            beneficiary.user.set_password(command.password)
-            del command.password
+        if command.user_data:
+            user_command = PatchUserCommand.from_dict({
+                **command.user_data,
+                'id': beneficiary.user.id
+            })
+            UserService.patch(user_command)
 
         for child in command.children:
             c_command = PatchChildCommand.from_dict(child)
             ChildService.patch(c_command)
 
-        for social_p in command.social_programs:
-            beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
+        if command.social_programs:
+            beneficiary.social_programs.clear()
+            for social_p in command.social_programs:
+                beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
 
         command.social_programs = None
         command.children = None

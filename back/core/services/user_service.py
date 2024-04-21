@@ -23,7 +23,13 @@ class UserService(CrudService):
         if data.get("phone"):
             data["username"] = data["phone"]
 
-        return UserRepository.patch(command.to_dict())
+        password = data.get("password")
+        user: User = UserRepository.patch(command.to_dict())
+        if password:
+            user.set_password(password)
+            user.save()
+
+        return user
 
     @classmethod
     def filter(cls, query: ListUserQuery) -> List[User]:
