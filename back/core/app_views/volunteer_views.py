@@ -41,6 +41,9 @@ class VolunteerGenericViews(BaseView):
 
 
 class VolunteerSpecificViews(BaseView):
+    groups = [MANAGE_VOLUNTEERS]
+    permission_classes = (AtLeastOneGroup,)
+
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_VOLUNTEER----")
