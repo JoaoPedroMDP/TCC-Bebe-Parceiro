@@ -1,0 +1,30 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-confirm {
+    --bg-btn: var(--bp-green);
+    border-bottom-left-radius: 5px;
+}
+
+#btn-cancel {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-right-radius: 5px;
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+.bp-modal-footer { padding: 0; }
+/* -------------------------------------------  TAG  -------------------------------------------- */
+p{ 
+    font-weight: 500; 
+    font-size: 1.1rem;
+}
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .bp-button {
+        font-size: 1.2rem;
+    }    
+}

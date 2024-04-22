@@ -18,8 +18,5 @@
 }
 
 .disabled {
-    /* display: none; */
-    pointer-events: none;
-    background-color: #e0e0e08a;
-    color: #b8b8b8;
+    display: none;
 }
