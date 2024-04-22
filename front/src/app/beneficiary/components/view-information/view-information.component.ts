@@ -25,6 +25,7 @@ export class ViewInformationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.beneficiary = new Beneficiary(); // só pra não dar erro de undefined
     // Lógica diferente do inspect pela beneficiada, não uso nada do router
     // Só pego o user dos cookies e depois chamo o findBeneficiary() para
     // encontrar a beneficiada
@@ -36,10 +37,6 @@ export class ViewInformationComponent implements OnInit {
         this.router.navigate(['/'])
       },
     });
-  }
-
-  editBeneficiary() {
-    // Fazer
   }
 
   /**

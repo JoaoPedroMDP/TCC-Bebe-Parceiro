@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth';
-import { BeneficiaryPOST, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
-import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
+import { BeneficiaryPOST, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade, UserToken } from 'src/app/shared';
+import { VolunteerService } from 'src/app/volunteer';
+import { BeneficiaryService } from '../../services/beneficiary.service';
 
 @Component({
-  selector: 'app-edit-beneficiary',
-  templateUrl: './edit-beneficiary.component.html',
-  styleUrls: ['./edit-beneficiary.component.css']
+  selector: 'app-edit-information',
+  templateUrl: './edit-information.component.html',
+  styleUrls: ['./edit-information.component.css']
 })
-export class EditBeneficiaryComponent implements OnInit {
+export class EditInformationComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
   beneficiary!: BeneficiaryPOST;
@@ -29,44 +30,39 @@ export class EditBeneficiaryComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private volunteerService: VolunteerService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     // Inicializa um objeto vazio para evitar erros de undefined
     this.beneficiary = new BeneficiaryPOST();
-    // Recupera o objeto da beneficiada através do ID presente na rota
-    // Ou seja na url /beneficiadas/inspecionar/9 será recuperado o ID 9 
-    // e irá buscar a beneficiada com esse ID e  mostrar os dados dela
-    this.route.paramMap.subscribe(params => {
-      const beneficiaryId = Number(params.get('idBeneficiada'));
-      if (beneficiaryId) {
-        this.volunteerService.findBeneficiary(beneficiaryId).subscribe({
-          next: (response) => {
-            // A response vem com o formato de Beneciary mas como precisamos de
-            // BeneficiaryPOST entao eu faco uma conversao aqui
-            this.beneficiary.transformObjectToEdit(response);
+    // Lógica diferente do edit beneficiada pela, não uso nada do router
+    // Só pego o user dos cookies e depois chamo o findBeneficiary() para
+    // encontrar a beneficiada
+    let user: UserToken = this.authService.getUser();
+    this.volunteerService.findBeneficiary(user.person_id!).subscribe({
+      next: (response) => {
+        // A response vem com o formato de Beneciary mas como precisamos de
+        // BeneficiaryPOST entao eu faco uma conversao aqui
+        this.beneficiary.transformObjectToEdit(response);
 
-            this.listMaritalStatus();
-            this.listSocialProgram();
-            this.listCountries();
-            this.getAddress();
-            this.children = this.beneficiary.children!;
-            this.selectedSocialPrograms = this.beneficiary.social_programs!;
-          },
-          error: (e) => {
-            SwalFacade.error("Ocorreu um erro! Redirecionando para a listagem", e)
-            this.router.navigate(['/voluntaria/beneficiadas'])
-          }
-        });
-      }
+        this.listMaritalStatus();
+        this.listSocialProgram();
+        this.listCountries();
+        this.getAddress();
+        this.children = this.beneficiary.children!;
+        this.selectedSocialPrograms = this.beneficiary.social_programs!;
+      },
+      error: (e) => {
+        SwalFacade.error("Ocorreu um erro!", e)
+        this.router.navigate(['/'])
+      },
     });
   }
 
   /**
    * @description Atualiza os dados da beneficiada, incluindo programas sociais e 
-   * filhos, e navega para a página de listagem
+   * filhos, e navega para a página inicial.
    */
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
@@ -82,13 +78,13 @@ export class EditBeneficiaryComponent implements OnInit {
       this.volunteerService.editBeneficiary(this.beneficiary.id!, this.beneficiary)
         .subscribe({
           next: () => {
-            SwalFacade.success("Beneficiada alterada com sucesso", `Beneficiada: ${this.beneficiary.name}`)
-            this.router.navigate(['/voluntaria/beneficiadas'])
+            SwalFacade.success(`${this.beneficiary.name} seus dados foram alterados com sucesso!`)
+            this.router.navigate(['/'])
           },
           error: (e) => SwalFacade.error("Ocorreu um erro!", e)
         });
     } else {
-      SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
+      SwalFacade.error('Erro ao salvar dados!', 'As senhas devem ser iguais!')
     }
   }
 
@@ -239,7 +235,7 @@ export class EditBeneficiaryComponent implements OnInit {
    */
   deleteChild(index: number) {
     if (this.children.length == 1) {
-      SwalFacade.alert('Não foi possível remover', 'A beneficiada deve ter pelo menos 1 filho cadastrado!')
+      SwalFacade.alert('Não foi possível remover', 'Você precisa ter pelo menos 1 filho cadastrado!')
     } else {
       // O filho só é excluído caso o usuário confirme a decisão
       SwalFacade.delete('Deseja mesmo remover o filho?', 'Remover')
@@ -274,7 +270,7 @@ export class EditBeneficiaryComponent implements OnInit {
   */
   isSocialProgramSelected(program: SocialProgram): boolean {
     // console.log(this.selectedSocialPrograms.some(p => p.id === program.id));
-    
+
     return this.selectedSocialPrograms.some(p => p.id === program.id);
   }
 

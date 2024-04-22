@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { BeneficiaryService, HomeComponent, MainComponent, RemoveInformationComponent, ViewInformationComponent } from './index';
+import { BeneficiaryService, EditInformationComponent, HomeComponent, MainComponent, RemoveInformationComponent, ViewInformationComponent } from './index';
+import { AuthModule } from '../auth/auth.module';
 
 
 @NgModule({
@@ -12,13 +13,15 @@ import { BeneficiaryService, HomeComponent, MainComponent, RemoveInformationComp
     HomeComponent,
     MainComponent,
     ViewInformationComponent,
-    RemoveInformationComponent
+    RemoveInformationComponent,
+    EditInformationComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
     RouterModule,
+    AuthModule,
     NgxMaskModule.forRoot()
   ],
   providers: [
