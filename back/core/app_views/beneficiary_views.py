@@ -21,22 +21,6 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class BeneficiaryApproval(BaseView):
-    groups = ["manage_beneficiaries"]
-    permission_classes = (AtLeastOneGroup,)
-
-    @endpoint
-    def patch(self, request: Request, pk, format=None):
-        lgr.debug("----APPROVE_BENEFICIARY----")
-        data = copy(request.data)
-        data['id'] = pk
-
-        command: ApproveBeneficiaryCommand = ApproveBeneficiaryCommand.from_dict(data)
-        approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
-
-        return BeneficiarySerializer(approved_beneficiary).data, status.HTTP_200_OK
-
-
 class BeneficiaryCreationByVolunteer(BaseView):
     groups = ["manage_beneficiaries"]
     permission_classes = (AtLeastOneGroup,)
@@ -115,3 +99,29 @@ class BeneficiarySpecificViews(BaseView):
             return BeneficiarySerializer(beneficiary).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+class BeneficiaryApproval(BaseView):
+    groups = [MANAGE_BENEFICIARIES]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def patch(self, request: Request, pk, format=None):
+        lgr.debug("----APPROVE_BENEFICIARY----")
+        data = copy(request.data)
+        data['id'] = pk
+
+        command: ApproveBeneficiaryCommand = ApproveBeneficiaryCommand.from_dict(data)
+        approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
+
+        return BeneficiarySerializer(approved_beneficiary).data, status.HTTP_200_OK
+
+
+class BeneficiaryPendingView(BaseView):
+    groups = [MANAGE_BENEFICIARIES]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_PENDING_BENEFICIARIES----")
+        beneficiaries: List[Beneficiary] = BeneficiaryService.get_pending_beneficiaries()
+        return BeneficiarySerializer(beneficiaries, many=True).data, status.HTTP_200_OK

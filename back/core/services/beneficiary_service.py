@@ -144,3 +144,7 @@ class BeneficiaryService(CrudService):
         AppointmentService.create(ca_command)
 
         return beneficiary
+
+    @classmethod
+    def get_pending_beneficiaries(cls):
+        return BeneficiaryRepository.filter(user__groups__name=ROLE_PENDING_BENEFICIARY)
