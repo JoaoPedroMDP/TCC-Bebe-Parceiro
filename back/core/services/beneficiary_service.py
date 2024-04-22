@@ -125,3 +125,16 @@ class BeneficiaryService(CrudService):
     @classmethod
     def delete(cls, command: DeleteBeneficiaryCommand) -> bool:
         return BeneficiaryRepository.delete(command.id)
+
+    @classmethod
+    def approve_beneficiary(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        user = beneficiary.user
+        old_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
+        new_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
+
+        user.groups.remove(old_role)
+        user.groups.add(new_role)
+        user.save()
+
+        return beneficiary

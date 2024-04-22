@@ -23,6 +23,22 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
+class BeneficiaryApproval(BaseView):
+    groups = ["manage_beneficiaries"]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def patch(self, request: Request, pk, format=None):
+        lgr.debug("----APPROVE_BENEFICIARY----")
+        command: PatchBeneficiaryCommand = PatchBeneficiaryCommand.from_dict({
+            'id': pk
+        })
+
+        approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
+
+        return BeneficiarySerializer(approved_beneficiary).data, status.HTTP_200_OK
+
+
 class BeneficiaryCreationByVolunteer(BaseView):
     groups = ["manage_beneficiaries"]
     permission_classes = (AtLeastOneGroup,)

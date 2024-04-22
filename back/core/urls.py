@@ -5,7 +5,7 @@ from knox.views import LogoutView
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews, CheckAccessCodeView
 from core.app_views.auth_views import LoginView, GroupGenericView
 from core.app_views.beneficiary_views import BeneficiaryGenericViews, BeneficiarySpecificViews, \
-    BeneficiaryCreationByVolunteer
+    BeneficiaryCreationByVolunteer, BeneficiaryApproval
 from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
 from core.app_views.city_views import CityGenericViews, CitySpecificViews
 from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
@@ -29,6 +29,7 @@ urlpatterns = [
     path('auth/logout', LogoutView.as_view(), name='logout'),
     path('auth/groups', GroupGenericView.as_view(), name='gen_groups'),
 
+    path("beneficiaries/approve/<int:pk>", BeneficiaryApproval.as_view(), name="approve_beneficiaries"),
     path("beneficiaries/create", BeneficiaryCreationByVolunteer.as_view(), name="create_beneficiaries"),
     path("beneficiaries", BeneficiaryGenericViews.as_view(), name="gen_beneficiaries"),
     path("beneficiaries/<int:pk>", BeneficiarySpecificViews.as_view(), name="spe_beneficiaries"),
