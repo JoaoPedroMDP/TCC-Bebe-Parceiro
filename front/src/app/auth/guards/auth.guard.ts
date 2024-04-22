@@ -9,7 +9,7 @@ import { SwalFacade } from 'src/app/shared';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -20,15 +20,17 @@ export class AuthGuard implements CanActivate {
     if (!user) {
       // Usuário não está autenticado
       this.router.navigate(['/login']);
-      SwalFacade.alert("Acesso não autorizado","Entre no sistema para poder acessar");
+      SwalFacade.alert("Acesso não autorizado", "Entre no sistema para poder acessar");
       return false;
     }
 
     // Verificar se a role do usuário permite acessar a rota
-    const expectedRole = next.data['expectedRole'];
-    if (user.user?.role !== expectedRole) {
+    const expectedRoles = next.data['expectedRole'];
+    const userRole = user.user?.role;
+
+    if (!expectedRoles.includes(userRole)) {
       // Role não corresponde, redirecionar para a página de não
-      this.router.navigate(['/unauthorized']); 
+      this.router.navigate(['/unauthorized']);
       return false;
     }
 
