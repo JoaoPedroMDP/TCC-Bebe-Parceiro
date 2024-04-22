@@ -17,6 +17,28 @@ TOKEN_TTL_SECONDS = 60 * 60 * 3
 # Habilita login no sistema
 AUTH_ENABLED = True
 
+# Estados civis
+SINGLE = 'Solteiro'
+MARRIED = 'Casado'
+DIVORCED = 'Divorciado'
+WIDOW = 'Viúvo'
+MARITAL_STATUSES = [SINGLE, MARRIED, DIVORCED, WIDOW]
+
+# Programas sociais
+CRAS = 'CRAS'
+MINHA_CASA_MINHA_VIDA = "Minha Casa Minha Vida"
+CADASTRO_EMPREGO = 'Cadastro de Emprego'
+BOLSA_FAMILIA = 'Bolsa Família'
+CARTAO_ALIMENTACAO = 'Cartão alimentação'
+SOCIAL_PROGRAMS = [CRAS, MINHA_CASA_MINHA_VIDA, CADASTRO_EMPREGO, BOLSA_FAMILIA, CARTAO_ALIMENTACAO]
+
+# Status de um agendamento
+PENDING = 'Pendente'
+APPROVED = 'Aprovado'
+REJECTED = 'Reprovado'
+CANCELED = 'Cancelado'
+FINISHED = 'Encerrado'
+STATUSES = [PENDING, APPROVED, REJECTED, CANCELED, FINISHED]
 
 # Grupos de permissões
 MANAGE_REGISTRATIONS = "manage_registrations"

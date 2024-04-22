@@ -113,10 +113,7 @@ class PatchBeneficiaryCommand(Command):
             Validator.date_not_on_future(birth_date)
             data["birth_date"] = birth_date.isoformat()
 
-        user_data: Dict = {k: data.pop(k) for k in list(data.keys()) if k in ["name", "phone", "password"]}
-        if user_data:
-            data["user_data"] = user_data
-
+        data['user_data'] = Command.extract_and_group_keys(data, ["name", "phone", "password"])
         return PatchBeneficiaryCommand(**data)
 
 
@@ -133,3 +130,26 @@ class DeleteBeneficiaryCommand(Command):
     def from_dict(args: dict) -> 'DeleteBeneficiaryCommand':
         data = Validator.validate_and_extract(DeleteBeneficiaryCommand.fields, args)
         return DeleteBeneficiaryCommand(**data)
+
+
+class ApproveBeneficiaryCommand(Command):
+    fields = [
+        Field("id", "integer", True, formatter=lambda x: int(x)),
+    ]
+
+    def __init__(self, id: int, appointment_data: Dict):
+        self.id = id
+        self.appointment_data = appointment_data
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'ApproveBeneficiaryCommand':
+        data = Validator.validate_and_extract(ApproveBeneficiaryCommand.fields, args)
+
+        appo_data = Command.extract_and_group_keys(
+            args, ["beneficiary_id", "volunteer_id", "professional_id", "date", "time"]
+        )
+        appo_data['beneficiary_id'] = data['id']
+        data['appointment_data'] = appo_data
+        print(data)
+        return ApproveBeneficiaryCommand(**data)

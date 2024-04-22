@@ -4,14 +4,12 @@ from copy import copy
 from typing import List
 
 from rest_framework import status
-from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
-from restfw_composed_permissions.base import Or
 
 from config import MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
-    DeleteBeneficiaryCommand
+    DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
 from core.permissions.at_least_one_group import AtLeastOneGroup
@@ -30,10 +28,10 @@ class BeneficiaryApproval(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----APPROVE_BENEFICIARY----")
-        command: PatchBeneficiaryCommand = PatchBeneficiaryCommand.from_dict({
-            'id': pk
-        })
+        data = copy(request.data)
+        data['id'] = pk
 
+        command: ApproveBeneficiaryCommand = ApproveBeneficiaryCommand.from_dict(data)
         approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
 
         return BeneficiarySerializer(approved_beneficiary).data, status.HTTP_200_OK

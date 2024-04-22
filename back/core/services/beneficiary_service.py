@@ -5,8 +5,9 @@ from typing import List
 from rest_framework import status
 
 from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
+from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
-    DeleteBeneficiaryCommand
+    DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
 from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
@@ -18,6 +19,7 @@ from core.repositories.group_repository import GroupRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.services import CrudService
+from core.services.appointment_service import AppointmentService
 from core.services.child_service import ChildService
 from core.services.user_service import UserService
 from core.utils.exceptions import HttpFriendlyError
@@ -127,8 +129,10 @@ class BeneficiaryService(CrudService):
         return BeneficiaryRepository.delete(command.id)
 
     @classmethod
-    def approve_beneficiary(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
+    def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
+
         user = beneficiary.user
         old_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
         new_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
@@ -136,5 +140,7 @@ class BeneficiaryService(CrudService):
         user.groups.remove(old_role)
         user.groups.add(new_role)
         user.save()
+
+        AppointmentService.create(ca_command)
 
         return beneficiary

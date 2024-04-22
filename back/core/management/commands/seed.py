@@ -5,17 +5,15 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER
+from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, STATUSES, \
+    MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
-    AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory
+    AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
 
 
 class Command(BaseCommand):
     help = 'Popula as tabelas com dados iniciais'
-    # Valores base para alguns cruds
-    MARITAL_STATUSES = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo']
-    SOCIAL_PROGRAMS = ['CRAS', "Minha Casa Minha Vida", 'Cadastro de Emprego', 'Bolsa Família', 'Cartão alimentação']
 
     def add_arguments(self, parser):
         parser.add_argument("--test", action='store_true', help="Se deve criar dados para testes manuais")
@@ -38,12 +36,17 @@ class Command(BaseCommand):
         if not options['test']:
             return
 
-        # Estados civis e programas sociais
-        for m in self.MARITAL_STATUSES:
+        # Estados civis
+        for m in MARITAL_STATUSES:
             MaritalStatusFactory.create(name=m, enabled=True)
 
-        for s in self.SOCIAL_PROGRAMS:
+        # Programas sociais
+        for s in SOCIAL_PROGRAMS:
             SocialProgramFactory.create(name=s, enabled=True)
+
+        # Status
+        for s in STATUSES:
+            StatusFactory.create(name=s, enabled=True)
 
         # Beneficiárias esperando por aprovação
         for i in range(5):

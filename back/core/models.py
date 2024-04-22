@@ -199,8 +199,8 @@ class Appointment(TimestampedModel):
     professional = models.ForeignKey(Professional, on_delete=models.CASCADE, null=True, related_name="appointments")
 
     date = models.DateField(null=True)
-    hour = models.TimeField(null=True)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name="appointments")
+    time = models.TimeField(null=True)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True, related_name="appointments")
 
 
 class Register(TimestampedModel):

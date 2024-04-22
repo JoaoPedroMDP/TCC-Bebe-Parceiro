@@ -186,7 +186,7 @@ class AppointmentFactory(TimestampedModelFactory):
     volunteer = factory.SubFactory(VolunteerFactory)
     professional = factory.SubFactory(ProfessionalFactory)
     date = factory.Faker('date_this_year', tzinfo=None)
-    hour = factory.Faker('time', tzinfo=None)
+    time = factory.Faker('time', tzinfo=None)
     status = factory.SubFactory(StatusFactory)
 
 
