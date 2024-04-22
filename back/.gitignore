@@ -1,7 +1,6 @@
 .venv
 venv
 .idea
-config.py
 docker-compose.yml
 __pycache__
 *log

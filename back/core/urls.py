@@ -12,7 +12,7 @@ from core.app_views.country_views import CountryGenericViews, CountrySpecificVie
 from core.app_views.marital_status_views import MaritalStatusGenericViews, MaritalStatusSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
 from core.app_views.state_views import StateGenericViews, StateSpecificViews
-from core.app_views.volunteer_views import VolunteerGenericViews, VolunteerSpecificViews
+from core.app_views.volunteer_views import VolunteerGenericViews, VolunteerSpecificViews, VolunteerEvaluatorsViews
 from core.app_views.professional_views import ProfessionalGenericViews, ProfessionalSpecificViews
 from core.app_views.speciality_views import SpecialityGenericViews, SpecialitySpecificViews
 # gen = generic
@@ -54,6 +54,7 @@ urlpatterns = [
 
     path("volunteers", VolunteerGenericViews.as_view(), name="gen_volunteers"),
     path("volunteers/<int:pk>", VolunteerSpecificViews.as_view(), name="spe_volunteers"),
+    path("volunteers/evaluators", VolunteerEvaluatorsViews.as_view(), name="spe_volunteers"),
 
     path("professionals", ProfessionalGenericViews.as_view(), name="gen_professionals"),
     path("professionals/<int:pk>", ProfessionalSpecificViews.as_view(), name="spe_professionals"),

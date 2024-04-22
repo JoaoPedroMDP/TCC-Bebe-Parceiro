@@ -2,7 +2,7 @@
 import logging
 from typing import List
 
-from config import ROLE_VOLUNTEER
+from config import ROLE_VOLUNTEER, MANAGE_EVALUATIONS
 from core.cqrs.commands.user_commands import CreateUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
@@ -61,3 +61,7 @@ class VolunteerService(CrudService):
     @classmethod
     def delete(cls, command: DeleteVolunteerCommand) -> bool:
         return VolunteerRepository.delete(command.id)
+
+    @classmethod
+    def get_evaluators(cls) -> List[Volunteer]:
+        return VolunteerRepository.filter(user__groups__name=MANAGE_EVALUATIONS)
