@@ -186,6 +186,7 @@ class Professional(EnablableModel):
 
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=30)
+    approved = models.BooleanField(default=False)
 
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, related_name="professionals")
     accepted_volunteer_terms = models.BooleanField(default=False)

@@ -118,5 +118,5 @@ class ProfessionalSerializer(ModelSerializer):
 
     class Meta:
         model = Professional
-        fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled']
+        fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled', 'approved']
 
