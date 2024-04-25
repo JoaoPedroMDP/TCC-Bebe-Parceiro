@@ -39,27 +39,25 @@ export class ListBeneficiaryComponent implements OnInit, OnDestroy {
    */
   listBeneficiaries(isFiltering: boolean) {
     this.isLoading = true; // Flag de carregamento
-
-    if (isFiltering) {
-      this.volunteerService.listBeneficiary()
-        .subscribe(response => {
-          this.beneficiaries = response.filter(
-            // Compara filtro com o array tudo em lowercase
-            (ben: { name: string; }) => ben.name.toLowerCase().includes(this.filter.toLowerCase())
+    this.volunteerService.listBeneficiary().subscribe({
+      next: (response) => {
+        this.beneficiaries = response
+        // Ordena por nome crescente
+        this.beneficiaries.sort((a, b) => (a.user!.name ?? '').localeCompare(b.user!.name ?? ''))
+      },
+      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
+      complete: () => { 
+        if (isFiltering) {
+          this.beneficiaries = this.beneficiaries.filter(
+            (beneficiaries: Beneficiary) => {
+              // Asegura que name é uma string antes de chamar métodos de string
+              return beneficiaries.user!.name! ? beneficiaries.user!.name!.toLowerCase().includes(this.filter.toLowerCase()) : false;
+            }
           );
-          // Ordena por nome crescente
-          this.beneficiaries.sort((a, b) => (a.user!.name ?? '').localeCompare(b.user!.name ?? ''))
-          this.isLoading = false;
-        });
-    } else {
-      this.volunteerService.listBeneficiary().subscribe({
-        next: (response) => {
-          this.beneficiaries = response
-          this.isLoading = false;
-        },
-        error: (e) => SwalFacade.error("Ocorreu um erro!", e)
-      })
-    }
+        }
+        this.isLoading = false;
+      }
+    }) 
   }
 
   /**

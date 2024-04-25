@@ -1,6 +1,6 @@
 /* -------------------------------------------  ID ------------------------------------------- */
 #btn-save {
-    --bg-btn: var(--bp-green);
+    --bg-btn: var(--bp-light-green);
     border-bottom-left-radius: 5px;
 }
 
