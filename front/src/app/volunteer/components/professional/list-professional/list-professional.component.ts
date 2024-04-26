@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
-import { Professional } from 'src/app/shared/models/professional';
+import { Professional, ProfessionalPOST } from 'src/app/shared/models/professional';
 import { ProfessionalService } from 'src/app/volunteer/services/professional.service';
-import { InspectProfessionalComponent } from '../index';
+import { CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent } from '../index';
 
 @Component({
   selector: 'app-list-professional',
@@ -22,15 +22,22 @@ export class ListProfessionalComponent implements OnInit, OnDestroy {
   constructor(private modalService: NgbModal, private router: Router, private professionalService: ProfessionalService) { }
 
   ngOnInit(): void {
-    this.listProfessionals(false)
+    this.listProfessionals(false) // Lista inicialmente os profissionais pendentes
+    this.subscription = this.professionalService.refreshPage$.subscribe(() => {
+      this.listProfessionals(false); // Lista os beneficiados novamente para refletir as atualizações.
+    })
   }
-  
+
   ngOnDestroy(): void {
     // Cancela a subscrição para evitar vazamentos de memória.
     this.subscription?.unsubscribe();
   }
 
-  listProfessionals(isFiltering: boolean){
+  /**
+   * @description Lista todos os profissionais no componente
+   * @param isFiltering boolean que indica se a listagem será filtrada ou não
+   */
+  listProfessionals(isFiltering: boolean) {
     this.isLoading = true; // Flag de carregamento
     this.professionalService.listProfessionals().subscribe({
       next: (response) => {
@@ -39,7 +46,7 @@ export class ListProfessionalComponent implements OnInit, OnDestroy {
         this.professionals.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
       },
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),
-      complete: () => { 
+      complete: () => {
         if (isFiltering) {
           this.professionals = this.professionals.filter(
             (professional: Professional) => {
@@ -50,7 +57,7 @@ export class ListProfessionalComponent implements OnInit, OnDestroy {
         }
         this.isLoading = false;
       }
-    }) 
+    })
   }
 
   /**
@@ -71,12 +78,44 @@ export class ListProfessionalComponent implements OnInit, OnDestroy {
     }
   }
 
-  inspectProfessional(professional: Professional){
+  /**
+   * @description Abre o modal de inspeção
+   * @param professional objeto do profissional para ir como variavel no componente
+   */
+  inspectProfessional(professional: Professional) {
+    let modalRef = this.modalService.open(InspectProfessionalComponent, { size: 'xl' });
+    modalRef.componentInstance.professional = professional;    // Passando o profissional
+    modalRef.componentInstance.isProfessionalApproved = true; // Passando o modo de edição
+  }
+
+  /**
+   * @description Abre o modal de criação
+   */
+  newProfessional() {
+    let modalRef = this.modalService.open(CreateEditProfessionalComponent, { size: 'xl' })
+    modalRef.componentInstance.professional = new ProfessionalPOST();  // Passando o profissional
+    modalRef.componentInstance.editMode = false;          // Passando o modo de edição
+  }
+
+  /**
+   * @description Abre o modal de edição
+   * @param professional objeto do profissional para ir como variavel no componente
+   */
+  editProfessional(professional: Professional) {
+    let professionalPOST = new ProfessionalPOST();
+    professionalPOST.transformObjectToEdit(professional);
+    let modalRef = this.modalService.open(CreateEditProfessionalComponent, { size: 'xl' })
+    modalRef.componentInstance.professional = professionalPOST;  // Passando o profissional
+    modalRef.componentInstance.editMode = true;          // Passando o modo de edição
+  }
+
+  /**
+   * @description Abre o modal de exclusão
+   * @param professional objeto do profissional para ir como variavel no componente
+   */
+  deleteProfessional(professional: Professional) {
     this.modalService.open(
-      InspectProfessionalComponent, { size: 'xl' }
+      DeleteProfessionalComponent, { size: 'xl' }
     ).componentInstance.professional = professional;
   }
-  editProfessional(professional: Professional) {}
-  deleteProfessional(professional: Professional) {}
-  newProfessional(){}
 }

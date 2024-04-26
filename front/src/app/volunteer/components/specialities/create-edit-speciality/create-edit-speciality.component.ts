@@ -13,7 +13,7 @@ import { SpecialityService } from 'src/app/volunteer/services/speciality.service
 export class CreateEditSpecialityComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  @Input() speciality!: Speciality; // Ajuste o tipo conforme necessário
+  @Input() speciality!: Speciality;
   @Input() editMode: boolean = false;
 
   constructor(public activeModal: NgbActiveModal, private specialityService: SpecialityService) { }

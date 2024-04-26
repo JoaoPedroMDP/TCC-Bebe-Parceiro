@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth';
-import { Professional, ProfessionalPost } from 'src/app/shared/models/professional';
+import { Professional, ProfessionalPOST } from 'src/app/shared/models/professional';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class ProfessionalService {
    * @param professional O objeto contendo os dados do profissional
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  createProfessional(professional: ProfessionalPost): Observable<any> {
+  createProfessional(professional: ProfessionalPOST): Observable<any> {
     return this.http.post(`${this.baseURL}professionals`, professional)
       .pipe(
         tap(() => this.refreshPage$.next()), // Após a execução, emite um evento para os assinantes.

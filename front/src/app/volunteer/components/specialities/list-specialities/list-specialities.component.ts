@@ -100,7 +100,6 @@ export class ListSpecialitiesComponent implements OnInit, OnDestroy {
 
   /**
    * @description Abre o modal de criação
-   * @param speciality objeto da especialidade para ir como parâmetro na rota
    */
   newSpeciality(){
     let modalRef = this.modalService.open(CreateEditSpecialityComponent, { size: 'xl' });
