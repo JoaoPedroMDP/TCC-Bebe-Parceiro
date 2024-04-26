@@ -21,12 +21,16 @@
     <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
         <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
     </button>
-    <button type="button" class="bp-button col-4" id="btn-edit" (click)="activeModal.close()">
-        <i class="fa-solid fa-pen-to-square" (click)="editProfessional(professional)"
-        [title]="'Editar o profissional: '+ professional.name"></i>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="editProfessional(professional)" *ngIf="isProfessionalApproved">
+        <i class="fa-solid fa-pen-to-square" [title]="'Editar o profissional: '+ professional.name"></i>
     </button>
-    <button type="button" class="bp-button col-4" id="btn-delete" (click)="activeModal.close()">
-        <i class="fa-solid fa-trash" (click)="deleteProfessional(professional)"
-        [title]="'Excluir o profissional: '+ professional.name"></i>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteProfessional(professional)" *ngIf="isProfessionalApproved">
+        <i class="fa-solid fa-trash" [title]="'Excluir o profissional: '+ professional.name"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="approveProfessional(professional)" *ngIf="!isProfessionalApproved">
+        <i class="fa-solid fa-check" [title]="'Aprovar o profissional: '+ professional.name"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="refuseProfessional(professional)" *ngIf="!isProfessionalApproved">
+        <i class="fa-solid fa-xmark" [title]="'Recusar o profissional: '+ professional.name"></i>
     </button>
 </div>

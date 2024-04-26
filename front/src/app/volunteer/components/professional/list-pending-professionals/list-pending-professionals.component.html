@@ -1,0 +1,40 @@
+<div class="container">
+    <h1 class="bp-big-title">Profissionais Pendentes</h1>
+    <input type="text" class="form-control" placeholder="Filtrar Profissionais" (input)="filterProfessional($event)"
+        [(ngModel)]="filter" />
+    <div>
+        <table class="table table-hover table-striped" *ngIf="!isLoading">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Especialidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let professional of professionals"
+                    [title]="'Clique para ver mais dados do profissional: '+ professional.name">
+                    <td class="align-middle bp-nome-limit" (click)="inspectProfessional(professional)">
+                        {{professional.name}}</td>
+                    <td class="align-middle" (click)="inspectProfessional(professional)">
+                        {{professional.speciality?.name}}</td>
+                    <td>
+                        <i class="fa-solid fa-check col-12 col-md-2" (click)="approveProfessional(professional)"
+                            [title]="'Aprovar o profissional: '+ professional.name"></i>
+                        <i class="fa-solid fa-xmark col-12 col-md-2" (click)="refuseProfessional(professional)"
+                            [title]="'Remover o profissional: '+ professional.name"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="isLoading" class="text-center text-dark">
+            <button class="btn btn-dark mt-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Carregando dados...
+            </button>
+        </div>
+    </div>
+    <div class="bp-footer fixed-bottom">
+        <button class="bp-button" id="bp-big-btn" routerLink="/voluntaria/profissionais">Voltar</button>
+    </div>
+</div>

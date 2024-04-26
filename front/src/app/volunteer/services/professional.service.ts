@@ -92,7 +92,20 @@ export class ProfessionalService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   listProfessionals(): Observable<any> {
-    return this.http.get(`${this.baseURL}professionals`, { headers: this.authService.getHeaders() })
+    return this.http.get(`${this.baseURL}professionals?approved=true`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para obter todos os profissionais cadastradas que estão pendentes
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listPendingProfessionals(): Observable<any> {
+    return this.http.get(`${this.baseURL}professionals?approved=false`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
