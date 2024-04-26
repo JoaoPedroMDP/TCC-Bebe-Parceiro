@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AuthModule } from '../auth/auth.module';
 import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
-import { AproveRefuseProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
+import { ApproveRefuseProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 
@@ -29,7 +29,7 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     InspectProfessionalComponent,
     DeleteProfessionalComponent,
     ListPendingProfessionalsComponent,
-    AproveRefuseProfessionalComponent,
+    ApproveRefuseProfessionalComponent,
     // ESPECIALIDADES
     ListSpecialitiesComponent,
     CreateEditSpecialityComponent,

@@ -1,15 +1,14 @@
+import { Speciality } from "./speciality.model";
+
 export class Professional {
   constructor(
     public id?: number,
     public name?: string,
     public phone?: string,
-    public speciality?: {
-        id: number,
-        name: string,
-        enabled: boolean
-    },
+    public speciality?: Speciality,
     public accepted_volunteer_terms?: boolean,
-    public enabled?: boolean
+    public enabled?: boolean,
+    public approved?: boolean
   ) { }
 }
 

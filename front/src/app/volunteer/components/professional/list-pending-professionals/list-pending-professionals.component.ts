@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
 import { Professional } from 'src/app/shared/models/professional';
 import { ProfessionalService } from 'src/app/volunteer/services/professional.service';
+import { ApproveRefuseProfessionalComponent } from '../approve-refuse-professional/approve-refuse-professional.component';
 import { InspectProfessionalComponent } from '../inspect-professional/inspect-professional.component';
-import { AproveRefuseProfessionalComponent } from '../aprove-refuse-professional/aprove-refuse-professional.component';
 
 @Component({
   selector: 'app-list-pending-professionals',
@@ -84,7 +83,7 @@ export class ListPendingProfessionalsComponent implements OnInit, OnDestroy {
    * @param professional O objeto do profissional
    */
   approveProfessional(professional: Professional) {
-    let modalRef = this.modalService.open(AproveRefuseProfessionalComponent, { size: 'xl' });
+    let modalRef = this.modalService.open(ApproveRefuseProfessionalComponent, { size: 'xl' });
     modalRef.componentInstance.professional = professional;  // Passando o profissional
     modalRef.componentInstance.isApproving = true;        // Passando a flag de aprovação
   }
@@ -104,7 +103,7 @@ export class ListPendingProfessionalsComponent implements OnInit, OnDestroy {
    * @param professional O objeto do profissional
    */
   refuseProfessional(professional: Professional) {
-    let modalRef = this.modalService.open(AproveRefuseProfessionalComponent, { size: 'xl' });
+    let modalRef = this.modalService.open(ApproveRefuseProfessionalComponent, { size: 'xl' });
     modalRef.componentInstance.professional = professional;  // Passando o profissional
     modalRef.componentInstance.isApproving = false;        // Passando a flag de remoção
   }

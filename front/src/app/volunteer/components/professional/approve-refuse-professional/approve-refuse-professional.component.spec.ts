@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AproveRefuseProfessionalComponent } from './aprove-refuse-professional.component';
+import { ApproveRefuseProfessionalComponent } from './approve-refuse-professional.component';
 
 describe('AproveRefuseProfessionalComponent', () => {
-  let component: AproveRefuseProfessionalComponent;
-  let fixture: ComponentFixture<AproveRefuseProfessionalComponent>;
+  let component: ApproveRefuseProfessionalComponent;
+  let fixture: ComponentFixture<ApproveRefuseProfessionalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AproveRefuseProfessionalComponent ]
+      declarations: [ ApproveRefuseProfessionalComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AproveRefuseProfessionalComponent);
+    fixture = TestBed.createComponent(ApproveRefuseProfessionalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
