@@ -53,7 +53,6 @@ class PatchProfessionalCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchProfessionalCommand':
         data = Validator.validate_and_extract(PatchProfessionalCommand.fields, args)
-        check_for_duplicity(data)
         return PatchProfessionalCommand(**data)
 
 
