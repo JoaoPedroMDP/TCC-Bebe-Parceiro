@@ -1,0 +1,57 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0" *ngIf="!editMode">Cadastrar Voluntário</h4>
+    <h4 class="mb-0" *ngIf="editMode">Editar Voluntário</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <form #form="ngForm">
+            <div>
+                <small class="bp-label-text">Nome</small>
+                <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="150" name="name"
+                    [(ngModel)]="volunteer.name" required>
+                <div *ngIf="form.controls['name']">
+                    <div
+                        *ngIf="form.controls['name'].errors && (form.controls['name'].dirty || form.controls['name'].touched)">
+                        <div *ngIf="form.controls['name'].errors['required']" class="alert alert-danger">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Telefone (com Whatsapp)</small>
+                <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000"
+                    placeholder="(XX) X XXXX-XXXX" name="phone" [(ngModel)]="volunteer.phone" minlength="10"
+                    required>
+                <div *ngIf="form.controls['phone']">
+                    <div
+                        *ngIf="form.controls['phone'].errors && (form.controls['phone'].dirty || form.controls['phone'].touched)">
+                        <div *ngIf="form.controls['phone'].errors['required']" class="alert alert-danger">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <small class="bp-label-text">Especialidade</small>
+                <select class="form-select" [(ngModel)]="volunteer.group_id"
+                    (ngModelChange)="listGroups()" name="group" required>
+                    <option [value]="undefined"> --- </option>
+                    <option [value]="group.id" *ngFor="let group of specialities">{{group.name}}</option>
+                </select>
+                <div *ngIf="form.controls['group']">
+                    <div
+                        *ngIf="form.controls['group'].errors && (form.controls['group'].dirty || form.controls['group'].touched)">
+                        <div *ngIf="form.controls['group'].errors['required']" class="alert alert-danger">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()">Aprovar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="fechar()">Cancelar</button>
+</div>
