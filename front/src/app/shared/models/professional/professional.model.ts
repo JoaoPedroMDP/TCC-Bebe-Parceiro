@@ -13,11 +13,22 @@ export class Professional {
 }
 
 // Objetos vem diferentes do get e do post, então tive que fazer dois objetos diferentes
-export class ProfessionalPost {
+export class ProfessionalPOST {
   constructor(
+    public id?: number,
     public name?: string,
     public phone?: string,
     public speciality_id?: number,
-    public accepted_volunteer_terms?: boolean
+    public accepted_volunteer_terms?: boolean,
+    public approved?: boolean
   ) { }
+
+  transformObjectToEdit(professional: Professional) {
+    this.id = professional.id;
+    this.name = professional.name;
+    this.phone = professional.phone;
+    this.speciality_id = professional.speciality?.id;
+    this.accepted_volunteer_terms = professional.accepted_volunteer_terms;
+    this.approved = professional.approved;
+  }
 }

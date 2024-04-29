@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
-import { Professional } from 'src/app/shared/models/professional';
+import { Professional, ProfessionalPOST } from 'src/app/shared/models/professional';
 import { ProfessionalService } from 'src/app/volunteer/services/professional.service';
 import { ApproveRefuseProfessionalComponent } from '../approve-refuse-professional/approve-refuse-professional.component';
 import { InspectProfessionalComponent } from '../inspect-professional/inspect-professional.component';

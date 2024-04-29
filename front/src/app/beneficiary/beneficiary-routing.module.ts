@@ -8,10 +8,10 @@ export const BeneficiaryRouting: Routes = [
     path: 'beneficiada',
     component: MainComponent,
     children: [
-      { path: '', component: HomeComponent, canActivate: [AuthGuard], data: { expectedRole: ['beneficiary', 'pending_beneficiary'] } },
-      { path: 'meus-dados', component: ViewInformationComponent, canActivate: [AuthGuard], data: { expectedRole: ['beneficiary', 'pending_beneficiary'] } },
-      { path: 'alterar-dados', component: EditInformationComponent, canActivate: [AuthGuard], data: { expectedRole: ['beneficiary', 'pending_beneficiary'] } },
-      // { path: 'alterar-dados', component: EditInformationComponent, canActivate: [AuthGuard], data: { expectedRole: ['beneficiary'] } },
+      { path: '', component: HomeComponent },
+      { path: 'meus-dados', component: ViewInformationComponent },
+      { path: 'alterar-dados', component: EditInformationComponent },
+      // { path: 'dasuhduahduas', component: EditInformationComponent, canActivate: [AuthGuard], data: { expectedRole: ['beneficiary'] } },
       // As próximas rotas só podem ser acessadas por 'beneficiary'
     ],
     canActivate: [AuthGuard],

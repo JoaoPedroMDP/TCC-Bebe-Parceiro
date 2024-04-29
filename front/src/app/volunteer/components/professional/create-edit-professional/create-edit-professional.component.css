@@ -5,9 +5,9 @@
     border-bottom-left-radius: 5px;
 }
 
-#btn-close {
-    --bg-btn: var(--bp-light-gray);
-    border-bottom-right-radius: 5px;
+#btn-save{
+    --bg-btn: var(--bp-light-green);
+    border-bottom-left-radius: 5px;
 }
 
 /* -------------------------------------------  CLASS ------------------------------------------- */
@@ -18,8 +18,12 @@
 }
 
 .bp-modal-footer { padding: 0; }
-/* -------------------------------------------  TAG  -------------------------------------------- */
-p{ font-weight: 500; }
+
+.bp-label-text{
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+
 /* -------------------------------------------  MEDIA ------------------------------------------- */
 @media screen and (width > 991px) {
     .bp-button {

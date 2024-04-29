@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SwalFacade } from 'src/app/shared';
-import { Professional, ProfessionalPost, Speciality } from 'src/app/shared/models/professional';
+import { Professional, ProfessionalPOST, Speciality } from 'src/app/shared/models/professional';
 import { ProfessionalService } from 'src/app/volunteer';
 import { SpecialityService } from 'src/app/volunteer/services/speciality.service';
 import { environment } from 'src/environments/environment';
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 export class ProfessionalComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  professional!: ProfessionalPost;
+  professional!: ProfessionalPOST;
   specialities!: Speciality[];
   showSuccess = false;
   captchaResponse!: string;
@@ -25,7 +25,7 @@ export class ProfessionalComponent implements OnInit {
 
   ngOnInit(): void {
     this.siteKey = environment.recaptchaSiteKey;
-    this.professional = new Professional();
+    this.professional = new ProfessionalPOST();
     this.listSpecialities();
   }
 

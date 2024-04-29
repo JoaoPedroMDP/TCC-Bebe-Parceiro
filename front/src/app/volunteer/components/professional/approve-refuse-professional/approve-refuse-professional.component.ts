@@ -36,7 +36,7 @@ export class ApproveRefuseProfessionalComponent implements OnInit {
    */
   refuseProfessional() {
     this.professionalService.deleteProfessional(this.professional.id!).subscribe({
-      next: () => SwalFacade.success("Profissional removido com sucesso!", `${this.professional.name} foi aprovado!`),
+      next: () => SwalFacade.success("Profissional removido com sucesso!", `${this.professional.name} foi removido!`),
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),
       complete: () => this.activeModal.close()
     });
