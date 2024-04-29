@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth';
-import { Benefited, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
+import { BeneficiaryPOST, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
 import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 export class CreateBeneficiaryComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  benefited!: Benefited;
+  beneficiary!: BeneficiaryPOST;
 
   children: Child[] = [];
   selectedSocialPrograms: SocialProgram[] = [];
@@ -29,9 +29,9 @@ export class CreateBeneficiaryComponent implements OnInit {
   constructor(private authService: AuthService, private volunteerService: VolunteerService, private router: Router) { }
 
   ngOnInit(): void {
-    this.benefited = new Benefited();
-    this.benefited.children = [];
-    this.benefited.has_disablement = false;
+    this.beneficiary = new BeneficiaryPOST();
+    this.beneficiary.children = [];
+    this.beneficiary.has_disablement = false;
     this.listMaritalStatus();
     this.listSocialProgram();
     this.listCountries();
@@ -44,21 +44,21 @@ export class CreateBeneficiaryComponent implements OnInit {
    */
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.benefited.social_programs = this.selectedSocialPrograms;
-    this.benefited.children = this.children;
+    this.beneficiary.social_programs = this.selectedSocialPrograms;
+    this.beneficiary.children = this.children;
     // Validação da quantidade de filhos
-    if (this.benefited.child_count! > 30 || this.benefited.child_count! < 1) {
-      this.benefited.child_count = this.benefited.children.length
+    if (this.beneficiary.child_count! > 30 || this.beneficiary.child_count! < 1) {
+      this.beneficiary.child_count = this.beneficiary.children.length
     }
 
     // Verificação se as senhas inseridas são iguais
-    if (this.benefited.password != this.form.value.password_confirm) {
+    if (this.beneficiary.password != this.form.value.password_confirm) {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     } else {
-      this.volunteerService.createBenefited(this.benefited)
+      this.volunteerService.createBeneficiary(this.beneficiary)
         .subscribe({
           next: () => {
-            SwalFacade.success("Beneficiada criada com sucesso", `Beneficiada: ${this.benefited.name}`)
+            SwalFacade.success("Beneficiada criada com sucesso", `Beneficiada: ${this.beneficiary.name}`)
             this.router.navigate(['/voluntaria/beneficiadas'])
           },
           error: (e) => SwalFacade.error("Erro ao salvar!", e)

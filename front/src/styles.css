@@ -6,7 +6,8 @@
   --bp-yellow: #FFEFCE;
   --bp-black: #333333;
   --bp-error: #BA1414;
-  --bp-green: #E8FFB6;
+  --bp-light-green: #E8FFB6;
+  --bp-green: #16a300;
   --bp-light-gray: #D9D9D9;
   --bp-dark-gray: #585858;
   --bp-red: #9D0000;
@@ -16,7 +17,6 @@
   --header: #A7CA90;
   --white: #FFFFFF;
   --black: #000000;
-  --btn-cor-hover: #FFFFFF;
   --btn-bg-disabled: #817560;
   --btn-cor-disabled: #000000;
 }
@@ -29,13 +29,17 @@
 }
 
 .bp-button {
-  background-color: var(--bp-yellow);
+  --bg-btn: var(--bp-yellow);
+  --color-btn: var(--bp-black);
+  background-color: var(--bg-btn);
   border: 1px solid var(--bp-black);
   border-radius: 5px;
-  color: var(--bp-black);
+  color: var(--color-btn);
   font-weight: 600;
   transition: 0.5s;
   padding: .4rem 1rem;
+  white-space: nowrap; /* Impede a quebra de linha */
+  width: auto; /* Permite que o botão ajuste automaticamente a largura */
 }
 
 .bp-button:hover {

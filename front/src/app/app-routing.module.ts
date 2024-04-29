@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminRouting } from './admin/admin-routing.module';
 import { AutoCadastroComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, LoginRedirectGuard, ValidCodeGuard, ProfessionalComponent } from './auth';
-import { BenefitedRouting } from './benefited/benefited-routing.module';
+import { BeneficiaryRouting } from './beneficiary/beneficiary-routing.module';
 import { VolunteerRouting } from './volunteer/volunteer-routing.module';
 
 
@@ -13,8 +12,7 @@ const routes: Routes = [
   { path: 'autocadastro', component: CodigoAcessoComponent },
   { path: 'autocadastro/dados/:codigoAcesso', component: AutoCadastroComponent, canActivate: [ValidCodeGuard] },
   { path: 'professional', component: ProfessionalComponent},
-  ...AdminRouting,
-  ...BenefitedRouting,
+  ...BeneficiaryRouting,
   ...VolunteerRouting,
   { 
     path: 'unauthorized', pathMatch: 'full', component: ErrorComponent, 

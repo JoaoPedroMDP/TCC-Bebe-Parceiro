@@ -56,27 +56,18 @@ class PermissionSerializer(ModelSerializer):
 
 
 class GroupSerializer(ModelSerializer):
-    permissions = PermissionSerializer(many=True, read_only=True)
-
     class Meta:
         model = Group
-        fields = ['id', 'name', 'permissions']
+        fields = ['id', 'name']
 
 
 class UserSerializer(ModelSerializer):
     groups = GroupSerializer(read_only=True, many=True)
     role = SerializerMethodField()
 
-    def get_role(self, obj: User):
-        def role_filter(group):
-            return group.name.startswith('role_')
-
-        groups: List = obj.groups.all()
-        role = list(filter(role_filter, groups))
-        if len(role) > 0:
-            return role[0].name.split("_")[1]
-
-        return "Unknown"
+    @staticmethod
+    def get_role(obj: User) -> str:
+        return obj.get_formatted_role()
 
     class Meta:
         model = User
@@ -93,29 +84,17 @@ class ChildSerializer(ModelSerializer):
 
 
 class BeneficiarySerializer(ModelSerializer):
-    city_id = SlugRelatedField(slug_field='id', read_only=True, source='city')
-    marital_status_id = SlugRelatedField(slug_field='id', read_only=True, source='marital_status')
+    marital_status = MaritalStatusSerializer(many=False, read_only=True)
     social_programs = SocialProgramSerializer(many=True, read_only=True)
     children = ChildSerializer(many=True, read_only=True)
+    user = UserSerializer(many=False, read_only=True)
+    city = CitySerializer(many=False, read_only=True)
     birth_date = DateTimeField(format="%Y-%m-%d")
-
-    name = SerializerMethodField()
-    phone = SerializerMethodField()
-    email = SerializerMethodField()
 
     class Meta:
         model = Beneficiary
-        fields = ['id', 'name', 'phone', 'email', 'birth_date', 'child_count', 'monthly_familiar_income',
-                  'has_disablement', 'marital_status_id', 'children', 'city_id', 'social_programs', 'created_at']
-
-    def get_name(self, obj: Beneficiary):
-        return obj.user.name
-
-    def get_phone(self, obj: Beneficiary):
-        return obj.user.phone
-
-    def get_email(self, obj: Beneficiary):
-        return obj.user.email
+        fields = ['id', 'user', 'birth_date', 'child_count', 'monthly_familiar_income',
+                  'has_disablement', 'marital_status', 'children', 'city', 'social_programs', 'created_at']
 
 
 class VolunteerSerializer(ModelSerializer):
@@ -139,5 +118,5 @@ class ProfessionalSerializer(ModelSerializer):
 
     class Meta:
         model = Professional
-        fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled']
+        fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled', 'approved']
 

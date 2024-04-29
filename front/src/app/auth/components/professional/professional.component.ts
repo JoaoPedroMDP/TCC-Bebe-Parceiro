@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SwalFacade } from 'src/app/shared';
-import { Professional, Speciality } from 'src/app/shared/models/professional';
+import { Professional, ProfessionalPOST, Speciality } from 'src/app/shared/models/professional';
+import { ProfessionalService } from 'src/app/volunteer';
+import { SpecialityService } from 'src/app/volunteer/services/speciality.service';
 import { environment } from 'src/environments/environment';
-import { ProfessionalService } from '../../services/professional.service';
 
 
 @Component({
@@ -14,17 +15,17 @@ import { ProfessionalService } from '../../services/professional.service';
 export class ProfessionalComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  professional!: Professional;
+  professional!: ProfessionalPOST;
   specialities!: Speciality[];
   showSuccess = false;
   captchaResponse!: string;
   siteKey!: string;
 
-  constructor(private ProfessionalService: ProfessionalService) { }
+  constructor(private ProfessionalService: ProfessionalService, private specialityService: SpecialityService) { }
 
   ngOnInit(): void {
     this.siteKey = environment.recaptchaSiteKey;
-    this.professional = new Professional();
+    this.professional = new ProfessionalPOST();
     this.listSpecialities();
   }
 
@@ -32,7 +33,7 @@ export class ProfessionalComponent implements OnInit {
    * @description Lista as especialidades do profissional para realizar o cadastro
    */
   listSpecialities() {
-    this.ProfessionalService.getSpecialities().subscribe({
+    this.specialityService.listSpecialities().subscribe({
       next: (data: Speciality[]) => {
         if (data == null) {
           this.specialities = [];
@@ -57,8 +58,9 @@ export class ProfessionalComponent implements OnInit {
    * executa o método do service.
    */
   save() {
+    this.professional.approved = false;
     if (this.professional.accepted_volunteer_terms && this.captchaResponse) {
-      this.ProfessionalService.saveProfessional(this.professional)
+      this.ProfessionalService.createProfessional(this.professional)
         .subscribe({
           next: () => this.showSuccess = true,
           error: (e) => SwalFacade.error("Ocorreu um erro!", e)

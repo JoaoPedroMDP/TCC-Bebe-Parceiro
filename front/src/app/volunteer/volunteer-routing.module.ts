@@ -1,25 +1,46 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { MainComponent } from './index';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
+import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
+import { ListSpecialitiesComponent } from './components/specialities';
+import { HomeComponent, MainComponent } from './index';
+import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
 
 
 export const VolunteerRouting: Routes = [
   {
     path: 'voluntaria',
     component: MainComponent,
-    children: [
-      { path: '', component: HomeComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
-      // BENEFICIADAS
-      { path: 'beneficiadas', component: ListBeneficiaryComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
-      { path: 'beneficiadas/criar', component: CreateBeneficiaryComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
-      { path: 'beneficiadas/inspecionar/:idBeneficiada', component: InspectBeneficiaryComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
-      { path: 'beneficiadas/editar/:idBeneficiada', component: EditBeneficiaryComponent, canActivate: [AuthGuard], data: { expectedRole: 'volunteer' } },
-    ],
     canActivate: [AuthGuard],
-    data: { expectedRole: 'volunteer' }
+    data: { expectedRole: 'volunteer' },
+    children: [
+      { path: '', component: HomeComponent },
+      {
+        path: 'beneficiadas',      // BENEFICIADAS
+        canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_beneficiaries'] },
+        children: [
+          { path: '', component: ListBeneficiaryComponent },
+          { path: 'criar', component: CreateBeneficiaryComponent },
+          { path: 'inspecionar/:idBeneficiada', component: InspectBeneficiaryComponent },
+          { path: 'editar/:idBeneficiada', component: EditBeneficiaryComponent }
+        ]
+      },
+      {
+        path: 'profissionais',      // PROFISSIONAL
+        canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_professionals'] },
+        children: [
+          { path: '', component: ListProfessionalComponent },
+          { path: 'pendentes', component: ListPendingProfessionalsComponent },
+        ]
+      },
+      {
+        path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_specialities'] },
+      },
+    ]
   },
-
-
 ];
+
+

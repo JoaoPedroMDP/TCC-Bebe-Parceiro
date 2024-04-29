@@ -1,0 +1,24 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h3 class="mb-0">Remover seus dados?</h3>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <p class="text-center">
+            Se remover seus dados do projeto, não poderemos mais te auxiliar.
+        </p>
+        <p class="text-center">
+            Após a remoção dos seus dados, <strong>não seremos capazes de recuperá-los</strong>
+        </p>
+        <p class="text-center">
+            Você <strong>tem certeza</strong> de que deseja fazer a remoção?
+        </p>
+        <div class="mt-4">
+            <small>Digite <strong>Confirmo</strong> abaixo para confirmar</small>
+            <input type="text" class="form-control" placeholder="Confirmo" [(ngModel)]="agreeToDelete" required>
+        </div>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-confirm" (click)="deleteData()">Confirmar</button>
+    <button type="button" class="bp-button col-6" id="btn-cancel" (click)="activeModal.close()">Cancelar</button>
+</div>

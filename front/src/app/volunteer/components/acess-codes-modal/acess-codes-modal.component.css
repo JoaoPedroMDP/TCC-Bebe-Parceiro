@@ -1,26 +1,14 @@
 /* -------------------------------------------  ID ------------------------------------------- */
 #btn-save {
+    --bg-btn: var(--bp-light-green);
     border-bottom-left-radius: 5px;
-    background-color: var(--bp-green);
 }
 
 #btn-close {
-    background-color: var(--bp-light-gray);
+    --bg-btn: var(--bp-light-gray);
     border-bottom-right-radius: 5px;
 }
 
-#btn-confirm {
-    /* --btn-cor-hover : #000000; */
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background-color: var(--bp-green);
-}
-
-/* Por algum motivo quando eu alterei as cores nos botões 
-   parou de funcionar os hovers, por isso reeecrevi abaixo */
-#btn-save:hover{ background-color: var(--bp-black); }
-#btn-close:hover{ background-color: var(--bp-black); }
-#btn-confirm:hover{ background-color: var(--bp-black); } 
 /* -------------------------------------------  CLASS ------------------------------------------- */
 .bp-button {
     margin: 0;

@@ -1,0 +1,36 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Ver Profissional</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <div>
+            <small class="bp-label-text">Nome</small>
+            <input type="text" class="form-control" [(ngModel)]="professional.name" disabled>
+        </div>
+        <div class="my-3">
+            <small class="bp-label-text">Telefone (com Whatsapp)</small>
+            <input type="text" class="form-control" [(ngModel)]="professional.phone" disabled>
+        </div>
+        <div>
+            <small class="bp-label-text">Especialidade</small>
+            <input type="text" class="form-control" [(ngModel)]="professional.speciality!.name" disabled>            
+        </div>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="editProfessional(professional)" *ngIf="isProfessionalApproved">
+        <i class="fa-solid fa-pen-to-square" [title]="'Editar o profissional: '+ professional.name"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteProfessional(professional)" *ngIf="isProfessionalApproved">
+        <i class="fa-solid fa-trash" [title]="'Excluir o profissional: '+ professional.name"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="approveProfessional(professional)" *ngIf="!isProfessionalApproved">
+        <i class="fa-solid fa-check" [title]="'Aprovar o profissional: '+ professional.name"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="refuseProfessional(professional)" *ngIf="!isProfessionalApproved">
+        <i class="fa-solid fa-xmark" [title]="'Recusar o profissional: '+ professional.name"></i>
+    </button>
+</div>

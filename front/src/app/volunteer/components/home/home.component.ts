@@ -25,13 +25,23 @@ export class HomeComponent implements OnInit {
    */
   logout() {
     this.authService.logout().subscribe({
-      next: () => SwalFacade.success("Usuário desconectado","Redirecionando ao login"),
+      next: () => SwalFacade.success("Usuário desconectado", "Redirecionando ao login"),
       error: (e) => SwalFacade.error("Ocorreu um erro! Não foi possível fazer o logout", e),
       complete: () => this.router.navigate(['/login'])
     });
   }
 
-  openAcessCodesModal(){
+  /**
+   * @Description Abre um modal para visualizar ou cadastrar códigos de acesso
+   */
+  openAcessCodesModal() {
     this.modalService.open(AcessCodesModalComponent, { size: 'xl' });
+  }
+
+  /**
+   * @Description Verifica se o usuário possui um grupo específico
+   */
+  hasGroup(requiredGroup: string): boolean {
+    return this.user.user!.groups!.some(group => group.name === requiredGroup);
   }
 }

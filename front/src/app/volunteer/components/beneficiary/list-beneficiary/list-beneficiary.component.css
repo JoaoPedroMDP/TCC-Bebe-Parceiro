@@ -12,20 +12,15 @@
     background-color: var(--bp-light-gray);
 }
 
-.bp-input-with-icon {
-    position: relative;
-    display: inline-block;
-    width: 100%;
+.bp-nome-limit {
+    max-width: 140px; /* Defina o limite máximo de largura para o texto */
+    word-wrap: break-word; /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
 }
 
-.bp-input-with-icon i {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: .9rem;
-}
-
-.fa-solid{ margin: .5rem .2rem; }
+.fa-solid{ 
+    margin: 0 .2rem;
+    font-size: 1.2rem;
+ }
 .fa-pen-to-square { color: var(--bp-black); }
 .fa-pen-to-square:hover { color: var(--black); }
 .fa-rectangle-list{ color: var(--bp-dark-gray); }

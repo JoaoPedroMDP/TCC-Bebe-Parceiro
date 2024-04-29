@@ -17,6 +17,7 @@ class ProfessionalService(CrudService):
 
     @classmethod
     def patch(cls, command: PatchProfessionalCommand) -> Professional:
+
         return ProfessionalRepository.patch(command.to_dict())
 
     @classmethod

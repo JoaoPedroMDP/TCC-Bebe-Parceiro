@@ -1,0 +1,30 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-save {
+    --bg-btn: var(--bp-light-green);
+    border-bottom-left-radius: 5px;
+}
+
+#btn-close {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-right-radius: 5px;
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+.bp-modal-footer { padding: 0; }
+
+.bp-label-text{
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .bp-button {
+        font-size: 1.2rem;
+    }    
+}

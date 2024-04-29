@@ -4,11 +4,12 @@ from typing import List
 
 from rest_framework import status
 
-from config import ROLE_BENEFICIARY
+from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
+from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
-    DeleteBeneficiaryCommand
+    DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
-from core.cqrs.commands.user_commands import CreateUserCommand
+from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary, User
 from core.repositories.access_code_repository import AccessCodeRepository
@@ -18,6 +19,7 @@ from core.repositories.group_repository import GroupRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.services import CrudService
+from core.services.appointment_service import AppointmentService
 from core.services.child_service import ChildService
 from core.services.user_service import UserService
 from core.utils.exceptions import HttpFriendlyError
@@ -49,14 +51,15 @@ class BeneficiaryService(CrudService):
                 social_programs.append(SocialProgramRepository.get(social_program['id']))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
-        b_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
+        b_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
         new_user.groups.add(b_role)
 
         data = command.to_dict()
 
         # Relacionamentos N:N eu associo depois
         del data["children"]
-        del data["social_programs"]
+        if "social_programs" in data:
+            del data["social_programs"]
 
         try:
             new_beneficiary = Beneficiary()
@@ -93,16 +96,21 @@ class BeneficiaryService(CrudService):
         # TODO Os dados de usuário (nome, phone, email) não estão sendo alterados
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
 
-        if command.password:
-            beneficiary.user.set_password(command.password)
-            del command.password
+        if command.user_data:
+            user_command = PatchUserCommand.from_dict({
+                **command.user_data,
+                'id': beneficiary.user.id
+            })
+            UserService.patch(user_command)
 
         for child in command.children:
             c_command = PatchChildCommand.from_dict(child)
             ChildService.patch(c_command)
 
-        for social_p in command.social_programs:
-            beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
+        if command.social_programs:
+            beneficiary.social_programs.clear()
+            for social_p in command.social_programs:
+                beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
 
         command.social_programs = None
         command.children = None
@@ -135,3 +143,24 @@ class BeneficiaryService(CrudService):
             child.save()
 
         return beneficiary #ver se retorna so um true ou se n retorna nada ou desse jeito (retornando obj atualizado)
+    
+    @classmethod
+    def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
+
+        user = beneficiary.user
+        old_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
+        new_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
+
+        user.groups.remove(old_role)
+        user.groups.add(new_role)
+        user.save()
+
+        AppointmentService.create(ca_command)
+
+        return beneficiary
+
+    @classmethod
+    def get_pending_beneficiaries(cls):
+        return BeneficiaryRepository.filter(user__groups__name=ROLE_PENDING_BENEFICIARY)

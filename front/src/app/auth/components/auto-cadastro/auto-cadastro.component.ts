@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Benefited, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
+import { ActivatedRoute } from '@angular/router';
+import { BeneficiaryPOST, Child, City, Country, MaritalStatus, SocialProgram, State, SwalFacade } from 'src/app/shared';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class AutoCadastroComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
-  beneficiada!: Benefited;
+  beneficiary!: BeneficiaryPOST;
 
   children: Child[] = [];
   selectedSocialPrograms: SocialProgram[] = [];
@@ -31,9 +31,9 @@ export class AutoCadastroComponent implements OnInit {
   constructor(private authService: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.beneficiada = new Benefited();
-    this.beneficiada.children = [];
-    this.beneficiada.has_disablement = false;
+    this.beneficiary = new BeneficiaryPOST();
+    this.beneficiary.children = [];
+    this.beneficiary.has_disablement = false;
     this.listMaritalStatus();
     this.listSocialProgram();
     this.listCountries();
@@ -46,21 +46,21 @@ export class AutoCadastroComponent implements OnInit {
    */
   save() {
     // Atualiza os dados da beneficiada com as informações selecionadas
-    this.beneficiada.social_programs = this.selectedSocialPrograms;
-    this.beneficiada.children = this.children;
+    this.beneficiary.social_programs = this.selectedSocialPrograms;
+    this.beneficiary.children = this.children;
     const codigoAcesso = this.route.snapshot.paramMap.get('codigoAcesso');
     // Operação ternária só para garantir que não seja nulo o codigo de acesso
-    codigoAcesso ? this.beneficiada.access_code = codigoAcesso : this.beneficiada.access_code = ''
+    codigoAcesso ? this.beneficiary.access_code = codigoAcesso : this.beneficiary.access_code = ''
     // Validação da quantidade de filhos
-    if (this.beneficiada.child_count! > 30 || this.beneficiada.child_count! < 1) {
-      this.beneficiada.child_count = this.beneficiada.children.length
+    if (this.beneficiary.child_count! > 30 || this.beneficiary.child_count! < 1) {
+      this.beneficiary.child_count = this.beneficiary.children.length
     }
 
     // Verificação se as senhas inseridas são iguais
-    if (this.beneficiada.password != this.form.value.password_confirm) {
+    if (this.beneficiary.password != this.form.value.password_confirm) {
       SwalFacade.error('Erro ao salvar beneficiada!', 'As senhas devem ser iguais!')
     } else {
-      this.authService.saveBenefited(this.beneficiada)
+      this.authService.saveBeneficiary(this.beneficiary)
         .subscribe({
           next: () => this.showSuccess = true,
           error: (e) => SwalFacade.error("Erro ao salvar!", e)

@@ -4,14 +4,12 @@ from copy import copy
 from typing import List
 
 from rest_framework import status
-from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
-from restfw_composed_permissions.base import Or
 
 from config import MANAGE_BENEFICIARIES, ROLE_BENEFICIARY
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
-    DeleteBeneficiaryCommand
+    DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
@@ -80,7 +78,6 @@ class BeneficiarySpecificViews(BaseView):
         data['id'] = pk
 
         command: PatchBeneficiaryCommand = PatchBeneficiaryCommand.from_dict(data)
-        command.user = request.user
         patched_beneficiary: Beneficiary = BeneficiaryService.patch(command)
 
         return BeneficiarySerializer(patched_beneficiary).data, status.HTTP_200_OK
@@ -115,3 +112,29 @@ class BeneficiarySpecificViews(BaseView):
             return BeneficiarySerializer(beneficiary).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+class BeneficiaryApproval(BaseView):
+    groups = [MANAGE_BENEFICIARIES]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def patch(self, request: Request, pk, format=None):
+        lgr.debug("----APPROVE_BENEFICIARY----")
+        data = copy(request.data)
+        data['id'] = pk
+
+        command: ApproveBeneficiaryCommand = ApproveBeneficiaryCommand.from_dict(data)
+        approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
+
+        return BeneficiarySerializer(approved_beneficiary).data, status.HTTP_200_OK
+
+
+class BeneficiaryPendingView(BaseView):
+    groups = [MANAGE_BENEFICIARIES]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_PENDING_BENEFICIARIES----")
+        beneficiaries: List[Beneficiary] = BeneficiaryService.get_pending_beneficiaries()
+        return BeneficiarySerializer(beneficiaries, many=True).data, status.HTTP_200_OK

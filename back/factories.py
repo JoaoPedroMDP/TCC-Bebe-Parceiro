@@ -108,13 +108,6 @@ class BeneficiaryFactory(TimestampedModelFactory):
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
     has_disablement = factory.Faker('boolean')
 
-    @classmethod
-    def create(cls, **kwargs):
-        b = super().create(**kwargs)
-        role = Group.objects.get(name=ROLE_BENEFICIARY)
-        b.user.groups.add(role)
-        return b
-
 
 class VolunteerFactory(TimestampedModelFactory):
     class Meta:
@@ -193,7 +186,7 @@ class AppointmentFactory(TimestampedModelFactory):
     volunteer = factory.SubFactory(VolunteerFactory)
     professional = factory.SubFactory(ProfessionalFactory)
     date = factory.Faker('date_this_year', tzinfo=None)
-    hour = factory.Faker('time', tzinfo=None)
+    time = factory.Faker('time', tzinfo=None)
     status = factory.SubFactory(StatusFactory)
 
 

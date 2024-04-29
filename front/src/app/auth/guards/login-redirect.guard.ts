@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginRedirectGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(): boolean {
     const user = this.authService.getUser();
@@ -26,10 +26,8 @@ export class LoginRedirectGuard implements CanActivate {
       case 'volunteer':
         this.router.navigate(['/voluntaria']);
         break;
-      case 'admin':
-        this.router.navigate(['/admin']);
-        break;
       case 'beneficiary':
+      case 'pending_beneficiary':
         this.router.navigate(['/beneficiada']);
         break;
       default:

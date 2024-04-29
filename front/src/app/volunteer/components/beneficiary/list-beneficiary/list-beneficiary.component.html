@@ -1,10 +1,7 @@
 <div class="container">
     <h1 class="bp-big-title">Beneficiadas</h1>
-    <div class="bp-input-with-icon">
-        <input type="text" class="form-control" placeholder="Filtrar Beneficiadas" (input)="filterBenefited($event)"
-            [(ngModel)]="filter" />
-        <i class="fa-solid fa-magnifying-glass"></i>
-    </div>
+    <input type="text" class="form-control" placeholder="Filtrar Beneficiadas" (input)="filterBeneficiary($event)"
+        [(ngModel)]="filter" />
     <div>
         <table class="table table-hover table-striped" *ngIf="!isLoading">
             <thead class="table-dark">
@@ -16,20 +13,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let benefited of beneficiaries; let even = even"
-                    [title]="'Clique para ver mais dados da beneficiada: '+ benefited.name">
-                    <td class="align-middle" (click)="inspectBenefited(benefited)">{{benefited.name}}</td>
-                    <td class="align-middle" (click)="inspectBenefited(benefited)">{{benefited.child_count}}</td>
-                    <td class="align-middle" (click)="inspectBenefited(benefited)">{{benefited.created_at | date:
+                <tr *ngFor="let beneficiary of beneficiaries"
+                    [title]="'Clique para ver mais dados da beneficiada: '+ beneficiary.user?.name">
+                    <td class="align-middle bp-nome-limit" (click)="inspectBeneficiary(beneficiary)">{{beneficiary.user?.name}}</td>
+                    <td class="align-middle" (click)="inspectBeneficiary(beneficiary)">{{beneficiary.child_count}}</td>
+                    <td class="align-middle" (click)="inspectBeneficiary(beneficiary)">{{beneficiary.created_at | date:
                         'dd/MM/yyyy'}}</td>
                     <td>
                         <i class="fa-solid fa-rectangle-list col-12 col-md-2"
-                            (click)="appointmentsForBenefited(benefited)"
-                            [title]="'Ver os atendimentos da beneficiada: '+ benefited.name"></i>
-                        <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editBenefited(benefited)"
-                            [title]="'Editar a beneficiada: '+ benefited.name"></i>
-                        <i class="fa-solid fa-trash col-12 col-md-2" (click)="deleteBenefited(benefited)"
-                        [title]="'Excluir para a beneficiada: '+ benefited.name"></i>
+                            (click)="appointmentsForBeneficiary(beneficiary)"
+                            [title]="'Ver os atendimentos da beneficiada: '+ beneficiary.user?.name"></i>
+                        <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editBeneficiary(beneficiary)"
+                            [title]="'Editar a beneficiada: '+ beneficiary.user?.name"></i>
+                        <i class="fa-solid fa-trash col-12 col-md-2" (click)="deleteBeneficiary(beneficiary)"
+                            [title]="'Excluir para a beneficiada: '+ beneficiary.user?.name"></i>
                     </td>
                 </tr>
             </tbody>

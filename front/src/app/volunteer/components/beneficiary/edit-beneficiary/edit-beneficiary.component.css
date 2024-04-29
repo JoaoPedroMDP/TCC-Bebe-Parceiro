@@ -1,54 +1,49 @@
 /* -------------------------------------------  CLASS ------------------------------------------- */
 .bp-footer {
-    display: flex;
-    justify-content: space-around;
-    padding: .5rem 2.5rem .8rem 2.5rem;
-    background-color: var(--bp-light-gray);
-  }
-  
+  display: flex;
+  justify-content: space-around;
+  padding: .5rem 2.5rem .8rem 2.5rem;
+  background-color: var(--bp-light-gray);
+}
+
+
+.small-btn {
+  margin: 1rem 0 0 1rem;
+  font-size: .9rem
+}
+
+.input-group-text {
+  /* tive que arrumar na mão pois o bootstrap estava vindo com bordas aleatorias */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-with-icon {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.input-with-icon i {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  right: .9rem;
+  cursor: pointer;
+}
+
+.fa-eye {
+  color: #166b12;
+  transition: 0.3s;
+}
+
+.fa-eye:hover {
+  color: #000000;
+}
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
   .big-btn {
-    margin: 0 1.5rem;
-    padding: .5rem 1.35rem;
-    font-size: .9rem;
+    margin: 0 7rem;
   }
-  
-  .small-btn {
-    margin: 1rem 0 0 1rem;
-    font-size: .9rem
-  }
-  
-  .input-group-text {
-    /* tive que arrumar na mão pois o bootstrap estava vindo com bordas aleatorias */
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  .input-with-icon {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-  }
-  
-  .input-with-icon i {
-    position: absolute;
-    top: 55%;
-    transform: translateY(-50%);
-    right: .9rem;
-    cursor: pointer;
-  }
-  
-  .fa-eye {
-    color: #166b12;
-    transition: 0.3s;
-  }
-  
-  .fa-eye:hover {
-    color: #000000;
-  }
-  
-  /* -------------------------------------------  MEDIA ------------------------------------------- */
-  @media screen and (width > 991px) {
-    .big-btn {
-      margin: 0 7rem;
-    }
-  }
+}

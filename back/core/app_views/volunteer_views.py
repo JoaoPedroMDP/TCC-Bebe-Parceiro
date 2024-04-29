@@ -6,7 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_VOLUNTEERS
+from config import MANAGE_VOLUNTEERS, MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
@@ -44,6 +44,9 @@ class VolunteerGenericViews(BaseView):
 
 
 class VolunteerSpecificViews(BaseView):
+    groups = [MANAGE_VOLUNTEERS]
+    permission_classes = (AtLeastOneGroup,)
+
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_VOLUNTEER----")
@@ -79,3 +82,17 @@ class VolunteerSpecificViews(BaseView):
             return VolunteerSerializer(volunteer).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+
+class VolunteerEvaluatorsViews(BaseView):
+    # O motivo desse grupo: essa rota será necessária na hora da aprovação de uma beneficiada
+    # A voluntária de beneficiarias precisa saber quem são as avaliadoras
+    # para poder encaminhar a beneficiada pra uma delas
+    groups = [MANAGE_BENEFICIARIES]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_EVALUATORS----")
+        evaluators: List[Volunteer] = VolunteerService.get_evaluators()
+        return VolunteerSerializer(evaluators, many=True).data, status.HTTP_200_OK

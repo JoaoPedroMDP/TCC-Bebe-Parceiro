@@ -19,8 +19,8 @@ class Field:
     Classe que representa um campo enviado em uma requisição.
     """
     def __init__(
-            self, name: str, f_type: str, required: bool = False,
-            default=None, formatter: Callable = None):
+            self, name: str, f_type: Union[str, any], required: bool = False,
+            default=None, formatter: Callable = None, rename: str = None):
         self.name = name
         self.f_type = f_type
         self.required = required
@@ -58,7 +58,6 @@ class Formatter:
 class Validator(Formatter):
     """
     Classe que contém métodos utilitários para validação de dados.
-    TODO: Posso adicionar funções que validam tipos mais específicos, como timestamp, essas coisas
     """
 
     @classmethod
@@ -100,6 +99,7 @@ class Validator(Formatter):
         for field in fields:
             lgr.debug("Validando campo '{}'".format(field.name))
             default_used = False
+            # Primeiro valido regras de existência do campo
             if not cls.has_field(data, field):
                 lgr.debug("Campo '{}' não encontrado no dicionário".format(field.name))
                 if field.required:
@@ -120,6 +120,7 @@ class Validator(Formatter):
                 data[field.name] = field.formatter(data[field.name])
                 lgr.debug("Campo '{}' após formatter: {}".format(field.name, data[field.name]))
 
+            # Depois, valido o formato
             try:
                 data[field.name] | should.be.a(field.f_type)
                 final_data[field.name] = data[field.name]
@@ -146,7 +147,11 @@ class Validator(Formatter):
 # Exemplo: Na rota POST de beneficiada, eu recebo o Access Code, e ele fica no command. Mas na hora de criar uma nova
 # beneficiada, eu não passo o Access Code pois ele não faz parte da tabela do banco de dados dela
 class Command(Validator, Dictable):
-    pass
+
+    @staticmethod
+    def extract_and_group_keys(data: Dict, fields: List[str]) -> Dict:
+        grouped: Dict = {k: data.pop(k) for k in list(data.keys()) if k in fields}
+        return grouped
 
 
 class Query(Validator, Dictable):

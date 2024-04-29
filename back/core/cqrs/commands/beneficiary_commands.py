@@ -31,8 +31,8 @@ class CreateBeneficiaryCommand(Command):
 
     def __init__(self,
                  marital_status_id: int, city_id: int, birth_date: str, child_count: int,
-                 monthly_familiar_income: float, has_disablement: bool, social_programs: list = None,
-                 access_code: str = None, name: str = None, phone: str = None, password: str = None,
+                 monthly_familiar_income: float, has_disablement: bool, name: str,
+                 phone: str, password: str, social_programs: list = None, access_code: str = None,
                  children: list = None, email: str = None, user: User = None):
         self.marital_status_id = marital_status_id
         self.city_id = city_id
@@ -90,13 +90,9 @@ class PatchBeneficiaryCommand(Command):
 
     def __init__(self, id: int, marital_status_id: int = None, city_id: int = None,
                  birth_date: str = None, child_count: int = None, monthly_familiar_income: float = None,
-                 has_disablement: bool = None, social_programs: list = None, name: str = None, phone: str = None,
-                 password: str = None, children: list = None):
+                 has_disablement: bool = None, social_programs: list = None, children: list = None, user_data: Dict = None):
         self.id = id
-        self.name = name
-        self.phone = phone
         self.children = children
-        self.password = password
         self.marital_status_id = marital_status_id
         self.city_id = city_id
         self.birth_date = birth_date
@@ -104,7 +100,7 @@ class PatchBeneficiaryCommand(Command):
         self.monthly_familiar_income = monthly_familiar_income
         self.has_disablement = has_disablement
         self.social_programs = social_programs
-        self.user: Optional[User] = None
+        self.user_data: Optional[Dict] = user_data
 
     @staticmethod
     @Validator.validates
@@ -117,6 +113,7 @@ class PatchBeneficiaryCommand(Command):
             Validator.date_not_on_future(birth_date)
             data["birth_date"] = birth_date.isoformat()
 
+        data['user_data'] = Command.extract_and_group_keys(data, ["name", "phone", "password"])
         return PatchBeneficiaryCommand(**data)
 
 
@@ -133,3 +130,26 @@ class DeleteBeneficiaryCommand(Command):
     def from_dict(args: dict) -> 'DeleteBeneficiaryCommand':
         data = Validator.validate_and_extract(DeleteBeneficiaryCommand.fields, args)
         return DeleteBeneficiaryCommand(**data)
+
+
+class ApproveBeneficiaryCommand(Command):
+    fields = [
+        Field("id", "integer", True, formatter=lambda x: int(x)),
+    ]
+
+    def __init__(self, id: int, appointment_data: Dict):
+        self.id = id
+        self.appointment_data = appointment_data
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'ApproveBeneficiaryCommand':
+        data = Validator.validate_and_extract(ApproveBeneficiaryCommand.fields, args)
+
+        appo_data = Command.extract_and_group_keys(
+            args, ["beneficiary_id", "volunteer_id", "professional_id", "date", "time"]
+        )
+        appo_data['beneficiary_id'] = data['id']
+        data['appointment_data'] = appo_data
+        print(data)
+        return ApproveBeneficiaryCommand(**data)

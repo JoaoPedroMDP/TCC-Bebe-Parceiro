@@ -1,8 +1,9 @@
 export class UserToken {
     constructor(
-    public expiry?: string,
-    public token?: string,
-    public user?: User
+        public expiry?: string,
+        public token?: string,
+        public user?: User,
+        public person_id?: number
     ) { }
 }
 

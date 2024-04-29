@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Benefited, SwalFacade } from 'src/app/shared';
+import { Beneficiary, SwalFacade } from 'src/app/shared';
 import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 })
 export class DeleteBeneficiaryComponent implements OnInit {
 
-  @Input() benefited!: Benefited;
+  @Input() beneficiary!: Beneficiary;
 
   constructor(public activeModal: NgbActiveModal, public volunteerService: VolunteerService) { }
 
@@ -18,14 +18,14 @@ export class DeleteBeneficiaryComponent implements OnInit {
   }
 
   /**
-   * @description Executa o método deleteBenefited() do VolunteerService e retorna uma mensagem 
+   * @description Executa o método deleteBeneficiary() do VolunteerService e retorna uma mensagem 
    * de sucesso ou erro a depender do resultado da operação
    */
-  deleteBenefited() {
-    this.volunteerService.deleteBenefited(this.benefited.id!).subscribe({
+  deleteBeneficiary() {
+    this.volunteerService.deleteBeneficiary(this.beneficiary.id!).subscribe({
       next: () => {
         this.activeModal.close(),
-        SwalFacade.success("Beneficiada excluída", `${this.benefited.name} foi excluída com sucesso!`)
+        SwalFacade.success("Beneficiada excluída", `${this.beneficiary.user?.name} foi excluída com sucesso!`)
       },
       error: (e) => SwalFacade.error("Ocorreu um erro!", `Não foi possível fazer excluir a beneficiada: ${e}`)
     })

@@ -1,25 +1,25 @@
 <div class="container">
     <p class="mb-0">Beneficiada</p>
-    <h1 class="bp-big-title mb-4">{{benefited.name}}</h1>
+    <h1 class="bp-big-title mb-4">{{beneficiary.user?.name}}</h1>
     <div>
         <h4 class="text-center fw-bolder mb-3">Dados gerais</h4>
         <div class="row">
-            <p><strong>Nome:</strong> {{benefited.name}}</p>
+            <p><strong>Nome:</strong> {{beneficiary.user?.name}}</p>
         </div>
         <div class="row">
             <div class="col-12 col-md-6">
-                <p><strong>Data Nascimento:</strong> {{benefited.birth_date | date: 'dd/MM/yyyy'}}</p>
+                <p><strong>Data Nascimento:</strong> {{beneficiary.birth_date | date: 'dd/MM/yyyy'}}</p>
             </div>
             <div class="col-12 col-md-6">
-                <p><strong>Telefone:</strong> {{benefited.phone! | mask: "(00) 0 0000-0000||(00) 0000-0000"}}</p>
+                <p><strong>Telefone:</strong> {{beneficiary.user?.phone! | mask: "(00) 0 0000-0000||(00) 0000-0000"}}</p>
             </div>
         </div>
         <div class="row">
             <div class="col-12 col-md-6">
-                <p><strong>Estado Civil:</strong> {{ maritalStatus}}</p>
+                <p><strong>Estado Civil:</strong> {{beneficiary.marital_status?.name}}</p>
             </div>
             <div class="col-12 col-md-6">
-                <p><strong>Email:</strong> {{benefited.email}}</p>
+                <p><strong>Email:</strong> {{beneficiary.user?.email}}</p>
             </div>
         </div>
         <hr>
@@ -28,20 +28,20 @@
         <h4 class="text-center fw-bolder mb-3">Dados de endereço</h4>
         <div class="row">
             <div class="col-12 col-md-4">
-                <p><strong>País:</strong> {{country}}</p>
+                <p><strong>País:</strong> {{beneficiary.city?.state?.country?.name}}</p>
             </div>
             <div class="col-12 col-md-4">
-                <p><strong>Estado:</strong> {{state}}</p>
+                <p><strong>Estado:</strong> {{beneficiary.city?.state?.name}}</p>
             </div>
             <div class="col-12 col-md-4">
-                <p><strong>Cidade:</strong> {{city}}</p>
+                <p><strong>Cidade:</strong> {{beneficiary.city?.name}}</p>
             </div>
         </div>
         <hr>
     </div>
     <div>
         <h4 class="text-center fw-bolder mb-3">Filhos cadastrados</h4>
-        <div *ngFor="let child of benefited.children" class="justify-content-center">
+        <div *ngFor="let child of beneficiary.children" class="justify-content-center">
             <div class="row mb-3">
                 <div class="col-1 text-end">
                     <i [class]="child.sex == 'F' ? 'fa-solid fa-child-dress align-middle' : 'fa-solid fa-child align-middle'"></i>
@@ -67,21 +67,21 @@
         <h4 class="text-center fw-bolder mb-3">Outras informações</h4>
         <p>
             <strong>Benefícios Sociais: </strong>
-            <ng-template [ngIf]="benefited.social_programs?.length! <= 0">
+            <ng-template [ngIf]="beneficiary.social_programs?.length! <= 0">
                 <span>Nenhum</span>
             </ng-template>
-            <ng-template [ngIf]="benefited.social_programs?.length! > 0">
-                <span *ngFor="let social of benefited.social_programs">
+            <ng-template [ngIf]="beneficiary.social_programs?.length! > 0">
+                <span *ngFor="let social of beneficiary.social_programs">
                     <span> | {{social.name}} </span>
                 </span>
             </ng-template>
         </p>
         <div class="row">
             <div class="col-12 col-md-6">
-                <p><strong>Renda familiar mensal:</strong> R$ {{benefited.monthly_familiar_income}}</p>
+                <p><strong>Renda familiar mensal:</strong> R$ {{beneficiary.monthly_familiar_income}}</p>
             </div>
             <div class="col-12 col-md-6">
-                <p><strong>Possui invalidez:</strong> {{ benefited.has_disablement ? 'Sim': 'Não' }}</p>
+                <p><strong>Possui invalidez:</strong> {{ beneficiary.has_disablement ? 'Sim': 'Não' }}</p>
             </div>
         </div>
         <hr>
@@ -92,10 +92,10 @@
         </div>
         <div class="col d-flex flex-column">
             <div class="d-flex justify-content-end mb-3">
-                <button class="bp-button" (click)="editBenefited(benefited)">Editar Informações</button>
+                <button class="bp-button" (click)="editBeneficiary(beneficiary)">Editar Informações</button>
             </div>
             <div class="d-flex justify-content-end">
-                <button class="bp-button" id="bp-remove" (click)="deleteBenefited(benefited)">Remover Cadastro</button>
+                <button class="bp-button" id="bp-remove" (click)="deleteBeneficiary(beneficiary)">Remover Cadastro</button>
             </div>
         </div>
     </div>
