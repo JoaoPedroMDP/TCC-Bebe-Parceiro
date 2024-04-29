@@ -15,13 +15,13 @@
                 <tr *ngFor="let volunteer of volunteers"
 
                     [title]="'Clique para ver mais dados da voluntária: '+ volunteer.user?.name">
-                    <td class="align-middle bp-nome-limit" (click)="inspectVolunteer(volunteer)">{{volunteer.user?.name}}</td>
-                    <td class="align-middle" (click)="inspectVolunteer(volunteer)" 
-                    > <span *ngFor="let group of volunteer.user?.groups"> {{group.name}} </span></td>
-                    <td>
-                        <i class="fa-solid fa-pen-to-square col-20 col-md-4" (click)="editVolunteer(volunteer)"
+                    <td class="align-middle bp-nome-limit col-5" (click)="inspectVolunteer(volunteer)">{{volunteer.user?.name}}</td>
+                    <td class="align-middle"(click)="inspectVolunteer(volunteer)" 
+                    > <span class="bp-group-name" *ngFor="let group of volunteer.user?.groups"> {{group.name}} </span></td>
+                    <td class="col-2">
+                        <i class="fa-solid fa-pen-to-square  col-md-4" (click)="editVolunteer(volunteer)"
                             [title]="'Editar a voluntária: '+ volunteer.user?.name"></i>
-                        <i class="fa-solid fa-trash col-20 col-md-4" (click)="deleteVolunteer(volunteer)"
+                        <i class="fa-solid fa-trash col-md-4" (click)="deleteVolunteer(volunteer)"
                             [title]="'Excluir para a voluntária: '+ volunteer.user?.name"></i>
                     </td>
                 </tr>

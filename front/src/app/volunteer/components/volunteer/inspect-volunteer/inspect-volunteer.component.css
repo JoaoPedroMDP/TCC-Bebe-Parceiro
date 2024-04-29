@@ -28,6 +28,17 @@
     font-size: 1rem;
 }
 
+.bp-groups {
+    max-height: 10rem;
+}
+
+.bp-group-name {
+    border-radius: 5px;
+    border: 1px solid var(--bp-light-gray);
+    padding: .2rem;
+    font-size: .85rem;
+}
+
 .form-control:disabled{
     background-color: #f5f5f5ab;
     font-weight: 600;

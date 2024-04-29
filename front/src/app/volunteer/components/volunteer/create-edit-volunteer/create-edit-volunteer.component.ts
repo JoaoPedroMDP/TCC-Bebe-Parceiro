@@ -39,7 +39,7 @@ export class CreateEditVolunteerComponent implements OnInit {
      ) { }
 
     ngOnInit(): void {
-      this.volunteer = new VolunteerPOST();
+      
       this.listGroups();
       this.listCountries();
     }
@@ -81,39 +81,7 @@ export class CreateEditVolunteerComponent implements OnInit {
     })
   }
   
-  // /**
-  //  * @description Obtém  a lista de funções.
-  //  */
-  // listGroups2() {
-  //   this.authService.getGroups().subscribe({
-  //     next: (data: group_ids[]) => {
-  //       if (data == null) {
-  //         this.group_ids = [];
-  //       } else {
-  //         this.group_ids = data;
-  //       }
-  //     },
-  //     error: (e) => SwalFacade.error('Erro ao listar os dados de funções', e)
-  //   })
-  // }
-
-   /**
-   * @description Adiciona ou remove uma função da lista selecionada.
-   * @param group_ids a função a ser removido ou adicionado
-   */
-   toggleGroups(group_ids: Group) {
-    const index = this.selectedGroups.indexOf(group_ids);
-
-    if (index !== -1) {
-      // Se já está no array, remova
-      this.selectedGroups.splice(index, 1);
-    } else {
-      // Se não está no array, adicione
-      this.selectedGroups.push(group_ids);
-    }
-  }
-
-
+ 
 
    /** 
    * @description Obtém e atualiza a lista de países.

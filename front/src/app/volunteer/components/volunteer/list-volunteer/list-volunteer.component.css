@@ -17,6 +17,10 @@
     word-wrap: break-word; /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
 }
 
+.bp-group-name {
+    font-size: .85rem;
+}
+
 .fa-solid{ 
     margin: 0 .2rem;
     font-size: 1.2rem;
@@ -72,4 +76,5 @@ thead {
         font-size: 1.2rem;
         padding: .75rem 0;
     }
+  
 }

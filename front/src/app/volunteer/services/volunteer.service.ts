@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth';
 import { BeneficiaryPOST } from 'src/app/shared';
-import { VolunteerPOST } from 'src/app/shared/models/volunteer';
+import { Volunteer, VolunteerPOST } from 'src/app/shared/models/volunteer';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -193,7 +193,7 @@ export class VolunteerService {
    * @param volunteer valor a ser atualizado no body da requisição
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  editVolunteer(id: number, volunteer: VolunteerPOST): Observable<any> {
+  editVolunteer(id: number, volunteer: Volunteer): Observable<any> {
     return this.http.patch(`${this.baseURL}volunteers/${id}`, volunteer, { headers: this.authService.getHeaders() })
       .pipe( 
         catchError(error => {

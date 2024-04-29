@@ -1,30 +1,42 @@
 <div class="modal-header modal-lg d-flex justify-content-center">
-    <h1 class="bp-big-title mb-4">{{volunteer.user?.name}}</h1>
+    <h4 class="mb-0">Ver Voluntária</h4>
 </div>
-
 <div class="modal-body my-3">
     <div class="container">
         <div>
-            <p><strong>Nome:</strong> {{volunteer.user?.name}}</p>
+            <small class="bp-label-text">Nome</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.user!.name" disabled>
         </div>
         <div class="my-3">
-            <p><strong>Telefone:</strong> {{volunteer.user?.phone}}</p>
+            <small class="bp-label-text">Telefone (com Whatsapp)</small>
+            <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000"
+            [(ngModel)]="volunteer.user!.phone" disabled>
         </div>
         <div class="my-3">
-            <p><strong>Email:</strong> {{volunteer.user?.email}}</p>
+            <small class="bp-label-text">Email</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.user!.email" disabled>
         </div>
-        <div class="col-12 col-md-4">
-            <p><strong>País:</strong> {{volunteer.city?.state?.country?.name}}</p>
+        <div class="my-3">
+            <small class="bp-label-text">País</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.city!.state!.country!.name" disabled>
         </div>
-        <div class="col-12 col-md-4">
-            <p><strong>Estado:</strong> {{volunteer.city?.state?.name}}</p>
+        <div class="my-3">
+            <small class="bp-label-text">Estado</small>
+        <input type="text" class="form-control" [(ngModel)]="volunteer.city!.state!.name" disabled>
         </div>
-        <div class="col-12 col-md-4">
-            <p><strong>Cidade:</strong> {{volunteer.city?.name}}</p>
+        <div class="my-3">
+            <small class="bp-label-text">Cidade</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.city!.name" disabled>
         </div>
-        <div class="col-12 col-md-4">
-            <p><strong>Funções:</strong> <span *ngFor="let group of volunteer.user?.groups"> {{group.name}} </span></p>
+        <div class="my-3">
+            <small class="bp-label-text">Funções</small>
+           
+                <div
+                *ngFor="let group of volunteer.user!.groups" class="bp-group-name">
+                <span>{{group.name}}</span>
+                </div>
         </div>
+       
     </div>
 </div>
 
