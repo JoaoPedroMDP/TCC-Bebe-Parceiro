@@ -19,7 +19,7 @@ Mude as variáveis de `config.py` de acordo com o que for melhor.
 1. Execute `pip install -r requirements.txt`.
 2. Execute `python manage.py makemigrations`
 3. Execute `python manage.py migrate`
-4. Execute `python mange.py runserver`
+4. Execute `python manage.py runserver`
 
 
 ### Com Docker
