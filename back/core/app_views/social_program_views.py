@@ -5,8 +5,8 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.social_program_commands import CreateSocialProgramCommand, PatchSocialProgramCommand, \
     DeleteSocialProgramCommand
 from core.cqrs.queries.social_program_queries import GetSocialProgramQuery, ListSocialProgramQuery
@@ -18,7 +18,14 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class SocialProgramGenericViews(APIView):
+class SocialProgramGenericViews(BaseView):
+    authentication_classes_by_method = {
+        "get": ()
+    }
+    permission_classes_by_method = {
+        "get": ()
+    }
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_SOCIAL-PROGRAMS----")
@@ -35,7 +42,7 @@ class SocialProgramGenericViews(APIView):
         return SocialProgramSerializer(new_social_program).data, status.HTTP_201_CREATED
 
 
-class SocialProgramSpecificViews(APIView):
+class SocialProgramSpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_SOCIAL-PROGRAM----")

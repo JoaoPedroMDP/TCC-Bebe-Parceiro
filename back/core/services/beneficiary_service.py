@@ -1,23 +1,31 @@
 #  coding: utf-8
+import logging
 from typing import List
 
 from rest_framework import status
 
+from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
+from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
-    DeleteBeneficiaryCommand
-from core.cqrs.commands.child_commands import CreateChildCommand
-from core.cqrs.commands.user_commands import CreateUserCommand
+    DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
+from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
+from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
-from core.models import Beneficiary
+from core.models import Beneficiary, User
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.city_repository import CityRepository
+from core.repositories.group_repository import GroupRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.services import CrudService
+from core.services.appointment_service import AppointmentService
 from core.services.child_service import ChildService
 from core.services.user_service import UserService
 from core.utils.exceptions import HttpFriendlyError
+
+
+lgr = logging.getLogger(__name__)
 
 
 class BeneficiaryService(CrudService):
@@ -29,43 +37,50 @@ class BeneficiaryService(CrudService):
         # Verifica se a cidade passada é válida
         city = CityRepository.get(command.city_id)
 
-        # Verifico se o código de acesso já existe e não foi usado
-        access_codes = AccessCodeRepository.filter(code=command.access_code, used=False)
-        if not access_codes:
-            raise HttpFriendlyError("Código de acesso inválido", status.HTTP_400_BAD_REQUEST)
+        access_codes = []
+        if command.access_code:
+            # Verifico se o código de acesso já existe e não foi usado
+            access_codes = AccessCodeRepository.filter(code=command.access_code, used=False)
+            if not access_codes:
+                raise HttpFriendlyError("Código de acesso inválido", status.HTTP_400_BAD_REQUEST)
 
         # Verifico se os programas sociais existem de fato
         social_programs = []
         if command.social_programs:
-            for social_program_id in command.social_programs:
-                social_programs.append(SocialProgramRepository.get(social_program_id))
+            for social_program in command.social_programs:
+                social_programs.append(SocialProgramRepository.get(social_program['id']))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
+        b_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
+        new_user.groups.add(b_role)
 
         data = command.to_dict()
-        # As crianças eu associo depois
-        del data["children"]
 
-        # Vinculo a beneficiada aos programas sociais
+        # Relacionamentos N:N eu associo depois
+        del data["children"]
+        del data["social_programs"]
+
         try:
             new_beneficiary = Beneficiary()
             new_beneficiary = BeneficiaryRepository.fill(data, new_beneficiary)
             new_beneficiary.user = new_user
             new_beneficiary.city = city
-            new_beneficiary.marital_status = marital_status
-
-            for social_program in social_programs:
-                new_beneficiary.social_programs.add(social_program)
 
             new_beneficiary.save()
         except Exception as e:
             new_user.delete()
             raise e
 
-        # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
-        access_code = access_codes[0]
-        access_code.used = True
-        AccessCodeRepository.patch(access_code.to_dict())
+        # Vinculo a beneficiada aos programas sociais
+        new_beneficiary.marital_status = marital_status
+        for social_program in social_programs:
+            new_beneficiary.social_programs.add(social_program)
+
+        if command.access_code:
+            # Pego o primeiro código de acesso válido (deveria haver apenas um, vem em lista porque é 'filter')
+            access_code = access_codes[0]
+            access_code.used = True
+            AccessCodeRepository.patch(access_code.to_dict())
 
         # Armazeno os filhos da beneficiada
         for child in command.children:
@@ -77,6 +92,28 @@ class BeneficiaryService(CrudService):
 
     @classmethod
     def patch(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
+        # TODO Os dados de usuário (nome, phone, email) não estão sendo alterados
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+
+        if command.user_data:
+            user_command = PatchUserCommand.from_dict({
+                **command.user_data,
+                'id': beneficiary.user.id
+            })
+            UserService.patch(user_command)
+
+        for child in command.children:
+            c_command = PatchChildCommand.from_dict(child)
+            ChildService.patch(c_command)
+
+        if command.social_programs:
+            beneficiary.social_programs.clear()
+            for social_p in command.social_programs:
+                beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
+
+        command.social_programs = None
+        command.children = None
+
         return BeneficiaryRepository.patch(command.to_dict())
 
     @classmethod
@@ -90,3 +127,24 @@ class BeneficiaryService(CrudService):
     @classmethod
     def delete(cls, command: DeleteBeneficiaryCommand) -> bool:
         return BeneficiaryRepository.delete(command.id)
+
+    @classmethod
+    def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
+
+        user = beneficiary.user
+        old_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
+        new_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
+
+        user.groups.remove(old_role)
+        user.groups.add(new_role)
+        user.save()
+
+        AppointmentService.create(ca_command)
+
+        return beneficiary
+
+    @classmethod
+    def get_pending_beneficiaries(cls):
+        return BeneficiaryRepository.filter(user__groups__name=ROLE_PENDING_BENEFICIARY)

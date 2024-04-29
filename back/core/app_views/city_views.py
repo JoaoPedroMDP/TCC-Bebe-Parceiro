@@ -5,8 +5,8 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.city_commands import CreateCityCommand, PatchCityCommand, \
     DeleteCityCommand
 from core.cqrs.queries.city_queries import GetCityQuery, ListCityQuery
@@ -18,7 +18,14 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class CityGenericViews(APIView):
+class CityGenericViews(BaseView):
+    authentication_classes_by_method = {
+        "get": ()
+    }
+    permission_classes_by_method = {
+        "get": ()
+    }
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_CITIES----")
@@ -35,7 +42,7 @@ class CityGenericViews(APIView):
         return CitySerializer(new_city).data, status.HTTP_201_CREATED
 
 
-class CitySpecificViews(APIView):
+class CitySpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_CITY----")

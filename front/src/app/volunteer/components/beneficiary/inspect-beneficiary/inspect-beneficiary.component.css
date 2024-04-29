@@ -1,0 +1,19 @@
+/* -------------------------------------------   ID   ------------------------------------------- */
+#bp-remove {
+    background-color: var(--bp-red);
+    color: var(--white);
+    padding: .4rem 1.1rem;
+}
+#bp-remove:hover{ background-color: var(--bp-dark-red); }
+
+/* -------------------------------------------   TAG  ------------------------------------------- */
+p { margin-bottom: .5rem; }
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    p {
+        margin-bottom: 1rem;
+    }
+
+}
+

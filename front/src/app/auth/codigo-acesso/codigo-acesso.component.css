@@ -1,8 +1,0 @@
-/* -------------------------------------------  CLASS ------------------------------------------- */
-.bp-button{
-  --btn-bg: var(--bp-yellow);
-  --btn-bg-hover: var(--bp-black);
-  --btn-cor-hover: #FFFFFF;
-  margin-top: 2.2rem;
-  padding: .2rem 4.5rem;
-}

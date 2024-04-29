@@ -4,8 +4,9 @@ from django.contrib.auth.models import Group, Permission
 from factory.django import DjangoModelFactory
 from faker import Faker
 
+from config import ROLE_BENEFICIARY
 from core.models import (
-    BaseModel, User, Country, State, City, AccessCode,
+    User, Country, State, City, AccessCode,
     MaritalStatus, SocialProgram, Beneficiary, Volunteer, Campaign, Child, Size, Status, Swap,
     Speciality, Professional, Appointment, Register
 )
@@ -13,14 +14,7 @@ from core.models import (
 fake = Faker()
 
 
-class BaseModelFactory(DjangoModelFactory):
-    class Meta:
-        model = BaseModel
-
-    id = factory.Faker('random_int', min=0, max=1000000)
-
-
-class TimestampedModelFactory(BaseModelFactory):
+class TimestampedModelFactory(DjangoModelFactory):
     created_at = factory.Faker('date_time_this_decade', tzinfo=None)
     updated_at = factory.Faker('date_time_this_decade', tzinfo=None)
 
@@ -107,8 +101,8 @@ class BeneficiaryFactory(TimestampedModelFactory):
         model = Beneficiary
 
     user = factory.SubFactory(UserFactory)
-    marital_status = factory.SubFactory(MaritalStatusFactory)
-    city = factory.SubFactory(CityFactory)
+    marital_status = factory.Iterator(MaritalStatus.objects.all())
+    city = factory.Iterator(City.objects.all())
     birth_date = factory.Faker('date_time_this_century', tzinfo=None)
     child_count = factory.Faker('random_int', min=0, max=10)
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
@@ -120,7 +114,6 @@ class VolunteerFactory(TimestampedModelFactory):
         model = Volunteer
 
     user = factory.SubFactory(UserFactory)
-    role = factory.Faker('word')
     city = factory.SubFactory(CityFactory)
 
 
@@ -180,10 +173,8 @@ class ProfessionalFactory(EnablableModelFactory):
         model = Professional
 
     name = factory.Faker('name')
-    email = factory.Faker('email')
     phone = factory.Faker('phone_number')
     speciality = factory.SubFactory(SpecialityFactory)
-    city = factory.SubFactory(CityFactory)
     accepted_volunteer_terms = factory.Faker('boolean')
 
 
@@ -195,7 +186,7 @@ class AppointmentFactory(TimestampedModelFactory):
     volunteer = factory.SubFactory(VolunteerFactory)
     professional = factory.SubFactory(ProfessionalFactory)
     date = factory.Faker('date_this_year', tzinfo=None)
-    hour = factory.Faker('time', tzinfo=None)
+    time = factory.Faker('time', tzinfo=None)
     status = factory.SubFactory(StatusFactory)
 
 
@@ -209,7 +200,7 @@ class RegisterFactory(TimestampedModelFactory):
     description = factory.Faker('text')
 
 
-class GroupFactory(BaseModelFactory):
+class GroupFactory(DjangoModelFactory):
     class Meta:
         model = Group
         skip_postgeneration_save = True

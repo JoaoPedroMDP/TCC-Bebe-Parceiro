@@ -5,8 +5,8 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.country_commands import CreateCountryCommand, PatchCountryCommand, \
     DeleteCountryCommand
 from core.cqrs.queries.country_queries import GetCountryQuery, ListCountryQuery
@@ -18,7 +18,14 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class CountryGenericViews(APIView):
+class CountryGenericViews(BaseView):
+    authentication_classes_by_method = {
+        "get": ()
+    }
+    permission_classes_by_method = {
+        "get": ()
+    }
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_COUNTRIES----")
@@ -35,7 +42,7 @@ class CountryGenericViews(APIView):
         return CountrySerializer(new_country).data, status.HTTP_201_CREATED
 
 
-class CountrySpecificViews(APIView):
+class CountrySpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_COUNTRY----")

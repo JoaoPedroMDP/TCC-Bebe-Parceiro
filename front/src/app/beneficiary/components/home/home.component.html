@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="text-center">
+        <h1>Bem vinda beneficiada!</h1>
+        <p>Usuário: {{user.user?.name}}</p>
+        <div *ngIf="user.user?.role === 'pending_beneficiary'">
+            <h6>Nesse momento você apenas pode visualizar, alterar ou excluir seus dados</h6>
+            <h6>Quando seu cadastro for aprovado você terá acesso as novas funcionalidades do sistema</h6>
+        </div>
+    </div>
+    <a class="row bp-menu-option" routerLink="meus-dados">
+        <span>Meus dados</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="atendimentos" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
+        <span>Meus atendimentos</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="trocas" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
+        <span>Pedir troca</span>
+    </a>
+    <a class="row bp-menu-option" routerLink="campanhas" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
+        <span>Campanhas</span>
+    </a>
+</div>

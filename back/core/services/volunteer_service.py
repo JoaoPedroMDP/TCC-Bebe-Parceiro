@@ -1,26 +1,45 @@
 #  coding: utf-8
+import logging
 from typing import List
 
+from config import ROLE_VOLUNTEER, MANAGE_EVALUATIONS
+from core.cqrs.commands.user_commands import CreateUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
 from core.models import Volunteer
 from core.repositories.city_repository import CityRepository
+from core.repositories.group_repository import GroupRepository
 from core.repositories.volunteer_repository import VolunteerRepository
 from core.services import CrudService
+from core.services.user_service import UserService
+
+lgr = logging.getLogger(__name__)
 
 
 class VolunteerService(CrudService):
     @classmethod
     def create(cls, command: CreateVolunteerCommand) -> Volunteer:
         # Verifica se a cidade passada é válida
-        CityRepository.get(command.city_id)
+        city = CityRepository.get(command.city_id)
+        new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
 
-        new_volunteer = VolunteerRepository.create(command.to_dict())
+        try:
+            new_volunteer = Volunteer()
+            new_volunteer = VolunteerRepository.fill(command.to_dict(), new_volunteer)
+            new_volunteer.user = new_user
+            new_volunteer.city = city
 
-        # Para cada group_id passado, atribui o cargo
-        for r_id in command.group_ids:
-            new_volunteer.user.groups.add(r_id)
+            # Para cada group_id passado, atribui o cargo
+            for g_id in command.group_ids:
+                new_volunteer.user.groups.add(g_id)
+
+            role = GroupRepository.filter(name=ROLE_VOLUNTEER)[0]
+            new_volunteer.user.groups.add(role)
+            new_volunteer.save()
+        except Exception as e:
+            new_user.delete()
+            raise e
 
         return new_volunteer
 
@@ -30,6 +49,9 @@ class VolunteerService(CrudService):
 
     @classmethod
     def filter(cls, query: ListVolunteerQuery) -> List[Volunteer]:
+        if query.group_ids:
+            return VolunteerRepository.filter(user__groups__id__in=query.group_ids)
+
         return VolunteerRepository.filter(**query.to_dict())
 
     @classmethod
@@ -39,3 +61,7 @@ class VolunteerService(CrudService):
     @classmethod
     def delete(cls, command: DeleteVolunteerCommand) -> bool:
         return VolunteerRepository.delete(command.id)
+
+    @classmethod
+    def get_evaluators(cls) -> List[Volunteer]:
+        return VolunteerRepository.filter(user__groups__name=MANAGE_EVALUATIONS)

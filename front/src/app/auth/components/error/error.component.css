@@ -1,0 +1,36 @@
+/* -------------------------------------------  MAIN  ------------------------------------------- */
+#main {
+    height: 100vh;
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.error {
+    font-size: 4rem;
+    margin-top: 3rem;
+    color: #A10808;
+}
+
+.bp-button {
+  --btn-bg: var(--bp-yellow);
+  --btn-bg-hover: var(--bp-black);
+  --btn-cor-hover: #FFFFFF;
+  margin: 2rem auto;
+  padding: .3rem 3.5rem;
+}
+
+/* -------------------------------------------   TAG  ------------------------------------------- */
+h5 {
+  margin: 2.5rem 1rem;
+  text-align: center;
+}
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .error {
+      font-size: 6rem;
+    }
+
+    .bp-button {
+      padding: .3rem 5rem;
+    }
+}

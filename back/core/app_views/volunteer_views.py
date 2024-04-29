@@ -5,12 +5,14 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from config import MANAGE_VOLUNTEERS, MANAGE_BENEFICIARIES
+from core.app_views import BaseView
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
 from core.models import Volunteer
+from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.serializers import VolunteerSerializer
 from core.services.volunteer_service import VolunteerService
 from core.utils.decorators import endpoint
@@ -18,7 +20,10 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class VolunteerGenericViews(APIView):
+class VolunteerGenericViews(BaseView):
+    groups = [MANAGE_VOLUNTEERS]
+    permission_classes = (AtLeastOneGroup,)
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_VOLUNTEERS----")
@@ -35,7 +40,10 @@ class VolunteerGenericViews(APIView):
         return VolunteerSerializer(new_volunteer).data, status.HTTP_201_CREATED
 
 
-class VolunteerSpecificViews(APIView):
+class VolunteerSpecificViews(BaseView):
+    groups = [MANAGE_VOLUNTEERS]
+    permission_classes = (AtLeastOneGroup,)
+
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_VOLUNTEER----")
@@ -68,3 +76,17 @@ class VolunteerSpecificViews(APIView):
             return VolunteerSerializer(volunteer).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+
+class VolunteerEvaluatorsViews(BaseView):
+    # O motivo desse grupo: essa rota será necessária na hora da aprovação de uma beneficiada
+    # A voluntária de beneficiarias precisa saber quem são as avaliadoras
+    # para poder encaminhar a beneficiada pra uma delas
+    groups = [MANAGE_BENEFICIARIES]
+    permission_classes = (AtLeastOneGroup,)
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_EVALUATORS----")
+        evaluators: List[Volunteer] = VolunteerService.get_evaluators()
+        return VolunteerSerializer(evaluators, many=True).data, status.HTTP_200_OK

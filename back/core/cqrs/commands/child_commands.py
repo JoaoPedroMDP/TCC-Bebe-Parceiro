@@ -24,8 +24,8 @@ class CreateChildCommand(Command):
     def from_dict(args: dict) -> 'CreateChildCommand':
         data = Validator.validate_and_extract(CreateChildCommand.fields, args)
 
-        birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
-        if birth_date:
+        if 'birth_date' in data:
+            birth_date = datetime.strptime(data["birth_date"], "%Y-%m-%d")
             data["birth_date"] = birth_date.isoformat()
 
         if "sex" in data:
@@ -39,7 +39,7 @@ class PatchChildCommand(Command):
         Field("id", "integer", True, formatter=lambda x: int(x)),
 
         Field("name", "string", False),
-        Field("birth_date", "integer", False, formatter=lambda x: int(x)),
+        Field("birth_date", "string", False),
         Field("sex", "string", False),
     ]
 
@@ -53,12 +53,6 @@ class PatchChildCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchChildCommand':
         data = Validator.validate_and_extract(PatchChildCommand.fields, args)
-
-        bd = data.get("birth_date", None)
-        if bd:
-            bd = datetime.fromtimestamp(data["birth_date"])
-            data["birth_date"] = bd.strftime("%Y-%m-%d")
-
         return PatchChildCommand(**data)
 
 

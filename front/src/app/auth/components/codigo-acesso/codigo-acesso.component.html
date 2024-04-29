@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  <div class="text-center">
+    <img src="../../../assets/img/bp-logo.png" alt="Imagem Bebê Parceiro">
+    <p class="my-4">
+      Antes de continuarmos o seu cadastro por favor digite um 
+      código de acesso fornecido por uma voluntária do projeto.
+    </p>
+  </div>
+  <form #form="ngForm">
+    <div class="px-5">
+      <small class="form-text font-weight-bold text-left">Digite o código de acesso</small>
+      <input type="text" class="form-control" placeholder="Código de Acesso" name="codigo" ngModel>
+    </div>
+    <div class="text-center">
+      <button class="bp-button" (click)="validateAccessCode()">Continuar</button>
+      <hr class="mt-5">
+      <div>
+        <button class="bp-button" routerLink="/">Voltar ao Login</button>
+      </div>
+    </div>
+  </form>
+</div>

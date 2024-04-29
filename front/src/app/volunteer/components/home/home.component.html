@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="text-center">
+        <h1>Bem vinda voluntaria!</h1>
+        <p>Usuário: {{user.user?.name}}</p>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias" [class.bp-disabled]="!hasGroup('manage_volunteers')">
+            <span>Voluntárias</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades"  [class.bp-disabled]="!hasGroup('especialidades')">
+            <span>Especialidades</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas" [class.bp-disabled]="!hasGroup('campanhas')">
+            <span>Campanhas</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios" [class.bp-disabled]="!hasGroup('relatorios')">
+            <span>Relatórios</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="funcoes" [class.bp-disabled]="!hasGroup('funcoes')">
+            <span>Funções</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios" [class.bp-disabled]="!hasGroup('prontuarios')">
+            <span>Prontuários</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="beneficiadas" [class.bp-disabled]="!hasGroup('manage_beneficiaries')">
+            <span>Beneficiadas</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="trocas" [class.bp-disabled]="!hasGroup('manage_swaps')">
+            <span>Trocas</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="atendimentos" [class.bp-disabled]="!hasGroup('manage_appointments')">
+            <span>Atendimentos</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="profissionais" [class.bp-disabled]="!hasGroup('manage_professionals')">
+            <span>Profissionais</span>
+        </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="solitacoes" [class.bp-disabled]="!hasGroup('manage_beneficiaries')">
+            <span>Solicitações de cadastro</span>
+        </a>
+        <a class="col-10 col-lg-5 bp-menu-option" (click)="openAcessCodesModal()" [class.bp-disabled]="!hasGroup('manage_access_codes')">
+            <span>Códigos de acesso</span>
+        </a>
+    </div>
+</div>

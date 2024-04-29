@@ -5,8 +5,8 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 
+from core.app_views import BaseView
 from core.cqrs.commands.state_commands import CreateStateCommand, PatchStateCommand, \
     DeleteStateCommand
 from core.cqrs.queries.state_queries import GetStateQuery, ListStateQuery
@@ -18,7 +18,14 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class StateGenericViews(APIView):
+class StateGenericViews(BaseView):
+    authentication_classes_by_method = {
+        "get": ()
+    }
+    permission_classes_by_method = {
+        "get": ()
+    }
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_STATES----")
@@ -35,7 +42,7 @@ class StateGenericViews(APIView):
         return StateSerializer(new_state).data, status.HTTP_201_CREATED
 
 
-class StateSpecificViews(APIView):
+class StateSpecificViews(BaseView):
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_STATE----")

@@ -1,14 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AutoCadastroComponent, CodigoAcessoComponent, PageNotFoundComponent, SucessoCadastroComponent } from './auth';
+import { AutoCadastroComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, LoginRedirectGuard, ValidCodeGuard, ProfessionalComponent } from './auth';
+import { BeneficiaryRouting } from './beneficiary/beneficiary-routing.module';
+import { VolunteerRouting } from './volunteer/volunteer-routing.module';
+
+
 
 const routes: Routes = [
-  // No futuro fazer cada modulo ter seu routing separado assim como é no module e atualizar tudo aqui
-  { path: '', redirectTo: 'autocadastro', pathMatch: 'full' },
-  { path: 'autocadastro', component: CodigoAcessoComponent},
-  { path: 'autocadastro/dados/:codigoAcesso', component: AutoCadastroComponent},
-  { path: 'autocadastro/sucesso', component: SucessoCadastroComponent },
-  { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, canActivate: [LoginRedirectGuard]},
+  { path: 'autocadastro', component: CodigoAcessoComponent },
+  { path: 'autocadastro/dados/:codigoAcesso', component: AutoCadastroComponent, canActivate: [ValidCodeGuard] },
+  { path: 'professional', component: ProfessionalComponent},
+  ...BeneficiaryRouting,
+  ...VolunteerRouting,
+  { 
+    path: 'unauthorized', pathMatch: 'full', component: ErrorComponent, 
+    data: { errorType: 'Acesso não autorizado', errorMessage: ' O usuário não possui as permissões necessárias para acessar esta página!' } 
+  },
+  { 
+    path: '**', pathMatch: 'full', component: ErrorComponent, 
+    data: { errorType: 'Página não encontrada', errorMessage: 'A página selecionada não foi encontrada, verifique se o endereço do site está digitado corretamente.' } 
+  }
 ];
 
 @NgModule({

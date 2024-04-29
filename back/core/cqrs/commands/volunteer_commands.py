@@ -4,13 +4,19 @@ from core.cqrs import Validator, Field, Command
 
 class CreateVolunteerCommand(Command):
     fields = [
-        Field("user_id", "integer", True, formatter=lambda x: int(x)),
+        Field("name", "string", True),
+        Field("phone", "string", True),
+        Field("email", "string", False),
+        Field("password", "string", True),
         Field("group_ids", "list", True),
         Field("city_id", "integer", True, formatter=lambda x: int(x)),
     ]
 
-    def __init__(self, user_id: int, group_ids: list, city_id: int):
-        self.user_id = user_id
+    def __init__(self, name: str, phone: str, email: str, password: str, group_ids: list, city_id: int):
+        self.name = name
+        self.phone = phone
+        self.email = email
+        self.password = password
         self.group_ids = group_ids
         self.city_id = city_id
 

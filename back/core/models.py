@@ -1,4 +1,5 @@
-from django.contrib.auth.models import AbstractUser
+from typing import List
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
 from core.utils.dictable import Dictable
@@ -40,6 +41,20 @@ class User(AbstractUser):
     @name.setter
     def name(self, value):
         self.first_name = value
+
+    @property
+    def role(self) -> str:
+        def role_filter(group):
+            return group.name.startswith('role_')
+
+        groups: List[Group] = self.groups.all()
+        role: Group = list(filter(role_filter, groups))[0]
+        return role.name
+
+    def get_formatted_role(self):
+        # Aqui tem esse join pra quando a role tiver mais de duas palavras
+        # Por exemplo, "role_pending_beneficiary" retorna "pending_beneficiary"
+        return "_".join(self.role.split("_")[1:])
 
 
 class Country(EnablableModel):
@@ -116,7 +131,7 @@ class Beneficiary(TimestampedModel):
 class Volunteer(TimestampedModel):
     readable_name = "Voluntária"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="volunteers")
 
 
@@ -170,11 +185,10 @@ class Professional(EnablableModel):
     readable_name = "Profissional"
 
     name = models.CharField(max_length=255)
-    email = models.EmailField()
     phone = models.CharField(max_length=30)
+    approved = models.BooleanField(default=False)
 
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, related_name="professionals")
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="professionals")
     accepted_volunteer_terms = models.BooleanField(default=False)
 
 
@@ -186,8 +200,8 @@ class Appointment(TimestampedModel):
     professional = models.ForeignKey(Professional, on_delete=models.CASCADE, null=True, related_name="appointments")
 
     date = models.DateField(null=True)
-    hour = models.TimeField(null=True)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name="appointments")
+    time = models.TimeField(null=True)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True, related_name="appointments")
 
 
 class Register(TimestampedModel):

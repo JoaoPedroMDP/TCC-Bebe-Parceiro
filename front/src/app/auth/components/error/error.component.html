@@ -1,0 +1,15 @@
+<div class="text-center container" id="main">
+    <img src="../../../assets/img/bp-logo.png" alt="Imagem Bebê Parceiro">
+    <h1 class="error">Erro</h1>
+    <h1>{{errorType != null ? errorType : 'Não foi possível determinar o erro que ocorreu'}}</h1>
+    <h5>{{errorMessage != null ? errorMessage : 'Se o erro persistir entre em contato com o administrador do projeto'}}</h5>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <button routerLink="/" class="bp-button">Voltar ao sistema</button>
+        </div>
+        <div class="col">
+            <button (click)="logout()" class="bp-button">Logout</button>
+        </div>
+    </div>
+</div>

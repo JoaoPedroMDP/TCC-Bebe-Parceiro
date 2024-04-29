@@ -1,0 +1,22 @@
+.bp-menu-option {
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    background-color: var(--bp-light-gray);
+    color: var(--black);
+    padding: 1rem;
+    margin: 1rem;
+    transition: .5s;
+}
+
+.bp-menu-option:hover {
+    background-color: var(--bp-black);
+    color: var(--white);
+    font-size: 1.5rem;
+}
+
+.bp-disabled {
+    display: none;
+}

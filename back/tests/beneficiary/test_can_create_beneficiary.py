@@ -1,13 +1,17 @@
 #  coding: utf-8
+import json
+
 import pytest
-from django.test.client import Client
+from rest_framework.test import APIClient
 from django.urls import reverse
 
+from config import MANAGE_BENEFICIARIES
 from factories import CityFactory, AccessCodeFactory, MaritalStatusFactory
+from tests.conftest import make_user
 
 
 @pytest.mark.django_db
-def test_can_create_beneficiary(client: Client):
+def test_can_create_beneficiary(client: APIClient):
     marital_status = MaritalStatusFactory.create()
     city = CityFactory.create()
     access_code = AccessCodeFactory.create(used=False)
@@ -24,7 +28,7 @@ def test_can_create_beneficiary(client: Client):
         "phone": "4495263859",
         "city_id": city.id,
         "access_code": access_code.code,
-        "socialProgram": [],
+        "social_programs": [],
         "children": [
             {
                 "name": "João ",
@@ -40,9 +44,18 @@ def test_can_create_beneficiary(client: Client):
     }
 
     url = reverse('gen_beneficiaries')
-    response = client.post(url, data=data, content_type='application/json')
+    response = client.post(url, data=json.dumps(data), content_type='application/json')
 
     assert response.status_code == 201
-    assert response.data['user']['name'].startswith(data["name"]) is True
-    assert 'user' in response.data
-    assert response.data['user']['username'] == data['phone']
+    assert response.data['name'].startswith(data["name"]) is True
+
+    # Agora, se for uma voluntária com permissão de gerenciar beneficiadas, não precisa de código de acesso
+    url = reverse('create_beneficiaries')
+    client.force_authenticate(make_user([MANAGE_BENEFICIARIES]))
+    data.pop("access_code")
+    data['email'] += '2'
+    data['phone'] += '2'
+    response = client.post(url, data=json.dumps(data), content_type='application/json')
+    assert response.status_code == 201
+    assert response.data['name'].startswith(data["name"]) is True
+

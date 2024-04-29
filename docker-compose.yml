@@ -2,46 +2,19 @@ version: '3'
 
 services:
   front:
-    build:
-      context: ./front
-    ports:
-      - "4200:4200"
-    volumes:
-      - ./front:/app/front
+    extends:
+      file: ./front/docker-compose.yml
+      service: app
   
   back:
-    build:
-      context: ./back
-      dockerfile: Dockerfile
-    image: app:v1
-    ports:
-      - "8000:8000"
-    environment:
-      DB_USER: "postgres"
-      DB_PASSWORD: "postgres"
-      DB_NAME: "bebeparceiro"
-      DB_HOST: "db"
-      DB_PORT: "5432"
+    extends:
+      file: ./back/docker-compose.yml
+      service: app
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./back:/app/back
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
 
   db:
-    image: postgres:15-alpine
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: bebeparceiro
-    volumes:
-      - ./data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 2s
-      timeout: 5s
-      retries: 5
+    extends:
+      file: ./back/docker-compose.yml
+      service: db

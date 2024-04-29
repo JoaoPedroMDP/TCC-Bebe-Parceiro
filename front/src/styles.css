@@ -3,38 +3,174 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --bp-yellow: #FFEFCE;
-    --bp-black: #333333;
-    --bp-error: #BA1414;
+  --bp-yellow: #FFEFCE;
+  --bp-black: #333333;
+  --bp-error: #BA1414;
+  --bp-light-green: #E8FFB6;
+  --bp-green: #16a300;
+  --bp-light-gray: #D9D9D9;
+  --bp-dark-gray: #585858;
+  --bp-red: #9D0000;
+  --bp-dark-red: #500000;
+  --bp-light-red: #FBD0D0;
+
+  --header: #A7CA90;
+  --white: #FFFFFF;
+  --black: #000000;
+  --btn-bg-disabled: #817560;
+  --btn-cor-disabled: #000000;
 }
-  
+
 
 
 /* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-big-title {
+  font-weight: 600;
+}
+
 .bp-button {
-  background-color: var(--btn-bg);
+  --bg-btn: var(--bp-yellow);
+  --color-btn: var(--bp-black);
+  background-color: var(--bg-btn);
   border: 1px solid var(--bp-black);
   border-radius: 5px;
-  color: var(--btn-cor);
+  color: var(--color-btn);
   font-weight: 600;
   transition: 0.5s;
+  padding: .4rem 1rem;
+  white-space: nowrap; /* Impede a quebra de linha */
+  width: auto; /* Permite que o botão ajuste automaticamente a largura */
 }
-  
+
 .bp-button:hover {
-    background-color: var(--btn-bg-hover);
-    color: var(--btn-cor-hover);
+  background-color: var(--bp-black);
+  color: var(--white);
 }
 
 .bp-button:disabled {
-    background-color: var(--btn-bg-disabled);
-    color: var(--btn-cor-disabled);
-    cursor: not-allowed;
+  background-color: var(--btn-bg-disabled);
+  color: var(--btn-cor-disabled);
+  cursor: not-allowed;
 }
+
+.modal-header {
+  /* Classe Bootstrap, so mudei a cor */
+  background-color: var(--black);
+  color: var(--white);
+}
+
 /* -------------------------------------------   TAG  ------------------------------------------- */
-*{
+* {
   font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-small{
+small {
   font-weight: 500;
+}
+
+/* -------------------------------------------  NAV -------------------------------------------- */
+#bp-home-menu {
+  --hover: #333333;
+}
+
+#bp-logout-menu {
+  --hover: #960A0A;
+}
+
+#bp-logout-menu:hover {
+  color: #FFFFFF;
+}
+
+.bp-content {
+  margin-top: 6rem;
+}
+
+.bp-header {
+  --header: #A7CA90;
+  background-color: var(--header);
+  box-shadow: 1px 1px 5px 0px var(--bp-light-gray);
+  border: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1rem 0;
+  z-index: 5;
+}
+
+.bp-header-logo {
+  display: inline-block;
+  color: var(--black);
+  font-weight: 600;
+  font-size: 1.75rem;
+  margin-left: 10px;
+  text-decoration: none;
+}
+
+.bp-header-menu {
+  padding: none;
+  list-style: none;
+  align-items: center;
+}
+
+.bp-header-menu a {
+  text-align: center;
+  display: block;
+  padding: 20px;
+  color: var(--black);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: .5s;
+}
+
+.bp-header-menu a:hover {
+  background-color: var(--hover);
+  color: var(--white);
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.bp-header-menu a:active {
+  background-color: var(--black);
+}
+
+.bp-header-nav {
+  /* Estilos quando o menu está fechado */
+  width: 100%;
+  height: max-content;
+  position: fixed;
+  background-color: var(--header);
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .5s ease-in-out;
+}
+
+.bp-header-nav-open {
+  /* Estilos para quando o menu está aberto */
+  max-height: 500px;
+}
+
+.bp-hamb {
+  cursor: pointer;
+  float: right;
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.bp-side-menu {
+  /* Hide checkbox */
+  display: none;
+}
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+  .bp-header-logo {
+    margin-left: 50px;
+  }
+
+  .bp-hamb {
+    margin-right: 50px;
+  }
+
 }

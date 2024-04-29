@@ -24,14 +24,18 @@ class AccessCodeService(CrudService):
         return prefix.upper() + first_triad + second_triad
 
     @classmethod
-    def create(cls, command: CreateAccessCodeCommand) -> AccessCode:
+    def create(cls, command: CreateAccessCodeCommand) -> List[AccessCode]:
         # O código deve ser no formato prefix + 3 números + 3 letras, tudo maiúsculo
-        code = cls.generate_code(command.prefix)
-        while AccessCode.objects.filter(code=code).exists():
-            lgr.warning("Código {} já existe, gerando outro".format(code))
-            code = cls.generate_code(command.prefix)
+        all_codes = []
+        prefix: str = command.user.first_name[:3].upper() if command.user else "UNK"
+        for i in range(command.amount):
+            code = cls.generate_code(prefix)
+            while AccessCode.objects.filter(code=code).exists():
+                lgr.warning("Código {} já existe, gerando outro".format(code))
+                code = cls.generate_code(prefix)
+            all_codes.append(AccessCodeRepository.create({"code": code}))
 
-        return AccessCodeRepository.create({"code": code})
+        return all_codes
 
     @classmethod
     def patch(cls, command: PatchAccessCodeCommand) -> AccessCode:
@@ -45,6 +49,10 @@ class AccessCodeService(CrudService):
     @classmethod
     def get(cls, query: GetAccessCodeQuery) -> AccessCode:
         return AccessCodeRepository.get(query.id)
+
+    @classmethod
+    def get_by_code(cls, code: str) -> AccessCode:
+        return AccessCodeRepository.filter(code=code).first()
 
     @classmethod
     def delete(cls, command: DeleteAccessCodeCommand) -> bool:
