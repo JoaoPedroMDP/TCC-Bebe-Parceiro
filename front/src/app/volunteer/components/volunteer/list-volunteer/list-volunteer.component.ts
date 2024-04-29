@@ -55,9 +55,9 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
       complete: () => { 
         if (isFiltering) {
           this.volunteers = this.volunteers.filter(
-            (volunteer: Volunteer) => {
+            (volunteers: Volunteer) => {
               // Asegura que name é uma string antes de chamar métodos de string
-              return volunteer.name! ? volunteer.name!.toLowerCase().includes(this.filter.toLowerCase()) : false;
+              return volunteers.user!.name! ? volunteers.user!.name!.toLowerCase().includes(this.filter.toLowerCase()) : false;
             }
           );
         }

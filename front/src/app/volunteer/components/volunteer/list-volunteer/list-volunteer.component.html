@@ -16,11 +16,9 @@
 
                     [title]="'Clique para ver mais dados da voluntária: '+ volunteer.user?.name">
                     <td class="align-middle bp-nome-limit" (click)="inspectVolunteer(volunteer)">{{volunteer.user?.name}}</td>
-                    <td class="align-middle" (click)="inspectVolunteer(volunteer)">{{volunteer.user?.groups}}</td>
+                    <td class="align-middle" (click)="inspectVolunteer(volunteer)" 
+                    > <span *ngFor="let group of volunteer.user?.groups"> {{group.name}} </span></td>
                     <td>
-                        <i class="fa-solid fa-rectangle-list col-4 col-md-4"
-                            (click)="appointmentsForVolunteer(volunteer)"
-                            [title]="'Ver os atendimentos da voluntária: '+ volunteer.user?.name"></i>
                         <i class="fa-solid fa-pen-to-square col-20 col-md-4" (click)="editVolunteer(volunteer)"
                             [title]="'Editar a voluntária: '+ volunteer.user?.name"></i>
                         <i class="fa-solid fa-trash col-20 col-md-4" (click)="deleteVolunteer(volunteer)"

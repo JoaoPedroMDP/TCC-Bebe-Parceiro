@@ -4,7 +4,6 @@ import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiar
 import { CreateEditVolunteerComponent,InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
-import { ListGroupsComponent } from './components/volunteer/list-groups/list-groups.component';
 import { HomeComponent, MainComponent } from './index';
 import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
 
@@ -52,11 +51,7 @@ export const VolunteerRouting: Routes = [
         data: { requiredPermissions: ['manage_specialities'] },
       },
 
-      {
-        path: 'funcoes', component: ListGroupsComponent, 
-        canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_professionals'] },
-      },
+   
     ]
   },
 ];

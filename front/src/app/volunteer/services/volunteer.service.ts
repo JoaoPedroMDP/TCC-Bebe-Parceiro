@@ -199,8 +199,8 @@ export class VolunteerService {
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })
-      );
-  }
+      ); 
+  } 
 
   /**
    * @description Faz um GET para obter dados de uma especifica beneficiada
@@ -208,7 +208,7 @@ export class VolunteerService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   findVolunteer(id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}volunteers/${id}`, { headers: this.authService.getHeaders() })
+    return this.http.get(`${this.baseURL}auth/group/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
@@ -230,6 +230,15 @@ export class VolunteerService {
     }
 
     listGroups(id: number): Observable<any> {
+      return this.http.get(`${this.baseURL}auth/groups`, { headers: this.authService.getHeaders() })
+        .pipe(
+          catchError(error => {
+            return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+          })
+        );
+    }
+
+    findGroups(id: number): Observable<any> {
       return this.http.get(`${this.baseURL}auth/groups${id}`, { headers: this.authService.getHeaders() })
         .pipe(
           catchError(error => {

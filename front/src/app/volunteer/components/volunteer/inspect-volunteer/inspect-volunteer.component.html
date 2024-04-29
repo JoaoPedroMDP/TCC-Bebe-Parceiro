@@ -23,7 +23,7 @@
             <p><strong>Cidade:</strong> {{volunteer.city?.name}}</p>
         </div>
         <div class="col-12 col-md-4">
-            <p><strong>Funções:</strong> {{volunteer.user?.groups}}</p>
+            <p><strong>Funções:</strong> <span *ngFor="let group of volunteer.user?.groups"> {{group.name}} </span></p>
         </div>
     </div>
 </div>
@@ -34,9 +34,9 @@
         <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
     </button>
     <button type="button" class="bp-button col-4" id="btn-edit" (click)="editVolunteer(volunteer)" >
-        <i class="fa-solid fa-pen-to-square" [title]="'Editar a voluntária: '+ volunteer.name"></i>
+        <i class="fa-solid fa-pen-to-square" [title]="'Editar a voluntária: '+ volunteer.user?.name"></i>
     </button>
     <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteVolunteer(volunteer)" >
-        <i class="fa-solid fa-trash" [title]="'Excluir a voluntária: '+ volunteer.name"></i>
+        <i class="fa-solid fa-trash" [title]="'Excluir a voluntária: '+ volunteer.user?.name"></i>
     </button>
 </div>
