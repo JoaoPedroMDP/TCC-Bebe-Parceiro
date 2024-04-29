@@ -58,7 +58,8 @@ class BeneficiaryService(CrudService):
 
         # Relacionamentos N:N eu associo depois
         del data["children"]
-        del data["social_programs"]
+        if "social_programs" in data:
+            del data["social_programs"]
 
         try:
             new_beneficiary = Beneficiary()
