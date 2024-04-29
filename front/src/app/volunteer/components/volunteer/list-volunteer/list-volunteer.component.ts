@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
@@ -8,29 +7,27 @@ import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 import { CreateEditVolunteerComponent, DeleteVolunteerComponent, InspectVolunteerComponent } from '../index';
 
 
-@Component({ 
+@Component({
   selector: 'app-list-volunteer',
   templateUrl: './list-volunteer.component.html',
   styleUrls: ['./list-volunteer.component.css']
 })
 export class ListVolunteerComponent implements OnInit, OnDestroy {
-  // @ViewChild('form') form!: NgForm;
+
   volunteers!: Volunteer[];
   filter!: string;
   isLoading: boolean = false;
   subscription: Subscription | undefined;
- 
 
-  constructor(private modalService: NgbModal, 
-    private router: Router, 
-    private volunteerService: VolunteerService) { }
+
+  constructor(private modalService: NgbModal, private volunteerService: VolunteerService) { }
 
   ngOnInit(): void {
     this.listVolunteers(false); // Inicialmente lista as voluntárias.
     // Se inscreve no Observable de atualização. Quando um novo valor é emitido, chama a listagem novamente.
     this.subscription = this.volunteerService.refreshPage$.subscribe(() => {
       this.listVolunteers(false); // Lista os beneficiados novamente para refletir as atualizações.
-      
+
     })
   }
 
@@ -52,7 +49,7 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
         this.volunteers.sort((a, b) => (a.user!.name ?? '').localeCompare(b.user!.name ?? ''))
       },
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),
-      complete: () => { 
+      complete: () => {
         if (isFiltering) {
           this.volunteers = this.volunteers.filter(
             (volunteers: Volunteer) => {
@@ -63,17 +60,17 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
         }
         this.isLoading = false;
       }
-    }) 
-  
+    })
+
   }
 
 
-   
+
   /**
    * @description Navega para a rota de atendimentos da voluntaria
    * @param volunteer objeto da beneficiada para ir como parâmetro na rota
    */
-    appointmentsForVolunteer(volunteer: Volunteer) {
+  appointmentsForVolunteer(volunteer: Volunteer) {
     SwalFacade.alert("Rota ainda não desenvolvida", "Não foi possível ver os atendimentos da voluntaria")
   }
 
@@ -135,5 +132,5 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
       DeleteVolunteerComponent, { size: 'xl' }
     ).componentInstance.volunteer = volunteer;
   }
- 
+
 }

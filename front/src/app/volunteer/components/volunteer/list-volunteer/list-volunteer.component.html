@@ -1,7 +1,7 @@
 <div class="container">
     <h1 class="bp-big-title">Voluntárias</h1>
     <input type="text" class="form-control" placeholder="Filtrar Voluntárias" (input)="filterVolunteer($event)"
-    [(ngModel)]="filter" />
+        [(ngModel)]="filter" />
     <div>
         <table class="table table-hover table-striped" *ngIf="!isLoading">
             <thead class="table-dark">
@@ -11,14 +11,17 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-             <tbody>
+            <tbody>
                 <tr *ngFor="let volunteer of volunteers"
-
                     [title]="'Clique para ver mais dados da voluntária: '+ volunteer.user?.name">
-                    <td class="align-middle bp-nome-limit col-5" (click)="inspectVolunteer(volunteer)">{{volunteer.user?.name}}</td>
-                    <td class="align-middle"(click)="inspectVolunteer(volunteer)" 
-                    > <span class="bp-group-name" *ngFor="let group of volunteer.user?.groups"> {{group.name}} </span></td>
-                    <td class="col-2">
+                    <td class="align-middle bp-nome-limit col-5" (click)="inspectVolunteer(volunteer)">
+                        {{volunteer.user?.name}}</td>
+                    <td class="align-middle bp-nome-limit" (click)="inspectVolunteer(volunteer)">
+                        <span class="bp-group-name" *ngFor="let group of volunteer.user?.groups, last as isLast">
+                            {{group.name}}{{ !isLast ? ', ' : '' }}
+                        </span>
+                    </td>
+                    <td class="col-2 align-middle">
                         <i class="fa-solid fa-pen-to-square  col-md-4" (click)="editVolunteer(volunteer)"
                             [title]="'Editar a voluntária: '+ volunteer.user?.name"></i>
                         <i class="fa-solid fa-trash col-md-4" (click)="deleteVolunteer(volunteer)"
@@ -27,27 +30,19 @@
                 </tr>
             </tbody>
         </table>
-        <!-- <div *ngIf="isLoading" class="text-center text-dark">
+        <div *ngIf="isLoading" class="text-center text-dark">
             <button class="btn btn-dark mt-2" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Carregando dados...
             </button>
-        </div> -->
-    </div> 
-    <div class="bp-footer fixed-bottom">
-        <div class="d-flex flex-column">
-            
-            <div class="bp-footer-left">
-                <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
-            </div>
         </div>
-        <div class="d-flex flex-column">
-            <div class="bp-footer-right">
-                <button class="bp-button" id="bp-big-btn" (click)="newVolunteer()">Nova Voluntária</button>
-            </div>
-            <div class="bp-footer-right">
-                <button class="bp-button" id="bp-big-btn" routerLink="/voluntaria/funcoes">Funções</button>
-            </div>
+    </div>
+    <div class="bp-footer fixed-bottom">
+        <div class="bp-footer-left">
+            <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
+        </div>
+        <div class="bp-footer-right">
+            <button class="bp-button" id="bp-big-btn" (click)="newVolunteer()">Nova Voluntária</button>
         </div>
     </div>
 </div>

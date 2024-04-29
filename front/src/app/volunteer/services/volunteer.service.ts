@@ -164,6 +164,7 @@ export class VolunteerService {
   createVolunteer(volunteer: VolunteerPOST): Observable<any> {
     return this.http.post(`${this.baseURL}volunteers`, volunteer, { headers: this.authService.getHeaders() })
       .pipe(
+        tap(() => this.refreshPage$.next()),
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })
@@ -196,6 +197,7 @@ export class VolunteerService {
   editVolunteer(id: number, volunteer: Volunteer): Observable<any> {
     return this.http.patch(`${this.baseURL}volunteers/${id}`, volunteer, { headers: this.authService.getHeaders() })
       .pipe( 
+        tap(() => this.refreshPage$.next()),
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })
