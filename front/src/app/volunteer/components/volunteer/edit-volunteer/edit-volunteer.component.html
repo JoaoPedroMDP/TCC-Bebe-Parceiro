@@ -78,20 +78,6 @@
                 </select>
             </div>
 
-            <div class="my-3">
-                <small class="bp-label-text">Email </small>
-                <input type="text" class="form-control" 
-                    placeholder="email@mail.com" name="email" [(ngModel)]="volunteer.email" minlength="10"
-                    required>
-                <div *ngIf="form.controls['email']">
-                    <div
-                        *ngIf="form.controls['email'].errors && (form.controls['email'].dirty || form.controls['email'].touched)">
-                        <div *ngIf="form.controls['email'].errors['required']" class="alert alert-danger">
-                            O campo é obrigatório.
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="my-3">
                     <small class="form-text font-weight-bold text-left">Nova senha</small>
@@ -125,7 +111,6 @@
                     </div>
                 </div>  
 
-              
                 <h4 class="text-center">Funções</h4>
                 <div class="my-3">
                     <div class="form-check" *ngFor="let groups_id of groups_id">

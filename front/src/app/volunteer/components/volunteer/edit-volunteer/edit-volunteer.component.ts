@@ -37,31 +37,11 @@ export class EditVolunteerComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,) { }
 
-  ngOnInit(): void {
-     
-     this.volunteer = new VolunteerPOST();
-     this.route.paramMap.subscribe(params => {
-       const volunteerId = Number(params.get('idVoluntaria'));
-       if (volunteerId) {
-         this.volunteerService.findVolunteer(volunteerId).subscribe({
-           next: (response) => {
-             // A response vem com o formato de Beneciary mas como precisamos de
-             // BeneficiaryPOST entao eu faco uma conversao aqui
-             this.volunteer.transformObjectToEdit(response);
- 
-             this.listGroups();
-             this.listCountries();
-             this.getAddress();
-             this.selectedGroups = this.volunteer.groups_id!;
-           },
-           error: (e) => {
-             SwalFacade.error("Ocorreu um erro! Redirecionando para a listagem", e)
-             this.router.navigate(['/voluntaria/voluntarias'])
-           }
-         });
-       }
-     });
-  }
+    ngOnInit(): void {
+      this.listGroups();
+      this.listCountries();
+    }
+    
 
   /**
    * @description Verifica a variável editMode e caso verdadeira atualiza a voluntaria, 
@@ -115,10 +95,10 @@ export class EditVolunteerComponent implements OnInit {
   }
 
 
-  /**
+   /**
    * @description Obtém  a lista de funções.
    */
-  listGroups() {
+   listGroups() {
     this.authService.getGroups().subscribe({
       next: (data: Groups_id[]) => {
         if (data == null) {
@@ -131,11 +111,11 @@ export class EditVolunteerComponent implements OnInit {
     })
   }
 
-  /**
+   /**
    * @description Adiciona ou remove uma função da lista selecionada.
    * @param groups_id a função a ser removido ou adicionado
    */
-  toggleGroups(groups_id: Groups_id) {
+   toggleGroups(groups_id: Groups_id) {
     const index = this.selectedGroups.indexOf(groups_id);
 
     if (index !== -1) {
@@ -146,6 +126,7 @@ export class EditVolunteerComponent implements OnInit {
       this.selectedGroups.push(groups_id);
     }
   }
+
 
     /** 
    * @description Obtém e atualiza a lista de países.

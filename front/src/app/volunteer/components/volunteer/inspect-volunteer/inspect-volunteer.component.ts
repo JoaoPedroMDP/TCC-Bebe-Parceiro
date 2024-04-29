@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Volunteer } from 'src/app/shared/models/volunteer/volunteer.model';
+import { Volunteer, VolunteerPOST } from 'src/app/shared/models/volunteer/volunteer.model';
 import { DeleteVolunteerComponent } from '../delete-volunteer/delete-volunteer.component';
 import { EditVolunteerComponent } from '../edit-volunteer/edit-volunteer.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,19 +29,7 @@ export class InspectVolunteerComponent implements OnInit {
     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    this.volunteer = new Volunteer(); 
-    this.route.paramMap.subscribe(params => {
-      const volunteerId = Number(params.get('idvoluntaria'));
-      if (volunteerId) {
-        this.volunteerService.findVolunteer(volunteerId).subscribe({
-          next: (response) => this.volunteer= response,
-          error: (e) => {
-            SwalFacade.error("Ocorreu um erro! Redirecionando para a listagem", e)
-            this.router.navigate(['/voluntaria/voluntarias'])
-          },
-        });
-      }
-    });
+
   }
 
   /**
@@ -49,11 +37,14 @@ export class InspectVolunteerComponent implements OnInit {
    * @param volunteer objeto da voluntária para ir como variavel no componente
    */
   editVolunteer(volunteer: Volunteer) {
+    let volunteerPOST = new VolunteerPOST();
     this.activeModal.close(); // Fecha o modal atual de visualização
     let modalRef = this.modalService.open(EditVolunteerComponent, { size: 'xl' })
     modalRef.componentInstance.volunteer = Volunteer;  // Passando a voluntaria
     modalRef.componentInstance.editMode = true;          // Passando o modo de edição
   }
+
+  
 
   /**
    * @description Abre o modal de exclusão

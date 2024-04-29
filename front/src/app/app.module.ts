@@ -17,7 +17,7 @@ import { AppComponent, AppRoutingModule, AuthModule, BeneficiaryModule, Voluntee
     FormsModule,
     AuthModule,
     BeneficiaryModule,
-    VolunteerModule
+    VolunteerModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

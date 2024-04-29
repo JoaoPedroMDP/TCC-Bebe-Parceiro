@@ -1,23 +1,17 @@
 <div class="modal-header modal-lg d-flex justify-content-center">
-    <h4 class="mb-0">Ver Voluntária</h4>
+    <h1 class="bp-big-title mb-4">{{volunteer.user?.name}}</h1>
 </div>
+
 <div class="modal-body my-3">
     <div class="container">
         <div>
-            <small class="bp-label-text">Nome</small>
-            <input type="text" class="form-control" [(ngModel)]="volunteer.name" disabled>
+            <p><strong>Nome:</strong> {{volunteer.user?.name}}</p>
         </div>
         <div class="my-3">
-            <small class="bp-label-text">Telefone (com Whatsapp)</small>
-            <input type="text" class="form-control" [(ngModel)]="volunteer.phone" disabled>
+            <p><strong>Telefone:</strong> {{volunteer.user?.phone}}</p>
         </div>
         <div class="my-3">
-            <small class="bp-label-text">Email</small>
-            <input type="text" class="form-control" [(ngModel)]="volunteer.email" disabled>
-        </div>
-        <div class="my-3">
-            <small class="bp-label-text">Cidade</small>
-            <input type="text" class="form-control" [(ngModel)]="volunteer.city" disabled>
+            <p><strong>Email:</strong> {{volunteer.user?.email}}</p>
         </div>
         <div class="col-12 col-md-4">
             <p><strong>País:</strong> {{volunteer.city?.state?.country?.name}}</p>
@@ -30,19 +24,6 @@
         </div>
         <div class="col-12 col-md-4">
             <p><strong>Funções:</strong> {{volunteer.user?.groups}}</p>
-        </div>
-        <div>
-            <p>
-                <strong>Funções: </strong>
-                <ng-template [ngIf]="volunteer.groups_id?.length! <= 0">
-                    <span>Nenhum</span>
-                </ng-template>
-                <ng-template [ngIf]="volunteer.groups_id?.length! > 0">
-                    <span *ngFor="let groups_id of volunteer.groups_id">
-                        <span> | {{groups_id.name}} </span>
-                    </span>
-                </ng-template>
-            </p>          
         </div>
     </div>
 </div>

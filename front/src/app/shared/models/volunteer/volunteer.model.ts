@@ -30,8 +30,9 @@ export class VolunteerPOST {
 
   transformObjectToEdit(volunteer: Volunteer) {
     this.id = volunteer.id;
-    this.name = volunteer.name;
-    this.phone = volunteer.phone;
+    this.name = volunteer.user?.name;
+    this.phone = volunteer.user?.phone;
+    this.email = volunteer.user?.email;
     this.groups_id = volunteer.groups_id;
     this.city_id = volunteer.city?.id;
   }

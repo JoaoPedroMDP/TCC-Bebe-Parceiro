@@ -4,7 +4,7 @@ import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiar
 import { CreateVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
-import { ListGroupsComponent } from './components/groups/list-groups/list-groups.component';
+import { ListGroupsComponent } from './components/volunteer/list-groups/list-groups.component';
 import { HomeComponent, MainComponent } from './index';
 import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
 
@@ -36,7 +36,8 @@ export const VolunteerRouting: Routes = [
           { path: '', component: ListVolunteerComponent },
           { path: 'criar', component: CreateVolunteerComponent },
           { path: 'inspecionar/:idVoluntaria', component: InspectVolunteerComponent },
-          { path: 'editar/:idVoluntaria', component: EditVolunteerComponent }
+          { path: 'editar/:idVoluntaria', component: EditVolunteerComponent },
+
         ]
       },
       {
@@ -54,7 +55,8 @@ export const VolunteerRouting: Routes = [
       },
 
       {
-        path: 'funcoes', component: ListGroupsComponent, canActivate: [VolunteerPermisionsGuard],
+        path: 'funcoes', component: ListGroupsComponent, 
+        canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['manage_professionals'] },
       },
     ]

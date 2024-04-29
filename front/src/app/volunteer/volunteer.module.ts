@@ -10,7 +10,7 @@ import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerCompon
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
-import { ListGroupsComponent } from './components/groups/list-groups/list-groups.component';
+import { ListGroupsComponent } from './components/volunteer/list-groups/list-groups.component';
 
 
 
@@ -32,6 +32,7 @@ import { ListGroupsComponent } from './components/groups/list-groups/list-groups
     CreateVolunteerComponent,
     EditVolunteerComponent,
     DeleteVolunteerComponent,
+    ListGroupsComponent,
     // PROFESSIONAL
     ListProfessionalComponent,
     InspectProfessionalComponent,

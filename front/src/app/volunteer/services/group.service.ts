@@ -51,7 +51,7 @@ export class GroupService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   listGroups(): Observable<any> {
-    return this.http.get(`${this.baseURL}groups_id`, { headers: this.authService.getHeaders() })
+    return this.http.get(`${this.baseURL}auth/groups`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
