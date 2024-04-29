@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
-import { Groups_id } from 'src/app/shared/models/volunteer';
+import { Group_ids } from 'src/app/shared/models/volunteer';
 import { GroupService } from 'src/app/volunteer/services/group.service';
 import { AuthService } from 'src/app/auth';
 
@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/auth';
 })
 export class ListGroupsComponent implements OnInit, OnDestroy {
 
-  @Input() groups_id!: Groups_id[];
+  @Input() group_ids!: Group_ids[];
   filter!: string;
   isLoading: boolean = false;
   subscription: Subscription | undefined;
@@ -38,11 +38,11 @@ export class ListGroupsComponent implements OnInit, OnDestroy {
 
  listGroups() {
   this.authService.getGroups().subscribe({
-    next: (data: Groups_id[]) => {
+    next: (data: Group_ids[]) => {
       if (data == null) {
-        this.groups_id = [];
+        this.group_ids = [];
       } else {
-        this.groups_id = data;
+        this.group_ids = data;
       }
     },
     error: (e) => SwalFacade.error('Erro ao listar os dados de funções', e)
@@ -56,7 +56,7 @@ export class ListGroupsComponent implements OnInit, OnDestroy {
    */
 filterGroups(event: Event) {
   if (event != undefined) {
-    this.groups_id = []; // Esvazia o array
+    this.group_ids = []; // Esvazia o array
 
     // A ideia tem que ser se tiver string então filtrar 
     if (this.filter != '') {

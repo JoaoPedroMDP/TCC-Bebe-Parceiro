@@ -162,13 +162,15 @@ export class VolunteerService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   createVolunteer(volunteer: VolunteerPOST): Observable<any> {
-    return this.http.post(`${this.baseURL}volunteers/create`, volunteer, { headers: this.authService.getHeaders() })
+    return this.http.post(`${this.baseURL}volunteers`, volunteer, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })
       );
   }
+
+ 
 
   /**
    * @description Faz um DELETE para obter excluir uma beneficiada
@@ -193,7 +195,7 @@ export class VolunteerService {
    */
   editVolunteer(id: number, volunteer: VolunteerPOST): Observable<any> {
     return this.http.patch(`${this.baseURL}volunteers/${id}`, volunteer, { headers: this.authService.getHeaders() })
-      .pipe(
+      .pipe( 
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })
@@ -227,7 +229,7 @@ export class VolunteerService {
         );
     }
 
-    findGroup(id: number): Observable<any> {
+    listGroups(id: number): Observable<any> {
       return this.http.get(`${this.baseURL}auth/groups${id}`, { headers: this.authService.getHeaders() })
         .pipe(
           catchError(error => {

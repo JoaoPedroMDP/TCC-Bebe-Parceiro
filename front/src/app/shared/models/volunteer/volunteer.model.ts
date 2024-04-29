@@ -1,4 +1,4 @@
-import { Groups_id } from "./group.model";
+import { Group_ids } from "./group.model";
 import { City,  User } from "../index";
 
 export class Volunteer {
@@ -11,7 +11,7 @@ export class Volunteer {
     public phone?: string,
     public city?: City,
     public enabled?: boolean,
-    public groups_id?: Groups_id[],  
+    public group_ids?: Group_ids[],  
   ) { }
 }
 
@@ -23,7 +23,7 @@ export class VolunteerPOST {
     public email?: string,
     public password?: string,
     public phone?: string,
-    public groups_id?: Groups_id[],
+    public group_ids?: Group_ids[],
     public city_id?: number,
    
   ) { }
@@ -33,7 +33,7 @@ export class VolunteerPOST {
     this.name = volunteer.user?.name;
     this.phone = volunteer.user?.phone;
     this.email = volunteer.user?.email;
-    this.groups_id = volunteer.groups_id;
+    this.group_ids = volunteer.group_ids;
     this.city_id = volunteer.city?.id;
   }
 }

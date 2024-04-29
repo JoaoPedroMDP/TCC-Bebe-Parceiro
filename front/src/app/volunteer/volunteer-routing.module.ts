@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
-import { CreateVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
+import { CreateEditVolunteerComponent,InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
 import { ListGroupsComponent } from './components/volunteer/list-groups/list-groups.component';
@@ -34,10 +34,8 @@ export const VolunteerRouting: Routes = [
         data: { requiredPermissions: ['manage_volunteers'] },
         children: [
           { path: '', component: ListVolunteerComponent },
-          { path: 'criar', component: CreateVolunteerComponent },
+          { path: 'criar', component: CreateEditVolunteerComponent },
           { path: 'inspecionar/:idVoluntaria', component: InspectVolunteerComponent },
-          { path: 'editar/:idVoluntaria', component: EditVolunteerComponent },
-
         ]
       },
       {

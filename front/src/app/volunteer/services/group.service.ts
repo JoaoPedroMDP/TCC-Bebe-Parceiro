@@ -26,12 +26,7 @@ export class GroupService {
     return this._refreshPage$;
   }
 
-  /**
-   * @description Faz um POST para inserir os dados de função
-   * @param groups_id O objeto especialidade para ser enviado no body da requisição
-   * @returns Um Observable contendo os dados de sucesso ou falha
-   */
-  
+ 
   /**
    * @description Faz um GET para pegar os dados de uma função especifica
    * @param id id da especialidade

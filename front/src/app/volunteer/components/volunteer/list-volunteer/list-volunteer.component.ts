@@ -5,9 +5,8 @@ import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
 import { Volunteer, VolunteerPOST } from 'src/app/shared/models/volunteer/volunteer.model';
 import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
-import { CreateVolunteerComponent, EditVolunteerComponent, DeleteVolunteerComponent, InspectVolunteerComponent } from '../index';
-import { NgForm } from '@angular/forms';
-import { Groups_id } from 'src/app/shared/models/volunteer';
+import { CreateEditVolunteerComponent, DeleteVolunteerComponent, InspectVolunteerComponent } from '../index';
+
 
 @Component({ 
   selector: 'app-list-volunteer',
@@ -15,19 +14,23 @@ import { Groups_id } from 'src/app/shared/models/volunteer';
   styleUrls: ['./list-volunteer.component.css']
 })
 export class ListVolunteerComponent implements OnInit, OnDestroy {
-  @ViewChild('form') form!: NgForm;
+  // @ViewChild('form') form!: NgForm;
   volunteers!: Volunteer[];
   filter!: string;
   isLoading: boolean = false;
   subscription: Subscription | undefined;
+ 
 
-  constructor(private modalService: NgbModal, private router: Router, private volunteerService: VolunteerService) { }
+  constructor(private modalService: NgbModal, 
+    private router: Router, 
+    private volunteerService: VolunteerService) { }
 
   ngOnInit(): void {
     this.listVolunteers(false); // Inicialmente lista as voluntárias.
     // Se inscreve no Observable de atualização. Quando um novo valor é emitido, chama a listagem novamente.
     this.subscription = this.volunteerService.refreshPage$.subscribe(() => {
       this.listVolunteers(false); // Lista os beneficiados novamente para refletir as atualizações.
+      
     })
   }
 
@@ -52,9 +55,9 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
       complete: () => { 
         if (isFiltering) {
           this.volunteers = this.volunteers.filter(
-            (volunteers: Volunteer) => {
+            (volunteer: Volunteer) => {
               // Asegura que name é uma string antes de chamar métodos de string
-              return volunteers.user!.name! ? volunteers.user!.name!.toLowerCase().includes(this.filter.toLowerCase()) : false;
+              return volunteer.name! ? volunteer.name!.toLowerCase().includes(this.filter.toLowerCase()) : false;
             }
           );
         }
@@ -64,6 +67,8 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
   
   }
 
+
+   
   /**
    * @description Navega para a rota de atendimentos da voluntaria
    * @param volunteer objeto da beneficiada para ir como parâmetro na rota
@@ -104,7 +109,7 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
    * @description Abre o modal de criação
    */
   newVolunteer() {
-    let modalRef = this.modalService.open(CreateVolunteerComponent, { size: 'xl' })
+    let modalRef = this.modalService.open(CreateEditVolunteerComponent, { size: 'xl' })
     modalRef.componentInstance.volunteer = new VolunteerPOST();  // Passando o voluntária
     modalRef.componentInstance.editMode = false;          // Passando o modo de edição
   }
@@ -116,7 +121,7 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
   editVolunteer(volunteer: Volunteer) {
     let volunteerPOST = new VolunteerPOST();
     volunteerPOST.transformObjectToEdit(volunteer);
-    let modalRef = this.modalService.open(EditVolunteerComponent, { size: 'xl' })
+    let modalRef = this.modalService.open(CreateEditVolunteerComponent, { size: 'xl' })
     modalRef.componentInstance.volunteer = volunteerPOST;  // Passando o voluntária
     modalRef.componentInstance.editMode = true;          // Passando o modo de edição
   }
