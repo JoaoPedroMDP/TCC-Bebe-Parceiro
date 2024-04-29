@@ -8,12 +8,15 @@ from rest_framework.request import Request
 
 from config import MANAGE_VOLUNTEERS, MANAGE_BENEFICIARIES
 from core.app_views import BaseView
+from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
 from core.models import Volunteer
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.repositories.volunteer_repository import VolunteerRepository
 from core.serializers import VolunteerSerializer
+from core.services.user_service import UserService
 from core.services.volunteer_service import VolunteerService
 from core.utils.decorators import endpoint
 
@@ -57,9 +60,12 @@ class VolunteerSpecificViews(BaseView):
 
     @endpoint
     def delete(self, request: Request, pk, format=None):
+        # deletamos o usuário e não a voluntária, pois a classe pai é o usuário
+
         lgr.debug("----DELETE_VOLUNTEER----")
-        command: DeleteVolunteerCommand = DeleteVolunteerCommand.from_dict({'id': int(pk)})
-        deleted: bool = VolunteerService.delete(command)
+        volunteer: Volunteer = VolunteerRepository.get(pk)
+        command: DeleteUserCommand = DeleteUserCommand.from_dict({'id': volunteer.user_id})
+        deleted: bool = UserService.delete(command)
 
         if deleted:
             return {}, status.HTTP_204_NO_CONTENT

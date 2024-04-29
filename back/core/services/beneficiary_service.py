@@ -130,6 +130,21 @@ class BeneficiaryService(CrudService):
         return BeneficiaryRepository.delete(command.id)
 
     @classmethod
+    def anonimize(cls, command: DeleteBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        beneficiary.user.first_name = 'ANONIMIZADO'
+        beneficiary.user.last_name = 'ANONIMIZADO'
+        beneficiary.user.email = 'ANONIMIZADO'
+        beneficiary.user.phone = 'ANONIMIZADO'
+        beneficiary.user.save()
+
+        for child in beneficiary.children.all():
+            child.name = 'ANONIMIZADO'
+            child.save()
+
+        return beneficiary #ver se retorna so um true ou se n retorna nada ou desse jeito (retornando obj atualizado)
+    
+    @classmethod
     def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
         ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
