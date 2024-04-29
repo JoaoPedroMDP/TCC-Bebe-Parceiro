@@ -1,24 +1,30 @@
-import { Group } from "./group.model";
+import { Groups_id } from "./group.model";
+import { City,  User } from "../index";
 
 export class Volunteer {
+ 
   constructor(
+    public user?: User,
     public id?: number,
     public name?: string,
+    public email?: string,
     public phone?: string,
+    public city?: City,
     public enabled?: boolean,
-    public group?: Group,
-    
+    public groups_id?: Groups_id[],  
   ) { }
 }
 
 // Objetos vem diferentes do get e do post, então tive que fazer dois objetos diferentes
 export class VolunteerPOST {
-  password: any;
   constructor(
     public id?: number,
     public name?: string,
+    public email?: string,
+    public password?: string,
     public phone?: string,
-    public group_id?: number,
+    public groups_id?: Groups_id[],
+    public city_id?: number,
    
   ) { }
 
@@ -26,6 +32,7 @@ export class VolunteerPOST {
     this.id = volunteer.id;
     this.name = volunteer.name;
     this.phone = volunteer.phone;
-    this.group_id = volunteer.group?.id;
+    this.groups_id = volunteer.groups_id;
+    this.city_id = volunteer.city?.id;
   }
 }

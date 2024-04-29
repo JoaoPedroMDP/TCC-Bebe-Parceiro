@@ -1,5 +1,5 @@
 <div class="modal-header modal-lg d-flex justify-content-center">
-    <h4 class="mb-0">Ver Profissional</h4>
+    <h4 class="mb-0">Ver Voluntária</h4>
 </div>
 <div class="modal-body my-3">
     <div class="container">
@@ -11,20 +11,51 @@
             <small class="bp-label-text">Telefone (com Whatsapp)</small>
             <input type="text" class="form-control" [(ngModel)]="volunteer.phone" disabled>
         </div>
+        <div class="my-3">
+            <small class="bp-label-text">Email</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.email" disabled>
+        </div>
+        <div class="my-3">
+            <small class="bp-label-text">Cidade</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.city" disabled>
+        </div>
+        <div class="col-12 col-md-4">
+            <p><strong>País:</strong> {{volunteer.city?.state?.country?.name}}</p>
+        </div>
+        <div class="col-12 col-md-4">
+            <p><strong>Estado:</strong> {{volunteer.city?.state?.name}}</p>
+        </div>
+        <div class="col-12 col-md-4">
+            <p><strong>Cidade:</strong> {{volunteer.city?.name}}</p>
+        </div>
+        <div class="col-12 col-md-4">
+            <p><strong>Funções:</strong> {{volunteer.user?.groups}}</p>
+        </div>
         <div>
-            <small class="bp-label-text">Especialidade</small>
-            <input type="text" class="form-control" [(ngModel)]="volunteer.speciality!.name" disabled>            
+            <p>
+                <strong>Funções: </strong>
+                <ng-template [ngIf]="volunteer.groups_id?.length! <= 0">
+                    <span>Nenhum</span>
+                </ng-template>
+                <ng-template [ngIf]="volunteer.groups_id?.length! > 0">
+                    <span *ngFor="let groups_id of volunteer.groups_id">
+                        <span> | {{groups_id.name}} </span>
+                    </span>
+                </ng-template>
+            </p>          
         </div>
     </div>
 </div>
+
+          
 <div class="bp-modal-footer justify-content-center align-items-center">
     <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
         <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
     </button>
-    <button type="button" class="bp-button col-4" id="btn-edit" (click)="Editvolunteer(volunteer)" *ngIf="isvolunteerApproved">
-        <i class="fa-solid fa-pen-to-square" [title]="'Editar o profissional: '+ volunteer.name"></i>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="editVolunteer(volunteer)" >
+        <i class="fa-solid fa-pen-to-square" [title]="'Editar a voluntária: '+ volunteer.name"></i>
     </button>
-    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteVolunteer(volunteer)" *ngIf="isVolunteerApproved">
-        <i class="fa-solid fa-trash" [title]="'Excluir o profissional: '+ volunteer.name"></i>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteVolunteer(volunteer)" >
+        <i class="fa-solid fa-trash" [title]="'Excluir a voluntária: '+ volunteer.name"></i>
     </button>
 </div>

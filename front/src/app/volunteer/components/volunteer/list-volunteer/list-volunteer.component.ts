@@ -7,6 +7,7 @@ import { Volunteer, VolunteerPOST } from 'src/app/shared/models/volunteer/volunt
 import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 import { CreateVolunteerComponent, EditVolunteerComponent, DeleteVolunteerComponent, InspectVolunteerComponent } from '../index';
 import { NgForm } from '@angular/forms';
+import { Groups_id } from 'src/app/shared/models/volunteer';
 
 @Component({ 
   selector: 'app-list-volunteer',
@@ -23,7 +24,8 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
   constructor(private modalService: NgbModal, private router: Router, private volunteerService: VolunteerService) { }
 
   ngOnInit(): void {
-    this.listVolunteers(false) // Lista inicialmente os profissionais pendentes
+    this.listVolunteers(false); // Inicialmente lista as voluntárias.
+    // Se inscreve no Observable de atualização. Quando um novo valor é emitido, chama a listagem novamente.
     this.subscription = this.volunteerService.refreshPage$.subscribe(() => {
       this.listVolunteers(false); // Lista os beneficiados novamente para refletir as atualizações.
     })
@@ -35,31 +37,41 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @description Lista todos os profissionais no componente
+   * @description Lista todas as voluntárias no componente
    * @param isFiltering boolean que indica se a listagem será filtrada ou não
    */
   listVolunteers(isFiltering: boolean) {
     this.isLoading = true; // Flag de carregamento
-    this.volunteerService.listVolunteers().subscribe({
+    this.volunteerService.listVolunteer().subscribe({
       next: (response) => {
         this.volunteers = response
         // Ordena por nome crescente
-        this.volunteers.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
+        this.volunteers.sort((a, b) => (a.user!.name ?? '').localeCompare(b.user!.name ?? ''))
       },
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),
-      complete: () => {
+      complete: () => { 
         if (isFiltering) {
           this.volunteers = this.volunteers.filter(
-            (volunteer: Volunteer) => {
+            (volunteers: Volunteer) => {
               // Asegura que name é uma string antes de chamar métodos de string
-              return volunteer.name ? volunteer.name.toLowerCase().includes(this.filter.toLowerCase()) : false;
+              return volunteers.user!.name! ? volunteers.user!.name!.toLowerCase().includes(this.filter.toLowerCase()) : false;
             }
           );
         }
         this.isLoading = false;
       }
-    })
+    }) 
+  
   }
+
+  /**
+   * @description Navega para a rota de atendimentos da voluntaria
+   * @param volunteer objeto da beneficiada para ir como parâmetro na rota
+   */
+    appointmentsForVolunteer(volunteer: Volunteer) {
+    SwalFacade.alert("Rota ainda não desenvolvida", "Não foi possível ver os atendimentos da voluntaria")
+  }
+
 
   /**
    * @description Verifica se o usuário está filtrando dados e chama os métodos
@@ -86,7 +98,6 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
   inspectVolunteer(volunteer: Volunteer) {
     let modalRef = this.modalService.open(InspectVolunteerComponent, { size: 'xl' });
     modalRef.componentInstance.volunteer = volunteer;    // Passando o voluntária
-    modalRef.componentInstance.isVolunteerApproved = true; // Passando o modo de edição
   }
 
   /**
@@ -119,4 +130,5 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
       DeleteVolunteerComponent, { size: 'xl' }
     ).componentInstance.volunteer = volunteer;
   }
+ 
 }

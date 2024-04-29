@@ -1,7 +1,7 @@
-export class Group {
+export class Groups_id {
     constructor (
-      public id?: number,
-      public name?: string,
-      public group?: string
+      public id: number,
+      public name: string,
+     
     ) { }
   }

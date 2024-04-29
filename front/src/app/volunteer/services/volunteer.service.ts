@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth';
 import { BeneficiaryPOST } from 'src/app/shared';
+import { VolunteerPOST } from 'src/app/shared/models/volunteer';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -153,4 +154,88 @@ export class VolunteerService {
         })
       );
   }
+
+
+  /**
+   * @description Faz um POST para inserir os dados de beneficiada
+   * @param volunteer O objeto beneficiada para ser enviado no body da requisição
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  createVolunteer(volunteer: VolunteerPOST): Observable<any> {
+    return this.http.post(`${this.baseURL}volunteers/create`, volunteer, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um DELETE para obter excluir uma beneficiada
+   * @param id o Id da beneficiada a ser excluída
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  deleteVolunteer(id: number): Observable<any> {
+    return this.http.delete(`${this.baseURL}volunteers/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        tap(() => this.refreshPage$.next()), // Após a execução bem-sucedida, emite um evento para os assinantes.
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um PATCH para obter editar uma beneficiada
+   * @param id ID da beneficiada necessário para a rota de patch
+   * @param volunteer valor a ser atualizado no body da requisição
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  editVolunteer(id: number, volunteer: VolunteerPOST): Observable<any> {
+    return this.http.patch(`${this.baseURL}volunteers/${id}`, volunteer, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para obter dados de uma especifica beneficiada
+   * @param id da beneficiada
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  findVolunteer(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}volunteers/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+    /**
+   * @description Faz um GET para obter todas as voluntarias  cadastradas
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+    listVolunteer(): Observable<any> {
+      return this.http.get(`${this.baseURL}volunteers`, { headers: this.authService.getHeaders() })
+        .pipe(
+          catchError(error => {
+            return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+          })
+        );
+    }
+
+    findGroup(id: number): Observable<any> {
+      return this.http.get(`${this.baseURL}auth/groups${id}`, { headers: this.authService.getHeaders() })
+        .pipe(
+          catchError(error => {
+            return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+          })
+        );
+    }
+
+
+
 }

@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
+import { CreateVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
+import { ListGroupsComponent } from './components/groups/list-groups/list-groups.component';
 import { HomeComponent, MainComponent } from './index';
 import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
 
@@ -27,6 +29,17 @@ export const VolunteerRouting: Routes = [
         ]
       },
       {
+        path: 'voluntarias',      // VOLUNTARIAS
+        canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_volunteers'] },
+        children: [
+          { path: '', component: ListVolunteerComponent },
+          { path: 'criar', component: CreateVolunteerComponent },
+          { path: 'inspecionar/:idVoluntaria', component: InspectVolunteerComponent },
+          { path: 'editar/:idVoluntaria', component: EditVolunteerComponent }
+        ]
+      },
+      {
         path: 'profissionais',      // PROFISSIONAL
         canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['manage_professionals'] },
@@ -38,6 +51,11 @@ export const VolunteerRouting: Routes = [
       {
         path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['manage_specialities'] },
+      },
+
+      {
+        path: 'funcoes', component: ListGroupsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_professionals'] },
       },
     ]
   },

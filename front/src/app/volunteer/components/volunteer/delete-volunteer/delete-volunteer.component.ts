@@ -26,9 +26,11 @@ export class DeleteVolunteerComponent implements OnInit {
     this.volunteerService.deleteVolunteer(this.volunteer.id!).subscribe({
       next: () => {
         this.activeModal.close();
-        SwalFacade.success("Profissional excluído", `${this.volunteer?.name} foi excluído com sucesso!`)
+        SwalFacade.success("Voluntária", `${this.volunteer?.name}  excluída com sucesso!`)
       },
       error: (e) => SwalFacade.error("Ocorreu um erro!", `Não foi possível fazer excluir o profssional: ${e}`)
     })
   }
+
+  
 }
