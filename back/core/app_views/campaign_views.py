@@ -82,3 +82,12 @@ class CampaignSpecificViews(BaseView):
             return CampaignSerializer(campaign).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+
+class OpenCampaignsView(BaseView):
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_OPEN_CAMPAIGNS----")
+        open_campaigns: List[Campaign] = CampaignService.get_open_campaigns()
+        return CampaignSerializer(open_campaigns, many=True).data, status.HTTP_200_OK

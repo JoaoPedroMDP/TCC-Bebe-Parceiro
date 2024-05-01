@@ -6,7 +6,7 @@ from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeS
 from core.app_views.auth_views import LoginView, GroupGenericView
 from core.app_views.beneficiary_views import BeneficiaryGenericViews, BeneficiarySpecificViews, \
     BeneficiaryCreationByVolunteer, BeneficiaryApproval, BeneficiaryPendingView
-from core.app_views.campaign_views import CampaignGenericViews, CampaignSpecificViews
+from core.app_views.campaign_views import CampaignGenericViews, CampaignSpecificViews, OpenCampaignsView
 from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
 from core.app_views.city_views import CityGenericViews, CitySpecificViews
 from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
@@ -38,6 +38,7 @@ urlpatterns = [
 
     path("campaigns", CampaignGenericViews.as_view(), name="gen_campaigns"),
     path("campaigns/<int:pk>", CampaignSpecificViews.as_view(), name="spe_campaigns"),
+    path("campaigns/open", OpenCampaignsView.as_view(), name="open_campaigns"),
 
     path("children", ChildGenericViews.as_view(), name="gen_children"),
     path("children/<int:pk>", ChildSpecificViews.as_view(), name="spe_children"),

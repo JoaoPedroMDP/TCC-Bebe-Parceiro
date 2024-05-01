@@ -57,7 +57,10 @@ class PatchCampaignCommand(Command):
     @Validator.validates
     def from_dict(args: dict) -> 'PatchCampaignCommand':
         data = Validator.validate_and_extract(PatchCampaignCommand.fields, args)
-        check_for_duplicity(data)
+        
+        if 'name' in data:
+            check_for_duplicity(data)
+        
         return PatchCampaignCommand(**data)
 
 

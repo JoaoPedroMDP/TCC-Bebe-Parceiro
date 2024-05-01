@@ -1,4 +1,5 @@
 #  coding: utf-8
+from datetime import date
 from typing import List
 
 from core.cqrs.commands.campaign_commands import CreateCampaignCommand, PatchCampaignCommand, \
@@ -30,3 +31,10 @@ class CampaignService(CrudService):
     @classmethod
     def delete(cls, command: DeleteCampaignCommand) -> bool:
         return CampaignRepository.delete(command.id)
+
+    @classmethod
+    def get_open_campaigns(cls) -> List[Campaign]:
+        return CampaignRepository.filter(
+            start_date__lte=date.today(),
+            end_date__gte=date.today()
+        )
