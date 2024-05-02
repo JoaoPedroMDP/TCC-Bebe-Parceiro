@@ -4,8 +4,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
-import { BeneficiaryService, EditInformationComponent, HomeComponent, MainComponent, RemoveInformationComponent, ViewInformationComponent } from './index';
 import { AuthModule } from '../auth/auth.module';
+import { InspectCampaignComponent, ListCampaignComponent } from './components/campaign';
+import { BeneficiaryService, EditInformationComponent, HomeComponent, MainComponent, RemoveInformationComponent, ViewInformationComponent } from './index';
 
 
 @NgModule({
@@ -14,7 +15,9 @@ import { AuthModule } from '../auth/auth.module';
     MainComponent,
     ViewInformationComponent,
     RemoveInformationComponent,
-    EditInformationComponent
+    EditInformationComponent,
+    InspectCampaignComponent,
+    ListCampaignComponent
   ],
   imports: [
     CommonModule,

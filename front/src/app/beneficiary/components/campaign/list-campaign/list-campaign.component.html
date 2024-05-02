@@ -1,0 +1,41 @@
+<div class="container">
+    <h1 class="bp-big-title">Campanhas</h1>
+    <div>
+        <table class="table table-hover table-striped" *ngIf="!isLoading && campaigns.length > 0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Fim das inscrições</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let campaign of campaigns"
+                    [title]="'Clique para ver mais dados da campanha: ' + campaign.name">
+                    <td class="align-middle bp-nome-limit" (click)="viewCampaign(campaign)">
+                        {{campaign.name}}</td>
+                    <td class="align-middle" (click)="viewCampaign(campaign)">
+                        {{campaign.end_date | date: 'dd/MM/yyyy'}}</td>
+                    <td>
+                        <i class="fa-solid fa-eye" (click)="viewCampaign(campaign)"
+                            [title]="'Clique para ver mais dados da campanha:  '+ campaign.name"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="campaigns.length == 0" class="mt-4 text-center">
+            <hr>
+            <h2>Não há Campanhas no momento!</h2>
+            <button class="bp-button mt-4" id="bp-big-btn" routerLink="/">Voltar ao menu</button>
+        </div>
+        <div *ngIf="isLoading" class="text-center text-dark">
+            <button class="btn btn-dark mt-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Carregando dados...
+            </button>
+        </div>
+    </div>
+    <div class="bp-footer fixed-bottom">
+        <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
+    </div>
+</div>
