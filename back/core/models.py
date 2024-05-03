@@ -117,7 +117,7 @@ class SocialProgram(EnablableModel):
 class Beneficiary(TimestampedModel):
     readable_name = "Beneficiada"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="beneficiary")
     marital_status = models.ForeignKey(MaritalStatus, on_delete=models.CASCADE, related_name="beneficiaries")
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="beneficiaries")
     social_programs = models.ManyToManyField(SocialProgram)
@@ -131,7 +131,7 @@ class Beneficiary(TimestampedModel):
 class Volunteer(TimestampedModel):
     readable_name = "Voluntária"
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="volunteer")
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="volunteers")
 
 
@@ -171,9 +171,10 @@ class Swap(TimestampedModel):
 
     cloth_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="clothes")
     shoe_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="shoes", null=True)
-    description = models.TextField()
+    description = models.TextField(null=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
-
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="swaps")
+    child = models.ForeignKey(Child, on_delete=models.CASCADE, related_name="swaps")
 
 class Speciality(EnablableModel):
     readable_name = "Especialidade"

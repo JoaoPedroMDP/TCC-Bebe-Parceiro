@@ -159,7 +159,8 @@ class SwapFactory(TimestampedModelFactory):
     shoe_size = factory.SubFactory(SizeFactory)
     description = factory.Faker('text')
     status = factory.SubFactory(StatusFactory)
-
+    beneficiary = factory.SubFactory(BeneficiaryFactory)
+    child = factory.SubFactory(ChildFactory)
 
 class SpecialityFactory(EnablableModelFactory):
     class Meta:

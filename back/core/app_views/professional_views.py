@@ -17,7 +17,6 @@ from core.services.professional_service import ProfessionalService
 from core.utils.decorators import endpoint
 from config import MANAGE_PROFESSIONALS, ROLE_VOLUNTEER
 from core.permissions.at_least_one_group import AtLeastOneGroup
-from core.permissions.owns_it import OwnsIt
 
 
 lgr = logging.getLogger(__name__)
