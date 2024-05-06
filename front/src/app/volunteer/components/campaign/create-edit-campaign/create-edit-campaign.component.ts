@@ -22,6 +22,7 @@ export class CreateEditCampaignComponent implements OnInit {
 
   ngOnInit(): void {}
 
+
   save() {
     if (this.editMode) {
       this.campaignService.editCampaign(this.campaign.id!, this.campaign).subscribe({
