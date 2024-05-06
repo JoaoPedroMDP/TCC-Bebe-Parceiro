@@ -2,11 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Volunteer, VolunteerPOST } from 'src/app/shared/models/volunteer/volunteer.model';
 import { DeleteVolunteerComponent } from '../delete-volunteer/delete-volunteer.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SwalFacade, VolunteerService } from 'src/app/shared';
-import { CreateEditVolunteerComponent } from '../create-edit-volunteer/create-edit-volunteer.component';
-
-
+import { EditVolunteerComponent } from '../edit-volunteer/edit-volunteer.component';
 
 
 @Component({
@@ -17,7 +13,6 @@ import { CreateEditVolunteerComponent } from '../create-edit-volunteer/create-ed
 export class InspectVolunteerComponent implements OnInit {
 
   @Input() volunteer!: Volunteer;
-  
   
   constructor(public activeModal: NgbActiveModal, public modalService: NgbModal) { }
 
@@ -32,9 +27,11 @@ export class InspectVolunteerComponent implements OnInit {
   editVolunteer(volunteer: Volunteer) {
     let volunteerPOST = new VolunteerPOST();
     volunteerPOST.transformObjectToEdit(volunteer);
-    let modalRef = this.modalService.open(CreateEditVolunteerComponent, { size: 'xl' })
+    let modalRef = this.modalService.open(EditVolunteerComponent, { size: 'xl' })
     modalRef.componentInstance.volunteer = volunteerPOST;  // Passando o voluntária
     modalRef.componentInstance.editMode = true;          // Passando o modo de edição
+    modalRef.componentInstance.countrySelected = volunteer.city?.state?.country?.name;  // Passando a voluntaria
+    modalRef.componentInstance.stateSelected = volunteer.city?.state?.name;          // Passando o modo de edição
   }
 
 

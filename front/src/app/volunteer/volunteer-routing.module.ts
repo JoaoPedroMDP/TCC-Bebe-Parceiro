@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
-import { CreateEditVolunteerComponent,InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
+import { ListCampaignComponent } from './components/campaign/list-campaign/list-campaign.component';
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
+import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
-import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
-import { ListCampaignComponent } from './components/campaign/list-campaign/list-campaign.component';
 
 
 export const VolunteerRouting: Routes = [
@@ -29,14 +29,8 @@ export const VolunteerRouting: Routes = [
         ]
       },
       {
-        path: 'voluntarias',      // VOLUNTARIAS
-        canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_volunteers'] },
-        children: [
-          { path: '', component: ListVolunteerComponent },
-          { path: 'criar', component: CreateEditVolunteerComponent },
-          { path: 'inspecionar/:idVoluntaria', component: InspectVolunteerComponent },
-        ]
+        path: 'voluntarias', component: ListVolunteerComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_volunteers'] }
       },
       {
         path: 'profissionais',      // PROFISSIONAL
@@ -53,16 +47,16 @@ export const VolunteerRouting: Routes = [
       },
 
       {
-        path: 'campanhas',      
+        path: 'campanhas',
         canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['manage_volunteers'] },
         children: [
           { path: '', component: ListCampaignComponent },
-          
+
         ]
       },
 
-   
+
     ]
   },
 ];

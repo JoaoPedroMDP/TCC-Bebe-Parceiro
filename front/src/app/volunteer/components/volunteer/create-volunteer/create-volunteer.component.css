@@ -1,0 +1,94 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-close {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-right-radius: 5px;
+}
+
+#btn-save {
+    --bg-btn: var(--bp-light-green);
+    border-bottom-left-radius: 5px;
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+.bp-groups {
+    display: block;
+    border-radius: 5px;
+    border: 1px solid var(--bp-input-border);
+    background-color: var(--bp-input-disabled);
+    padding: .6rem;
+}
+
+.bp-group-add {
+    --bp-input-border: var(--bp-light-green);
+}
+
+.bp-group-name {
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid var(--bp-input-border);
+    background-color: var(--bp-input-border);
+    padding: .2rem;
+    font-size: .85rem;
+    font-weight: 600;
+    margin: .2rem;
+}
+
+.bp-label-text {
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+
+.bp-modal-footer {
+    padding: 0;
+}
+
+.input-with-icon {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.input-with-icon i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: .9rem;
+    cursor: pointer;
+}
+
+.fa-eye {
+    color: #166b12;
+    transition: 0.3s;
+}
+
+.fa-eye:hover {
+    color: #000000;
+}
+
+
+
+
+.bp-select-groups {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin: 0 .5rem;
+    border: none;
+    border-radius: 5px;
+}
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .bp-button {
+        font-size: 1.2rem;
+    }
+
+    .bp-select-groups {
+         width: auto; /* apagar isso aqui, precisa dimensionar melhor */
+    }
+}

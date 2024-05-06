@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
 import { Volunteer, VolunteerPOST } from 'src/app/shared/models/volunteer/volunteer.model';
 import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
-import { CreateEditVolunteerComponent, DeleteVolunteerComponent, InspectVolunteerComponent } from '../index';
+import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent } from '../index';
 
 
 @Component({
@@ -19,7 +19,6 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   subscription: Subscription | undefined;
 
-
   constructor(private modalService: NgbModal, private volunteerService: VolunteerService) { }
 
   ngOnInit(): void {
@@ -27,7 +26,6 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
     // Se inscreve no Observable de atualização. Quando um novo valor é emitido, chama a listagem novamente.
     this.subscription = this.volunteerService.refreshPage$.subscribe(() => {
       this.listVolunteers(false); // Lista os beneficiados novamente para refletir as atualizações.
-
     })
   }
 
@@ -64,17 +62,6 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
 
   }
 
-
-
-  /**
-   * @description Navega para a rota de atendimentos da voluntaria
-   * @param volunteer objeto da beneficiada para ir como parâmetro na rota
-   */
-  appointmentsForVolunteer(volunteer: Volunteer) {
-    SwalFacade.alert("Rota ainda não desenvolvida", "Não foi possível ver os atendimentos da voluntaria")
-  }
-
-
   /**
    * @description Verifica se o usuário está filtrando dados e chama os métodos
    * @param event Um evento do input
@@ -106,9 +93,7 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
    * @description Abre o modal de criação
    */
   newVolunteer() {
-    let modalRef = this.modalService.open(CreateEditVolunteerComponent, { size: 'xl' })
-    modalRef.componentInstance.volunteer = new VolunteerPOST();  // Passando o voluntária
-    modalRef.componentInstance.editMode = false;          // Passando o modo de edição
+    this.modalService.open(CreateVolunteerComponent, { size: 'xl' });
   }
 
   /**
@@ -118,9 +103,11 @@ export class ListVolunteerComponent implements OnInit, OnDestroy {
   editVolunteer(volunteer: Volunteer) {
     let volunteerPOST = new VolunteerPOST();
     volunteerPOST.transformObjectToEdit(volunteer);
-    let modalRef = this.modalService.open(CreateEditVolunteerComponent, { size: 'xl' })
+    let modalRef = this.modalService.open(EditVolunteerComponent, { size: 'xl' })
     modalRef.componentInstance.volunteer = volunteerPOST;  // Passando o voluntária
     modalRef.componentInstance.editMode = true;          // Passando o modo de edição
+    modalRef.componentInstance.countrySelected = volunteer.city?.state?.country?.id;  // Passando a voluntaria
+    modalRef.componentInstance.stateSelected = volunteer.city?.state?.id;          // Passando o modo de edição
   }
 
   /**
