@@ -11,18 +11,22 @@ import { environment } from 'src/environments/environment';
 export class SwapService {
 
   private baseURL!: string;
+  // O Subject irá emitir um valor quando um valor novo for publicado.
   _refreshPage$ = new Subject<void>();
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.baseURL = environment.baseURL + 'swaps/'; // Supondo que a URL base termine com '/'
+    this.baseURL = environment.baseURL;
   }
+
 
   get refreshPage$() {
     return this._refreshPage$;
   }
 
+  
+
   createSwap(swap: Swap): Observable<any> {
-    return this.http.post(this.baseURL, swap, { headers: this.authService.getHeaders() })
+    return this.http.post(`${this.baseURL}swaps`, swap, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this._refreshPage$.next()),
         catchError(error => {
@@ -32,7 +36,7 @@ export class SwapService {
   }
 
   deleteSwap(id: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}${id}`, { headers: this.authService.getHeaders() })
+    return this.http.delete(`${this.baseURL}swaps/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this._refreshPage$.next()),
         catchError(error => {
@@ -42,7 +46,7 @@ export class SwapService {
   }
 
   editSwap(id: number, swap: Swap): Observable<any> {
-    return this.http.patch(`${this.baseURL}${id}`, swap, { headers: this.authService.getHeaders() })
+    return this.http.patch(`${this.baseURL}swaps/${id}`, swap, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this._refreshPage$.next()),
         catchError(error => {
@@ -52,7 +56,7 @@ export class SwapService {
   }
 
   findSwap(id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}${id}`, { headers: this.authService.getHeaders() })
+    return this.http.get(`${this.baseURL}swaps/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`HTTP error ${error.status}: ${error.error.message}`));
@@ -61,7 +65,7 @@ export class SwapService {
   }
 
   listSwaps(): Observable<any> {
-    return this.http.get(this.baseURL, { headers: this.authService.getHeaders() })
+    return this.http.get(`${this.baseURL}swaps`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`HTTP error ${error.status}: ${error.error.message}`));
