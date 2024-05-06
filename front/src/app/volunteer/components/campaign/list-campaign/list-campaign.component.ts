@@ -95,7 +95,7 @@ export class ListCampaignComponent implements OnInit, OnDestroy {
    * @param campaign objeto da campanha para ir como variavel no componente
    */
   deleteCampaign(campaign: Campaign) {
-    let modalRef = this.modalService.open(DeleteCampaignComponent, { size: 'md' });
+    let modalRef = this.modalService.open(DeleteCampaignComponent, { size: 'xl' });
     modalRef.componentInstance.campaign = campaign;
   }
 
