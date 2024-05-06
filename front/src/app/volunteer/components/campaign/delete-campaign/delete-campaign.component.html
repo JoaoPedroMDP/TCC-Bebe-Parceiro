@@ -1,1 +1,17 @@
-<p>delete-campaign works!</p>
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h3 class="mb-0">Excluir Campanha</h3>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <p class="text-center">
+            <span>Você tem certeza que deseja excluir a campanha: </span>
+            <strong>{{campaign.name}}</strong>
+        </p>
+        <p class="text-center"> Esta ação não poderá ser desfeita. </p>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-delete" (click)="deleteCampaign()">Excluir</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">Cancelar</button>
+</div>
+

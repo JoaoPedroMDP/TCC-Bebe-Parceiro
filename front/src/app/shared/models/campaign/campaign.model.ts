@@ -2,9 +2,10 @@ export class Campaign {
     constructor(
       public id?: number,
       public name?: string,
-      public startDate?: Date,
-      public endDate?: Date,
-      public description?: string
+      public start_date?: Date,
+      public end_date?: Date,
+      public description?: string,
+      public external_link?: string
     ) { }
   }
 
@@ -12,16 +13,19 @@ export class Campaign {
     constructor(
       public id?: number,
       public name?: string,
-      public startDate?: Date,
-      public endDate?: Date,
-      public description?: string
+      public start_date?: Date,
+      public end_date?: Date,
+      public description?: string,
+      public external_link?: string
     ) { }
   
     transformObjectToEdit(campaign: Campaign) {
       this.id = campaign.id;
       this.name = campaign.name;
-      this.startDate = campaign.startDate;
-      this.endDate = campaign.endDate;
+      this.start_date = campaign.start_date;
+      this.end_date= campaign.end_date;
       this.description = campaign.description;
+      this.external_link = campaign.external_link;
+      
     }
   }

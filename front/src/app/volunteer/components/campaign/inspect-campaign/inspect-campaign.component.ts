@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CreateEditCampaignComponent } from '../create-edit-campaign/create-edit-campaign.component';
+import { Campaign } from 'src/app/shared/models/campaign';
+import { CampaignService } from 'src/app/volunteer/services/campaign.service';
+import { DeleteCampaignComponent } from '../delete-campaign/delete-campaign.component';
 
 @Component({
   selector: 'app-inspect-campaign',
@@ -7,9 +13,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InspectCampaignComponent implements OnInit {
 
-  constructor() { }
+  @Input() campaign!: Campaign;
+
+  constructor(public activeModal: NgbActiveModal, public modalService: NgbModal, public campaignService: CampaignService) { }
 
   ngOnInit(): void {
   }
 
+  editCampaign(campaign: Campaign) {
+    this.activeModal.close();
+    let modalRef = this.modalService.open(CreateEditCampaignComponent, { size: 'xl' });
+    modalRef.componentInstance.campaign = campaign;
+    modalRef.componentInstance.editMode = true;
+  }
+
+  deleteCampaign(campaign: Campaign) {
+    this.activeModal.close();
+    let modalRef = this.modalService.open(DeleteCampaignComponent, { size: 'xl' });
+    modalRef.componentInstance.campaign = campaign;
+  }
 }
+

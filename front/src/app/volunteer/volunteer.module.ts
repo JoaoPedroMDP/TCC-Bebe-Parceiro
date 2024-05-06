@@ -19,6 +19,7 @@ import { InspectCampaignComponent } from './components/campaign/inspect-campaign
 
 
 
+
 @NgModule({
   declarations: [
     // MAIN
@@ -49,6 +50,7 @@ import { InspectCampaignComponent } from './components/campaign/inspect-campaign
     CreateEditSpecialityComponent,
     DeleteSpecialityComponent,
     CreateEditCampaignComponent,
+    //CAMPANHAS
     ListCampaignComponent,
     DeleteCampaignComponent,
     InspectCampaignComponent,

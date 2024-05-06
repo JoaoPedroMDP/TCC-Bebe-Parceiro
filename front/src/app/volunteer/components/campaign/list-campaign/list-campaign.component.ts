@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
-import { Campaign } from 'src/app/shared';
+import { Campaign} from 'src/app/shared';
 import { CampaignService } from 'src/app/volunteer/services/campaign.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateEditCampaignComponent } from '../create-edit-campaign/create-edit-campaign.component';
 import { DeleteCampaignComponent } from '../delete-campaign/delete-campaign.component';
 import { InspectCampaignComponent } from '../inspect-campaign/inspect-campaign.component';
+import { CampaignPOST } from 'src/app/shared/models/campaign/campaign.model';
 
 @Component({
   selector: 'app-list-campaign',
@@ -72,4 +73,9 @@ export class ListCampaignComponent implements OnInit, OnDestroy {
     let modalRef = this.modalService.open(InspectCampaignComponent, { size: 'lg' });
     modalRef.componentInstance.campaign = campaign;
   }
+
+  newCampaign() {
+    let modalRef = this.modalService.open(CreateEditCampaignComponent, { size: 'xl' });
+    modalRef.componentInstance.campaign = new CampaignPOST();  
+}
 }
