@@ -7,17 +7,16 @@
             <thead class="table-dark">
                 <tr>
                     <th>Nome</th>
-                    <th>Data de Início</th>
-                    <th>Data de Fim</th>
+                    <th>Início</th>
+                    <th>Fim</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let campaign of campaigns"
-                    [title]="'Clique para ver mais detalhes da campanha: '+ campaign.name">
-                    <td class="align-middle" (click)="inspectCampaign(campaign)">{{campaign.name}}</td>
-                    <td class="align-middle">{{campaign.start_date | date: 'mediumDate'}}</td>
-                    <td class="align-middle">{{campaign.end_date | date: 'mediumDate'}}</td>
+                <tr *ngFor="let campaign of campaigns" [title]="'Clique para ver mais detalhes da campanha: '+ campaign.name">
+                    <td class="align-middle bp-nome-limit" (click)="inspectCampaign(campaign)">{{campaign.name}}</td>
+                    <td class="align-middle" (click)="inspectCampaign(campaign)">{{campaign.start_date | date: 'dd/MM/yyyy'}}</td>
+                    <td class="align-middle" (click)="inspectCampaign(campaign)">{{campaign.end_date | date: 'dd/MM/yyyy'}}</td>
                     <td>
                         <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editCampaign(campaign)"
                             [title]="'Editar a campanha: '+ campaign.name"></i>
@@ -35,15 +34,12 @@
         </div>
     </div> 
     <div class="bp-footer fixed-bottom">
-
             <div class="bp-footer-left">
                 <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
             </div>
             <div class="bp-footer-left">
                 <button class="bp-button" id="bp-big-btn" (click)="newCampaign()">Nova Campanha</button>
-            </div>
-            
+            </div>  
         </div>
-    
 </div>
 

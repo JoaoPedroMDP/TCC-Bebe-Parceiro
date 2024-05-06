@@ -19,8 +19,8 @@ export class DeleteCampaignComponent implements OnInit {
   }
 
   /**
-   * @description Executes the deleteCampaign method from campaignService and returns a success or error message
-   * depending on the result of the operation.
+   * @description Executa o método deleteCampaign() do campaignService e retorna uma mensagem 
+   * de sucesso ou erro a depender do resultado da operação
    */
   deleteCampaign() {
     this.campaignService.deleteCampaign(this.campaign.id!).subscribe({

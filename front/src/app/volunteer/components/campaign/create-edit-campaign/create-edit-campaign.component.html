@@ -7,8 +7,7 @@
         <form #form="ngForm">
             <div class="mb-3">
                 <small class="bp-label-text">Nome</small>
-                <input type="text" class="form-control" placeholder="Nome da Campanha" name="name"
-                    [(ngModel)]="campaign.name" required>
+                <input type="text" class="form-control" placeholder="Nome da Campanha" name="name" [(ngModel)]="campaign.name" required>
             </div>
             <div class="mb-3">
                 <small class="bp-label-text">Data de Início</small>
@@ -20,12 +19,11 @@
             </div>
             <div class="mb-3">
                 <small class="bp-label-text">Descrição</small>
-                <textarea class="form-control" rows="3" name="description" [(ngModel)]="campaign.description"></textarea>
+                <textarea class="form-control" rows="3" name="description" [(ngModel)]="campaign.description" placeholder="Descrição da Campanha"></textarea>
             </div>
             <div class="mb-3">
                 <small class="bp-label-text">Link Externo</small>
-                <input type="url" class="form-control" placeholder="https://exemplo.com" name="externalLink"
-                    [(ngModel)]="campaign.external_link" required>
+                <input type="url" class="form-control" placeholder="https://exemplo.com" name="externalLink" [(ngModel)]="campaign.external_link" required>
             </div>
         </form>
     </div>

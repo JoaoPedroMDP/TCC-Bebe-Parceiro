@@ -7,15 +7,19 @@
             <small class="bp-label-text">Nome</small>
             <input type="text" class="form-control" [value]="campaign.name" disabled>
         </div>
-        <div class="my-3">
+        <div class="my-2">
             <small class="bp-label-text">Data de Início</small>
             <input type="text" class="form-control" [value]="campaign.start_date | date:'mediumDate'" disabled>
         </div>
-        <div>
+        <div class="my-2">
             <small class="bp-label-text">Data de Fim</small>
             <input type="text" class="form-control" [value]="campaign.end_date | date:'mediumDate'" disabled>
         </div>
-        <div class="mb-3">
+        <div class="my-2">
+            <small class="bp-label-text">Descrição</small>
+            <textarea type="text" class="form-control" [value]="campaign.description" disabled></textarea>
+        </div>
+        <div class="my-2">
             <small class="bp-label-text">Link Externo</small>
             <input type="url" class="form-control" [value]="campaign.external_link" disabled>
         </div>

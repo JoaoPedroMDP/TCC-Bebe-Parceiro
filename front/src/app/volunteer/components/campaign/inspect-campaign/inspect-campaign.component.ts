@@ -20,6 +20,10 @@ export class InspectCampaignComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * @description Abre o modal de edição
+   * @param campaign objeto da campanha para ir como variavel no componente
+   */
   editCampaign(campaign: Campaign) {
     this.activeModal.close();
     let modalRef = this.modalService.open(CreateEditCampaignComponent, { size: 'xl' });
@@ -27,10 +31,15 @@ export class InspectCampaignComponent implements OnInit {
     modalRef.componentInstance.editMode = true;
   }
 
+  /**
+   * @description Abre o modal de exclusão
+   * @param campaign objeto da campanha para ir como variavel no componente
+   */
   deleteCampaign(campaign: Campaign) {
     this.activeModal.close();
     let modalRef = this.modalService.open(DeleteCampaignComponent, { size: 'xl' });
     modalRef.componentInstance.campaign = campaign;
+    modalRef.componentInstance.editMode = false;
   }
 }
 

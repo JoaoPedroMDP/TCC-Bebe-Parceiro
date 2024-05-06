@@ -40,5 +40,6 @@ export class CreateEditCampaignComponent implements OnInit {
 
   close() {
     this.activeModal.close();
+    this.campaignService.refreshPage$.next();
   }
 }
