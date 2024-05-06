@@ -5,6 +5,7 @@ import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './
 import { ListSpecialitiesComponent } from './components/specialities';
 import { HomeComponent, MainComponent } from './index';
 import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
+import { ListSwapComponent } from './components/swap/list-swap/list-swap.component';
 
 
 export const VolunteerRouting: Routes = [
@@ -38,6 +39,16 @@ export const VolunteerRouting: Routes = [
       {
         path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['manage_specialities'] },
+      },
+
+      {
+        path: 'trocas',      // TROCAS
+        canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_swaps'] },
+        children: [
+          { path: '', component: ListSwapComponent },
+          // { path: 'pendentes', component: ListPendingProfessionalsComponent },
+        ]
       },
     ]
   },

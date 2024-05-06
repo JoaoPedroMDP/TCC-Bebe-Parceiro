@@ -9,6 +9,10 @@ import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiary
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+import { ListSwapComponent } from './components/swap/list-swap/list-swap.component';
+import { InspectSwapComponent } from './components/swap/inspect-swap/inspect-swap.component';
+import { DeleteSwapComponent } from './components/swap/delete-swap/delete-swap.component';
+import { CreateEditSwapComponent } from './components/swap/create-edit-swap/create-edit-swap.component';
 
 
 
@@ -35,6 +39,12 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     ListSpecialitiesComponent,
     CreateEditSpecialityComponent,
     DeleteSpecialityComponent,
+    // TROCAS
+    ListSwapComponent,
+    ListSwapComponent,
+    InspectSwapComponent,
+    DeleteSwapComponent,
+    CreateEditSwapComponent,
   ],
   imports: [
     CommonModule,

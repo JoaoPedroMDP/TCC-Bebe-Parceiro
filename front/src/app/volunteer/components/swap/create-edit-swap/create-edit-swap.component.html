@@ -1,0 +1,31 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0" *ngIf="!editMode">Cadastrar Troca</h4>
+    <h4 class="mb-0" *ngIf="editMode">Editar Troca</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <form #form="ngForm">
+            <div>
+                <small class="bp-label-text">Nome Beneficiada</small>
+                <input type="text" class="form-control" placeholder="Nome da Beneficiada" minlength="2" maxlength="150" name="name"
+                    [(ngModel)]="swap.name" required>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Tamanho</small>
+                <input type="text" class="form-control" placeholder="Tamanho da Peça" name="size"
+                    [(ngModel)]="swap.size" required>
+            </div>
+            <div>
+                <small class="bp-label-text">Sapato</small>
+                <input type="text" class="form-control" placeholder="Número do Sapato" name="shoeSize"
+                    [(ngModel)]="swap.shoeSize" required>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()">Salvar</button>
+    <button type="button" class="bp-button col-6" id="btn-delete" (click)="deleteSwap()" *ngIf="editMode">Deletar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="close()">Cancelar</button>
+</div>
+
