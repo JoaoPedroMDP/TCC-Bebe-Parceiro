@@ -9,15 +9,15 @@ from core.app_views import BaseView
 lgr = logging.getLogger(__name__)
 
 
-class AtLeastOneGroup(BasePermission):
+class VolunteerAtLeastOneGroup(BasePermission):
     """
-    Permite acesso a uma view se o usuário pertencer a pelo menos um dos grupos especificados
+    Permite acesso a uma view se o usuário for uma voluntária e pertencer a pelo menos um dos grupos especificados
     """
     def has_permission(self, request: Request, view: BaseView):
-        lgr.debug(request.user.groups.all())
         groups = list(request.user.groups.all())
-        for g in groups:
-            if g.name in view.groups:
-                return True
+        if request.user.role == 'volunteer':
+            for g in groups:
+                if g.name in view.groups:
+                    return True
 
         return False
