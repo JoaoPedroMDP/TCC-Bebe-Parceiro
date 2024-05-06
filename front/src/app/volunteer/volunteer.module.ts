@@ -10,6 +10,11 @@ import { CreateEditVolunteerComponent, DeleteVolunteerComponent, InspectVoluntee
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+import { CreateEditCampaignComponent } from './components/campaign/create-edit-campaign/create-edit-campaign.component';
+import { ListCampaignComponent } from './components/campaign/list-campaign/list-campaign.component';
+import { DeleteCampaignComponent } from './components/campaign/delete-campaign/delete-campaign.component';
+import { InspectCampaignComponent } from './components/campaign/inspect-campaign/inspect-campaign.component';
+
 
 
 
@@ -43,6 +48,10 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     ListSpecialitiesComponent,
     CreateEditSpecialityComponent,
     DeleteSpecialityComponent,
+    CreateEditCampaignComponent,
+    ListCampaignComponent,
+    DeleteCampaignComponent,
+    InspectCampaignComponent,
     // FUNÇÕES
     
   ],

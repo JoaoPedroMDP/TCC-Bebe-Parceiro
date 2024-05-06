@@ -1,0 +1,37 @@
+<div class="container">
+    <h1 class="bp-big-title">Campanhas</h1>
+    <input type="text" class="form-control" placeholder="Filtrar Campanhas" (input)="filterCampaign($event)"
+    [(ngModel)]="filter" />
+    <div>
+        <table class="table table-hover table-striped" *ngIf="!isLoading">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Data de Início</th>
+                    <th>Data de Fim</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+             <tbody>
+                <tr *ngFor="let campaign of campaigns"
+                    [title]="'Clique para ver mais detalhes da campanha: '+ campaign.name">
+                    <td class="align-middle" (click)="inspectCampaign(campaign)">{{campaign.name}}</td>
+                    <td class="align-middle">{{campaign.start_date | date: 'mediumDate'}}</td>
+                    <td class="align-middle">{{campaign.end_date | date: 'mediumDate'}}</td>
+                    <td>
+                        <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editCampaign(campaign)"
+                            [title]="'Editar a campanha: '+ campaign.name"></i>
+                        <i class="fa-solid fa-trash col-12 col-md-2" (click)="deleteCampaign(campaign)"
+                        [title]="'Excluir a campanha: '+ campaign.name"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="isLoading" class="text-center text-dark">
+            <button class="btn btn-dark mt-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Carregando dados...
+            </button>
+        </div>
+    </div> 
+</div>
