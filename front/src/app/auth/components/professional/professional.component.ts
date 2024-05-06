@@ -58,6 +58,7 @@ export class ProfessionalComponent implements OnInit {
    * executa o método do service.
    */
   save() {
+    this.professional.approved = false;
     if (this.professional.accepted_volunteer_terms && this.captchaResponse) {
       this.ProfessionalService.createProfessional(this.professional)
         .subscribe({

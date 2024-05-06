@@ -31,8 +31,8 @@ class CreateBeneficiaryCommand(Command):
 
     def __init__(self,
                  marital_status_id: int, city_id: int, birth_date: str, child_count: int,
-                 monthly_familiar_income: float, has_disablement: bool, social_programs: list = None,
-                 access_code: str = None, name: str = None, phone: str = None, password: str = None,
+                 monthly_familiar_income: float, has_disablement: bool, name: str,
+                 phone: str, password: str, social_programs: list = None, access_code: str = None,
                  children: list = None, email: str = None, user: User = None):
         self.marital_status_id = marital_status_id
         self.city_id = city_id

@@ -6,16 +6,19 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_BENEFICIARIES
+from config import MANAGE_BENEFICIARIES, ROLE_BENEFICIARY
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
+from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
 from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.permissions.owns_it import OwnsIt
+from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.serializers import BeneficiarySerializer
 from core.services.beneficiary_service import BeneficiaryService
+from core.services.user_service import UserService
 from core.utils.decorators import endpoint
 
 lgr = logging.getLogger(__name__)
@@ -82,13 +85,23 @@ class BeneficiarySpecificViews(BaseView):
     @endpoint
     def delete(self, request: Request, pk, format=None):
         lgr.debug("----DELETE_BENEFITED----")
+        beneficiary: Beneficiary = BeneficiaryRepository.get(pk)
+        command_user: DeleteUserCommand = DeleteUserCommand.from_dict({'id': beneficiary.user_id})
         command: DeleteBeneficiaryCommand = DeleteBeneficiaryCommand.from_dict({'id': int(pk)})
-        deleted: bool = BeneficiaryService.delete(command)
 
-        if deleted:
-            return {}, status.HTTP_204_NO_CONTENT
+        if request.user.groups.filter(name=ROLE_BENEFICIARY).exists():
+            anonimized: Beneficiary = BeneficiaryService.anonimize(command)
+            if anonimized:
+                return {}, status.HTTP_204_NO_CONTENT
 
-        return {}, status.HTTP_404_NOT_FOUND
+            return {}, status.HTTP_404_NOT_FOUND
+        else:
+            # Aqui chamamos o delete de User para apagar tudo (user, beneficiary e child, visto que são filhos de user)
+            deleted: bool = UserService.delete(command_user)
+            if deleted:
+               return {}, status.HTTP_204_NO_CONTENT
+
+            return {}, status.HTTP_404_NOT_FOUND
 
     @endpoint
     def get(self, request: Request, pk, format=None):

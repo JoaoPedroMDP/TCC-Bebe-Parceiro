@@ -58,7 +58,8 @@ class BeneficiaryService(CrudService):
 
         # Relacionamentos N:N eu associo depois
         del data["children"]
-        del data["social_programs"]
+        if "social_programs" in data:
+            del data["social_programs"]
 
         try:
             new_beneficiary = Beneficiary()
@@ -128,6 +129,21 @@ class BeneficiaryService(CrudService):
     def delete(cls, command: DeleteBeneficiaryCommand) -> bool:
         return BeneficiaryRepository.delete(command.id)
 
+    @classmethod
+    def anonimize(cls, command: DeleteBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        beneficiary.user.first_name = 'ANONIMIZADO'
+        beneficiary.user.last_name = 'ANONIMIZADO'
+        beneficiary.user.email = 'ANONIMIZADO'
+        beneficiary.user.phone = 'ANONIMIZADO'
+        beneficiary.user.save()
+
+        for child in beneficiary.children.all():
+            child.name = 'ANONIMIZADO'
+            child.save()
+
+        return beneficiary #ver se retorna so um true ou se n retorna nada ou desse jeito (retornando obj atualizado)
+    
     @classmethod
     def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
