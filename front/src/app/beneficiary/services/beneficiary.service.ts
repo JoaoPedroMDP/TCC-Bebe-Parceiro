@@ -42,4 +42,32 @@ export class BeneficiaryService {
         })
       );
   }
+
+  /**
+   * @description Faz um GET para pegar os dados de uma campanha especifica
+   * @param id id da campanha
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  findCampaign(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}campaigns/${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para pegar os dados das campanhas abertas
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listCampaigns(): Observable<any> {
+    return this.http.get(`${this.baseURL}campaigns/open`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
 }

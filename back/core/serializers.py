@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group, Permission
 from rest_framework.fields import SerializerMethodField, DateTimeField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.models import (Country, State, City, User, Volunteer, Professional, Speciality,
+from core.models import (Campaign, Country, State, City, User, Volunteer, Professional, Speciality,
                          AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child)
 
 
@@ -120,3 +120,9 @@ class ProfessionalSerializer(ModelSerializer):
         model = Professional
         fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled', 'approved']
 
+
+class CampaignSerializer(ModelSerializer):
+    class Meta:
+        model = Campaign
+        fields = ['id', 'name', 'start_date', 'end_date', 'description', 'external_link']
+    

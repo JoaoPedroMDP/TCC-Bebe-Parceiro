@@ -1,18 +1,17 @@
 <div class="container">
     <div class="text-center">
-        <h1>Bem vinda voluntaria!</h1>
-        <p>Usuário: {{user.user?.name}}</p>
+        <h1>Bem vinda {{user.user?.name}}!</h1>
     </div>
     <div class="row d-flex justify-content-center">
         <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias" [class.bp-disabled]="!hasGroup('manage_volunteers')">
             <span>Voluntárias</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades"  [class.bp-disabled]="!hasGroup('especialidades')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades"  [class.bp-disabled]="!hasGroup('manage_specialities')">
             <span>Especialidades</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas" [class.bp-disabled]="!hasGroup('campanhas')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas" [class.bp-disabled]="!hasGroup('manage_campaigns')">
             <span>Campanhas</span>
         </a>
         <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios" [class.bp-disabled]="!hasGroup('relatorios')">

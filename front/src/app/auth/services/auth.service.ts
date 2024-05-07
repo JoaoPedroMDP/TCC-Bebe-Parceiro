@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { BeneficiaryPOST, UserToken } from 'src/app/shared';
+import { VolunteerPOST } from 'src/app/shared/models/volunteer';
 import { environment } from 'src/environments/environment';
 
 
@@ -68,6 +69,14 @@ export class AuthService {
     return this.http.get(`${this.baseURL}social_programs`, { headers: this.getHeaders() });
   }
 
+   /**
+   * @description Faz um GET para obter todos as funções cadastradas no sistema
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+   getGroups(): Observable<any> {
+    return this.http.get(`${this.baseURL}auth/groups`, { headers: this.getHeaders() });
+  }
+
   /**
    * @description Faz um GET para obter todos os Estados/Províncias cadastrados no sistema
    * @param countryId o Id do Pais selecionado para filtrar os estados
@@ -127,6 +136,15 @@ export class AuthService {
    */
   saveBeneficiary(beneficiary: BeneficiaryPOST): Observable<any> {
     return this.http.post(`${this.baseURL}beneficiaries`, beneficiary, { headers: this.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  saveVolunteer(volunteer: VolunteerPOST): Observable<any> {
+    return this.http.post(`${this.baseURL}volunteers`, volunteer, { headers: this.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
