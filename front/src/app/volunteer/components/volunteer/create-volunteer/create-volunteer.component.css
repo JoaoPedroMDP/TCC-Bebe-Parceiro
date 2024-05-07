@@ -49,6 +49,13 @@
     padding: 0;
 }
 
+.bp-select-groups {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin: 0 .5rem;
+    border: none;
+    border-radius: 5px;
+}
+
 .input-with-icon {
     position: relative;
     display: inline-block;
@@ -72,23 +79,25 @@
     color: #000000;
 }
 
-
-
-
-.bp-select-groups {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    margin: 0 .5rem;
-    border: none;
-    border-radius: 5px;
-}
-
 /* -------------------------------------------  MEDIA ------------------------------------------- */
 @media screen and (width > 991px) {
     .bp-button {
         font-size: 1.2rem;
     }
 
+}
+
+@media screen and (width < 400px) {
+    .bp-label-text {
+        margin-left: .5rem;
+        font-size: .8rem;
+    }
+
     .bp-select-groups {
-         width: auto; /* apagar isso aqui, precisa dimensionar melhor */
+        width: 9.5rem;
+    }
+
+    .bp-group-add {
+        text-align: center;
     }
 }

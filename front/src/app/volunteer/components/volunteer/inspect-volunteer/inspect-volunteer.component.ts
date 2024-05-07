@@ -25,13 +25,13 @@ export class InspectVolunteerComponent implements OnInit {
    * @param volunteer objeto da voluntária para ir como variavel no componente
    */
   editVolunteer(volunteer: Volunteer) {
+    this.activeModal.close(); // Fecha o modal atual de visualização
     let volunteerPOST = new VolunteerPOST();
     volunteerPOST.transformObjectToEdit(volunteer);
     let modalRef = this.modalService.open(EditVolunteerComponent, { size: 'xl' })
     modalRef.componentInstance.volunteer = volunteerPOST;  // Passando o voluntária
-    modalRef.componentInstance.editMode = true;          // Passando o modo de edição
-    modalRef.componentInstance.countrySelected = volunteer.city?.state?.country?.name;  // Passando a voluntaria
-    modalRef.componentInstance.stateSelected = volunteer.city?.state?.name;          // Passando o modo de edição
+    modalRef.componentInstance.countrySelected = volunteer.city?.state?.country?.id;  // Passando a voluntaria
+    modalRef.componentInstance.stateSelected = volunteer.city?.state?.id;          // Passando o modo de edição
   }
 
 

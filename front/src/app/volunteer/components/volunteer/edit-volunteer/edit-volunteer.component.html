@@ -1,6 +1,5 @@
 <div class="modal-header modal-lg d-flex justify-content-center">
-    <h4 class="mb-0" *ngIf="!editMode">Cadastrar Voluntária</h4>
-    <h4 class="mb-0" *ngIf="editMode">Editar Voluntária</h4>
+    <h4 class="mb-0">Editar Voluntária</h4>
 </div>
 <div class="modal-body my-2">
     <div class="container">
@@ -80,15 +79,6 @@
                         <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm"
                             #password_confirm ngModel>
                         <i class="fa fa-eye" (click)="showPassword('password_confirm')"></i>
-                        <div *ngIf="form.controls['password_confirm']">
-                            <div
-                                *ngIf="form.controls['password_confirm'].errors && (form.controls['password_confirm'].dirty || form.controls['password_confirm'].touched)">
-                                <div *ngIf="form.controls['password_confirm'].errors['required']"
-                                    class="alert alert-danger">
-                                    O campo é obrigatório.
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -106,14 +96,6 @@
                                 <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
                             </select>
                         </span>
-                    </div>
-                    <div *ngIf="form.controls['group_ids']">
-                        <div
-                            *ngIf="form.controls['group_ids'].errors && (form.controls['group_ids'].dirty || form.controls['group_ids'].touched)">
-                            <div *ngIf="form.controls['group_ids'].errors['group_ids']" class="alert alert-danger">
-                                O campo é obrigatório.
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

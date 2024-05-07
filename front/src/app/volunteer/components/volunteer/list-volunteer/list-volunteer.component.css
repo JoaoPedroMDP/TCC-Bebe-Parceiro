@@ -12,8 +12,18 @@
     background-color: var(--bp-light-gray);
 }
 
+.bp-footer-left{
+    display: flex;
+    justify-content: flex-start;
+    margin: .2rem 0;
+}
+.bp-footer-right{
+    display: flex;
+    justify-content: flex-end;
+    margin: .2rem 0;
+}
 .bp-nome-limit {
-    max-width: 140px; /* Defina o limite máximo de largura para o texto */
+    max-width: 130px; /* Defina o limite máximo de largura para o texto */
     word-wrap: break-word; /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
 }
 
@@ -63,7 +73,14 @@ thead {
     .bp-footer{ 
         display: grid;
         justify-content: center;
-        row-gap: 1rem;
+        padding: .3rem 0 .3rem 0;
+    }
+
+    .bp-button{ width: 100%; }
+    .bp-footer-left,
+    .bp-footer-right {
+        justify-content: center;      
+        margin: .15rem 0; 
     }
 
     td, th {

@@ -35,7 +35,7 @@ export class CreateVolunteerComponent implements OnInit {
   ngOnInit(): void {
     this.volunteer = new VolunteerPOST(); // Inicializa um objeto para podermos usar no form
     // Inicializa um array vazio de grupos para poder adicionar e remover novas funções
-    this.volunteer.group_ids = []; 
+    this.volunteer.group_ids = [];
     this.listGroups();
     this.listCountries();
   }
@@ -62,22 +62,20 @@ export class CreateVolunteerComponent implements OnInit {
    * adicionado novamente
    */
   addGroup() {
-    if (this.selectedGroupId) {
-      // Verifica se o id escolhido existe no array de funcoes/grupos
-      const group = this.groups.find(g => g.id === Number(this.selectedGroupId));
+    // Verifica se o id escolhido existe no array de funcoes/grupos
+    const group = this.groups.find(g => g.id === Number(this.selectedGroupId));
 
-      if (group) {
-        // Se existir primeiro adiciona aos selecionados para visualizar no HTML
-        this.selectedGroups.push(group);
-        // então remove ele do array de funcoes/grupos para nao ser adicionado novamente
-        this.groups = this.groups.filter(g => g.id !== group.id);
-        // Adiciona ele no array do objeto da voluntaria
-        if (group.id && this.volunteer.group_ids) {
-          this.volunteer.group_ids?.push(group.id);
-        }
-        // E por fim reseta a model para poder escolher outra funcao
-        this.selectedGroupId = undefined;
+    if (group) {
+      // Se existir primeiro adiciona aos selecionados para visualizar no HTML
+      this.selectedGroups.push(group);
+      // então remove ele do array de funcoes/grupos para nao ser adicionado novamente
+      this.groups = this.groups.filter(g => g.id !== group.id);
+      // Adiciona ele no array do objeto da voluntaria
+      if (group.id && this.volunteer.group_ids) {
+        this.volunteer.group_ids?.push(group.id);
       }
+      // E por fim reseta a model para poder escolher outra funcao
+      this.selectedGroupId = undefined;
     }
   }
 
@@ -96,7 +94,7 @@ export class CreateVolunteerComponent implements OnInit {
           // Remove dos grupos da voluntaria
           this.volunteer.group_ids?.filter(id => id !== Number(group.id));
           // Remove do selectedGroups (O array que mostra os grupos escolhidos)
-          this.selectedGroups = this.selectedGroups.filter(g => g.id !== group.id); 
+          this.selectedGroups = this.selectedGroups.filter(g => g.id !== group.id);
           // Ordena por nome crescente
           this.groups.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
         }
