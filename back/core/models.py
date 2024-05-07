@@ -56,6 +56,17 @@ class User(AbstractUser):
         # Por exemplo, "role_pending_beneficiary" retorna "pending_beneficiary"
         return "_".join(self.role.split("_")[1:])
 
+    def is_beneficiary(self) -> bool:
+        try:
+            return self.beneficiary is not None 
+        except Beneficiary.DoesNotExist:
+            return False
+
+    def is_volunteer(self) -> bool:
+        try:
+            return self.volunteer is not None
+        except Volunteer.DoesNotExist:
+            return False
 
 class Country(EnablableModel):
     readable_name = "País"

@@ -35,8 +35,8 @@ def client():
     return APIClient()
 
 
-def make_user(u_permissions: List[str]):
+def make_user(u_permissions: List[str]) -> User:
     groups = Group.objects.filter(name__in=u_permissions)
-    user: User = UserFactory.create(username="user", password="user")
+    user: User = UserFactory.create()
     user.groups.add(*groups)
     return user

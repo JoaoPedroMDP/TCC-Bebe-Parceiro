@@ -19,5 +19,7 @@ class VolunteerAtLeastOneGroup(BasePermission):
             for g in groups:
                 if g.name in view.groups:
                     return True
+        else:
+            return True
 
         return False

@@ -1,4 +1,5 @@
 #  coding: utf-8
+from typing import Dict
 from core.cqrs import Query, Field, Validator
 
 
@@ -37,3 +38,8 @@ class ListSwapQuery(Query):
     def from_dict(args: dict) -> 'ListSwapQuery':
         data = Validator.validate_and_extract(ListSwapQuery.fields, args)
         return ListSwapQuery(**data)
+
+    def to_dict(self) -> Dict:
+        data = super().to_dict()
+        del data['user']
+        return data

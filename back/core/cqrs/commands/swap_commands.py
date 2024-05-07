@@ -1,27 +1,81 @@
 #  coding: utf-8
+import logging
+from typing import Dict
+from config import PENDING
 from core.cqrs import Validator, Field, Command
+from core.models import Beneficiary, Child, User
+from core.repositories.beneficiary_repository import BeneficiaryRepository
 
+lgr = logging.getLogger(__name__)
+
+def ben_owns_child(ben: Beneficiary, child_id: int):
+    try:
+        ben.children.get(id=child_id)
+    except Child.DoesNotExist:
+        raise AssertionError("A criança não pertence à beneficiária")
+
+def no_pending_swap(ben: Beneficiary):
+    if ben.swaps.filter(status__name=PENDING).exists():
+        raise AssertionError("Beneficiária já possui uma troca ativa")
+
+def get_ben(data: dict, args: dict):
+    if args['user'].is_beneficiary():
+        ben = args['user'].beneficiary
+    else:
+        ben = BeneficiaryRepository.get(data['beneficiary_id'])
+    
+    return ben
+
+def vol_specified_ben(data: dict, args: dict):
+    if not args['user'].is_beneficiary() and 'beneficiary_id' not in data:
+        raise AssertionError("Beneficiária não especificada")
 
 class CreateSwapCommand(Command):
     fields = [
-        Field("cloth_size", "object", True),
-        Field("shoe_size", "object", False),
+        Field("cloth_size_id", "integer", True, formatter=lambda x: int(x)),
+        Field("child_id", "integer", True, formatter=lambda x: int(x)),
+        Field("beneficiary_id", "integer", False, formatter=lambda x: int(x)),
+        Field("shoe_size_id", "integer", False, formatter=lambda x: int(x)),
         Field("description", "string", False),
-        Field("child", "object", True),
     ]
 
-    def __init__(self, cloth_size: dict, shoe_size: dict = None, description: str = None, child: dict = None):
-        self.cloth_size = cloth_size
-        self.shoe_size = shoe_size
-        self.description = description
-        self.child = child
+    def __init__(
+            self, cloth_size_id: dict, shoe_size_id: dict = None, 
+            description: str = None, child_id: dict = None, beneficiary_id: int = None,
+            user: User = None):
+        self.cloth_size_id: int = cloth_size_id
+        self.shoe_size_id: int = shoe_size_id
+        self.description: str = description
+        self.child_id: int = child_id
+        self.beneficiary_id: int = beneficiary_id
+        self.user: User = user
 
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'CreateSwapCommand':
         data = Validator.validate_and_extract(CreateSwapCommand.fields, args)
-        return CreateSwapCommand(**data)
 
+        # Caso seja uma voluntária criando a trocas, precisa especificar o campo beneficiary_id
+        vol_specified_ben(data, args)
+        # Pego a beneficiária pois preciso validar algumas coisas
+        ben = get_ben(data, args)
+        # Uma beneficiada não pode ter duas trocas ativas
+        no_pending_swap(ben)
+        # Valido se a criança é dela mesmo
+        ben_owns_child(ben, data['child_id'])
+
+        return CreateSwapCommand(**data, user=args['user'])
+
+    def get_beneficiary_id(self):
+        if self.user.is_beneficiary():
+            return self.user.beneficiary.id
+
+        return self.beneficiary_id
+
+    def to_dict(self) -> Dict:
+        data = super().to_dict()
+        del data['user']
+        return data
 
 class PatchSwapCommand(Command):
     fields = [
