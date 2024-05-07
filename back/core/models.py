@@ -1,8 +1,12 @@
+import logging
 from typing import List
 from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
 from core.utils.dictable import Dictable
+
+
+lgr = logging.getLogger(__name__)
 
 
 class BaseModel(models.Model, Dictable):
@@ -58,13 +62,13 @@ class User(AbstractUser):
 
     def is_beneficiary(self) -> bool:
         try:
-            return self.beneficiary is not None 
+            return isinstance(self.beneficiary, Beneficiary) 
         except Beneficiary.DoesNotExist:
             return False
 
     def is_volunteer(self) -> bool:
         try:
-            return self.volunteer is not None
+            return isinstance(self.volunteer, Volunteer)
         except Volunteer.DoesNotExist:
             return False
 

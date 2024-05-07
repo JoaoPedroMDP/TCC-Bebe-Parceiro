@@ -12,6 +12,7 @@ from core.cqrs.commands.swap_commands import CreateSwapCommand, PatchSwapCommand
     DeleteSwapCommand
 from core.cqrs.queries.swap_queries import GetSwapQuery, ListSwapQuery
 from core.models import Swap
+from core.permissions.is_volunteer import IsVolunteer
 from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from core.serializers import SwapSerializer
 from core.services.swap_service import SwapService
@@ -48,6 +49,9 @@ class SwapGenericViews(BaseView):
 class SwapSpecificViews(BaseView):
     groups = [MANAGE_SWAPS]
     permission_classes = [VolunteerAtLeastOneGroup]
+    permission_classes_by_method = {
+        "delete": [IsVolunteer & VolunteerAtLeastOneGroup]
+    }
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
