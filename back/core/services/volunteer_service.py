@@ -3,7 +3,7 @@ import logging
 from typing import List
 
 from config import ROLE_VOLUNTEER, MANAGE_EVALUATIONS
-from core.cqrs.commands.user_commands import CreateUserCommand
+from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
@@ -45,6 +45,14 @@ class VolunteerService(CrudService):
 
     @classmethod
     def patch(cls, command: PatchVolunteerCommand) -> Volunteer:
+        volunteer: Volunteer = VolunteerRepository.get(command.id)
+
+        if command.user_data:
+            user_command = PatchUserCommand.from_dict({
+                **command.user_data,
+                'id': volunteer.user.id
+            })
+            UserService.patch(user_command)
         return VolunteerRepository.patch(command.to_dict())
 
     @classmethod
