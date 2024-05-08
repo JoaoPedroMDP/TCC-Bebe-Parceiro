@@ -52,6 +52,11 @@ class SwapService(CrudService):
             # Significa que é uma voluntária
             pass
 
+        if 'status' in filters:
+            status = StatusRepository.get_by_name(filters['status'])
+            filters['status_id'] = status.id
+            del filters['status']
+
         return SwapRepository.filter(**filters)
 
     @classmethod

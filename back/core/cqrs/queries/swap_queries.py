@@ -24,13 +24,15 @@ class ListSwapQuery(Query):
         Field("shoe_size", "object", False),
         Field("description", "string", False),
         Field("child", "object", False),
+        Field("status", "string", False),
     ]
 
-    def __init__(self, cloth_size: dict = None, shoe_size: dict = None, description: str = None, child: dict = None):
+    def __init__(self, cloth_size: dict = None, shoe_size: dict = None, description: str = None, child: dict = None, status: str = None):
         self.cloth_size = cloth_size
         self.shoe_size = shoe_size
         self.description = description
         self.child = child
+        self.status = status
         self.user = None
 
     @staticmethod

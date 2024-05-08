@@ -3,8 +3,8 @@ from django.urls import reverse
 import pytest
 from rest_framework.test import APIClient
 
-from config import MANAGE_SWAPS, ROLE_VOLUNTEER
-from factories import SwapFactory
+from config import FINISHED, MANAGE_SWAPS, PENDING, ROLE_VOLUNTEER
+from factories import StatusFactory, SwapFactory
 from tests.conftest import make_beneficiary_with_children, make_user
 
 
@@ -36,3 +36,23 @@ def test_ben_can_see_only_its_swaps(client: APIClient):
     response = client.get(url)
     assert response.status_code == 200
     assert len(response.data) == 2
+
+
+@pytest.mark.django_db
+def test_can_filter_swap_by_status(client: APIClient):
+    ben, children = make_beneficiary_with_children()
+    StatusFactory.create(name=FINISHED)
+    pending_status = StatusFactory.create(name=PENDING)
+    SwapFactory.create_batch(3, beneficiary=ben, child=children[0], status=pending_status)
+    
+    url = reverse('gen_swaps')
+    v_user = make_user([ROLE_VOLUNTEER, MANAGE_SWAPS])
+    client.force_authenticate(v_user)
+
+    response = client.get(url, {'status': PENDING})
+    assert response.status_code == 200
+    assert len(response.data) == 3
+
+    response = client.get(url, {'status': FINISHED})
+    assert response.status_code == 200
+    assert len(response.data) == 0
