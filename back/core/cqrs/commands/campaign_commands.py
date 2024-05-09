@@ -4,7 +4,7 @@ from core.repositories.campaign_repository import CampaignRepository
 
 # TODO: Validar se funciona
 def check_for_duplicity(data: dict):
-    conflicts = CampaignRepository.filter(name=data['name'])
+    conflicts = CampaignRepository.filter(name=data['name']).exclude(id=data.get('id', None))
     if len(conflicts) > 0:
         raise AssertionError(f"Campanha com o nome '{data['name']}' já cadastrada")
 
