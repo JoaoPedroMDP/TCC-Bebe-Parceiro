@@ -11,7 +11,8 @@
                 <p><strong>Data Nascimento:</strong> {{beneficiary.birth_date | date: 'dd/MM/yyyy'}}</p>
             </div>
             <div class="col-12 col-md-6">
-                <p><strong>Telefone:</strong> {{beneficiary.user?.phone! | mask: "(00) 0 0000-0000||(00) 0000-0000"}}</p>
+                <p><strong>Telefone:</strong> {{beneficiary.user?.phone! | mask: "(00) 0 0000-0000||(00) 0000-0000"}}
+                </p>
             </div>
         </div>
         <div class="row">
@@ -44,7 +45,8 @@
         <div *ngFor="let child of beneficiary.children" class="justify-content-center">
             <div class="row mb-3">
                 <div class="col-1 text-end">
-                    <i [class]="child.sex == 'F' ? 'fa-solid fa-child-dress align-middle' : 'fa-solid fa-child align-middle'"></i>
+                    <i
+                        [class]="child.sex == 'F' ? 'fa-solid fa-child-dress align-middle' : 'fa-solid fa-child align-middle'"></i>
                 </div>
                 <div class="col-10">
                     <div class="row">
@@ -57,7 +59,7 @@
                         <div class="col-12 col-md-2">
                             <p><strong>Sexo:</strong> {{child.sex}}</p>
                         </div>
-                    </div>                
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,8 +73,8 @@
                 <span>Nenhum</span>
             </ng-template>
             <ng-template [ngIf]="beneficiary.social_programs?.length! > 0">
-                <span *ngFor="let social of beneficiary.social_programs">
-                    <span> | {{social.name}} </span>
+                <span *ngFor="let social of beneficiary.social_programs, last as isLast">
+                    <span>{{social.name}}{{ !isLast ? ', ' : '' }}</span>
                 </span>
             </ng-template>
         </p>
@@ -95,7 +97,8 @@
                 <button class="bp-button" (click)="editBeneficiary(beneficiary)">Editar Informações</button>
             </div>
             <div class="d-flex justify-content-end">
-                <button class="bp-button" id="bp-remove" (click)="deleteBeneficiary(beneficiary)">Remover Cadastro</button>
+                <button class="bp-button" id="bp-remove" (click)="deleteBeneficiary(beneficiary)">Remover
+                    Cadastro</button>
             </div>
         </div>
     </div>

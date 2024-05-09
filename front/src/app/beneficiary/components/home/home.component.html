@@ -1,7 +1,6 @@
 <div class="container">
     <div class="text-center">
-        <h1>Bem vinda beneficiada!</h1>
-        <p>Usuário: {{user.user?.name}}</p>
+        <h1>Bem vinda {{user.user?.name}}!</h1>
         <div *ngIf="user.user?.role === 'pending_beneficiary'">
             <h6>Nesse momento você apenas pode visualizar, alterar ou excluir seus dados</h6>
             <h6>Quando seu cadastro for aprovado você terá acesso as novas funcionalidades do sistema</h6>
