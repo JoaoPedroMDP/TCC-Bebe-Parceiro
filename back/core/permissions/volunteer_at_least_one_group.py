@@ -5,6 +5,7 @@ from rest_framework.permissions import BasePermission
 from rest_framework.request import Request
 
 from core.app_views import BaseView
+from core.models import Beneficiary, Volunteer
 
 lgr = logging.getLogger(__name__)
 

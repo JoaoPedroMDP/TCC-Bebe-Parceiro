@@ -65,8 +65,7 @@ class User(AbstractUser, Dictable):
             Se for beneficiada, tentar acessar o atributo beneficiary não vai lançar exceção
         """
         try:
-            self.beneficiary 
-            return True
+            return isinstance(self.beneficiary, Beneficiary)
         except Beneficiary.DoesNotExist:
             return False
 
@@ -75,8 +74,7 @@ class User(AbstractUser, Dictable):
             Se for voluntária, tentar acessar o atributo volunteer não vai lançar exceção
         """
         try:
-            self.volunteer
-            return True
+            return isinstance(self.volunteer, Volunteer)
         except Volunteer.DoesNotExist:
             return False
 
