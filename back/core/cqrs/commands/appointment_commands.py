@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Dict
 
 from core.cqrs import Command, Field, Validator
+from core.repositories.appointment_repository import AppointmentRepository
 
 
 def format_date(raw_date: str):
@@ -36,3 +37,34 @@ class CreateAppointmentCommand(Command):
     def from_dict(args: Dict):
         data = Validator.validate_and_extract(CreateAppointmentCommand.fields, args)
         return CreateAppointmentCommand(**data)
+
+class PatchAppointmentCommand(Command):
+    fields = [
+        Field("id", "integer", True, formatter=lambda x: int(x)),
+        Field("name", "string", False),
+    ]
+
+    def __init__(self, id: int, name: str = None):
+        self.id = id
+        self.name = name
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'PatchAppointmentCommand':
+        data = Validator.validate_and_extract(PatchAppointmentCommand.fields, args)
+        return PatchAppointmentCommand(**data)
+
+
+class DeleteAppointmentCommand(Command):
+    fields = [
+        Field("id", "integer", True, formatter=lambda x: int(x))
+    ]
+
+    def __init__(self, id: int):
+        self.id = id
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'DeleteAppointmentCommand':
+        data = Validator.validate_and_extract(DeleteAppointmentCommand.fields, args)
+        return DeleteAppointmentCommand(**data)
