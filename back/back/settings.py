@@ -98,7 +98,15 @@ LOGGING = {
         'root': {
             'handlers': ['console', 'file'],
             'level': logging.DEBUG,
-        }
+        },
+        'faker': {
+            'handlers': ['console'],
+            'level': logging.ERROR,
+        },
+        'factory': {
+            'handlers': ['console'],
+            'level': logging.ERROR,
+        },
     },
 }
 

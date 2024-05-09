@@ -1,8 +1,12 @@
+import logging
 from typing import List
 from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
 from core.utils.dictable import Dictable
+
+
+lgr = logging.getLogger(__name__)
 
 
 class BaseModel(models.Model, Dictable):
@@ -29,7 +33,7 @@ class EnablableModel(TimestampedModel):
         abstract = True
 
 
-class User(AbstractUser):
+class User(AbstractUser, Dictable):
     readable_name = "Usuária"
 
     phone = models.CharField(max_length=30, null=False)
@@ -56,6 +60,23 @@ class User(AbstractUser):
         # Por exemplo, "role_pending_beneficiary" retorna "pending_beneficiary"
         return "_".join(self.role.split("_")[1:])
 
+    def is_beneficiary(self) -> bool:
+        """
+            Se for beneficiada, tentar acessar o atributo beneficiary não vai lançar exceção
+        """
+        try:
+            return isinstance(self.beneficiary, Beneficiary)
+        except Beneficiary.DoesNotExist:
+            return False
+
+    def is_volunteer(self) -> bool:
+        """
+            Se for voluntária, tentar acessar o atributo volunteer não vai lançar exceção
+        """
+        try:
+            return isinstance(self.volunteer, Volunteer)
+        except Volunteer.DoesNotExist:
+            return False
 
 class Country(EnablableModel):
     readable_name = "País"
@@ -117,7 +138,7 @@ class SocialProgram(EnablableModel):
 class Beneficiary(TimestampedModel):
     readable_name = "Beneficiada"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="beneficiary")
     marital_status = models.ForeignKey(MaritalStatus, on_delete=models.CASCADE, related_name="beneficiaries")
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="beneficiaries")
     social_programs = models.ManyToManyField(SocialProgram)
@@ -131,7 +152,7 @@ class Beneficiary(TimestampedModel):
 class Volunteer(TimestampedModel):
     readable_name = "Voluntária"
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="volunteer")
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="volunteers")
 
 
@@ -172,9 +193,10 @@ class Swap(TimestampedModel):
 
     cloth_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="clothes")
     shoe_size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="shoes", null=True)
-    description = models.TextField()
+    description = models.TextField(null=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
-
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="swaps")
+    child = models.ForeignKey(Child, on_delete=models.CASCADE, related_name="swaps")
 
 class Speciality(EnablableModel):
     readable_name = "Especialidade"

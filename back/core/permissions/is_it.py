@@ -10,8 +10,7 @@ from core.models import Beneficiary, Volunteer, TimestampedModel
 
 lgr = logging.getLogger(__name__)
 
-
-class OwnsIt(BasePermission):
+class IsIt(BasePermission):
     URIS_MODELS: Dict[str, TimestampedModel] = {
         "beneficiaries": Beneficiary,
         "voluntaries": Volunteer

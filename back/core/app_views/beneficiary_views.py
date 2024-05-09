@@ -14,7 +14,7 @@ from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
 from core.permissions.at_least_one_group import AtLeastOneGroup
-from core.permissions.owns_it import OwnsIt
+from core.permissions.is_it import IsIt
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.serializers import BeneficiarySerializer
 from core.services.beneficiary_service import BeneficiaryService
@@ -69,7 +69,7 @@ class BeneficiaryGenericViews(BaseView):
 
 class BeneficiarySpecificViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = [(OwnsIt | AtLeastOneGroup)]
+    permission_classes = [(IsIt | AtLeastOneGroup)]
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
