@@ -33,7 +33,7 @@ class EnablableModel(TimestampedModel):
         abstract = True
 
 
-class User(AbstractUser):
+class User(AbstractUser, Dictable):
     readable_name = "Usuária"
 
     phone = models.CharField(max_length=30, null=False)
@@ -61,14 +61,22 @@ class User(AbstractUser):
         return "_".join(self.role.split("_")[1:])
 
     def is_beneficiary(self) -> bool:
+        """
+            Se for beneficiada, tentar acessar o atributo beneficiary não vai lançar exceção
+        """
         try:
-            return isinstance(self.beneficiary, Beneficiary) 
+            self.beneficiary 
+            return True
         except Beneficiary.DoesNotExist:
             return False
 
     def is_volunteer(self) -> bool:
+        """
+            Se for voluntária, tentar acessar o atributo volunteer não vai lançar exceção
+        """
         try:
-            return isinstance(self.volunteer, Volunteer)
+            self.volunteer
+            return True
         except Volunteer.DoesNotExist:
             return False
 

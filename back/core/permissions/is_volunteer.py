@@ -10,5 +10,4 @@ lgr = logging.getLogger(__name__)
 class IsVolunteer(BasePermission):
 
     def has_permission(self, request: Request, view: BaseView):
-        lgr.debug("OLÁ")
         return request.user.is_volunteer()

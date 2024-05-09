@@ -39,18 +39,12 @@ class SwapService(CrudService):
     @classmethod
     def filter(cls, query: ListSwapQuery) -> List[Swap]:
         filters = query.to_dict()
-        
-        try:
-           query.user.beneficiary
+        if query.user.is_beneficiary():
            lgr.debug("Usuária é beneficiária")
            filters = {
                 **filters, 
                 "beneficiary": query.user.beneficiary
             }
-        except Beneficiary.DoesNotExist as e:
-            lgr.debug("Usuária é voluntária")
-            # Significa que é uma voluntária
-            pass
 
         if 'status' in filters:
             status = StatusRepository.get_by_name(filters['status'])
@@ -61,6 +55,7 @@ class SwapService(CrudService):
 
     @classmethod
     def get(cls, query: GetSwapQuery) -> Swap:
+        # TODO: Uma beneficiada só pode ver um troca se esta a pertencer
         return SwapRepository.get(query.id)
 
     @classmethod

@@ -48,9 +48,9 @@ class SwapGenericViews(BaseView):
 
 class SwapSpecificViews(BaseView):
     groups = [MANAGE_SWAPS]
-    permission_classes = [VolunteerAtLeastOneGroup]
+    permission_classes = [IsVolunteer & VolunteerAtLeastOneGroup]
     permission_classes_by_method = {
-        "delete": [IsVolunteer & VolunteerAtLeastOneGroup]
+        "get": [VolunteerAtLeastOneGroup]
     }
 
     @endpoint
