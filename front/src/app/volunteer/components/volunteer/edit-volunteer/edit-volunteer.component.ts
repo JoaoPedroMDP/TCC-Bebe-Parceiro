@@ -97,7 +97,7 @@ export class EditVolunteerComponent implements OnInit {
           // Adiciona ao array dos grupos no Select
           this.groups.push(group);
           // Remove dos grupos da voluntaria
-          this.volunteer.group_ids?.filter(id => id !== Number(group.id));
+          this.volunteer.group_ids = this.volunteer.group_ids?.filter(id => id !== group.id);
           // Remove do selectedGroups (O array que mostra os grupos escolhidos)
           this.selectedGroups = this.selectedGroups.filter(g => g.id !== group.id);
           // Ordena por nome crescente
