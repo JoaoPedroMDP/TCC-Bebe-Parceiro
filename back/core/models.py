@@ -3,6 +3,7 @@ from typing import List
 from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
+from config import PENDING
 from core.utils.dictable import Dictable
 
 
@@ -147,6 +148,10 @@ class Beneficiary(TimestampedModel):
     child_count = models.IntegerField()
     monthly_familiar_income = models.DecimalField(max_digits=10, decimal_places=2)
     has_disablement = models.BooleanField(default=False)
+
+
+    def has_pending_swap(self):
+        return self.swaps.filter(status__name=PENDING).exists()
 
 
 class Volunteer(TimestampedModel):

@@ -4,7 +4,7 @@ from typing import List
 
 from rest_framework import status
 
-from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
+from config import PENDING, ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
@@ -164,3 +164,7 @@ class BeneficiaryService(CrudService):
     @classmethod
     def get_pending_beneficiaries(cls):
         return BeneficiaryRepository.filter(user__groups__name=ROLE_PENDING_BENEFICIARY)
+
+    @classmethod
+    def can_request_swap(cls, beneficiary: Beneficiary) -> bool:
+        return not beneficiary.has_pending_swap()

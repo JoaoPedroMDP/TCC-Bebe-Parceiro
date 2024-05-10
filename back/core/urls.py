@@ -4,8 +4,8 @@ from knox.views import LogoutView
 
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews, CheckAccessCodeView
 from core.app_views.auth_views import LoginView, GroupGenericView
-from core.app_views.beneficiary_views import BeneficiaryGenericViews, BeneficiarySpecificViews, \
-    BeneficiaryCreationByVolunteer, BeneficiaryApproval, BeneficiaryPendingView
+from core.app_views.beneficiary_views import BeneficiaryCanRequestSwapView, BeneficiaryGenericViews, BeneficiarySpecificViews, \
+    BeneficiaryCreationByVolunteerView, BeneficiaryApprovalView, BeneficiaryPendingView
 from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
 from core.app_views.city_views import CityGenericViews, CitySpecificViews
 from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
@@ -32,9 +32,10 @@ urlpatterns = [
 
     path("beneficiaries", BeneficiaryGenericViews.as_view(), name="gen_beneficiaries"),
     path("beneficiaries/<int:pk>", BeneficiarySpecificViews.as_view(), name="spe_beneficiaries"),
-    path("beneficiaries/approve/<int:pk>", BeneficiaryApproval.as_view(), name="approve_beneficiaries"),
-    path("beneficiaries/create", BeneficiaryCreationByVolunteer.as_view(), name="create_beneficiaries"),
+    path("beneficiaries/approve/<int:pk>", BeneficiaryApprovalView.as_view(), name="approve_beneficiaries"),
+    path("beneficiaries/create", BeneficiaryCreationByVolunteerView.as_view(), name="create_beneficiaries"),
     path("beneficiaries/pending", BeneficiaryPendingView.as_view(), name="pending_beneficiaries"),
+    path("beneficiaries/can_request_swap", BeneficiaryCanRequestSwapView.as_view(), name="can_request_swap_beneficiaries"),
 
     path("children", ChildGenericViews.as_view(), name="gen_children"),
     path("children/<int:pk>", ChildSpecificViews.as_view(), name="spe_children"),

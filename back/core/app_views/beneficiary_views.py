@@ -14,6 +14,7 @@ from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.is_beneficiary import IsBeneficiary
 from core.permissions.is_it import IsIt
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.serializers import BeneficiarySerializer
@@ -24,7 +25,7 @@ from core.utils.decorators import endpoint
 lgr = logging.getLogger(__name__)
 
 
-class BeneficiaryCreationByVolunteer(BaseView):
+class BeneficiaryCreationByVolunteerView(BaseView):
     groups = ["manage_beneficiaries"]
     permission_classes = (AtLeastOneGroup,)
 
@@ -113,7 +114,7 @@ class BeneficiarySpecificViews(BaseView):
 
         return {}, status.HTTP_404_NOT_FOUND
 
-class BeneficiaryApproval(BaseView):
+class BeneficiaryApprovalView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
     permission_classes = (AtLeastOneGroup,)
 
@@ -138,3 +139,16 @@ class BeneficiaryPendingView(BaseView):
         lgr.debug("----GET_PENDING_BENEFICIARIES----")
         beneficiaries: List[Beneficiary] = BeneficiaryService.get_pending_beneficiaries()
         return BeneficiarySerializer(beneficiaries, many=True).data, status.HTTP_200_OK
+
+
+class BeneficiaryCanRequestSwapView(BaseView):
+    permission_classes = [IsBeneficiary]
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----CAN_REQUEST_SWAP----")
+        beneficiary: Beneficiary = request.user.beneficiary
+        return {
+            'can_request_swap': BeneficiaryService.can_request_swap(beneficiary)
+        }, status.HTTP_200_OK
+    

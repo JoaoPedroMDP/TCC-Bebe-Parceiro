@@ -14,9 +14,10 @@ def ben_owns_child(ben: Beneficiary, child_id: int):
     except Child.DoesNotExist:
         raise AssertionError("A criança não pertence à beneficiária")
 
+
 def no_pending_swap(ben: Beneficiary):
-    if ben.swaps.filter(status__name=PENDING).exists():
-        raise AssertionError("Beneficiária já possui uma troca ativa")
+    return ben.has_pending_swap()
+
 
 def get_ben(data: dict, args: dict):
     if args['user'].is_beneficiary():
@@ -26,9 +27,11 @@ def get_ben(data: dict, args: dict):
     
     return ben
 
+
 def vol_specified_ben(data: dict, args: dict):
     if not args['user'].is_beneficiary() and 'beneficiary_id' not in data:
         raise AssertionError("Beneficiária não especificada")
+
 
 class CreateSwapCommand(Command):
     fields = [
