@@ -12,7 +12,7 @@
     <a class="row bp-menu-option" routerLink="atendimentos" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
         <span>Meus atendimentos</span>
     </a>
-    <a class="row bp-menu-option" routerLink="trocas" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
+    <a class="row bp-menu-option" (click)="openSwapModal()" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
         <span>Pedir troca</span>
     </a>
     <a class="row bp-menu-option" routerLink="campanhas" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">

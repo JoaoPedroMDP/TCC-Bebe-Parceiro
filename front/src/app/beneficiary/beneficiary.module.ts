@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AuthModule } from '../auth/auth.module';
 import { InspectCampaignComponent, ListCampaignComponent } from './components/campaign';
-import { BeneficiaryService, EditInformationComponent, HomeComponent, MainComponent, RemoveInformationComponent, ViewInformationComponent } from './index';
+import { BeneficiaryService, EditInformationComponent, HomeComponent, MainComponent, RemoveInformationComponent, RequestSwapComponent, ViewInformationComponent } from './index';
 
 
 @NgModule({
@@ -17,7 +17,8 @@ import { BeneficiaryService, EditInformationComponent, HomeComponent, MainCompon
     RemoveInformationComponent,
     EditInformationComponent,
     InspectCampaignComponent,
-    ListCampaignComponent
+    ListCampaignComponent,
+    RequestSwapComponent
   ],
   imports: [
     CommonModule,
