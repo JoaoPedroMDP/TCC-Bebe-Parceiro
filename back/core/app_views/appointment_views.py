@@ -36,9 +36,10 @@ class AppointmentGenericViews(BaseView):
     @endpoint
     def post(self, request: Request, format=None):
         lgr.debug("----CREATE_APPOINTMENT----")
-        command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(request.data)
+        data = copy(request.data)
+        data["user"] = request.user
+        command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(data)
         new_appointment: Appointment = AppointmentService.create(command)
-
         return AppointmentSerializer(new_appointment).data, status.HTTP_201_CREATED
 
 

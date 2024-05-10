@@ -47,6 +47,15 @@ class VolunteerService(CrudService):
     def patch(cls, command: PatchVolunteerCommand) -> Volunteer:
         volunteer: Volunteer = VolunteerRepository.get(command.id)
 
+        # Para cada group_id passado, remove o cargo atual e atribui um novo
+        volunteer.user.groups.clear()
+        for g_id in command.group_ids:
+            volunteer.user.groups.add(g_id)
+
+        role = GroupRepository.filter(name=ROLE_VOLUNTEER)[0]
+        volunteer.user.groups.add(role)
+        # volunteer.save()
+
         if command.user_data:
             user_command = PatchUserCommand.from_dict({
                 **command.user_data,

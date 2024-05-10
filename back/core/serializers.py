@@ -6,7 +6,7 @@ from rest_framework.fields import SerializerMethodField, DateTimeField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
 from core.models import (Campaign, Country, Size, State, City, Swap, User, Volunteer, Professional, Speciality,
-                         AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child)
+                         AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child, Appointment, Status)
 
 
 class CountrySerializer(ModelSerializer):
@@ -139,6 +139,27 @@ class SwapSerializer(ModelSerializer):
         
         
 class CampaignSerializer(ModelSerializer):
+
     class Meta:
         model = Campaign
         fields = ['id', 'name', 'start_date', 'end_date', 'description', 'external_link']
+
+
+class StatusSerializer(ModelSerializer):
+
+    class Meta:
+        model = Status
+        fields = ['id', 'name']
+
+
+class AppointmentSerializer(ModelSerializer):
+
+    speciality = SpecialitySerializer(read_only=True)
+    professional = ProfessionalSerializer(read_only=True)
+    beneficiary = BeneficiarySerializer(read_only=True)
+    volunteer = VolunteerSerializer(read_only=True)
+    status = StatusSerializer(read_only=True)
+
+    class Meta:
+        model = Appointment
+        fields = ['id', 'beneficiary', 'professional', 'speciality', 'volunteer', 'status', 'date', 'time']

@@ -1,5 +1,5 @@
 #  coding: utf-8
-from config import PENDING
+from config import PENDING, ROLE_BENEFICIARY, APPROVED
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
 from core.repositories.appointment_repository import AppointmentRepository
 from core.repositories.status_repository import StatusRepository
@@ -10,8 +10,10 @@ class AppointmentService(CrudService):
 
     @classmethod
     def create(cls, command: CreateAppointmentCommand):
-        data = command.to_dict()
-        status = StatusRepository.filter(name=PENDING)
+        if command.user.is_volunteer():
+            command.status_id = StatusRepository.get_by_name(APPROVED)
+        else:
+            command.status_id = StatusRepository.get_by_name(PENDING)
         return AppointmentRepository.create(command.to_dict())
 
     def patch(self, command):
