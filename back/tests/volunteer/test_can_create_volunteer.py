@@ -10,7 +10,7 @@ from django.urls import reverse
 from config import MANAGE_VOLUNTEERS
 from core.models import User, City
 from factories import UserFactory, CityFactory, GroupFactory
-from tests.conftest import make_user
+from tests.conftest import make_volunteer
 
 
 @pytest.mark.django_db
@@ -34,7 +34,7 @@ def test_can_create_volunteer(client: APIClient):
     assert response.status_code == 401
 
     # Com autenticação
-    client.force_authenticate(make_user([MANAGE_VOLUNTEERS]))
+    client.force_authenticate(make_volunteer([MANAGE_VOLUNTEERS]).user)
     response = client.post(url, data=json.dumps(data), content_type='application/json')
 
     assert response.status_code == 201

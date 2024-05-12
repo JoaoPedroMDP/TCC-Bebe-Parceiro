@@ -42,14 +42,19 @@ def make_user(u_permissions: List[str]) -> User:
     return user
 
 
-def make_beneficiary_with_children():
-    b_user = make_user([ROLE_BENEFICIARY])
-    ben = BeneficiaryFactory.create(user=b_user)
-    children = ChildFactory.create_batch(2, beneficiary=ben)
-    return ben, children
-
-
-def make_volunteer(roles: List[str]):
+def make_volunteer(roles: List[str] = []):
     v_user = make_user([ROLE_VOLUNTEER, *roles])
     vol = VolunteerFactory.create(user=v_user)
     return vol
+
+
+def make_beneficiary(**kwargs):
+    b_user = make_user([ROLE_BENEFICIARY])
+    ben = BeneficiaryFactory.create(user=b_user, **kwargs)
+    return ben
+
+
+def make_beneficiary_with_children(**kwargs):
+    ben = make_beneficiary(**kwargs)
+    children = ChildFactory.create_batch(2, beneficiary=ben)
+    return ben, children

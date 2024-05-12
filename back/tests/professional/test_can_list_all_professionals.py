@@ -5,13 +5,13 @@ from rest_framework.test import APIClient
 
 from config import MANAGE_PROFESSIONALS
 from factories import ProfessionalFactory
-from tests.conftest import make_user
+from tests.conftest import make_volunteer
 
 
 @pytest.mark.django_db
 def test_can_list_all_professionals(client: APIClient):
     professionals = ProfessionalFactory.create_batch(size=10)
-    client.force_authenticate(make_user([MANAGE_PROFESSIONALS]))
+    client.force_authenticate(make_volunteer([MANAGE_PROFESSIONALS]).user)
 
     url = reverse("gen_professionals")
     response = client.get(url)

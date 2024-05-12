@@ -16,6 +16,7 @@ class VolunteerAtLeastOneGroup(BasePermission):
     """
     def has_permission(self, request: Request, view: BaseView):
         groups = list(request.user.groups.all())
+        lgr.debug(groups)
         if request.user.is_volunteer():
             for g in groups:
                 if g.name in view.groups:
