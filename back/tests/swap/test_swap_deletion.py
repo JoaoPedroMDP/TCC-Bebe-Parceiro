@@ -3,10 +3,10 @@ from django.urls import reverse
 import pytest
 from rest_framework.test import APIClient
 
-from config import MANAGE_SWAPS, ROLE_VOLUNTEER
+from config import MANAGE_SWAPS
 from core.models import Swap
 from factories import SwapFactory
-from tests.conftest import make_beneficiary_with_children, make_user
+from tests.conftest import make_beneficiary_with_children, make_volunteer
 
 
 @pytest.mark.django_db
@@ -15,8 +15,8 @@ def test_vol_can_delete_swap(client: APIClient):
     swap = SwapFactory(beneficiary=ben, child=children[0])
     
     url = reverse('spe_swaps', kwargs={'pk': swap.id})
-    v_user = make_user([ROLE_VOLUNTEER, MANAGE_SWAPS])
-    client.force_authenticate(v_user)
+    vol = make_volunteer([MANAGE_SWAPS])
+    client.force_authenticate(vol.user)
 
     response = client.delete(url)
     assert response.status_code == 204

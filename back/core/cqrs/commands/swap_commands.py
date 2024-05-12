@@ -16,7 +16,8 @@ def ben_owns_child(ben: Beneficiary, child_id: int):
 
 
 def no_pending_swap(ben: Beneficiary):
-    return ben.has_pending_swap()
+    if ben.has_pending_swap():
+        raise AssertionError("Beneficiária já possui uma troca pendente")
 
 
 def get_ben(data: dict, args: dict):

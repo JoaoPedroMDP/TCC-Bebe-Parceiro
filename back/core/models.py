@@ -66,7 +66,10 @@ class User(AbstractUser, Dictable):
             Se for beneficiada, tentar acessar o atributo beneficiary não vai lançar exceção
         """
         try:
-            return isinstance(self.beneficiary, Beneficiary)
+            if not isinstance(self.beneficiary, Beneficiary):
+                self.beneficiary.get()
+            
+            return True
         except Beneficiary.DoesNotExist:
             return False
 
@@ -75,7 +78,10 @@ class User(AbstractUser, Dictable):
             Se for voluntária, tentar acessar o atributo volunteer não vai lançar exceção
         """
         try:
-            return isinstance(self.volunteer, Volunteer)
+            if not isinstance(self.volunteer, Volunteer):
+                self.volunteer.get()
+
+            return True
         except Volunteer.DoesNotExist:
             return False
 

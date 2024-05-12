@@ -12,5 +12,8 @@ class BeneficiaryOwnsSwap(BasePermission):
 
     def has_permission(self, request: Request, view: BaseView):
         if request.user.is_beneficiary():
-            return request.user.beneficiary.swaps.filter(id=view.kwargs['pk']).exists()
+            has =  request.user.beneficiary.swaps.filter(id=view.kwargs['pk']).exists()
+            has or lgr.warning("Beneficiário não é dono da troca")
+            return has
 
+        return True

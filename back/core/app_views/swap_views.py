@@ -25,7 +25,7 @@ lgr = logging.getLogger(__name__)
 
 class SwapGenericViews(BaseView):
     groups = [MANAGE_SWAPS]
-    permission_classes = [VolunteerAtLeastOneGroup]
+    permission_classes = [IsAuthenticated, VolunteerAtLeastOneGroup]
 
     @endpoint
     def get(self, request: Request, format=None):

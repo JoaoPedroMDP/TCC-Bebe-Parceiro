@@ -84,7 +84,7 @@ def test_cannot_create_more_than_one_swap_per_ben(client: APIClient):
     assert response.status_code == 201
     response = client.post(url, data=json.dumps(data), content_type='application/json')
     assert response.status_code == 400
-    assert response.data['message'] == "Beneficiária já possui uma troca ativa"
+    assert response.data['message'] == "Beneficiária já possui uma troca pendente"
 
 
 @pytest.mark.django_db

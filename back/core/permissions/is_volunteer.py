@@ -10,4 +10,6 @@ lgr = logging.getLogger(__name__)
 class IsVolunteer(BasePermission):
 
     def has_permission(self, request: Request, view: BaseView):
-        return request.user.is_volunteer()
+        has = request.user.is_volunteer()
+        has or lgr.warning("Usuário não é voluntário")
+        return has

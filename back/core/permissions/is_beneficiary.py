@@ -10,4 +10,6 @@ lgr = logging.getLogger(__name__)
 class IsBeneficiary(BasePermission):
 
     def has_permission(self, request: Request, view: BaseView):
-        return request.user.is_beneficiary()
+        has = request.user.is_beneficiary()
+        has or lgr.warning("Usuário não é beneficiário")
+        return has
