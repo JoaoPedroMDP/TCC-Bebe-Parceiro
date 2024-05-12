@@ -10,6 +10,7 @@ from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
 from core.app_views.city_views import CityGenericViews, CitySpecificViews
 from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
 from core.app_views.marital_status_views import MaritalStatusGenericViews, MaritalStatusSpecificViews
+from core.app_views.size_views import SizeGenericViews, SizeSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
 from core.app_views.state_views import StateGenericViews, StateSpecificViews
 from core.app_views.swap_views import SwapGenericViews, SwapSpecificViews
@@ -67,4 +68,7 @@ urlpatterns = [
 
     path("swaps", SwapGenericViews.as_view(), name="gen_swaps"),
     path("swaps/<int:pk>", SwapSpecificViews.as_view(), name="spe_swaps"),
+
+    path("sizes", SizeGenericViews.as_view(), name="gen_sizes"),
+    path("sizes/<int:pk>", SizeSpecificViews.as_view(), name="spe_sizes"),
 ]
