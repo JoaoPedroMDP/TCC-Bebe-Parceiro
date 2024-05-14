@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from config import MANAGE_BENEFICIARIES
 from factories import BeneficiaryFactory, CityFactory, MaritalStatusFactory, SocialProgramFactory
-from tests.conftest import make_user
+from tests.conftest import make_beneficiary, make_user, make_volunteer
 
 
 @pytest.mark.django_db
@@ -14,9 +14,10 @@ def test_can_filter_beneficiaries(client: APIClient):
     MaritalStatusFactory.create_batch(3)
     SocialProgramFactory.create_batch(3)
 
-    BeneficiaryFactory.create_batch(10, child_count=2)
+    for _ in range(2):
+        make_beneficiary(child_count=2)
 
-    beneficiary = BeneficiaryFactory.create(child_count=1)
+    beneficiary = make_beneficiary(child_count=1)
 
     url = reverse("gen_beneficiaries")
     data = {"child_count": beneficiary.child_count}
@@ -25,7 +26,8 @@ def test_can_filter_beneficiaries(client: APIClient):
     assert response.status_code == 401
 
     # Com autenticação
-    client.force_authenticate(make_user([MANAGE_BENEFICIARIES]))
+    vol = make_volunteer([MANAGE_BENEFICIARIES])
+    client.force_authenticate(vol.user)
     response = client.get(url, data=data, content_type='application/json')
     assert response.status_code == 200
     assert len(response.data) == 1

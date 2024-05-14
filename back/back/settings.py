@@ -58,8 +58,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-} if AUTH_ENABLED else {
-    'DEFAULT_AUTHENTICATION_CLASSES': []
 }
 
 
@@ -98,7 +96,15 @@ LOGGING = {
         'root': {
             'handlers': ['console', 'file'],
             'level': logging.DEBUG,
-        }
+        },
+        'faker': {
+            'handlers': ['console'],
+            'level': logging.ERROR,
+        },
+        'factory': {
+            'handlers': ['console'],
+            'level': logging.ERROR,
+        },
     },
 }
 

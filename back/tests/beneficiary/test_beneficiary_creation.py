@@ -1,5 +1,6 @@
 #  coding: utf-8
 import json
+import logging
 
 import pytest
 from rest_framework.test import APIClient
@@ -8,6 +9,9 @@ from django.urls import reverse
 from config import MANAGE_BENEFICIARIES
 from factories import CityFactory, AccessCodeFactory, MaritalStatusFactory
 from tests.conftest import make_user
+
+
+lgr = logging.getLogger(__name__)
 
 
 @pytest.mark.django_db
@@ -47,7 +51,7 @@ def test_can_create_beneficiary(client: APIClient):
     response = client.post(url, data=json.dumps(data), content_type='application/json')
 
     assert response.status_code == 201
-    assert response.data['name'].startswith(data["name"]) is True
+    assert response.data['user']['name'].startswith(data["name"]) is True
 
     # Agora, se for uma voluntária com permissão de gerenciar beneficiadas, não precisa de código de acesso
     url = reverse('create_beneficiaries')
@@ -57,5 +61,5 @@ def test_can_create_beneficiary(client: APIClient):
     data['phone'] += '2'
     response = client.post(url, data=json.dumps(data), content_type='application/json')
     assert response.status_code == 201
-    assert response.data['name'].startswith(data["name"]) is True
+    assert response.data['user']['name'].startswith(data["name"]) is True
 

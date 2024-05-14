@@ -9,8 +9,8 @@ from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, RO
     MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
-    AccessCodeFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory, \
-    CampaignFactory
+    AccessCodeFactory, UserFactory,  CampaignFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
+
 
 
 class Command(BaseCommand):
@@ -85,6 +85,15 @@ class Command(BaseCommand):
             b = BeneficiaryFactory.create(user=u)
             b.social_programs.add(*SocialProgramFactory.create_batch(2))
 
+        # Beneficiárias com trocas
+        for i in range(2):
+            identification = f"ben_swap_{i}"
+            u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+            u.groups.add(roles[ROLE_BENEFICIARY])
+
+            b = BeneficiaryFactory.create(user=u)
+            SwapFactory.create(beneficiary=b, child=ChildFactory.create(beneficiary=b))
+
         # Uma voluntária pra cada cargo
         for g in groups:
             identification = f"vol_{g.name}"
@@ -96,6 +105,6 @@ class Command(BaseCommand):
         admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
         admin_user.groups.set([*groups, roles[ROLE_VOLUNTEER]])
         VolunteerFactory.create(user=admin_user)
-
         AccessCodeFactory.create_batch(5, used=False)
         CampaignFactory.create_batch(5)
+

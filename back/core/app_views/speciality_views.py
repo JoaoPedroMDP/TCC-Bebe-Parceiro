@@ -17,7 +17,6 @@ from core.services.speciality_service import SpecialityService
 from core.utils.decorators import endpoint
 from config import MANAGE_SPECIALITIES
 from core.permissions.at_least_one_group import AtLeastOneGroup
-from core.permissions.owns_it import OwnsIt
 
 lgr = logging.getLogger(__name__)
 
