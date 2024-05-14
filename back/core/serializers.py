@@ -5,7 +5,8 @@ from django.contrib.auth.models import Group, Permission
 from rest_framework.fields import SerializerMethodField, DateTimeField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.models import (Country, Size, State, City, Swap, User, Volunteer, Professional, Speciality,
+
+from core.models import (Country, Country, Size, State, City, Swap, User, Volunteer, Professional, Speciality,
                          AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child)
 
 
@@ -121,6 +122,7 @@ class ProfessionalSerializer(ModelSerializer):
         fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled', 'approved']
 
 
+
 class SizeSerializer(ModelSerializer):
     class Meta:
         model = Size
@@ -135,3 +137,10 @@ class SwapSerializer(ModelSerializer):
     class Meta:
         model = Swap
         fields = ['id', 'cloth_size', 'shoe_size', 'description', 'status', 'beneficiary', 'child']
+
+class CampaignSerializer(ModelSerializer):
+    class Meta:
+        model = Campaign
+        fields = ['id', 'name', 'start_date', 'end_date', 'description', 'external_link']
+    
+

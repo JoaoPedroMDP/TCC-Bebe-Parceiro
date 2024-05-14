@@ -14,6 +14,7 @@ import { CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectPr
 })
 export class ListProfessionalComponent implements OnInit, OnDestroy {
 
+  
   professionals!: Professional[];
   filter!: string;
   isLoading: boolean = false;

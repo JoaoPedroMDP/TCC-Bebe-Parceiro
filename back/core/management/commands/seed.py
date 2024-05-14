@@ -9,7 +9,8 @@ from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, RO
     MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
 from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
-    AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
+    AccessCodeFactory, UserFactory,  CampaignFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
+
 
 
 class Command(BaseCommand):
@@ -104,5 +105,6 @@ class Command(BaseCommand):
         admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
         admin_user.groups.set([*groups, roles[ROLE_VOLUNTEER]])
         VolunteerFactory.create(user=admin_user)
-
         AccessCodeFactory.create_batch(5, used=False)
+        CampaignFactory.create_batch(5)
+

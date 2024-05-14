@@ -1,0 +1,51 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Ver Voluntária</h4>
+</div>
+<div class="modal-body my-2">
+    <div class="container">
+        <div>
+            <small class="bp-label-text">Nome</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.user!.name" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Telefone (com Whatsapp)</small>
+            <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000"
+                [(ngModel)]="volunteer.user!.phone" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Email</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.user!.email" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">País</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.city!.state!.country!.name" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Estado</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.city!.state!.name" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Cidade</small>
+            <input type="text" class="form-control" [(ngModel)]="volunteer.city!.name" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Funções</small>
+            <div class="bp-groups">
+                <span *ngFor="let group of volunteer.user!.groups" class="bp-group-name">
+                    <span>{{group.name}}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="editVolunteer(volunteer)">
+        <i class="fa-solid fa-pen-to-square" [title]="'Editar a voluntária: '+ volunteer.user?.name"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteVolunteer(volunteer)">
+        <i class="fa-solid fa-trash" [title]="'Excluir a voluntária: '+ volunteer.user?.name"></i>
+    </button>
+</div>

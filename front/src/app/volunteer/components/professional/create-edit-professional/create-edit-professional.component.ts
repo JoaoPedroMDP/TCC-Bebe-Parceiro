@@ -23,7 +23,7 @@ export class CreateEditProfessionalComponent implements OnInit {
   ngOnInit(): void {
     this.listSpecialities();
   }
-
+ 
   /**
    * @description Verifica a variável editMode e caso verdadeira atualiza o profissional, 
    * caso contrário salva como um novo profissional

@@ -1,0 +1,61 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-delete {
+    --bg-btn: var(--bp-light-red);
+    --color-btn: var(--bp-red);
+    border-bottom-right-radius: 5px;
+}
+
+#btn-close {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-left-radius: 5px;
+}
+
+#btn-edit {
+    --bg-btn: var(--bp-light-green);
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+.bp-modal-footer { padding: 0; }
+
+.bp-label-text {
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+
+.bp-groups {
+    display: block;
+    border-radius: 5px;
+    border: 1px solid var(--bp-input-border);
+    background-color: var(--bp-input-disabled);
+    padding: .6rem;
+}
+
+.bp-group-name {
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid var(--bp-input-border);
+    background-color: var(--bp-input-border);
+    padding: .2rem;
+    font-size: .85rem;
+    font-weight: 600;
+    margin: .2rem;
+}
+
+.form-control:disabled {
+    background-color: var(--bp-input-disabled);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .bp-button {
+        font-size: 1.2rem;
+    }
+}
