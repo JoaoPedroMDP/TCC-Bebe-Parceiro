@@ -1,0 +1,35 @@
+<div class="container">
+    <h1 class="bp-big-title">Trocas</h1>
+    <input type="text" class="form-control" placeholder="Filtrar Trocas" (input)="filterSwaps($event)" [(ngModel)]="filter" />
+    <div *ngIf="!isLoading">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome Beneficiada</th>
+                    <th>Tamanho</th>
+                    <th>Sapato</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let swap of swaps">
+                    <td>{{swap.beneficiaryName}}</td>
+                    <td>{{swap.clothingSize}}</td>
+                    <td>{{swap.shoeSize}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="isLoading" class="text-center">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Carregando dados...
+    </div>
+    <div class="bp-footer fixed-bottom">
+        <div class="bp-footer-left">
+            <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
+        </div>
+        <div class="bp-footer-right">
+            <button class="bp-button" id="bp-big-btn" (click)="newSwap()">Nova Campanha</button>
+        </div>  
+</div>
+</div>
+

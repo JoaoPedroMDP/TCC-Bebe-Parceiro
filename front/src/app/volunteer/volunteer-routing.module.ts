@@ -7,6 +7,7 @@ import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './
 import { ListSpecialitiesComponent } from './components/specialities';
 import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
+import { ListSwapComponent } from './components/swap/list-swap/list-swap.component';
 
 
 export const VolunteerRouting: Routes = [
@@ -52,6 +53,16 @@ export const VolunteerRouting: Routes = [
         data: { requiredPermissions: ['manage_volunteers'] },
         children: [
           { path: '', component: ListCampaignComponent },
+
+        ]
+      },
+
+      {
+        path: 'trocas',
+        canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_swaps'] },
+        children: [
+          { path: '', component: ListSwapComponent },
 
         ]
       },

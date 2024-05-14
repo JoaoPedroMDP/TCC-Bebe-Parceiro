@@ -14,6 +14,7 @@ import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, De
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+import { CreateEditSwapComponent, DeleteSwapComponent, InspectSwapComponent, ListSwapComponent} from './components/swap';
 
 
 
@@ -54,7 +55,12 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     ListCampaignComponent,
     DeleteCampaignComponent,
     InspectCampaignComponent,
-    // FUNÇÕES
+    // TROCAS
+    CreateEditSwapComponent, 
+    DeleteSwapComponent, 
+    InspectSwapComponent, 
+    ListSwapComponent,
+
     
   ],
   imports: [
