@@ -20,4 +20,5 @@ class AtLeastOneGroup(BasePermission):
             if g.name in view.groups:
                 return True
 
+        lgr.warning("Usuário não pertence a nenhum dos grupos permitidos")
         return False

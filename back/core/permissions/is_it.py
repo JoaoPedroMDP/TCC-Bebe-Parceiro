@@ -21,4 +21,6 @@ class IsIt(BasePermission):
         model: TimestampedModel = self.URIS_MODELS.get(uri)
 
         item = model.objects.filter(id=int(obj_id), user=request.user).first()
-        return item is not None
+        has = item is not None 
+        has or lgr.warning("Usuário não é dono do objeto")
+        return has

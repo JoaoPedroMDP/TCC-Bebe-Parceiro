@@ -1,4 +1,5 @@
 #  coding: utf-8
+from typing import Dict
 from core.cqrs import Query, Field, Validator
 
 
@@ -23,13 +24,15 @@ class ListSwapQuery(Query):
         Field("shoe_size", "object", False),
         Field("description", "string", False),
         Field("child", "object", False),
+        Field("status", "string", False),
     ]
 
-    def __init__(self, cloth_size: dict = None, shoe_size: dict = None, description: str = None, child: dict = None):
+    def __init__(self, cloth_size: dict = None, shoe_size: dict = None, description: str = None, child: dict = None, status: str = None):
         self.cloth_size = cloth_size
         self.shoe_size = shoe_size
         self.description = description
         self.child = child
+        self.status = status
         self.user = None
 
     @staticmethod
@@ -37,3 +40,8 @@ class ListSwapQuery(Query):
     def from_dict(args: dict) -> 'ListSwapQuery':
         data = Validator.validate_and_extract(ListSwapQuery.fields, args)
         return ListSwapQuery(**data)
+
+    def to_dict(self) -> Dict:
+        data = super().to_dict()
+        del data['user']
+        return data
