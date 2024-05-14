@@ -19,7 +19,7 @@ class CreateProfessionalCommand(Command):
     ]
 
     def __init__(self, name: str, phone: str, speciality_id: int,
-                 accepted_volunteer_terms: bool, approved: bool,):
+                 accepted_volunteer_terms: bool, approved: bool = None):
         self.name = name
         self.phone = phone
         self.speciality_id = speciality_id
@@ -31,6 +31,8 @@ class CreateProfessionalCommand(Command):
     def from_dict(args: dict) -> 'CreateProfessionalCommand':
         data = Validator.validate_and_extract(CreateProfessionalCommand.fields, args)
         check_for_duplicity(data)
+        if not data['accepted_volunteer_terms']:
+            raise AssertionError("Termos de voluntariado não aceitos")
         return CreateProfessionalCommand(**data)
 
 

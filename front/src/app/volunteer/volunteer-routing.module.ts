@@ -8,6 +8,10 @@ import { ListSpecialitiesComponent } from './components/specialities';
 import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
 
+import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
+import { ListSwapComponent } from './components/swap/list-swap/list-swap.component';
+
+
 
 export const VolunteerRouting: Routes = [
   {
@@ -47,6 +51,7 @@ export const VolunteerRouting: Routes = [
       },
 
       {
+
         path: 'campanhas',
         canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['manage_volunteers'] },
@@ -57,6 +62,14 @@ export const VolunteerRouting: Routes = [
       },
 
 
+        path: 'trocas',      // TROCAS
+        canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['manage_swaps'] },
+        children: [
+          { path: '', component: ListSwapComponent },
+          // { path: 'pendentes', component: ListPendingProfessionalsComponent },
+        ]
+      },
     ]
   },
 ];

@@ -6,9 +6,9 @@ import pytest
 from django.contrib.auth.models import Group
 from rest_framework.test import APIClient
 
-from config import GROUPS, ROLES
+from config import GROUPS, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLES
 from core.models import User
-from factories import GroupFactory, UserFactory
+from factories import BeneficiaryFactory, ChildFactory, GroupFactory, UserFactory, VolunteerFactory
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -35,8 +35,26 @@ def client():
     return APIClient()
 
 
-def make_user(u_permissions: List[str]):
+def make_user(u_permissions: List[str]) -> User:
     groups = Group.objects.filter(name__in=u_permissions)
-    user: User = UserFactory.create(username="user", password="user")
+    user: User = UserFactory.create()
     user.groups.add(*groups)
     return user
+
+
+def make_volunteer(roles: List[str] = []):
+    v_user = make_user([ROLE_VOLUNTEER, *roles])
+    vol = VolunteerFactory.create(user=v_user)
+    return vol
+
+
+def make_beneficiary(**kwargs):
+    b_user = make_user([ROLE_BENEFICIARY])
+    ben = BeneficiaryFactory.create(user=b_user, **kwargs)
+    return ben
+
+
+def make_beneficiary_with_children(**kwargs):
+    ben = make_beneficiary(**kwargs)
+    children = ChildFactory.create_batch(2, beneficiary=ben)
+    return ben, children

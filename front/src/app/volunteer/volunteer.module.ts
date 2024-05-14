@@ -14,6 +14,10 @@ import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, De
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+import { ListSwapComponent } from './components/swap/list-swap/list-swap.component';
+import { InspectSwapComponent } from './components/swap/inspect-swap/inspect-swap.component';
+import { DeleteSwapComponent } from './components/swap/delete-swap/delete-swap.component';
+import { CreateEditSwapComponent } from './components/swap/create-edit-swap/create-edit-swap.component';
 
 
 
@@ -54,8 +58,16 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     ListCampaignComponent,
     DeleteCampaignComponent,
     InspectCampaignComponent,
-    // FUNÇÕES
+ 
     
+
+    // TROCAS
+    ListSwapComponent,
+    ListSwapComponent,
+    InspectSwapComponent,
+    DeleteSwapComponent,
+    CreateEditSwapComponent,
+
   ],
   imports: [
     CommonModule,
