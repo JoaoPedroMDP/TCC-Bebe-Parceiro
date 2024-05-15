@@ -80,7 +80,7 @@ listSwaps(): Observable<any> {
 
   // Deleta uma troca existente
   deleteSwap(id: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}${id}`, { headers: this.authService.getHeaders() })
+    return this.http.delete(`${this.baseURL}swaps/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this._refreshPage$.next()),
         catchError(error => throwError(() => new Error(`Erro ao deletar troca: ${error.message}`)))
