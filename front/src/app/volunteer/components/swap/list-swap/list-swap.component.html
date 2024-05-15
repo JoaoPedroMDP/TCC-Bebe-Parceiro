@@ -1,35 +1,52 @@
 <div class="container">
     <h1 class="bp-big-title">Trocas</h1>
-    <input type="text" class="form-control" placeholder="Filtrar Trocas" (input)="filterSwaps($event)" [(ngModel)]="filter" />
-    <div *ngIf="!isLoading">
-        <table class="table table-hover table-striped">
+    <input type="text" class="form-control" placeholder="Filtrar Trocas" (input)="filterSwap($event)"
+    [(ngModel)]="filter" />
+    <div>
+        <table class="table table-hover table-striped" *ngIf="!isLoading">
             <thead class="table-dark">
                 <tr>
-                    <th>Nome Beneficiada</th>
-                    <th>Tamanho</th>
+                    <th>Descrição</th>
+                    <th>Tamanho de Roupa</th>
                     <th>Sapato</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let swap of swaps">
-                    <td>{{swap.beneficiaryName}}</td>
-                    <td>{{swap.clothingSize}}</td>
-                    <td>{{swap.shoeSize}}</td>
+                <tr *ngFor="let swap of swaps"
+                    [title]="'Clique para ver mais dados da troca: '+ swap.description">
+                    <td class="align-middle" (click)="inspectSwap(swap)">{{swap.description}}</td>
+                    <td class="align-middle">{{swap.cloth_size?.name}}</td>
+                    <td class="align-middle">{{swap.shoe_size?.name}}</td>
+                    <td>
+                        <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editSwap(swap)"
+                            [title]="'Editar a troca: '+ swap.description"></i>
+                        <i class="fa-solid fa-trash col-12 col-md-2" (click)="deleteSwap(swap)"
+                        [title]="'Excluir a troca: '+ swap.description"></i>
+                    </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div *ngIf="isLoading" class="text-center">
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Carregando dados...
+        <div *ngIf="isLoading" class="text-center text-dark">
+            <button class="btn btn-dark mt-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Carregando dados...
+            </button>
+        </div>
     </div>
     <div class="bp-footer fixed-bottom">
-        <div class="bp-footer-left">
-            <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
+        <div class="d-flex flex-column">
+            <div class="bp-footer-left">
+                <button class="bp-button" id="bp-big-btn" routerLink="pendentes">Trocas Pendentes</button>
+            </div>
+            <div class="bp-footer-left">
+                <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
+            </div>
         </div>
-        <div class="bp-footer-right">
-            <button class="bp-button" id="bp-big-btn" (click)="newSwap()">Nova Campanha</button>
-        </div>  
+        <div class="d-flex flex-column">
+            <div class="bp-footer-right">
+                <button class="bp-button" id="bp-big-btn" (click)="newSwap()">Nova Troca</button>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-

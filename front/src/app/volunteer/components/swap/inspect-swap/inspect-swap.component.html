@@ -4,22 +4,27 @@
 <div class="modal-body my-3">
     <div class="container">
         <div>
-            <small class="bp-label-text">Nome Beneficiada</small>
-            <input type="text" class="form-control" [(ngModel)]="swap.beneficiaryName" disabled>
+            <small class="bp-label-text">Descrição</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.description" disabled>
         </div>
         <div class="my-3">
-            <small class="bp-label-text">Tamanho</small>
-            <input type="text" class="form-control" [(ngModel)]="swap.clothingSize" disabled>
+            <small class="bp-label-text">Tamanho da Roupa</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.cloth_size!.name" disabled>
         </div>
         <div>
-            <small class="bp-label-text">Sapato</small>
-            <input type="text" class="form-control" [(ngModel)]="swap.shoeSize" disabled>            
+            <small class="bp-label-text">Tamanho do Sapato</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.shoe_size!.name" disabled>            
         </div>
     </div>
 </div>
 <div class="bp-modal-footer justify-content-center align-items-center">
-    <button type="button" class="bp-button col-4" id="btn-close" (click)="close()">
-        <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
+    <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid fa-xmark" title="Voltar para a listagem"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="editSwap(swap)">
+        <i class="fa-solid fa-pen-to-square" title="Editar a troca"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteSwap(swap)">
+        <i class="fa-solid fa-trash" title="Excluir a troca"></i>
     </button>
 </div>
-

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
-import { Swap } from 'src/app/shared/models/swap/swap.model';
-import { SwapService } from 'src/app/shared';
+import { Swap } from 'src/app/shared/models/swap';
+import { SwapService } from 'src/app/volunteer/services/swap.service';
 import { CreateEditSwapComponent, DeleteSwapComponent, InspectSwapComponent } from '../index';
 
 @Component({
@@ -12,41 +13,57 @@ import { CreateEditSwapComponent, DeleteSwapComponent, InspectSwapComponent } fr
   styleUrls: ['./list-swap.component.css']
 })
 export class ListSwapComponent implements OnInit, OnDestroy {
+
   swaps!: Swap[];
   filter!: string;
   isLoading: boolean = false;
   subscription: Subscription | undefined;
 
-  constructor(private modalService: NgbModal, private swapService: SwapService) { }
+  constructor(private modalService: NgbModal, private router: Router, private swapService: SwapService) { }
 
   ngOnInit(): void {
-    this.listSwaps();
+    this.listSwaps(false);
     this.subscription = this.swapService.refreshPage$.subscribe(() => {
-      this.listSwaps();
-    });
+      this.listSwaps(false);
+    })
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
-  listSwaps() {
-    this.isLoading = true;
+  listSwaps(isFiltering: boolean) {
+    this.isLoading = true; // Flag de carregamento
     this.swapService.listSwaps().subscribe({
       next: (response) => {
         this.swaps = response;
-        this.swaps.sort((a, b) => a.beneficiaryName.localeCompare(b.beneficiaryName));
+        // Ordena por descrição de forma segura, verificando por valores nulos ou indefinidos
+        this.swaps.sort((a, b) => (a.description ?? '').localeCompare(b.description ?? ''));
       },
-      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
-      complete: () => this.isLoading = false
+      error: (e) => {
+        SwalFacade.error("Ocorreu um erro!", e); // Manipula erros
+        this.isLoading = false; // Desativa a flag de carregamento em caso de erro
+      },
+      complete: () => {
+        if (isFiltering) {
+          // Aplica o filtro apenas se necessário, garantindo que description não seja undefined
+          this.swaps = this.swaps.filter(swap => swap.description?.toLowerCase().includes(this.filter.toLowerCase()));
+        }
+        this.isLoading = false; // Desativa a flag de carregamento após completar a operação
+      }
     });
-  }
+}
 
-  filterSwaps(event: Event) {
-    if (event !== undefined && this.filter !== '') {
-      this.swaps = this.swaps.filter(swap => swap.beneficiaryName.toLowerCase().includes(this.filter.toLowerCase()));
-    } else {
-      this.listSwaps();
+
+
+  filterSwap(event: Event) {
+    if (event != undefined) {
+      this.swaps = [];
+      if (this.filter != '') {
+        this.listSwaps(true);
+      } else {
+        this.listSwaps(false);
+      }
     }
   }
 
@@ -57,7 +74,7 @@ export class ListSwapComponent implements OnInit, OnDestroy {
 
   newSwap() {
     let modalRef = this.modalService.open(CreateEditSwapComponent, { size: 'xl' });
-    modalRef.componentInstance.swap = new Swap('', '', '', ''); // Adjust with appropriate defaults or create a method to initialize
+    modalRef.componentInstance.swap = new Swap();
     modalRef.componentInstance.editMode = false;
   }
 
@@ -68,7 +85,6 @@ export class ListSwapComponent implements OnInit, OnDestroy {
   }
 
   deleteSwap(swap: Swap) {
-    let modalRef = this.modalService.open(DeleteSwapComponent, { size: 'xl' });
-    modalRef.componentInstance.swap = swap;
+    this.modalService.open(DeleteSwapComponent, { size: 'xl' }).componentInstance.swap = swap;
   }
 }

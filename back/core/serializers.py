@@ -6,7 +6,7 @@ from rest_framework.fields import SerializerMethodField, DateTimeField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
 
-from core.models import (Country, Country, Size, State, City, Swap, User, Volunteer, Professional, Speciality,
+from core.models import (Campaign, Country, Country, Size, State, City, Swap, User, Volunteer, Professional, Speciality,
                          AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child)
 
 

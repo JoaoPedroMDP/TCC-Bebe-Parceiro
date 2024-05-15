@@ -4,8 +4,8 @@
 <div class="modal-body my-3">
     <div class="container">
         <p class="text-center">
-            <span>Você tem certeza que deseja excluir a troca para: </span>
-            <strong>{{swap.beneficiaryName}}</strong>
+            <span>Você tem certeza que deseja excluir a troca: </span>
+            <strong>{{swap.description}}</strong>
         </p>
         <p class="text-center">Esta ação não poderá ser desfeita.</p>
     </div>
@@ -14,4 +14,3 @@
     <button type="submit" class="bp-button col-6" id="btn-delete" (click)="deleteSwap()">Excluir</button>
     <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">Cancelar</button>
 </div>
-

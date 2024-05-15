@@ -1,27 +1,39 @@
-export class Swap {
-    id?: number;                 // Identificador único para a troca
-    beneficiaryName: string;    // Nome da pessoa beneficiada pela troca
-    clothingSize: string;       // Tamanho da peça de roupa
-    shoeSize: string;           // Tamanho do sapato
-    status?: string;            // Status da troca (pendente, concluída, etc.)
-    createdAt?: Date;           // Data de criação da troca
-    updatedAt?: Date;           // Data da última atualização da troca
 
-    constructor(
-        beneficiaryName: string,
-        clothingSize: string,
-        shoeSize: string,
-        status?: string,
-        id?: number,
-        createdAt?: Date,
-        updatedAt?: Date
-    ) {
-        this.id = id;
-        this.beneficiaryName = beneficiaryName;
-        this.clothingSize = clothingSize;
-        this.shoeSize = shoeSize;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+import { Beneficiary, Child } from "../beneficiary";
+import { Status } from "./status.model";
+import { Size } from "./size.model";
+
+export class Swap {
+  constructor(
+    public id?: number,
+    public cloth_size?: Size,
+    public shoe_size?: Size,
+    public description?: string,
+    public status?: Status,
+    public beneficiary?: Beneficiary,
+    public child?: Child
+  ) { }
+}
+
+// Para representar o modelo de POST, onde apenas os IDs são enviados
+export class SwapPOST {
+  constructor(
+    public id?: number,
+    public cloth_size_id?: number,
+    public shoe_size_id?: number,
+    public description?: string,
+    public status_id?: number,
+    public beneficiary_id?: number,
+    public child_id?: number
+  ) { }
+
+  transformObjectToEdit(swap: Swap) {
+    this.id = swap.id;
+    this.cloth_size_id = swap.cloth_size?.id;
+    this.shoe_size_id = swap.shoe_size?.id;
+    this.description = swap.description;
+    this.status_id = swap.status?.id;
+    this.beneficiary_id = swap.beneficiary?.id;
+    this.child_id = swap.child?.id;
+  }
 }

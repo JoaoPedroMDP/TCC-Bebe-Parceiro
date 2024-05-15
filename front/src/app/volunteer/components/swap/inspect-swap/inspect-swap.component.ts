@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Swap } from 'src/app/shared/models/swap/swap.model';
+import { Swap } from 'src/app/shared/models/swap';
+import { DeleteSwapComponent } from '../delete-swap/delete-swap.component';
 import { CreateEditSwapComponent } from '../create-edit-swap/create-edit-swap.component';
-import { DeleteSwapComponent } from '../delete-swap/delete-swap.component'; // Asumindo que você tenha um componente para deletar
 
 @Component({
   selector: 'app-inspect-swap',
@@ -13,36 +13,26 @@ export class InspectSwapComponent implements OnInit {
 
   @Input() swap!: Swap;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private modalService: NgbModal
-  ) { }
+  constructor(public activeModal: NgbActiveModal, public modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
 
   /**
-   * Abre o modal de edição para a troca atual.
+   * Abre o modal de edição para a troca
    */
-  editSwap() {
-    this.activeModal.close(); // Fecha o modal de inspeção antes de abrir o de edição
-    const modalRef = this.modalService.open(CreateEditSwapComponent, { size: 'lg' });
-    modalRef.componentInstance.swap = this.swap; // Passa a troca atual para o componente de edição
+  editSwap(swap: Swap) {
+    this.activeModal.close(); // Fecha o modal atual de visualização
+    let modalRef = this.modalService.open(CreateEditSwapComponent, { size: 'xl' })
+    modalRef.componentInstance.swap = swap;
+    modalRef.componentInstance.editMode = true;
   }
 
   /**
-   * Abre o modal de exclusão para a troca atual.
+   * Abre o modal de exclusão para a troca
    */
-  deleteSwap() {
-    this.activeModal.close(); // Fecha o modal de inspeção antes de abrir o de exclusão
-    const modalRef = this.modalService.open(DeleteSwapComponent, { size: 'lg' });
-    modalRef.componentInstance.swap = this.swap; // Passa a troca atual para o componente de exclusão
-  }
-
-  /**
-   * Fecha o modal atual.
-   */
-  close() {
-    this.activeModal.close();
+  deleteSwap(swap: Swap) {
+    this.activeModal.close(); // Fecha o modal atual de visualização
+    this.modalService.open(DeleteSwapComponent, { size: 'xl' }).componentInstance.swap = swap;
   }
 }
