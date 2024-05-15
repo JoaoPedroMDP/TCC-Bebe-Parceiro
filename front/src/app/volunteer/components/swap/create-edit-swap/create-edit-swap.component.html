@@ -22,14 +22,14 @@
                 <small class="bp-label-text">Tamanho da Roupa</small>
                 <select class="form-select" [(ngModel)]="swap.cloth_size_id" name="cloth_size" required>
                     <option [value]="undefined"> --- </option>
-                    <option [value]="size.id" *ngFor="let size of clothSizes">{{size.name}}</option>
+                    <option [value]="size.id" *ngFor="let size of sizes">{{size.name}}</option>
                 </select>
             </div>
             <div class="my-3">
                 <small class="bp-label-text">Tamanho do Sapato</small>
                 <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size" required>
                     <option [value]="undefined"> --- </option>
-                    <option [value]="size.id" *ngFor="let size of shoeSizes">{{size.name}}</option>
+                    <option [value]="size.id" *ngFor="let size of sizes">{{size.name}}</option>
                 </select>
             </div>
             <div class="my-3">

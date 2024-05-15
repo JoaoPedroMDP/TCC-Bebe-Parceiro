@@ -88,10 +88,12 @@ listSwaps(): Observable<any> {
   }
 
   // Lista tamanhos de roupas e sapatos
-  listSizes(): Observable<{ clothSizes: Size[], shoeSizes: Size[] }> {
-    return this.http.get<{ clothSizes: Size[], shoeSizes: Size[] }>(`${this.baseURL}sizes`, { headers: this.authService.getHeaders() })
+  listSizes(): Observable<any> {
+    return this.http.get(`${this.baseURL}sizes`, { headers: this.authService.getHeaders() })
       .pipe(
-        catchError(error => throwError(() => new Error(`Erro ao listar tamanhos: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 

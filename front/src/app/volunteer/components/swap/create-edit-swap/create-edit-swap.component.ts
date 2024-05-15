@@ -15,15 +15,14 @@ export class CreateEditSwapComponent implements OnInit {
 
   @Input() swap!: SwapPOST;
   @Input() editMode!: boolean;
-  clothSizes!: Size[];
-  shoeSizes!: Size[];
+  sizes!: Size[];
   beneficiaries!: Beneficiary[];
   children!: Child[];
 
   constructor(public activeModal: NgbActiveModal, private swapService: SwapService) { }
 
   ngOnInit(): void {
-    this.swap.beneficiary_id ??= 0;
+    this.swap.beneficiary_id;
     this.listBeneficiaries();
     this.listSizes();
   }
@@ -39,14 +38,18 @@ export class CreateEditSwapComponent implements OnInit {
 
   listSizes() {
     this.swapService.listSizes().subscribe({
-      next: (data: {clothSizes: Size[], shoeSizes: Size[]}) => {
-        this.clothSizes = data?.clothSizes || [];
-        this.shoeSizes = data?.shoeSizes || [];
+      next: (data: Size[]) => {
+        if (data == null) {
+          this.sizes =  [];
+        } else {
+          this.sizes = data;
+        }
       },
-      error: (e) => SwalFacade.error('Erro ao listar tamanhos', e)
-    });
+      error: (e) => SwalFacade.error('Erro ao listar os dados de Especialidades', e)
+    })
   }
 
+ 
   save() {
     if (this.editMode) {
       this.swapService.editSwap(this.swap.id!, this.swap).subscribe({
