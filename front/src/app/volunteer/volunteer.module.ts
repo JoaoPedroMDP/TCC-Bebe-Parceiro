@@ -15,6 +15,7 @@ import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialit
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 import { CreateEditSwapComponent, DeleteSwapComponent, InspectSwapComponent, ListSwapComponent} from './components/swap';
+import { ApproveRefuseSwapComponent } from './components/swap/approve-refuse-swap/approve-refuse-swap.component';
 
 
 
@@ -59,7 +60,7 @@ import { CreateEditSwapComponent, DeleteSwapComponent, InspectSwapComponent, Lis
     CreateEditSwapComponent, 
     DeleteSwapComponent, 
     InspectSwapComponent, 
-    ListSwapComponent,
+    ListSwapComponent, ApproveRefuseSwapComponent,
 
     
   ],
