@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BeneficiaryService } from '../../services/beneficiary.service';
+import { Child, Size, SwalFacade, SwapPOST } from 'src/app/shared';
 
 @Component({
   selector: 'app-request-swap',
@@ -11,15 +12,38 @@ import { BeneficiaryService } from '../../services/beneficiary.service';
 export class RequestSwapComponent implements OnInit {
 
   @ViewChild('form') form!: NgForm;
+  swap!: SwapPOST;
   showSuccess!: boolean;
-  // accessCodes!: AccessCode[];
+
+  children!: Child[];
+  sizes!: Size[];
 
   constructor(public activeModal: NgbActiveModal, private beneficiaryService: BeneficiaryService) { }
 
   ngOnInit(): void {
+    this.swap = new SwapPOST();
+
+    this.listChildren();
+    this.listSizes();
   }
 
-  requestTrade(){
+  listChildren() {
+    this.beneficiaryService.listChildren().subscribe({
+      next: (response: Child[]) => this.children = response,
+      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos", e)
+    });
+  }
+
+  listSizes() {
+    this.beneficiaryService.listSizes().subscribe({
+      next: (response: Size[]) => this.sizes = response,
+      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos", e)
+    });
+  }
+
+  requestTrade() {
+    console.log(this.swap);
+    
     this.showSuccess = !this.showSuccess
   }
 }

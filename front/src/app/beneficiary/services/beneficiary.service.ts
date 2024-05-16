@@ -70,4 +70,29 @@ export class BeneficiaryService {
       );
   }
 
+  /**
+   * @description Faz um GET para pegar os dados dos filhos da beneficiada
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listChildren(): Observable<any> {
+    return this.http.get(`${this.baseURL}children`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Faz um GET para pegar os dados dos tamanhos de roupa
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listSizes(): Observable<any> {
+    return this.http.get(`${this.baseURL}sizes`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
 }
