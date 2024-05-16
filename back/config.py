@@ -71,8 +71,8 @@ ROLES = [ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_PENDING_BENEFICIARY]
 
 
 # Tamanhos
-CLOTH_TYPE = "cloth"
-SHOE_TYPE = "shoe"
+CLOTH_TYPE = "Roupa"
+SHOE_TYPE = "Sapato"
 
 P = "P"
 M = "M"
