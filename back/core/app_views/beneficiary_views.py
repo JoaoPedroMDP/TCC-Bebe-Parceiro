@@ -33,7 +33,7 @@ class BeneficiaryCreationByVolunteerView(BaseView):
 
     @endpoint
     def post(self, request: Request, format=None):
-        lgr.debug("----CREATE_BENEFITED----")
+        lgr.debug("----CREATE_BENEFICIARY----")
         command: CreateBeneficiaryCommand = CreateBeneficiaryCommand.from_dict({
             **request.data,
             'user': request.user
@@ -64,7 +64,7 @@ class BeneficiaryGenericViews(BaseView):
 
     @endpoint
     def post(self, request: Request, format=None):
-        lgr.debug("----CREATE_BENEFITED----")
+        lgr.debug("----CREATE_BENEFICIARY----")
         command: CreateBeneficiaryCommand = CreateBeneficiaryCommand.from_dict(request.data)
         new_beneficiary: Beneficiary = BeneficiaryService.create(command)
 
@@ -77,7 +77,7 @@ class BeneficiarySpecificViews(BaseView):
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
-        lgr.debug("----PATCH_BENEFITED----")
+        lgr.debug("----PATCH_BENEFICIARY----")
         data = copy(request.data)
         data['id'] = pk
 
@@ -88,7 +88,7 @@ class BeneficiarySpecificViews(BaseView):
 
     @endpoint
     def delete(self, request: Request, pk, format=None):
-        lgr.debug("----DELETE_BENEFITED----")
+        lgr.debug("----DELETE_BENEFICIARY----")
         beneficiary: Beneficiary = BeneficiaryRepository.get(pk)
         command_user: DeleteUserCommand = DeleteUserCommand.from_dict({'id': beneficiary.user_id})
         command: DeleteBeneficiaryCommand = DeleteBeneficiaryCommand.from_dict({'id': int(pk)})
@@ -109,7 +109,7 @@ class BeneficiarySpecificViews(BaseView):
 
     @endpoint
     def get(self, request: Request, pk, format=None):
-        lgr.debug("----GET_BENEFITED----")
+        lgr.debug("----GET_BENEFICIARY----")
         query: GetBeneficiaryQuery = GetBeneficiaryQuery.from_dict({"id": pk})
         beneficiary: Beneficiary = BeneficiaryService.get(query)
         if beneficiary:

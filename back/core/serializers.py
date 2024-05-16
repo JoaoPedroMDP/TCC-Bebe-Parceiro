@@ -75,12 +75,12 @@ class UserSerializer(ModelSerializer):
 
 
 class ChildSerializer(ModelSerializer):
-    benefited_id = SlugRelatedField(slug_field='id', read_only=True, source='beneficiary')
+    beneficiary_id = SlugRelatedField(slug_field='id', read_only=True, source='beneficiary')
     birth_date = DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = Child
-        fields = ['id', 'name', 'birth_date', 'sex', 'benefited_id']
+        fields = ['id', 'name', 'birth_date', 'sex', 'beneficiary_id']
 
 
 class BeneficiarySerializer(ModelSerializer):
