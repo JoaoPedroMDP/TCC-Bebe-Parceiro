@@ -8,7 +8,7 @@ from tests.conftest import make_volunteer
 
 @pytest.mark.django_db
 def test_can_create_size(client: APIClient):
-    data = {'name': "TCCS"}
+    data = {'name': "TCCS", "type": "CLOTH"}
 
     url = reverse('gen_sizes')
     vol = make_volunteer([MANAGE_SIZES])

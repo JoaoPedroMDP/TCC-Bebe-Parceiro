@@ -142,6 +142,7 @@ class SizeFactory(EnablableModelFactory):
         model = Size
 
     name = factory.Faker('word')
+    type = factory.Faker('word')
 
 
 class StatusFactory(EnablableModelFactory):

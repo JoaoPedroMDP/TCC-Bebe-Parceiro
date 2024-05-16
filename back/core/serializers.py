@@ -124,7 +124,7 @@ class ProfessionalSerializer(ModelSerializer):
 class SizeSerializer(ModelSerializer):
     class Meta:
         model = Size
-        fields = ['id', 'name', 'enabled']
+        fields = ['id', 'name', 'enabled', 'type']
 
 class SwapSerializer(ModelSerializer):
     beneficiary = BeneficiarySerializer(read_only=True)

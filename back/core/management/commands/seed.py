@@ -5,10 +5,10 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, STATUSES, \
+from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, SHOE_SIZES, SHOE_TYPE, STATUSES, \
     MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
-from factories import MaritalStatusFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
+from factories import MaritalStatusFactory, SizeFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
 
 
@@ -33,9 +33,6 @@ class Command(BaseCommand):
         for r in ROLES:
             roles[r] = GroupFactory.create(name=r)
 
-        if not options['test']:
-            return
-
         # Estados civis
         for m in MARITAL_STATUSES:
             MaritalStatusFactory.create(name=m, enabled=True)
@@ -47,6 +44,19 @@ class Command(BaseCommand):
         # Status
         for s in STATUSES:
             StatusFactory.create(name=s, enabled=True)
+        
+        for s in SHOE_SIZES:
+            SizeFactory.create(name=s, type=SHOE_TYPE)
+        
+        for s in CLOTH_SIZES:
+            SizeFactory.create(name=s, type=CLOTH_TYPE)
+        
+        admin_user = UserFactory.create(username="admin", password="admin", first_name="Administradora")
+        admin_user.groups.set([*groups, roles[ROLE_VOLUNTEER]])
+        VolunteerFactory.create(user=admin_user)
+
+        if not options['test']:
+            return
 
         # Beneficiárias esperando por aprovação
         for i in range(5):
@@ -100,9 +110,5 @@ class Command(BaseCommand):
             u.groups.set([g, roles[ROLE_VOLUNTEER]])
             VolunteerFactory.create(user=u)
 
-        # E uma voluntária admin
-        admin_user = UserFactory.create(username="admin", password="admin", first_name="Isabela")
-        admin_user.groups.set([*groups, roles[ROLE_VOLUNTEER]])
-        VolunteerFactory.create(user=admin_user)
-
         AccessCodeFactory.create_batch(5, used=False)
+        

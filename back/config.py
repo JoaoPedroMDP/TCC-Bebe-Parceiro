@@ -70,6 +70,19 @@ ROLE_VOLUNTEER = "role_volunteer"
 ROLES = [ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_PENDING_BENEFICIARY]
 
 
+# Tamanhos
+CLOTH_TYPE = "cloth"
+SHOE_TYPE = "shoe"
+
+P = "P"
+M = "M"
+G = "G"
+ONE_YEAR = "1 ano"
+TWO_YEARS = "2 anos"
+
+SHOE_SIZES = [i for i in range(13, 23)]
+CLOTH_SIZES = [P, M, G, ONE_YEAR, TWO_YEARS]
+
 # Ambiente
 ENV = os.getenv("ENV", "dev")
 
