@@ -3,50 +3,50 @@
         <h1>Bem vinda {{user.user?.name}}!</h1>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias" [class.bp-disabled]="!hasGroup('manage_volunteers')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias" [class.bp-disabled]="!hasGroup('Voluntárias')">
             <span>Voluntárias</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades"  [class.bp-disabled]="!hasGroup('manage_specialities')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades"  [class.bp-disabled]="!hasGroup('Especialidades')">
             <span>Especialidades</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas" [class.bp-disabled]="!hasGroup('manage_campaigns')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="campanhas" [class.bp-disabled]="!hasGroup('Campanhas')">
             <span>Campanhas</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios" [class.bp-disabled]="!hasGroup('relatorios')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios" [class.bp-disabled]="!hasGroup('manage_relatorios')">
             <span>Relatórios</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="funcoes" [class.bp-disabled]="!hasGroup('funcoes')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="funcoes" [class.bp-disabled]="!hasGroup('manage_funcoes')">
             <span>Funções</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios" [class.bp-disabled]="!hasGroup('prontuarios')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios" [class.bp-disabled]="!hasGroup('manage_prontuarios')">
             <span>Prontuários</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="beneficiadas" [class.bp-disabled]="!hasGroup('manage_beneficiaries')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="beneficiadas" [class.bp-disabled]="!hasGroup('Beneficiárias')">
             <span>Beneficiadas</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="trocas" [class.bp-disabled]="!hasGroup('manage_swaps')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="trocas" [class.bp-disabled]="!hasGroup('Trocas')">
             <span>Trocas</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="atendimentos" [class.bp-disabled]="!hasGroup('manage_appointments')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="atendimentos" [class.bp-disabled]="!hasGroup('Agendamentos')">
             <span>Atendimentos</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="profissionais" [class.bp-disabled]="!hasGroup('manage_professionals')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="profissionais" [class.bp-disabled]="!hasGroup('Profissionais')">
             <span>Profissionais</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="solitacoes" [class.bp-disabled]="!hasGroup('manage_beneficiaries')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="solitacoes" [class.bp-disabled]="!hasGroup('Admissões')">
             <span>Solicitações de cadastro</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" (click)="openAcessCodesModal()" [class.bp-disabled]="!hasGroup('manage_access_codes')">
+        <a class="col-10 col-lg-5 bp-menu-option" (click)="openAcessCodesModal()" [class.bp-disabled]="!hasGroup('Códigos de acesso')">
             <span>Códigos de acesso</span>
         </a>
     </div>

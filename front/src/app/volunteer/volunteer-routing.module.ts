@@ -20,7 +20,7 @@ export const VolunteerRouting: Routes = [
       {
         path: 'beneficiadas',      // BENEFICIADAS
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_beneficiaries'] },
+        data: { requiredPermissions: ['Beneficiárias'] },
         children: [
           { path: '', component: ListBeneficiaryComponent },
           { path: 'criar', component: CreateBeneficiaryComponent },
@@ -30,12 +30,12 @@ export const VolunteerRouting: Routes = [
       },
       {
         path: 'voluntarias', component: ListVolunteerComponent, canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_volunteers'] }
+        data: { requiredPermissions: ['Voluntárias'] }
       },
       {
         path: 'profissionais',      // PROFISSIONAL
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_professionals'] },
+        data: { requiredPermissions: ['Profissionais'] },
         children: [
           { path: '', component: ListProfessionalComponent },
           { path: 'pendentes', component: ListPendingProfessionalsComponent },
@@ -43,13 +43,13 @@ export const VolunteerRouting: Routes = [
       },
       {
         path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_specialities'] },
+        data: { requiredPermissions: ['Especialidades'] },
       },
 
       {
         path: 'campanhas',
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_volunteers'] },
+        data: { requiredPermissions: ['Campanhas'] },
         children: [
           { path: '', component: ListCampaignComponent },
 
