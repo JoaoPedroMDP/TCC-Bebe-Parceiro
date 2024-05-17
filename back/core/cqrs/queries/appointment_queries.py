@@ -27,17 +27,17 @@ class GetAppointmentQuery(Query):
 
 class ListAppointmentQuery(Query):
     fields = [
-        Field('beneficiary_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('volunteer_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('professional_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('speciality_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('status_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('date', datetime, required=False, formatter=format_date),
-        Field('time', datetime, required=False, formatter=format_time),
+        Field('beneficiary_id', 'integer',  False, formatter=lambda x: int(x)),
+        Field('volunteer_id', 'integer', False, formatter=lambda x: int(x)),
+        Field('professional_id', 'integer', False, formatter=lambda x: int(x)),
+        Field('speciality_id', 'integer', False, formatter=lambda x: int(x)),
+        Field('status_id', 'integer', False, formatter=lambda x: int(x)),
+        Field('date', 'datetime', False, formatter=format_date),
+        Field('time', 'datetime', False, formatter=format_time),
     ]
 
-    def __init__(self, beneficiary_id: int, date: datetime, time: datetime,
-                 professional_id: int = None, volunteer_id: int = None, speciality_id: int = None, status_id: int = None
+    def __init__(self, beneficiary_id: int = None, volunteer_id: int = None, professional_id: int = None, speciality_id: int = None, status_id: int = None,
+                 date: datetime = None, time: datetime = None
                  ):
         self.beneficiary_id = beneficiary_id
         self.date = date

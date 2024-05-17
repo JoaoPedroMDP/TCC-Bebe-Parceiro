@@ -1,6 +1,10 @@
 #  coding: utf-8
+from typing import List
+
 from config import PENDING, ROLE_BENEFICIARY, APPROVED
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
+from core.cqrs.queries.appointment_queries import ListAppointmentQuery
+from core.models import Appointment
 from core.repositories.appointment_repository import AppointmentRepository
 from core.repositories.status_repository import StatusRepository
 from core.services import CrudService
@@ -16,14 +20,18 @@ class AppointmentService(CrudService):
             command.status_id = StatusRepository.get_by_name(PENDING)
         return AppointmentRepository.create(command.to_dict())
 
-    def patch(self, command):
+    @classmethod
+    def patch(cls, command):
         return AppointmentRepository.patch(command.to_dict())
 
-    def filter(self, query):
+    @classmethod
+    def filter(cls, query: ListAppointmentQuery) -> List[Appointment]:
         return AppointmentRepository.filter(**query.to_dict())
 
-    def get(self, query):
+    @classmethod
+    def get(cls, query):
         return AppointmentRepository.get(query.id)
 
-    def delete(self, command):
+    @classmethod
+    def delete(cls, command):
         return AppointmentRepository.delete(command.id)
