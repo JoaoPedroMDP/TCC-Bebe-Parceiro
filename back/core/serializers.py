@@ -115,7 +115,6 @@ class SpecialitySerializer(ModelSerializer):
 class ProfessionalSerializer(ModelSerializer):
     speciality = SpecialitySerializer(read_only=True)
    
-
     class Meta:
         model = Professional
         fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled', 'approved']
@@ -125,6 +124,7 @@ class SizeSerializer(ModelSerializer):
     class Meta:
         model = Size
         fields = ['id', 'name', 'enabled', 'type']
+
 
 class SwapSerializer(ModelSerializer):
     beneficiary = BeneficiarySerializer(read_only=True)

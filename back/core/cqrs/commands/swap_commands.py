@@ -81,6 +81,7 @@ class CreateSwapCommand(Command):
         del data['user']
         return data
 
+
 class PatchSwapCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
@@ -89,20 +90,20 @@ class PatchSwapCommand(Command):
         Field("beneficiary_id", "integer", False, formatter=lambda x: int(x)),
         Field("shoe_size_id", "integer", False, formatter=lambda x: int(x)),
         Field("description", "string", False),
-        Field("status", "string", False)
+        Field("status_id", "integer", False, formatter=lambda x: int(x))
     ]
 
     def __init__(
             self, id: int, cloth_size_id: int = None, shoe_size_id: int = None,
             description: str = None, child_id: int = None, beneficiary_id: int = None,
-            status: str = None):
+            status_id: int = None):
         self.id = id
         self.cloth_size_id = cloth_size_id
         self.shoe_size_id = shoe_size_id
         self.description = description
         self.child_id = child_id
         self.beneficiary_id = beneficiary_id
-        self.status = status
+        self.status_id = status_id
     
     @staticmethod
     @Validator.validates
