@@ -13,20 +13,23 @@ from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, Pa
 from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
-from core.permissions.at_least_one_group import AtLeastOneGroup
-from core.permissions.owns_it import OwnsIt
+from core.permissions.is_volunteer import IsVolunteer
+from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
+from core.permissions.is_beneficiary import IsBeneficiary
+from core.permissions.is_it import IsIt
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.serializers import BeneficiarySerializer
 from core.services.beneficiary_service import BeneficiaryService
 from core.services.user_service import UserService
 from core.utils.decorators import endpoint
+from rest_framework.permissions import IsAuthenticated
 
 lgr = logging.getLogger(__name__)
 
 
-class BeneficiaryCreationByVolunteer(BaseView):
+class BeneficiaryCreationByVolunteerView(BaseView):
     groups = ["manage_beneficiaries"]
-    permission_classes = (AtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
 
     @endpoint
     def post(self, request: Request, format=None):
@@ -43,7 +46,7 @@ class BeneficiaryCreationByVolunteer(BaseView):
 
 class BeneficiaryGenericViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (AtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup, IsVolunteer)
     permission_classes_by_method = {
         "post": ()
     }
@@ -56,6 +59,7 @@ class BeneficiaryGenericViews(BaseView):
         lgr.debug("----GET_ALL_BENEFICIARIES----")
         list_beneficiaries_query: ListBeneficiaryQuery = ListBeneficiaryQuery.from_dict(request.query_params)
         beneficiaries: List[Beneficiary] = BeneficiaryService.filter(list_beneficiaries_query)
+        
         return BeneficiarySerializer(beneficiaries, many=True).data, status.HTTP_200_OK
 
     @endpoint
@@ -69,7 +73,7 @@ class BeneficiaryGenericViews(BaseView):
 
 class BeneficiarySpecificViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = [(OwnsIt | AtLeastOneGroup)]
+    permission_classes = [IsAuthenticated, (IsIt | VolunteerAtLeastOneGroup)]
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
@@ -113,9 +117,9 @@ class BeneficiarySpecificViews(BaseView):
 
         return {}, status.HTTP_404_NOT_FOUND
 
-class BeneficiaryApproval(BaseView):
+class BeneficiaryApprovalView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (AtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
@@ -131,10 +135,23 @@ class BeneficiaryApproval(BaseView):
 
 class BeneficiaryPendingView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (AtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
 
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_PENDING_BENEFICIARIES----")
         beneficiaries: List[Beneficiary] = BeneficiaryService.get_pending_beneficiaries()
         return BeneficiarySerializer(beneficiaries, many=True).data, status.HTTP_200_OK
+
+
+class BeneficiaryCanRequestSwapView(BaseView):
+    permission_classes = [IsBeneficiary]
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----CAN_REQUEST_SWAP----")
+        beneficiary: Beneficiary = request.user.beneficiary
+        return {
+            'can_request_swap': BeneficiaryService.can_request_swap(beneficiary)
+        }, status.HTTP_200_OK
+    

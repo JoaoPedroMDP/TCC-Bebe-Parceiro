@@ -101,8 +101,8 @@ class BeneficiaryFactory(TimestampedModelFactory):
         model = Beneficiary
 
     user = factory.SubFactory(UserFactory)
-    marital_status = factory.Iterator(MaritalStatus.objects.all())
-    city = factory.Iterator(City.objects.all())
+    marital_status = factory.SubFactory(MaritalStatusFactory)
+    city = factory.SubFactory(CityFactory)
     birth_date = factory.Faker('date_time_this_century', tzinfo=None)
     child_count = factory.Faker('random_int', min=0, max=10)
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
@@ -160,7 +160,8 @@ class SwapFactory(TimestampedModelFactory):
     shoe_size = factory.SubFactory(SizeFactory)
     description = factory.Faker('text')
     status = factory.SubFactory(StatusFactory)
-
+    beneficiary = factory.SubFactory(BeneficiaryFactory)
+    child = factory.SubFactory(ChildFactory)
 
 class SpecialityFactory(EnablableModelFactory):
     class Meta:

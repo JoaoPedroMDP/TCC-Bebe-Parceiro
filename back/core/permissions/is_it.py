@@ -10,8 +10,7 @@ from core.models import Beneficiary, Volunteer, TimestampedModel
 
 lgr = logging.getLogger(__name__)
 
-
-class OwnsIt(BasePermission):
+class IsIt(BasePermission):
     URIS_MODELS: Dict[str, TimestampedModel] = {
         "beneficiaries": Beneficiary,
         "voluntaries": Volunteer
@@ -22,4 +21,6 @@ class OwnsIt(BasePermission):
         model: TimestampedModel = self.URIS_MODELS.get(uri)
 
         item = model.objects.filter(id=int(obj_id), user=request.user).first()
-        return item is not None
+        has = item is not None 
+        has or lgr.warning("Usuário não é dono do objeto")
+        return has
