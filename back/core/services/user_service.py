@@ -24,7 +24,7 @@ class UserService(CrudService):
             data["username"] = data["phone"]
 
         password = data.get("password")
-        user: User = UserRepository.patch(command.to_dict())
+        user: User = UserRepository.patch(data)
         if password:
             user.set_password(password)
             user.save()

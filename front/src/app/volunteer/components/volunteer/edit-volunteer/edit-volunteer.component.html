@@ -1,0 +1,109 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Editar Voluntária</h4>
+</div>
+<div class="modal-body my-2">
+    <div class="container">
+        <form #form="ngForm">
+            <div>
+                <small class="bp-label-text">Nome</small>
+                <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="150" name="name"
+                    [(ngModel)]="volunteer.name" required>
+                <div *ngIf="form.controls['name']">
+                    <div
+                        *ngIf="form.controls['name'].errors && (form.controls['name'].dirty || form.controls['name'].touched)">
+                        <div *ngIf="form.controls['name'].errors['required']" class="alert alert-danger">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-2">
+                <small class="bp-label-text">Telefone (com Whatsapp)</small>
+                <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000"
+                    placeholder="(XX) X XXXX-XXXX" name="phone" [(ngModel)]="volunteer.phone" minlength="10" required>
+                <div *ngIf="form.controls['phone']">
+                    <div
+                        *ngIf="form.controls['phone'].errors && (form.controls['phone'].dirty || form.controls['phone'].touched)">
+                        <div *ngIf="form.controls['phone'].errors['required']" class="alert alert-danger">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-2">
+                <small class="bp-label-text">Email</small>
+                <input type="text" class="form-control" placeholder="email@mail.com" name="email"
+                    [(ngModel)]="volunteer.email" minlength="10" required>
+                <div *ngIf="form.controls['email']">
+                    <div
+                        *ngIf="form.controls['email'].errors && (form.controls['email'].dirty || form.controls['email'].touched)">
+                        <div *ngIf="form.controls['email'].errors['required']" class="alert alert-danger">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-2">
+                <small class="bp-label-text">País</small>
+                <select class="form-select" [(ngModel)]="countrySelected" (ngModelChange)="listStates()" name="country">
+                    <option [value]="undefined"> --- </option>
+                    <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>
+                </select>
+            </div>
+            <div class="my-2">
+                <small class="bp-label-text">Estado</small>
+                <select class="form-select" [(ngModel)]="stateSelected" (ngModelChange)="listCities()" name="state">
+                    <option [value]="undefined"> --- </option>
+                    <option [value]="state.id" *ngFor="let state of states">{{state.name}}</option>
+                </select>
+            </div>
+            <div class="my-2">
+                <small class="bp-label-text">Cidade</small>
+                <select class="form-select" [(ngModel)]="volunteer.city_id" name="city">
+                    <option [value]="undefined"> --- </option>
+                    <option [value]="city.id" *ngFor="let city of cities">{{city.name}}</option>
+                </select>
+            </div>
+            <div class="row my-2">
+                <div class="col">
+                    <small class="bp-label-text">Nova senha</small>
+                    <div class="input-with-icon">
+                        <input type="password" class="form-control" placeholder="Senha" name="password"
+                            [(ngModel)]="volunteer.password">
+                        <i class="fa fa-eye" (click)="showPassword('password')"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <small class="bp-label-text">Repita a senha</small>
+                    <div class="input-with-icon">
+                        <input type="password" class="form-control" placeholder="Sua senha" name="password_confirm"
+                            #password_confirm ngModel>
+                        <i class="fa fa-eye" (click)="showPassword('password_confirm')"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="my-2">
+                <small class="bp-label-text">Funções</small>
+                <div>
+                    <div class="bp-groups">
+                        <span *ngFor="let group of selectedGroups" class="bp-group-name">
+                            <span (click)="removeGroup(group)">{{group.name}}</span>
+                        </span>
+                        <span class="bp-group-name bp-group-add">
+                            Adicionar
+                            <select [(ngModel)]="selectedGroupId"  (ngModelChange)="addGroup()" class="bp-select-groups"  name="group_ids">
+                                <option [value]="undefined" disabled selected class="text-center"> --- </option>
+                                <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()"
+        [disabled]="!form.form.valid">Confirmar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="close()">Cancelar</button>
+</div>

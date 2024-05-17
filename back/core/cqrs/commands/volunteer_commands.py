@@ -1,4 +1,6 @@
 #  coding: utf-8
+from typing import Dict, Optional
+
 from core.cqrs import Validator, Field, Command
 
 
@@ -30,19 +32,26 @@ class CreateVolunteerCommand(Command):
 class PatchVolunteerCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
+        Field("name", "string", False),
+        Field("phone", "string", False),
+        Field("email", "string", False),
+        Field("password", "string", False),
         Field("group_ids", "list", False),
         Field("city_id", "integer", False, formatter=lambda x: int(x)),
     ]
 
-    def __init__(self, id: int, group_ids: list = None, city_id: int = None):
+    def __init__(self, id: int, group_ids: list, city_id: int, user_data: Dict = None):
         self.id = id
         self.group_ids = group_ids
         self.city_id = city_id
+        self.user_data: Optional[Dict] = user_data
+
 
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'PatchVolunteerCommand':
         data = Validator.validate_and_extract(PatchVolunteerCommand.fields, args)
+        data['user_data'] = Command.extract_and_group_keys(data, ["name", "phone", "password", "email"])
         return PatchVolunteerCommand(**data)
 
 

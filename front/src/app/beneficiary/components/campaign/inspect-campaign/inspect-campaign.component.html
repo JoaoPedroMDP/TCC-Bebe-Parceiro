@@ -1,0 +1,23 @@
+<div class="container">
+    <p class="mb-0">Campanha</p>
+    <h1 class="bp-big-title mb-4">{{campaign.name}}</h1>
+    <div class="row mt-4 text-center">
+        <div class="col-12 col-sm-6">
+            <p class="bp-campaign-date"><strong>Início:</strong> {{campaign.start_date  | date: 'dd/MM/yyyy'}}</p>
+        </div>
+        <div class="col-12 col-sm-6">
+            <p class="bp-campaign-date"><strong>Fim:</strong> {{campaign.end_date  | date: 'dd/MM/yyyy'}}</p>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <p class="bp-justify">{{campaign.description}}</p>
+    </div>
+    <div class="row mt-4 text-center">
+        <a href="{{campaign.external_link}}" target="_blank" *ngIf="campaign.external_link">
+            <button class="bp-button">Link Formulário</button>
+        </a>
+    </div>
+    <div class="bp-footer fixed-bottom">
+        <button class="bp-button" id="bp-big-btn" routerLink="/beneficiada/campanhas">Voltar</button>
+    </div>
+</div>

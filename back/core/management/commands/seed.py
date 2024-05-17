@@ -8,7 +8,7 @@ from django.utils.timezone import now
 from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, SHOE_SIZES, SHOE_TYPE, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
 from factories import MaritalStatusFactory, SizeFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
-    AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
+    AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory, CampaignFactory
 
 
 class Command(BaseCommand):
@@ -98,4 +98,4 @@ class Command(BaseCommand):
             VolunteerFactory.create(user=u)
 
         AccessCodeFactory.create_batch(5, used=False)
-        
+        CampaignFactory.create_batch(5)

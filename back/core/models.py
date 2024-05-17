@@ -177,6 +177,7 @@ class Campaign(TimestampedModel):
     start_date = models.DateField()
     end_date = models.DateField()
     description = models.TextField()
+    external_link = models.CharField(max_length=500, null=True)
 
 
 class Child(TimestampedModel):
