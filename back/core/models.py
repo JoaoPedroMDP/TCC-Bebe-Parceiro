@@ -1,3 +1,4 @@
+import datetime
 import logging
 from typing import List
 from django.contrib.auth.models import AbstractUser, Group
@@ -157,7 +158,17 @@ class Beneficiary(TimestampedModel):
 
 
     def has_pending_swap(self):
+        """
+            Verifica se a beneficiária tem uma troca pendente
+        """
         return self.swaps.filter(status__name=PENDING).exists()
+
+    def have_children_born(self):
+        """
+            Verifica se a beneficiária tem filhos nascidos
+        """
+        today = datetime.datetime.now()
+        return self.children.filter(birth_date__lte=today).exists()
 
 
 class Volunteer(TimestampedModel):

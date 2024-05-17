@@ -167,4 +167,4 @@ class BeneficiaryService(CrudService):
 
     @classmethod
     def can_request_swap(cls, beneficiary: Beneficiary) -> bool:
-        return not beneficiary.has_pending_swap()
+        return not beneficiary.has_pending_swap() and beneficiary.have_children_born()

@@ -28,7 +28,7 @@ lgr = logging.getLogger(__name__)
 
 
 class BeneficiaryCreationByVolunteerView(BaseView):
-    groups = ["manage_beneficiaries"]
+    groups = [MANAGE_BENEFICIARIES]
     permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
 
     @endpoint

@@ -59,7 +59,7 @@ class CreateSwapCommand(Command):
     def from_dict(args: dict) -> 'CreateSwapCommand':
         data = Validator.validate_and_extract(CreateSwapCommand.fields, args)
 
-        # Caso seja uma voluntária criando a trocas, precisa especificar o campo beneficiary_id
+        # Caso seja uma voluntária criando a troca, precisa especificar o campo beneficiary_id
         vol_specified_ben(data, args)
         # Pego a beneficiária pois preciso validar algumas coisas
         ben = get_ben(data, args)
