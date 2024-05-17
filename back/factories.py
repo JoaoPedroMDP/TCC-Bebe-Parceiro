@@ -122,9 +122,10 @@ class CampaignFactory(TimestampedModelFactory):
         model = Campaign
 
     name = factory.Faker('sentence', nb_words=4)
-    start_date = factory.Faker('date_this_decade', tzinfo=None)
-    end_date = factory.Faker('date_this_decade', tzinfo=None)
+    start_date = factory.Faker('date_this_decade')
+    end_date = factory.Faker('date_this_decade')
     description = factory.Faker('text')
+    external_link = factory.Faker('url')
 
 
 class ChildFactory(TimestampedModelFactory):

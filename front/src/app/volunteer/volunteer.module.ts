@@ -6,9 +6,17 @@ import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AuthModule } from '../auth/auth.module';
 import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
+import { CreateEditCampaignComponent } from './components/campaign/create-edit-campaign/create-edit-campaign.component';
+import { DeleteCampaignComponent } from './components/campaign/delete-campaign/delete-campaign.component';
+import { InspectCampaignComponent } from './components/campaign/inspect-campaign/inspect-campaign.component';
+import { ListCampaignComponent } from './components/campaign/list-campaign/list-campaign.component';
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
+import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+
+
+
 
 
 
@@ -24,6 +32,12 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     CreateBeneficiaryComponent,
     EditBeneficiaryComponent,
     DeleteBeneficiaryComponent,
+    // VOLUNTEERS
+    ListVolunteerComponent,
+    InspectVolunteerComponent,
+    CreateVolunteerComponent,
+    EditVolunteerComponent,
+    DeleteVolunteerComponent,
     // PROFESSIONAL
     ListProfessionalComponent,
     InspectProfessionalComponent,
@@ -35,6 +49,13 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     ListSpecialitiesComponent,
     CreateEditSpecialityComponent,
     DeleteSpecialityComponent,
+    CreateEditCampaignComponent,
+    //CAMPANHAS
+    ListCampaignComponent,
+    DeleteCampaignComponent,
+    InspectCampaignComponent,
+    // FUNÇÕES
+    
   ],
   imports: [
     CommonModule,

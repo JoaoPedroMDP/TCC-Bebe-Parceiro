@@ -93,7 +93,6 @@ class BeneficiaryService(CrudService):
 
     @classmethod
     def patch(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
-        # TODO Os dados de usuário (nome, phone, email) não estão sendo alterados
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
 
         if command.user_data:
