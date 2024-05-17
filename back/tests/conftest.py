@@ -6,7 +6,7 @@ import pytest
 from django.contrib.auth.models import Group
 from rest_framework.test import APIClient
 
-from config import GROUPS, ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLES
+from config import GROUPS
 from core.models import User
 from factories import BeneficiaryFactory, ChildFactory, GroupFactory, UserFactory, VolunteerFactory
 
@@ -26,16 +26,13 @@ def seed_db(db):
     for g in GROUPS:
         GroupFactory.create(name=g)
 
-    for r in ROLES:
-        GroupFactory.create(name=r)
-
 
 @pytest.fixture
 def client():
     return APIClient()
 
 
-def make_user(u_permissions: List[str]) -> User:
+def make_user(u_permissions: List[str] = []) -> User:
     groups = Group.objects.filter(name__in=u_permissions)
     user: User = UserFactory.create()
     user.groups.add(*groups)
@@ -43,13 +40,13 @@ def make_user(u_permissions: List[str]) -> User:
 
 
 def make_volunteer(roles: List[str] = []):
-    v_user = make_user([ROLE_VOLUNTEER, *roles])
+    v_user = make_user(roles)
     vol = VolunteerFactory.create(user=v_user)
     return vol
 
 
 def make_beneficiary(**kwargs):
-    b_user = make_user([ROLE_BENEFICIARY])
+    b_user = make_user()
     ben = BeneficiaryFactory.create(user=b_user, **kwargs)
     return ben
 

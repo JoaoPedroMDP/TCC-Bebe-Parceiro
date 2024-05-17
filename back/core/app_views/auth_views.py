@@ -10,8 +10,7 @@ from core.app_views import BaseView
 from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.serializers import GroupSerializer
 from core.services.group_service import GroupService
-from core.utils.exceptions import HttpFriendlyError
-from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY, ROLE_VOLUNTEER, MANAGE_VOLUNTEERS
+from config import MANAGE_VOLUNTEERS
 from core.models import Beneficiary, User, Volunteer
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.volunteer_repository import VolunteerRepository
@@ -36,14 +35,12 @@ class LoginView(KnoxLoginView):
         user: User = serializer.validated_data['user']
         login(request, user)
         response = super(LoginView, self).post(request, format=None)
-        role: str = user.role
 
-        if role == ROLE_VOLUNTEER:
+
+        if user.is_volunteer():
             person: Volunteer = VolunteerRepository.filter(user=user)[0]
-        elif role in [ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY]:
+        else :
             person: Beneficiary = BeneficiaryRepository.filter(user=user)[0]
-        else:
-            raise HttpFriendlyError("Role inválida", status_code=500)
 
         response.data['person_id'] = person.id
         return response.data, response.status_code

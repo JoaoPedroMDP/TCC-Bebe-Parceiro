@@ -45,8 +45,9 @@ class SwapService(CrudService):
                 "beneficiary": query.user.beneficiary
             }
 
-        # Me certificdo de que o status passado existe
-        StatusRepository.get_by_name(filters['status_id'])
+        if 'status_id' in filters:
+            # Me certifico de que o status passado existe
+            StatusRepository.get(filters['status_id'])
         
         return SwapRepository.filter(**filters)
 

@@ -67,7 +67,7 @@ class UserSerializer(ModelSerializer):
 
     @staticmethod
     def get_role(obj: User) -> str:
-        return obj.get_formatted_role()
+        return obj.role
 
     class Meta:
         model = User

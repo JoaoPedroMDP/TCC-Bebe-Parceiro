@@ -5,8 +5,7 @@ from random import randint
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, ROLE_PENDING_BENEFICIARY, ROLES, ROLE_BENEFICIARY, ROLE_VOLUNTEER, SHOE_SIZES, SHOE_TYPE, STATUSES, \
-    MARITAL_STATUSES, SOCIAL_PROGRAMS
+from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, SHOE_SIZES, SHOE_TYPE, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
 from factories import MaritalStatusFactory, SizeFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
@@ -29,10 +28,6 @@ class Command(BaseCommand):
         for g in GROUPS:
             groups.append(GroupFactory.create(name=g))
 
-        roles = {}
-        for r in ROLES:
-            roles[r] = GroupFactory.create(name=r)
-
         # Estados civis
         for m in MARITAL_STATUSES:
             MaritalStatusFactory.create(name=m, enabled=True)
@@ -52,7 +47,7 @@ class Command(BaseCommand):
             SizeFactory.create(name=s, type=CLOTH_TYPE)
         
         admin_user = UserFactory.create(username="admin", password="admin", first_name="Administradora")
-        admin_user.groups.set([*groups, roles[ROLE_VOLUNTEER]])
+        admin_user.groups.set(groups)
         VolunteerFactory.create(user=admin_user)
 
         if not options['test']:
@@ -62,16 +57,13 @@ class Command(BaseCommand):
         for i in range(5):
             identification = f"ben_pending_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.add(roles[ROLE_PENDING_BENEFICIARY])
 
-            BeneficiaryFactory.create(user=u)
+            BeneficiaryFactory.create(user=u, approved=False)
 
         # Beneficiárias com filhos nascidos
         for i in range(2):
             identification = f"ben_child_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.add(roles[ROLE_BENEFICIARY])
-
             b = BeneficiaryFactory.create(user=u)
             ChildFactory.create(beneficiary=b)
 
@@ -79,18 +71,15 @@ class Command(BaseCommand):
         for i in range(2):
             identification = f"ben_pregnant_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.add(roles[ROLE_BENEFICIARY])
-
-            bdate = now() + timedelta(weeks=randint(3, 49))
             b = BeneficiaryFactory.create(user=u)
+            
+            bdate = now() + timedelta(weeks=randint(3, 49))
             ChildFactory.create(beneficiary=b, birth_date=bdate)
 
         # Beneficiárias com programas sociais
         for i in range(2):
             identification = f"ben_social_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.add(roles[ROLE_BENEFICIARY])
-
             b = BeneficiaryFactory.create(user=u)
             b.social_programs.add(*SocialProgramFactory.create_batch(2))
 
@@ -98,8 +87,6 @@ class Command(BaseCommand):
         for i in range(2):
             identification = f"ben_swap_{i}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.add(roles[ROLE_BENEFICIARY])
-
             b = BeneficiaryFactory.create(user=u)
             SwapFactory.create(beneficiary=b, child=ChildFactory.create(beneficiary=b))
 
@@ -107,7 +94,7 @@ class Command(BaseCommand):
         for g in groups:
             identification = f"vol_{g.name}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.set([g, roles[ROLE_VOLUNTEER]])
+            u.groups.set(g)
             VolunteerFactory.create(user=u)
 
         AccessCodeFactory.create_batch(5, used=False)

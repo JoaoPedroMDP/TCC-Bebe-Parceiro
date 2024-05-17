@@ -6,7 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_BENEFICIARIES, ROLE_BENEFICIARY
+from config import MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
@@ -93,7 +93,7 @@ class BeneficiarySpecificViews(BaseView):
         command_user: DeleteUserCommand = DeleteUserCommand.from_dict({'id': beneficiary.user_id})
         command: DeleteBeneficiaryCommand = DeleteBeneficiaryCommand.from_dict({'id': int(pk)})
 
-        if request.user.groups.filter(name=ROLE_BENEFICIARY).exists():
+        if request.user.is_beneficiary():
             anonimized: Beneficiary = BeneficiaryService.anonimize(command)
             if anonimized:
                 return {}, status.HTTP_204_NO_CONTENT

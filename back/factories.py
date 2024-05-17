@@ -4,7 +4,6 @@ from django.contrib.auth.models import Group, Permission
 from factory.django import DjangoModelFactory
 from faker import Faker
 
-from config import ROLE_BENEFICIARY
 from core.models import (
     User, Country, State, City, AccessCode,
     MaritalStatus, SocialProgram, Beneficiary, Volunteer, Campaign, Child, Size, Status, Swap,
@@ -107,6 +106,7 @@ class BeneficiaryFactory(TimestampedModelFactory):
     child_count = factory.Faker('random_int', min=0, max=10)
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
     has_disablement = factory.Faker('boolean')
+    approved = factory.Faker('boolean')
 
 
 class VolunteerFactory(TimestampedModelFactory):

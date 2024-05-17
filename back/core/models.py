@@ -50,17 +50,7 @@ class User(AbstractUser, Dictable):
 
     @property
     def role(self) -> str:
-        def role_filter(group):
-            return group.name.startswith('role_')
-
-        groups: List[Group] = self.groups.all()
-        role: Group = list(filter(role_filter, groups))[0]
-        return role.name
-
-    def get_formatted_role(self):
-        # Aqui tem esse join pra quando a role tiver mais de duas palavras
-        # Por exemplo, "role_pending_beneficiary" retorna "pending_beneficiary"
-        return "_".join(self.role.split("_")[1:])
+        return "beneficiary" if self.is_beneficiary() else "volunteer"
 
     def is_beneficiary(self) -> bool:
         """
@@ -155,7 +145,7 @@ class Beneficiary(TimestampedModel):
     child_count = models.IntegerField()
     monthly_familiar_income = models.DecimalField(max_digits=10, decimal_places=2)
     has_disablement = models.BooleanField(default=False)
-
+    approved = models.BooleanField(default=False)
 
     def has_pending_swap(self):
         """

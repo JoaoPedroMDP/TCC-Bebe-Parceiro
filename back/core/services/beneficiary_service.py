@@ -4,18 +4,16 @@ from typing import List
 
 from rest_framework import status
 
-from config import PENDING, ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
 from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
-from core.models import Beneficiary, User
+from core.models import Beneficiary
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.city_repository import CityRepository
-from core.repositories.group_repository import GroupRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.services import CrudService
@@ -51,10 +49,9 @@ class BeneficiaryService(CrudService):
                 social_programs.append(SocialProgramRepository.get(social_program['id']))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
-        b_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
-        new_user.groups.add(b_role)
 
         data = command.to_dict()
+        data['approved'] = False
 
         # Relacionamentos N:N eu associo depois
         del data["children"]
@@ -149,21 +146,15 @@ class BeneficiaryService(CrudService):
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
         ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
 
-        user = beneficiary.user
-        old_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
-        new_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
-
-        user.groups.remove(old_role)
-        user.groups.add(new_role)
-        user.save()
-
+        beneficiary.approved = True
+        beneficiary.save()
         AppointmentService.create(ca_command)
 
         return beneficiary
 
     @classmethod
     def get_pending_beneficiaries(cls):
-        return BeneficiaryRepository.filter(user__groups__name=ROLE_PENDING_BENEFICIARY)
+        return BeneficiaryRepository.filter(approved=False)
 
     @classmethod
     def can_request_swap(cls, beneficiary: Beneficiary) -> bool:

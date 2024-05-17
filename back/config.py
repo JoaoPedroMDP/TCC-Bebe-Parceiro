@@ -63,13 +63,6 @@ GROUPS = [
 ]
 
 
-# Cargos genéricos
-ROLE_PENDING_BENEFICIARY = "role_pending_beneficiary"
-ROLE_BENEFICIARY = "role_beneficiary"
-ROLE_VOLUNTEER = "role_volunteer"
-ROLES = [ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_PENDING_BENEFICIARY]
-
-
 # Tamanhos
 CLOTH_TYPE = "Roupa"
 SHOE_TYPE = "Sapato"
