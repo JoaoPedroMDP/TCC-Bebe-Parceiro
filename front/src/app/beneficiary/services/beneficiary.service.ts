@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth';
+import { Swap } from 'src/app/shared';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,6 +14,20 @@ export class BeneficiaryService {
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.baseURL = environment.baseURL;
+  }
+
+  /**
+   * @description Faz um POST para criar uma troca
+   * @param swap O objeto contendo os dados da troca
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  createSwap(swap: Swap): Observable<any> {
+    return this.http.post(`${this.baseURL}swaps`, swap, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
   }
 
   /**
@@ -28,7 +43,7 @@ export class BeneficiaryService {
         })
       );
   }
-  
+
   /**
    * @description Faz um GET para pegar os dados de uma beneficiada especifica
    * @param id id da beneficiada
@@ -75,7 +90,7 @@ export class BeneficiaryService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   listChildren(): Observable<any> {
-    return this.http.get(`${this.baseURL}children`, { headers: this.authService.getHeaders() })
+    return this.http.get(`${this.baseURL}children?born=true`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
@@ -87,12 +102,26 @@ export class BeneficiaryService {
    * @description Faz um GET para pegar os dados dos tamanhos de roupa
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-  listSizes(): Observable<any> {
-    return this.http.get(`${this.baseURL}sizes`, { headers: this.authService.getHeaders() })
+  listClothSizes(): Observable<any> {
+    return this.http.get(`${this.baseURL}sizes?type=Roupa`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })
       );
   }
+
+  /**
+   * @description Faz um GET para pegar os dados dos tamanhos de sapatos
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listShoeSizes(): Observable<any> {
+    return this.http.get(`${this.baseURL}sizes?type=Sapato`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
 }

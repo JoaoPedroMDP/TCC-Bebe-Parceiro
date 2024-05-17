@@ -17,6 +17,7 @@ export class RequestSwapComponent implements OnInit {
 
   children!: Child[];
   sizes!: Size[];
+  shoeSizes!: Size[];
 
   constructor(public activeModal: NgbActiveModal, private beneficiaryService: BeneficiaryService) { }
 
@@ -24,26 +25,56 @@ export class RequestSwapComponent implements OnInit {
     this.swap = new SwapPOST();
 
     this.listChildren();
-    this.listSizes();
+    this.listClothSizes();
+    this.listShoeSizes();
   }
 
+  /**
+   * @description Faz um POST salvando o pedido de troca
+   */
+  requestTrade() {
+    if (this.swap.child_id && this.swap.cloth_size_id) {
+      this.beneficiaryService.createSwap(this.swap).subscribe({
+        next: () => SwalFacade.success("Troca criada com sucesso", `Em breve entraremos em contato`),
+        error: (e) => SwalFacade.error("Erro ao salvar!", e),
+        complete: () => this.showSuccess = !this.showSuccess
+      })
+    } else {
+      SwalFacade.alert("Não foi possível pedir troca!", "Preencha os campos obrigatórios e tente novamente")
+    }
+  }
+
+  /**
+   * @description Lista as crianças da beneficiada
+   */
   listChildren() {
     this.beneficiaryService.listChildren().subscribe({
-      next: (response: Child[]) => this.children = response,
+      next: (response: Child[]) => {
+        this.children = response
+        console.log(this.children)
+      },
       error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos", e)
     });
   }
 
-  listSizes() {
-    this.beneficiaryService.listSizes().subscribe({
+  /**
+   * @description Lista os tamanhos de roupa
+   */
+  listClothSizes() {
+    this.beneficiaryService.listClothSizes().subscribe({
       next: (response: Size[]) => this.sizes = response,
-      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos", e)
+      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Roupas", e)
     });
   }
 
-  requestTrade() {
-    console.log(this.swap);
-    
-    this.showSuccess = !this.showSuccess
+  /**
+   * @description Lista os tamanhos de sapatos
+   */
+  listShoeSizes() {
+    this.beneficiaryService.listShoeSizes().subscribe({
+      next: (response: Size[]) => this.shoeSizes = response,
+      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Sapatos", e)
+    });
   }
+
 }
