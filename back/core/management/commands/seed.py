@@ -94,7 +94,7 @@ class Command(BaseCommand):
         for g in groups:
             identification = f"vol_{g.name}"
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
-            u.groups.set(g)
+            u.groups.add(g)
             VolunteerFactory.create(user=u)
 
         AccessCodeFactory.create_batch(5, used=False)
