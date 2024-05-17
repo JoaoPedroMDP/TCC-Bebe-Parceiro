@@ -126,8 +126,6 @@ export class EditVolunteerComponent implements OnInit {
       error: (e) => SwalFacade.error('Erro ao listar os dados de funções', e),
       complete: () => {
         if (Array.isArray(this.volunteer.group_ids)) {
-          // Remove o grupo com ID 15 da lista de grupos disponíveis (this.groups)
-          this.volunteer.group_ids = this.volunteer.group_ids.filter(group => group !== 15); // EXCLUIR DEPOIS, role volunteer nao era para estar vindo
           // Para os grupos que a voluntaria já tem é excluido do array do select e adicionado visualmente como selecionado
           this.volunteer.group_ids.forEach(groupId => {
             const group = this.groups.find(g => g.id === Number(groupId));

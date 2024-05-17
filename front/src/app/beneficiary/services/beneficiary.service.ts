@@ -124,4 +124,16 @@ export class BeneficiaryService {
       );
   }
 
+  /**
+   * @description Faz um GET para verificar se a beneciada pode fazer troca ou não
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  isBeneficiaryAbleToSwap(): Observable<any> {
+    return this.http.get(`${this.baseURL}beneficiaries/can_request_swap`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
 }

@@ -21,3 +21,14 @@
 .bp-disabled {
     display: none;
 }
+
+.bp-swap-disabled{
+    background-color: var(--bp-dark-gray);
+}
+
+.bp-swap-disabled:hover{
+    background-color: var(--bp-dark-gray);
+    color: var(--black);
+    font-size: 1.2rem;
+    cursor: not-allowed;
+}

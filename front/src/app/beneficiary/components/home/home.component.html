@@ -9,13 +9,17 @@
     <a class="row bp-menu-option" routerLink="meus-dados">
         <span>Meus dados</span>
     </a>
-    <a class="row bp-menu-option" routerLink="atendimentos" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
+    <a class="row bp-menu-option" routerLink="atendimentos"
+        [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
         <span>Meus atendimentos</span>
     </a>
-    <a class="row bp-menu-option" (click)="openSwapModal()" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
+    <a class="row bp-menu-option" (click)="openSwapModal()"
+        [class.bp-disabled]="user.user?.role === 'pending_beneficiary'"
+        [class.bp-swap-disabled]="canSwap === false">
         <span>Pedir troca</span>
     </a>
-    <a class="row bp-menu-option" routerLink="campanhas" [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
+    <a class="row bp-menu-option" routerLink="campanhas"
+        [class.bp-disabled]="user.user?.role === 'pending_beneficiary'">
         <span>Campanhas</span>
     </a>
 </div>

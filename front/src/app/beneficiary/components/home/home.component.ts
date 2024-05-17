@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/auth';
 import { SwalFacade, UserToken } from 'src/app/shared';
 import { RequestSwapComponent } from '../request-swap/request-swap.component';
+import { BeneficiaryService } from '../../services/beneficiary.service';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +14,17 @@ import { RequestSwapComponent } from '../request-swap/request-swap.component';
 export class HomeComponent implements OnInit {
 
   user!: UserToken;
+  canSwap: boolean = true;
 
-  constructor(private authService: AuthService, private router: Router, private modalService: NgbModal) { }
+  constructor(private authService: AuthService, private router: Router, private modalService: NgbModal,
+    private beneficiaryService: BeneficiaryService,) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
+    // Verifica se a beneficiada pode realizar trocas
+    this.beneficiaryService.isBeneficiaryAbleToSwap().subscribe({
+      next: (response) => this.canSwap = response.can_request_swap
+    });
   }
 
   /**
@@ -35,6 +42,10 @@ export class HomeComponent implements OnInit {
    * @Description Abre um modal para pedir uma troca
    */
   openSwapModal() {
-    this.modalService.open(RequestSwapComponent, { size: 'xl' });
+    if (this.canSwap) {
+      this.modalService.open(RequestSwapComponent, { size: 'xl' });
+    } else{
+      SwalFacade.alert("Não foi possível pedir uma troca", "Você já tem uma troca em aberto!")
+    }
   }
 }
