@@ -208,6 +208,7 @@ class GroupFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     name = factory.Faker('word')
+    description = factory.Faker('text')
 
     @factory.post_generation
     def permissions(self, create, extracted, **kwargs):

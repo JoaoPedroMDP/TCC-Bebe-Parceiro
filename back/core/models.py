@@ -11,6 +11,8 @@ from core.utils.dictable import Dictable
 lgr = logging.getLogger(__name__)
 
 
+Group.add_to_class('description', models.CharField(max_length=300, null=True))
+
 class BaseModel(models.Model, Dictable):
     readable_name = None
     # Este objects é só pra ajudar no autocomplete do PyCharm
