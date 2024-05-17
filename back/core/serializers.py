@@ -67,7 +67,7 @@ class UserSerializer(ModelSerializer):
 
     @staticmethod
     def get_role(obj: User) -> str:
-        return obj.get_formatted_role()
+        return obj.role
 
     class Meta:
         model = User
@@ -75,12 +75,12 @@ class UserSerializer(ModelSerializer):
 
 
 class ChildSerializer(ModelSerializer):
-    benefited_id = SlugRelatedField(slug_field='id', read_only=True, source='beneficiary')
+    beneficiary_id = SlugRelatedField(slug_field='id', read_only=True, source='beneficiary')
     birth_date = DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = Child
-        fields = ['id', 'name', 'birth_date', 'sex', 'benefited_id']
+        fields = ['id', 'name', 'birth_date', 'sex', 'beneficiary_id']
 
 
 class BeneficiarySerializer(ModelSerializer):
@@ -115,7 +115,6 @@ class SpecialitySerializer(ModelSerializer):
 class ProfessionalSerializer(ModelSerializer):
     speciality = SpecialitySerializer(read_only=True)
    
-
     class Meta:
         model = Professional
         fields = ['id', 'name', 'phone', 'speciality', 'accepted_volunteer_terms', 'enabled', 'approved']
@@ -129,7 +128,8 @@ class CampaignSerializer(ModelSerializer):
 class SizeSerializer(ModelSerializer):
     class Meta:
         model = Size
-        fields = ['id', 'name', 'enabled']
+        fields = ['id', 'name', 'enabled', 'type']
+
 
 class SwapSerializer(ModelSerializer):
     beneficiary = BeneficiarySerializer(read_only=True)

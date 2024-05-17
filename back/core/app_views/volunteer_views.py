@@ -85,7 +85,7 @@ class VolunteerSpecificViews(BaseView):
 
 
 class VolunteerEvaluatorsViews(BaseView):
-    # O motivo desse grupo: essa rota será necessária na hora da aprovação de uma beneficiada
+    # Essa rota será necessária na hora da aprovação de uma beneficiada
     # A voluntária de beneficiarias precisa saber quem são as avaliadoras
     # para poder encaminhar a beneficiada pra uma delas
     groups = [MANAGE_BENEFICIARIES]

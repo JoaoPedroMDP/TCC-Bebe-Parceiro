@@ -29,7 +29,6 @@ class SwapService(CrudService):
         data['child_id'] = ChildRepository.get(data['child_id']).id
         data['beneficiary_id'] = command.get_beneficiary_id()
         data['status_id'] = StatusRepository.get_by_name(PENDING).id
-        lgr.debug(data)
         return SwapRepository.create(data)
 
     @classmethod
@@ -46,11 +45,10 @@ class SwapService(CrudService):
                 "beneficiary": query.user.beneficiary
             }
 
-        if 'status' in filters:
-            status = StatusRepository.get_by_name(filters['status'])
-            filters['status_id'] = status.id
-            del filters['status']
-
+        if 'status_id' in filters:
+            # Me certifico de que o status passado existe
+            StatusRepository.get(filters['status_id'])
+        
         return SwapRepository.filter(**filters)
 
     @classmethod

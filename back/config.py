@@ -41,20 +41,20 @@ FINISHED = 'Encerrado'
 STATUSES = [PENDING, APPROVED, REJECTED, CANCELED, FINISHED]
 
 # Grupos de permissões
-MANAGE_REGISTRATIONS = "manage_registrations"
-MANAGE_BENEFICIARIES = "manage_beneficiaries"
-MANAGE_SWAPS = "manage_swaps"
-MANAGE_APPOINTMENTS = "manage_appointments"
-MANAGE_PROFESSIONALS = "manage_professionals"
-MANAGE_ACCESS_CODES = "manage_access_codes"
-MANAGE_VOLUNTEERS = "manage_volunteers"
-MANAGE_ADDRESSES = "manage_addresses"
-MANAGE_MARITAL_STATUSES = "manage_marital_statuses"
-MANAGE_SOCIAL_PROGRAMS = "manage_social_programs"
-MANAGE_SPECIALITIES = "manage_specialities"
-MANAGE_EVALUATIONS = "manage_evaluations"
-MANAGE_CAMPAIGNS = "manage_campaigns"
-MANAGE_SIZES = "manage_sizes"
+MANAGE_REGISTRATIONS = "Cadastros"
+MANAGE_BENEFICIARIES = "Beneficiárias"
+MANAGE_SWAPS = "Trocas"
+MANAGE_APPOINTMENTS = "Agendamentos"
+MANAGE_PROFESSIONALS = "Profissionais"
+MANAGE_ACCESS_CODES = "Códigos de acesso"
+MANAGE_VOLUNTEERS = "Voluntárias"
+MANAGE_ADDRESSES = "Endereços"
+MANAGE_MARITAL_STATUSES = "Estados Civis"
+MANAGE_SOCIAL_PROGRAMS = "Benefícios Sociais"
+MANAGE_SPECIALITIES = "Especialidades"
+MANAGE_EVALUATIONS = "Admissões"
+MANAGE_SIZES = "Tamanhos"
+MANAGE_CAMPAIGNS = "Campanhas"
 
 GROUPS = [
     MANAGE_REGISTRATIONS, MANAGE_BENEFICIARIES, MANAGE_SWAPS, MANAGE_APPOINTMENTS,
@@ -64,12 +64,18 @@ GROUPS = [
 ]
 
 
-# Cargos genéricos
-ROLE_PENDING_BENEFICIARY = "role_pending_beneficiary"
-ROLE_BENEFICIARY = "role_beneficiary"
-ROLE_VOLUNTEER = "role_volunteer"
-ROLES = [ROLE_BENEFICIARY, ROLE_VOLUNTEER, ROLE_PENDING_BENEFICIARY]
+# Tamanhos
+CLOTH_TYPE = "Roupa"
+SHOE_TYPE = "Sapato"
 
+P = "P"
+M = "M"
+G = "G"
+ONE_YEAR = "1 ano"
+TWO_YEARS = "2 anos"
+
+SHOE_SIZES = [i for i in range(13, 23)]
+CLOTH_SIZES = [P, M, G, ONE_YEAR, TWO_YEARS]
 
 # Ambiente
 ENV = os.getenv("ENV", "dev")

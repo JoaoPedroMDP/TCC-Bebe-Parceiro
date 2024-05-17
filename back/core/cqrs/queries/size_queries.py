@@ -20,10 +20,13 @@ class GetSizeQuery(Query):
 class ListSizeQuery(Query):
     fields = [
         Field("name", "string", False, formatter=lambda x: str(x)),
+        Field("type", "string", False, formatter=lambda x: str(x)),
     ]
 
-    def __init__(self, name: str = None):
+    def __init__(self, name: str = None, type: str = None):
         self.name = name
+        self.type = type
+
 
     @staticmethod
     @Validator.validates

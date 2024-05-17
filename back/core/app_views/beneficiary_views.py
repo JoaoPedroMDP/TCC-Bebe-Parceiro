@@ -6,7 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_BENEFICIARIES, ROLE_BENEFICIARY
+from config import MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
@@ -28,12 +28,12 @@ lgr = logging.getLogger(__name__)
 
 
 class BeneficiaryCreationByVolunteerView(BaseView):
-    groups = ["manage_beneficiaries"]
+    groups = [MANAGE_BENEFICIARIES]
     permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
 
     @endpoint
     def post(self, request: Request, format=None):
-        lgr.debug("----CREATE_BENEFITED----")
+        lgr.debug("----CREATE_BENEFICIARY----")
         command: CreateBeneficiaryCommand = CreateBeneficiaryCommand.from_dict({
             **request.data,
             'user': request.user
@@ -64,7 +64,7 @@ class BeneficiaryGenericViews(BaseView):
 
     @endpoint
     def post(self, request: Request, format=None):
-        lgr.debug("----CREATE_BENEFITED----")
+        lgr.debug("----CREATE_BENEFICIARY----")
         command: CreateBeneficiaryCommand = CreateBeneficiaryCommand.from_dict(request.data)
         new_beneficiary: Beneficiary = BeneficiaryService.create(command)
 
@@ -77,7 +77,7 @@ class BeneficiarySpecificViews(BaseView):
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
-        lgr.debug("----PATCH_BENEFITED----")
+        lgr.debug("----PATCH_BENEFICIARY----")
         data = copy(request.data)
         data['id'] = pk
 
@@ -88,12 +88,12 @@ class BeneficiarySpecificViews(BaseView):
 
     @endpoint
     def delete(self, request: Request, pk, format=None):
-        lgr.debug("----DELETE_BENEFITED----")
+        lgr.debug("----DELETE_BENEFICIARY----")
         beneficiary: Beneficiary = BeneficiaryRepository.get(pk)
         command_user: DeleteUserCommand = DeleteUserCommand.from_dict({'id': beneficiary.user_id})
         command: DeleteBeneficiaryCommand = DeleteBeneficiaryCommand.from_dict({'id': int(pk)})
 
-        if request.user.groups.filter(name=ROLE_BENEFICIARY).exists():
+        if request.user.is_beneficiary():
             anonimized: Beneficiary = BeneficiaryService.anonimize(command)
             if anonimized:
                 return {}, status.HTTP_204_NO_CONTENT
@@ -109,7 +109,7 @@ class BeneficiarySpecificViews(BaseView):
 
     @endpoint
     def get(self, request: Request, pk, format=None):
-        lgr.debug("----GET_BENEFITED----")
+        lgr.debug("----GET_BENEFICIARY----")
         query: GetBeneficiaryQuery = GetBeneficiaryQuery.from_dict({"id": pk})
         beneficiary: Beneficiary = BeneficiaryService.get(query)
         if beneficiary:

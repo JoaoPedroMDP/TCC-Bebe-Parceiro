@@ -11,11 +11,13 @@ def check_for_duplicity(data: dict):
 
 class CreateSizeCommand(Command):
     fields = [
-        Field("name", "string", True)
+        Field("name", "string", True),
+        Field("type", "string", True)
     ]
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, type: str):
         self.name = name
+        self.type = type
 
     @staticmethod
     @Validator.validates
@@ -29,11 +31,13 @@ class PatchSizeCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
         Field("name", "string", False),
+        Field("type", "string", False)
     ]
 
-    def __init__(self, id: int, name: str = None):
+    def __init__(self, id: int, name: str = None, type: str = None):
         self.id = id
         self.name = name
+        self.type = type
 
     @staticmethod
     @Validator.validates

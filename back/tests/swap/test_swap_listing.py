@@ -3,9 +3,9 @@ from django.urls import reverse
 import pytest
 from rest_framework.test import APIClient
 
-from config import FINISHED, MANAGE_SWAPS, PENDING, ROLE_VOLUNTEER
+from config import FINISHED, MANAGE_SWAPS, PENDING
 from factories import StatusFactory, SwapFactory
-from tests.conftest import make_beneficiary_with_children, make_user
+from tests.conftest import make_beneficiary_with_children, make_user, make_volunteer
 
 
 @pytest.mark.django_db
@@ -14,8 +14,8 @@ def test_vol_can_list_all_swaps(client: APIClient):
     SwapFactory.create_batch(3, beneficiary=ben, child=children[0])
     
     url = reverse('gen_swaps')
-    v_user = make_user([ROLE_VOLUNTEER, MANAGE_SWAPS])
-    client.force_authenticate(v_user)
+    vol = make_volunteer([MANAGE_SWAPS])
+    client.force_authenticate(vol.user)
 
     response = client.get(url)
     assert response.status_code == 200
@@ -41,18 +41,18 @@ def test_ben_can_see_only_its_swaps(client: APIClient):
 @pytest.mark.django_db
 def test_can_filter_swap_by_status(client: APIClient):
     ben, children = make_beneficiary_with_children()
-    StatusFactory.create(name=FINISHED)
-    pending_status = StatusFactory.create(name=PENDING)
-    SwapFactory.create_batch(3, beneficiary=ben, child=children[0], status=pending_status)
+    fin = StatusFactory.create(name=FINISHED)
+    pen = StatusFactory.create(name=PENDING)
+    SwapFactory.create_batch(3, beneficiary=ben, child=children[0], status=pen)
     
     url = reverse('gen_swaps')
-    v_user = make_user([ROLE_VOLUNTEER, MANAGE_SWAPS])
-    client.force_authenticate(v_user)
+    vol = make_volunteer([MANAGE_SWAPS])
+    client.force_authenticate(vol.user)
 
-    response = client.get(url, {'status': PENDING})
+    response = client.get(url, {'status_id': pen.id})
     assert response.status_code == 200
     assert len(response.data) == 3
 
-    response = client.get(url, {'status': FINISHED})
+    response = client.get(url, {'status_id': fin.id})
     assert response.status_code == 200
     assert len(response.data) == 0

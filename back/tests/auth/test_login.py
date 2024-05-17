@@ -3,7 +3,6 @@ import pytest
 from django.test.client import Client
 from django.urls import reverse
 
-from config import ROLE_BENEFICIARY, ROLE_VOLUNTEER
 from core.repositories.group_repository import GroupRepository
 from factories import UserFactory, BeneficiaryFactory, CityFactory, MaritalStatusFactory, VolunteerFactory
 
@@ -12,10 +11,8 @@ from factories import UserFactory, BeneficiaryFactory, CityFactory, MaritalStatu
 
 @pytest.mark.django_db
 def test_volunteer_can_login(client: Client):
-    group = list(GroupRepository.filter(name=ROLE_VOLUNTEER))[0]
     password = "voluntaria"
     v_user = UserFactory.create(password=password)
-    v_user.groups.add(group)
     city = CityFactory.create()
     VolunteerFactory.create(user=v_user, city=city)
 
@@ -37,10 +34,8 @@ def test_volunteer_can_login(client: Client):
 
 @pytest.mark.django_db
 def test_beneficiary_can_login(client: Client):
-    group = list(GroupRepository.filter(name=ROLE_BENEFICIARY))[0]
     password = "beneficiaria"
     b_user = UserFactory.create(password=password)
-    b_user.groups.add(group)
     city = CityFactory.create()
     marital_status = MaritalStatusFactory.create()
     BeneficiaryFactory.create(user=b_user, city=city, marital_status=marital_status)
