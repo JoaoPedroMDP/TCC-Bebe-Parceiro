@@ -34,6 +34,6 @@ export class SwapPOST {
     this.description = swap.description;
     this.status_id = swap.status?.id;
     this.beneficiary_id = swap.beneficiary?.id;
-    this.child_id = swap.child?.id;
+    this.child_id = swap.child?.id
   }
 }

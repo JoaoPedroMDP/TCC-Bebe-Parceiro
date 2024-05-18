@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Swap } from 'src/app/shared/models/swap';
 import { DeleteSwapComponent } from '../delete-swap/delete-swap.component';
-import { CreateEditSwapComponent } from '../create-edit-swap/create-edit-swap.component';
+import { CreateSwapComponent } from '../create-swap/create-swap.component';
+import { EditSwapComponent } from '../edit-swap/edit-swap.component';
 import { ApproveRefuseSwapComponent } from '../approve-refuse-swap/approve-refuse-swap.component';
 
 @Component({
@@ -25,7 +26,7 @@ isSwapApproved: any;
    */
   editSwap(swap: Swap) {
     this.activeModal.close(); // Fecha o modal atual de visualização
-    let modalRef = this.modalService.open(CreateEditSwapComponent, { size: 'xl' })
+    let modalRef = this.modalService.open(EditSwapComponent, { size: 'xl' })
     modalRef.componentInstance.swap = swap;
     modalRef.componentInstance.editMode = true;
   }

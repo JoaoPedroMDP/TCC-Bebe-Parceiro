@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
 import { Swap } from 'src/app/shared/models/swap';
 import { SwapService } from 'src/app/volunteer/services/swap.service';
-import { CreateEditSwapComponent, DeleteSwapComponent, InspectSwapComponent } from '../index';
+import { CreateSwapComponent, EditSwapComponent, DeleteSwapComponent, InspectSwapComponent } from '../index';
 
 @Component({
   selector: 'app-list-swap',
@@ -73,13 +73,13 @@ export class ListSwapComponent implements OnInit, OnDestroy {
   }
 
   newSwap() {
-    let modalRef = this.modalService.open(CreateEditSwapComponent, { size: 'xl' });
+    let modalRef = this.modalService.open(CreateSwapComponent, { size: 'xl' });
     modalRef.componentInstance.swap = new Swap();
     modalRef.componentInstance.editMode = false;
   }
 
   editSwap(swap: Swap) {
-    let modalRef = this.modalService.open(CreateEditSwapComponent, { size: 'xl' });
+    let modalRef = this.modalService.open(EditSwapComponent, { size: 'xl' });
     modalRef.componentInstance.swap = swap;
     modalRef.componentInstance.editMode = true;
   }

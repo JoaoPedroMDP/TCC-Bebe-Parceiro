@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateEditSwapComponent } from './create-edit-swap.component';
+import { CreateSwapComponent } from './create-swap.component';
 
-describe('CreateEditSwapComponent', () => {
-  let component: CreateEditSwapComponent;
-  let fixture: ComponentFixture<CreateEditSwapComponent>;
+describe('CreateSwapComponent', () => {
+  let component: CreateSwapComponent;
+  let fixture: ComponentFixture<CreateSwapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateEditSwapComponent ]
+      declarations: [ CreateSwapComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateEditSwapComponent);
+    fixture = TestBed.createComponent(CreateSwapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

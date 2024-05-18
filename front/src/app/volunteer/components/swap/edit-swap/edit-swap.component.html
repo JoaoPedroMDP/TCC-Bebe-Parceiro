@@ -1,0 +1,46 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Editar Troca</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <form #form="ngForm" (ngSubmit)="save()">
+            <div class="my-3">
+                <small class="bp-label-text">Descrição</small>
+                <input type="text" class="form-control" placeholder="Descrição da troca" minlength="2" maxlength="150"
+                       name="description" [(ngModel)]="swap.description" required>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Beneficiada</small>
+                <select class="form-select" [(ngModel)]="swap.beneficiary_id" (change)="onChangeBeneficiary($event)" name="beneficiary" required>
+                    <option value="" disabled>Selecione a beneficiada</option>
+                    <option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.user?.name}}</option>
+                </select>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Criança</small>
+                <select class="form-select" [(ngModel)]="swap.child_id" name="child_id" required>
+                    <option value="">Selecione a criança</option>
+                    <option *ngFor="let child of children" [value]="child.id">{{child.name}}</option>
+                </select>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Tamanho da Roupa</small>
+                <select class="form-select" [(ngModel)]="swap.cloth_size_id" name="cloth_size" required>
+                    <option value=""> --- </option>
+                    <option *ngFor="let size of sizes" [value]="size.id">{{size.name}}</option>
+                </select>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Tamanho do Sapato</small>
+                <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size" required>
+                    <option value=""> --- </option>
+                    <option *ngFor="let size of sizes" [value]="size.id">{{size.name}}</option>
+                </select>
+            </div>
+            <div class="bp-modal-footer justify-content-center align-items-center">
+                <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()">Salvar</button>
+                <button type="button" class="bp-button col-6" id="btn-close" (click)="close()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

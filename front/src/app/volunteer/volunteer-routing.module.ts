@@ -6,8 +6,8 @@ import { ListCampaignComponent } from './components/campaign/list-campaign/list-
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
 import { ListVolunteerComponent } from './components/volunteer';
+import { ListSwapComponent } from './components/swap';
 import { HomeComponent, MainComponent } from './index';
-import { ListSwapComponent } from './components/swap/list-swap/list-swap.component';
 
 
 export const VolunteerRouting: Routes = [
@@ -21,7 +21,7 @@ export const VolunteerRouting: Routes = [
       {
         path: 'beneficiadas',      // BENEFICIADAS
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_beneficiaries'] },
+        data: { requiredPermissions: ['Beneficiárias'] },
         children: [
           { path: '', component: ListBeneficiaryComponent },
           { path: 'criar', component: CreateBeneficiaryComponent },
@@ -31,12 +31,12 @@ export const VolunteerRouting: Routes = [
       },
       {
         path: 'voluntarias', component: ListVolunteerComponent, canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_volunteers'] }
+        data: { requiredPermissions: ['Voluntárias'] }
       },
       {
         path: 'profissionais',      // PROFISSIONAL
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_professionals'] },
+        data: { requiredPermissions: ['Profissionais'] },
         children: [
           { path: '', component: ListProfessionalComponent },
           { path: 'pendentes', component: ListPendingProfessionalsComponent },
@@ -44,26 +44,25 @@ export const VolunteerRouting: Routes = [
       },
       {
         path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_specialities'] },
+        data: { requiredPermissions: ['Especialidades'] },
       },
 
       {
         path: 'campanhas',
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_volunteers'] },
+        data: { requiredPermissions: ['Campanhas'] },
         children: [
           { path: '', component: ListCampaignComponent },
 
         ]
       },
-
       {
         path: 'trocas',
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_swaps'] },
+        data: { requiredPermissions: ['Trocas'] },
         children: [
           { path: '', component: ListSwapComponent },
-
+      
         ]
       },
 
@@ -71,5 +70,4 @@ export const VolunteerRouting: Routes = [
     ]
   },
 ];
-
 

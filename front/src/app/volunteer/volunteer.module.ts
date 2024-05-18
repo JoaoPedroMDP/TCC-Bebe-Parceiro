@@ -14,8 +14,10 @@ import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, De
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
-import { CreateEditSwapComponent, DeleteSwapComponent, InspectSwapComponent, ListSwapComponent} from './components/swap';
+import { DeleteSwapComponent, InspectSwapComponent, ListSwapComponent} from './components/swap';
 import { ApproveRefuseSwapComponent } from './components/swap/approve-refuse-swap/approve-refuse-swap.component';
+import { CreateSwapComponent } from './components/swap/create-swap/create-swap.component';
+import { EditSwapComponent } from './components/swap/edit-swap/edit-swap.component';
 
 
 
@@ -57,10 +59,12 @@ import { ApproveRefuseSwapComponent } from './components/swap/approve-refuse-swa
     DeleteCampaignComponent,
     InspectCampaignComponent,
     // TROCAS
-    CreateEditSwapComponent, 
     DeleteSwapComponent, 
     InspectSwapComponent, 
-    ListSwapComponent, ApproveRefuseSwapComponent,
+    ListSwapComponent, 
+    ApproveRefuseSwapComponent, 
+    CreateSwapComponent, 
+    EditSwapComponent,
 
     
   ],
