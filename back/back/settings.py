@@ -13,7 +13,7 @@ import logging
 from datetime import timedelta
 from pathlib import Path
 
-from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, TOKEN_TTL_SECONDS, AUTH_ENABLED, ENV
+from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DEV, TOKEN_TTL_SECONDS, AUTH_ENABLED, ENV
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%@^tk*osls(_i*%xvkxj4gy%i$e5zke+4)(94zh5+p0n$+*4=u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ENV == 'dev'
+DEBUG = ENV == DEV
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 

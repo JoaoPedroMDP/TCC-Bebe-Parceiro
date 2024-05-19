@@ -78,7 +78,10 @@ SHOE_SIZES = [i for i in range(13, 23)]
 CLOTH_SIZES = [P, M, G, ONE_YEAR, TWO_YEARS]
 
 # Ambiente
-ENV = os.getenv("ENV", "dev")
+PROD = 'production'
+DEV = 'development'
+
+ENV = os.getenv("ENV", DEV)
 
 try:
     from config_local import *  # @UnusedWildImport

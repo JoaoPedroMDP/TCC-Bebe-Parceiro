@@ -14,6 +14,7 @@ from core.app_views.marital_status_views import MaritalStatusGenericViews, Marit
 from core.app_views.size_views import SizeGenericViews, SizeSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
 from core.app_views.state_views import StateGenericViews, StateSpecificViews
+from core.app_views.status_views import StatusGenericViews, StatusSpecificViews
 from core.app_views.swap_views import SwapGenericViews, SwapSpecificViews
 from core.app_views.volunteer_views import VolunteerGenericViews, VolunteerSpecificViews, VolunteerEvaluatorsViews
 from core.app_views.professional_views import ProfessionalGenericViews, ProfessionalSpecificViews
@@ -76,4 +77,8 @@ urlpatterns = [
 
     path("sizes", SizeGenericViews.as_view(), name="gen_sizes"),
     path("sizes/<int:pk>", SizeSpecificViews.as_view(), name="spe_sizes"),
+
+    path("status", StatusGenericViews.as_view(), name="gen_status"),
+    path("status/<int:pk>", StatusSpecificViews.as_view(), name="spe_status"),
+
 ]

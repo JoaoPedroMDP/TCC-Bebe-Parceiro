@@ -5,7 +5,7 @@ from traceback import format_exc
 from rest_framework import status
 from rest_framework.response import Response
 
-from config import ENV
+from config import DEV, ENV
 from core.utils.exceptions import HttpFriendlyError
 
 
@@ -28,7 +28,7 @@ def endpoint(func):
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             lgr.error(format_exc())
-            if ENV == 'dev':
+            if ENV == DEV:
                 raise e
             else:
                 return Response(
