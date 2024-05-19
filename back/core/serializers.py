@@ -131,19 +131,21 @@ class SizeSerializer(ModelSerializer):
         fields = ['id', 'name', 'enabled', 'type']
 
 
-class SwapSerializer(ModelSerializer):
-    beneficiary = BeneficiarySerializer(read_only=True)
-    cloth_size = SizeSerializer()
-    shoe_size = SizeSerializer()
-    child = ChildSerializer()
-
-    class Meta:
-        model = Swap
-        fields = ['id', 'cloth_size', 'shoe_size', 'description', 'status', 'beneficiary', 'child']
-
-
 class StatusSerializer(ModelSerializer):
 
     class Meta:
         model = Status
         fields = ['id', 'name', 'enabled']
+
+
+class SwapSerializer(ModelSerializer):
+    beneficiary = BeneficiarySerializer(read_only=True)
+    cloth_size = SizeSerializer()
+    shoe_size = SizeSerializer()
+    child = ChildSerializer()
+    status = StatusSerializer()
+    
+    class Meta:
+        model = Swap
+        fields = ['id', 'cloth_size', 'shoe_size', 'description', 'status', 'beneficiary', 'child']
+
