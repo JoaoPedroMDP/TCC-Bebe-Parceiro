@@ -25,7 +25,7 @@ export class ApproveRefuseSwapComponent implements OnInit {
    */
   approveSwap() {
     // Define o status da troca como aprovado
-    // VERIFICAR
+    this.swap.status_id = 2; 
     this.swapService.editSwap(this.swap.id!, this.swap).subscribe({
       next: () => SwalFacade.success("Troca aprovada com sucesso!", `Troca de ${this.swap.description} foi aprovada!`),
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),
@@ -37,6 +37,7 @@ export class ApproveRefuseSwapComponent implements OnInit {
    * @description Chama o método deleteSwap() do service para remover a troca
    */
   refuseSwap() {
+    this.swap.status_id = 3; 
     this.swapService.deleteSwap(this.swap.id!).subscribe({
       next: () => SwalFacade.success("Troca removida com sucesso!", `Troca de ${this.swap.description} foi removida!`),
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),

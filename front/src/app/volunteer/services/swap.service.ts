@@ -39,6 +39,8 @@ export class SwapService {
       );
   }
 
+  
+
   getSwap(id: number): Observable<any> {
     return this.http.get(`${this.baseURL}/swaps/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
@@ -70,6 +72,15 @@ export class SwapService {
 
   listBeneficiaries(): Observable<Beneficiary[]> {
     return this.http.get<Beneficiary[]>(`${this.baseURL}/beneficiaries`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  listStatus(): Observable<any> {
+    return this.http.get(`${this.baseURL}/status`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));

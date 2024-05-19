@@ -6,7 +6,7 @@ import { SwalFacade } from 'src/app/shared';
 import { Swap, SwapPOST } from 'src/app/shared/models/swap';
 import { SwapService } from 'src/app/volunteer/services/swap.service';
 import { CreateSwapComponent, EditSwapComponent, DeleteSwapComponent, InspectSwapComponent } from '../index';
-
+import { Status } from 'src/app/shared/models/swap/status.model';
 @Component({
   selector: 'app-list-swap',
   templateUrl: './list-swap.component.html',
@@ -15,9 +15,13 @@ import { CreateSwapComponent, EditSwapComponent, DeleteSwapComponent, InspectSwa
 export class ListSwapComponent implements OnInit, OnDestroy {
 
   swaps!: Swap[];
+  originalSwaps!: Swap[];  // Armazena os swaps originais para aplicar filtros
   filter!: string;
+  selectedStatus!: string;  // Armazena o status selecionado
   isLoading: boolean = false;
   subscription: Subscription | undefined;
+  statuses!: Status[];
+  
 
   constructor(private modalService: NgbModal, private router: Router, private swapService: SwapService) { }
 
@@ -36,9 +40,8 @@ export class ListSwapComponent implements OnInit, OnDestroy {
     this.isLoading = true; // Flag de carregamento
     this.swapService.listSwaps().subscribe({
       next: (response) => {
-        this.swaps = response;
-        // Ordena por descrição de forma segura, verificando por valores nulos ou indefinidos
-        this.swaps.sort((a, b) => (a.description ?? '').localeCompare(b.description ?? ''));
+        this.originalSwaps = response; // Armazena os swaps originais para filtragem
+          this.filterSwap();
       },
       error: (e) => {
         SwalFacade.error("Ocorreu um erro!", e); // Manipula erros
@@ -52,20 +55,24 @@ export class ListSwapComponent implements OnInit, OnDestroy {
         this.isLoading = false; // Desativa a flag de carregamento após completar a operação
       }
     });
+
+ 
 }
 
-
-
-  filterSwap(event: Event) {
-    if (event != undefined) {
-      this.swaps = [];
-      if (this.filter != '') {
-        this.listSwaps(true);
-      } else {
-        this.listSwaps(false);
-      }
-    }
+filterSwap() {
+  if (this.filter) {
+    const filterLower = this.filter.toLowerCase();
+    this.swaps = this.originalSwaps.filter(swap =>
+      (swap.description?.toLowerCase().includes(filterLower) ||
+       swap.beneficiary?.user?.name?.toLowerCase().includes(filterLower) ||
+       swap.cloth_size?.name?.toLowerCase().includes(filterLower) ||
+       swap.shoe_size?.name?.toLowerCase().includes(filterLower) ||
+       swap.status?.name?.toLowerCase().includes(filterLower))
+    );
+  } else {
+    this.swaps = [...this.originalSwaps]; // Retorna todos os swaps se não há filtro
   }
+}
 
   inspectSwap(swap: Swap) {
     let modalRef = this.modalService.open(InspectSwapComponent, { size: 'xl' });
@@ -78,24 +85,13 @@ export class ListSwapComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.editMode = false;
   }
 
-  editSwap1(swap: Swap) {
-    let modalRef = this.modalService.open(EditSwapComponent, { size: 'xl' });
-    modalRef.componentInstance.swap = Swap;
-    modalRef.componentInstance.editMode = true;
-  }
-
-   /**
-   * @description Abre o modal de edição
-   * @param volunteer objeto do voluntária para ir como variavel no componente
-   */
    editSwap(swap: Swap) {
     let swapPOST = new SwapPOST();
     swapPOST.transformObjectToEdit(swap);
     let modalRef = this.modalService.open(EditSwapComponent, { size: 'xl' })
-    modalRef.componentInstance.swap = swapPOST;  // Passando o voluntária
-    modalRef.componentInstance.editMode = true;          // Passando o modo de edição
-    // modalRef.componentInstance.countrySelected = volunteer.city?.state?.country?.id;  // Passando a voluntaria
-    // modalRef.componentInstance.stateSelected = volunteer.city?.state?.id;          // Passando o modo de edição
+    modalRef.componentInstance.swap = swapPOST;  
+    modalRef.componentInstance.editMode = true;        
+
   }
 
   deleteSwap(swap: Swap) {

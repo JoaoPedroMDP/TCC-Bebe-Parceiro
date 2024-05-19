@@ -3,7 +3,8 @@ import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
 import { SwalFacade, SwapService } from 'src/app/shared';
-import { Beneficiary, Child, Size, SwapPOST } from 'src/app/shared/models';
+import { Beneficiary, Child, Size, SwapPOST, Status } from 'src/app/shared/models';
+
 
 @Component({
   selector: 'app-edit-swap',
@@ -18,11 +19,13 @@ export class EditSwapComponent implements OnInit {
   @Input() childSelected!: number | undefined;        
   @Input() clothSizeSelected!: number | undefined;    
   @Input() shoeSizeSelected!: number | undefined;    
+  @Input() statusSelected!: number | undefined; 
 
   beneficiaries: Beneficiary[] = [];
   children: Child[] = [];
   sizes: Size[] = [];
   shoeSizes!: Size[];
+  statuses!: Status[];
 
   constructor(public activeModal: NgbActiveModal, private swapService: SwapService) {}
 
@@ -30,37 +33,40 @@ export class EditSwapComponent implements OnInit {
     this.loadInitialData();
   }
   
-  loadInitialData() {
-    this.swapService.listBeneficiaries().subscribe(beneficiaries => {
-      this.beneficiaries = beneficiaries;
-      Promise.all([
+  async loadInitialData() {
+    try {
+      this.beneficiaries = await firstValueFrom(this.swapService.listBeneficiaries());
+      const [sizes, shoeSizes, statuses] = await Promise.all([
         firstValueFrom(this.swapService.listClothSizes()),
-        firstValueFrom(this.swapService.listShoeSizes())
-      ]).then(([sizes, shoeSizes]) => {
-        this.sizes = sizes;
-        this.shoeSizes = shoeSizes;
-        if (this.swap.id) {
-          this.fetchSwap(this.swap.id);
-        }
-      }).catch(error => {
-        console.error('Failed to load sizes:', error);
-      });
-    });
+        firstValueFrom(this.swapService.listShoeSizes()),
+        firstValueFrom(this.swapService.listStatus()),
+      ]);
+      this.sizes = sizes;
+      this.shoeSizes = shoeSizes;
+      this.statuses = statuses;
+  
+      if (this.swap.id) {
+        this.fetchSwap(this.swap.id);
+      }
+    } catch (error) {
+      console.error('Failed to load initial data:', error);
+    }
   }
   
-  fetchSwap(id: number) {
-    this.swapService.getSwap(id).subscribe(
-      swap => {
-        this.swap.transformObjectToEdit(swap);
-        if (this.swap.beneficiary_id) {
-          this.onChangeBeneficiary({ target: { value: this.swap.beneficiary_id.toString() } }, true);
-        }
-        // Assegurar que as seleções de tamanhos sejam atualizadas após os tamanhos estarem carregados
-        this.clothSizeSelected = this.swap.cloth_size_id;
-        this.shoeSizeSelected = this.swap.shoe_size_id;
-      },
-      error => console.error('Error fetching swap details:', error)
-    );
+  async fetchSwap(id: number) {
+    try {
+      const swap = await firstValueFrom(this.swapService.getSwap(id));
+      this.swap.transformObjectToEdit(swap);
+      this.statusSelected = this.swap.status_id; 
+      this.clothSizeSelected = this.swap.cloth_size_id;
+      this.shoeSizeSelected = this.swap.shoe_size_id;
+
+      if (this.swap.beneficiary_id) {
+        this.onChangeBeneficiary({ target: { value: this.swap.beneficiary_id.toString() } }, true);
+      }
+    } catch (error) {
+      console.error('Error fetching swap details:', error);
+    }
   }
   
   onChangeBeneficiary(event: any, initialLoad: boolean = false) {
@@ -98,7 +104,15 @@ export class EditSwapComponent implements OnInit {
     });
   }
 
+  listStatus() {
+    this.swapService.listStatus().subscribe({
+      next: (response: Status[]) => this.statuses = response,
+      error: (e) => SwalFacade.error("Erro ao listar os status", e)
+    });
+  }
+
   save() {
+    this.swap.status_id = this.statusSelected;
     this.swap.cloth_size_id = this.clothSizeSelected;
     this.swap.shoe_size_id = this.shoeSizeSelected;
     if (this.form.valid && this.swap && this.swap.id) {

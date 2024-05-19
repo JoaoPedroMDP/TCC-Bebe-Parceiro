@@ -37,6 +37,13 @@
                     <option [value]="shoes.id" *ngFor="let shoes of shoeSizes">{{shoes.name}}</option>
                 </select>
             </div>
+            <div class="my-3">
+                <small class="bp-label-text">Status</small>
+                <select class="form-select" [(ngModel)]="swap.status_id" name="status"required>
+                    <option value=""> --- </option>
+                    <option [value]="status.id" *ngFor="let status of statuses">{{status.name}}</option>
+                </select>
+            </div>
         </form>
     </div>
 </div>

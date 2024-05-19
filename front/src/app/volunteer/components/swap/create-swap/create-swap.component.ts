@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwalFacade, SwapService } from 'src/app/shared';
-import { Beneficiary, Child, Size, SwapPOST } from 'src/app/shared/models';
+import { Beneficiary, Child, Size, SwapPOST, Status } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-create-swap',
@@ -14,6 +14,7 @@ export class CreateSwapComponent implements OnInit {
   children: Child[] = [];
   sizes: Size[] = [];
   shoeSizes!: Size[];
+  statuses!: Status[];
 
   constructor(public activeModal: NgbActiveModal, private swapService: SwapService) { }
 
@@ -22,6 +23,7 @@ export class CreateSwapComponent implements OnInit {
     this.listClothSizes();
     this.listShoeSizes();
     this.listChildren();
+    this.listStatus();
   }
 
   onChangeBeneficiary(event: any) {
@@ -67,6 +69,16 @@ export class CreateSwapComponent implements OnInit {
 listClothSizes() {
   this.swapService.listClothSizes().subscribe({
     next: (response: Size[]) => this.sizes = response,
+    error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Roupas", e)
+  });
+}
+
+/**
+   * @description Lista os status
+   */
+listStatus() {
+  this.swapService.listStatus().subscribe({
+    next: (response: Status[]) => this.statuses = response,
     error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Roupas", e)
   });
 }
