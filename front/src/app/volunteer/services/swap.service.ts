@@ -24,21 +24,27 @@ export class SwapService {
     return this.http.post(`${this.baseURL}/swaps`, swap, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this._refreshPage$.next()),
-        catchError(error => throwError(() => new Error(`Erro ao criar troca: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 
   listSwaps(): Observable<any> {
     return this.http.get(`${this.baseURL}/swaps`, { headers: this.authService.getHeaders() })
       .pipe(
-        catchError(error => throwError(() => new Error(`Erro ao listar trocas: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 
   getSwap(id: number): Observable<any> {
     return this.http.get(`${this.baseURL}/swaps/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
-        catchError(error => throwError(() => new Error(`Erro ao encontrar troca: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 
@@ -46,7 +52,9 @@ export class SwapService {
     return this.http.patch(`${this.baseURL}/swaps/${id}`, swap, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this._refreshPage$.next()),
-        catchError(error => throwError(() => new Error(`Erro ao editar troca: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 
@@ -54,14 +62,18 @@ export class SwapService {
     return this.http.delete(`${this.baseURL}/swaps/${id}`, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this._refreshPage$.next()),
-        catchError(error => throwError(() => new Error(`Erro ao deletar troca: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 
   listBeneficiaries(): Observable<Beneficiary[]> {
     return this.http.get<Beneficiary[]>(`${this.baseURL}/beneficiaries`, { headers: this.authService.getHeaders() })
       .pipe(
-        catchError(error => throwError(() => new Error(`Erro ao listar beneficiários: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 
@@ -95,7 +107,9 @@ export class SwapService {
   listChildrenByBenefitedId(benefitedId: number): Observable<Child[]> {
     return this.http.get<Child[]>(`${this.baseURL}/children?benefited_id=${benefitedId}`, { headers: this.authService.getHeaders() })
       .pipe(
-        catchError(error => throwError(() => new Error(`Erro ao buscar crianças por beneficiada: ${error.message}`)))
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 
@@ -116,10 +130,9 @@ export class SwapService {
       return this.http.get<Child[]>(`${this.baseURL}/children?beneficiary_id=${beneficiaryId}`, {
           headers: this.authService.getHeaders()
       }).pipe(
-          catchError(error => {
-              console.error('Erro ao buscar crianças', error);
-              return throwError(() => new Error('Erro ao buscar crianças'));
-          })
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
       );
   }
 }
