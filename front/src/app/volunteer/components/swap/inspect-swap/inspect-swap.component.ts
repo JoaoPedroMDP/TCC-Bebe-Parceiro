@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Swap } from 'src/app/shared/models/swap';
+import { Swap, SwapPOST } from 'src/app/shared/models/swap';
 import { DeleteSwapComponent } from '../delete-swap/delete-swap.component';
-import { CreateSwapComponent } from '../create-swap/create-swap.component';
 import { EditSwapComponent } from '../edit-swap/edit-swap.component';
 import { ApproveRefuseSwapComponent } from '../approve-refuse-swap/approve-refuse-swap.component';
 

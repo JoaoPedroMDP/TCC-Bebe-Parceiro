@@ -28,27 +28,33 @@
             <input type="text" class="form-control" [(ngModel)]="swap.status" disabled>            
         </div>
     </div>
-    <div class="bp-modal-footer  align-items-center">
+    <!-- <div class="bp-modal-footer  align-items-center">
         <button type="button" class="bp-button col-6" id="btn-edit" (click)="approveSwap(swap)" *ngIf="!isSwapApproved">
             <i class="fa-solid " [title]="'Aprovar o profissional: '+ swap.description"></i>
         Aprovar</button>
         <button type="button" class="bp-button col-6" id="btn-delete" (click)="refuseSwap(swap)" *ngIf="!isSwapApproved">
             <i class="fa-solid " [title]="'Recusar o profissional: '+ swap.description"></i>
         Recusar</button> 
-    </div>
+    </div> -->
 </div>
 
     
 <div class="bp-modal-footer justify-content-center align-items-center">
-    <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
-        <i class="fa-solid fa-xmark" title="Voltar para a listagem"></i>
-    </button>
-    <button type="button" class="bp-button col-4" id="btn-edit" (click)="editSwap(swap)">
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="approveSwap(swap)" *ngIf="!isSwapApproved">
+        <i class="fa-solid " [title]="'Aprovar o profissional: '+ swap.description"></i>
+    Aprovar</button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="refuseSwap(swap)" *ngIf="!isSwapApproved">
+        <i class="fa-solid " [title]="'Recusar o profissional: '+ swap.description"></i>
+    Recusar</button> 
+    <button type="button" class="bp-button col-4 " id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid " title="Voltar para a listagem"></i>
+    Cancelar</button>
+    <!-- <button type="button" class="bp-button col-4" id="btn-edit" (click)="editSwap(swap)">
         <i class="fa-solid fa-pen-to-square" title="Editar a troca"></i>
-    </button>
-    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteSwap(swap)">
+    </button> -->
+    <!-- <button type="button" class="bp-button col-6" id="btn-delete" (click)="deleteSwap(swap)">
         <i class="fa-solid fa-trash" title="Excluir a troca"></i>
-    </button>
+    </button> -->
   
 </div>
 
