@@ -6,6 +6,7 @@
         <table class="table table-hover table-striped" *ngIf="!isLoading">
             <thead class="table-dark">
                 <tr>
+                    <th>Beneficiada</th>
                     <th>Descrição</th>
                     <th>Tamanho de Roupa</th>
                     <th>Sapato</th>
@@ -16,6 +17,7 @@
             <tbody>
                 <tr *ngFor="let swap of swaps"
                     [title]="'Clique para ver mais dados da troca: '+ swap.description">
+                    <td class="align-middle" (click)="inspectSwap(swap)">{{swap.beneficiary?.user?.name}}</td>
                     <td class="align-middle" (click)="inspectSwap(swap)">{{swap.description}}</td>
                     <td class="align-middle" (click)="inspectSwap(swap)">{{swap.cloth_size?.name}}</td>
                     <td class="align-middle" (click)="inspectSwap(swap)">{{swap.shoe_size?.name}}</td>
