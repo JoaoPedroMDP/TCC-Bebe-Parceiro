@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';import { catchError } from 'rxjs';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwalFacade, SwapService } from 'src/app/shared';
 import { Beneficiary, Child, Size, SwapPOST } from 'src/app/shared/models';
 
@@ -18,7 +18,6 @@ export class EditSwapComponent implements OnInit {
   @Input() clothSizeSelected!: number | undefined;    
   @Input() shoeSizeSelected!: number | undefined;    
 
-  
   beneficiaries: Beneficiary[] = [];
   children: Child[] = [];
   sizes: Size[] = [];
@@ -27,86 +26,80 @@ export class EditSwapComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, private swapService: SwapService) {}
 
   ngOnInit(): void {
-    let auxCloth = this.clothSizeSelected;
-    let auxShoe = this.shoeSizeSelected;
-    let auxBenef = this.beneficiarySelected;
-    let auxChild = this.childSelected;
-
-    this.clothSizeSelected =  auxCloth;
-    this.shoeSizeSelected = auxShoe;
-    this.beneficiarySelected = auxBenef;
-    this.childSelected = auxChild;
-
-    this.listClothSizes();
-    this.listShoeSizes();
-
-
-    this.swapService.listBeneficiaries().subscribe(beneficiaries => this.beneficiaries = beneficiaries);
-  
-    if (this.swap.id) {
-      this.fetchSwap(this.swap.id);
-    }
+    this.loadInitialData();
   }
-
+  
+  loadInitialData() {
+    this.swapService.listBeneficiaries().subscribe(beneficiaries => {
+      this.beneficiaries = beneficiaries;
+      Promise.all([
+        this.swapService.listClothSizes().toPromise(),
+        this.swapService.listShoeSizes().toPromise()
+      ]).then(([sizes, shoeSizes]) => {
+        this.sizes = sizes;
+        this.shoeSizes = shoeSizes;
+        if (this.swap.id) {
+          this.fetchSwap(this.swap.id);
+        }
+      }).catch(error => {
+        console.error('Failed to load sizes:', error);
+      });
+    });
+  }
+  
   fetchSwap(id: number) {
     this.swapService.getSwap(id).subscribe(
       swap => {
-        this.swap = swap;
+        this.swap.transformObjectToEdit(swap);
         if (this.swap.beneficiary_id) {
-          this.onChangeBeneficiary({ target: { value: this.swap.beneficiary_id.toString() } });
+          this.onChangeBeneficiary({ target: { value: this.swap.beneficiary_id.toString() } }, true);
         }
+        // Assegurar que as seleções de tamanhos sejam atualizadas após os tamanhos estarem carregados
+        this.clothSizeSelected = this.swap.cloth_size_id;
+        this.shoeSizeSelected = this.swap.shoe_size_id;
       },
       error => console.error('Error fetching swap details:', error)
     );
   }
   
-  onChangeBeneficiary(event: any) {
+  onChangeBeneficiary(event: any, initialLoad: boolean = false) {
     const beneficiaryId = Number(event.target.value);
     this.swap.beneficiary_id = beneficiaryId;
-    if (beneficiaryId) {
-      this.swapService.listChildrenByBeneficiaryId(beneficiaryId).subscribe(
-        children => this.children = children,
-        error => console.error('Failed to load children:', error)
-      );
-    } else {
-      this.children = []; // Clear children if no valid beneficiary is selected
-    }
-  }
-
-   /**
-   * @description Lista as crianças da beneficiada
-   */
-   listChildren() {
-    this.swapService.listChildren().subscribe({
-      next: (response: Child[]) => {
-        this.children = response
+    this.swapService.listChildrenByBeneficiaryId(beneficiaryId).subscribe(
+      children => {
+        this.children = children;
+        if (initialLoad) {
+          this.childSelected = this.swap.child_id;
+        }
       },
-      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos", e)
-    });
+      error => console.error('Failed to load children:', error)
+    );
   }
 
-  /**
-   * @description Lista os tamanhos de roupa
-   */
+  listChildren(beneficiaryId: number) {
+    this.swapService.listChildrenByBeneficiaryId(beneficiaryId).subscribe(
+      children => this.children = children,
+      error => console.error('Failed to load children:', error)
+    );
+  }
+
   listClothSizes() {
     this.swapService.listClothSizes().subscribe({
       next: (response: Size[]) => this.sizes = response,
-      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Roupas", e)
+      error: (e) => SwalFacade.error("Erro ao listar os tamanhos de roupas", e)
     });
   }
 
-  /**
-   * @description Lista os tamanhos de sapatos
-   */
   listShoeSizes() {
     this.swapService.listShoeSizes().subscribe({
       next: (response: Size[]) => this.shoeSizes = response,
-      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Sapatos", e)
+      error: (e) => SwalFacade.error("Erro ao listar os tamanhos de sapatos", e)
     });
   }
 
   save() {
-    // Verifica se o formulário é válido antes de salvar
+    this.swap.cloth_size_id = this.clothSizeSelected;
+    this.swap.shoe_size_id = this.shoeSizeSelected;
     if (this.form.valid && this.swap && this.swap.id) {
       this.swapService.editSwap(this.swap.id, this.swap).subscribe({
         next: () => SwalFacade.success("Sucesso!", `${this.swap.description} foi atualizado com sucesso!`),
@@ -114,7 +107,7 @@ export class EditSwapComponent implements OnInit {
         complete: () => this.activeModal.close()
       });
     } else {
-      SwalFacade.alert("Não foi possível salvar!")
+      SwalFacade.alert("Formulário inválido!");
     }
   }
 

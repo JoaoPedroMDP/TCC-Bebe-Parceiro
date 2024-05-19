@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade } from 'src/app/shared';
-import { Swap } from 'src/app/shared/models/swap';
+import { Swap, SwapPOST } from 'src/app/shared/models/swap';
 import { SwapService } from 'src/app/volunteer/services/swap.service';
 import { CreateSwapComponent, EditSwapComponent, DeleteSwapComponent, InspectSwapComponent } from '../index';
 
@@ -78,10 +78,24 @@ export class ListSwapComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.editMode = false;
   }
 
-  editSwap(swap: Swap) {
+  editSwap1(swap: Swap) {
     let modalRef = this.modalService.open(EditSwapComponent, { size: 'xl' });
-    modalRef.componentInstance.swap = swap;
+    modalRef.componentInstance.swap = Swap;
     modalRef.componentInstance.editMode = true;
+  }
+
+   /**
+   * @description Abre o modal de edição
+   * @param volunteer objeto do voluntária para ir como variavel no componente
+   */
+   editSwap(swap: Swap) {
+    let swapPOST = new SwapPOST();
+    swapPOST.transformObjectToEdit(swap);
+    let modalRef = this.modalService.open(EditSwapComponent, { size: 'xl' })
+    modalRef.componentInstance.swap = swapPOST;  // Passando o voluntária
+    modalRef.componentInstance.editMode = true;          // Passando o modo de edição
+    // modalRef.componentInstance.countrySelected = volunteer.city?.state?.country?.id;  // Passando a voluntaria
+    // modalRef.componentInstance.stateSelected = volunteer.city?.state?.id;          // Passando o modo de edição
   }
 
   deleteSwap(swap: Swap) {

@@ -58,13 +58,6 @@ export class SwapService {
       );
   }
 
-  listSizes(): Observable<any> {
-    return this.http.get(`${this.baseURL}/sizes`, { headers: this.authService.getHeaders() })
-      .pipe(
-        catchError(error => throwError(() => new Error(`${error.status} - ${error.error.message}`)))
-      );
-  }
-
   listBeneficiaries(): Observable<Beneficiary[]> {
     return this.http.get<Beneficiary[]>(`${this.baseURL}/beneficiaries`, { headers: this.authService.getHeaders() })
       .pipe(
