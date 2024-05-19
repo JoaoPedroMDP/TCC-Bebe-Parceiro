@@ -21,16 +21,14 @@ class CreateAppointmentCommand(Command):
         Field('volunteer_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('professional_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('speciality_id', 'integer', required=True, formatter=lambda x: int(x)),
-        Field('date', datetime, required=True, formatter=format_date),
-        Field('time', datetime, required=True, formatter=format_time),
+        Field('datetime', 'string', required=True),
     ]
 
-    def __init__(self, beneficiary_id: int, date: datetime, time: datetime, user: User,
+    def __init__(self, beneficiary_id: int, datetime: str, user: User,
                  professional_id: int = None, volunteer_id: int = None, speciality_id: int = None
                  ):
         self.beneficiary_id = beneficiary_id
-        self.date = date
-        self.time = time
+        self.datetime = datetime
         self.user = user
         self.professional_id = professional_id
         self.volunteer_id = volunteer_id

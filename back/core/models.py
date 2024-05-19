@@ -226,8 +226,7 @@ class Appointment(TimestampedModel):
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, null=True, related_name="appointments")
     status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name="appointments")
 
-    date = models.DateField(null=True)
-    time = models.TimeField(null=True)
+    datetime = models.DateTimeField(null=True)
 
 
 class Register(TimestampedModel):

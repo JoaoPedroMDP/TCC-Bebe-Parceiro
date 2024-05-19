@@ -1,4 +1,5 @@
 #  coding: utf-8
+import logging
 from typing import List
 
 from config import PENDING, ROLE_BENEFICIARY, APPROVED
@@ -9,15 +10,16 @@ from core.repositories.appointment_repository import AppointmentRepository
 from core.repositories.status_repository import StatusRepository
 from core.services import CrudService
 
+lgr = logging.getLogger(__name__)
 
 class AppointmentService(CrudService):
 
     @classmethod
     def create(cls, command: CreateAppointmentCommand):
         if command.user.is_volunteer():
-            command.status_id = StatusRepository.get_by_name(APPROVED)
+            command.status_id = StatusRepository.get_by_name(APPROVED).id
         else:
-            command.status_id = StatusRepository.get_by_name(PENDING)
+            command.status_id = StatusRepository.get_by_name(PENDING).id
         return AppointmentRepository.create(command.to_dict())
 
     @classmethod

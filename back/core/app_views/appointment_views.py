@@ -6,11 +6,13 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
+from config import MANAGE_APPOINTMENTS
 from core.app_views import BaseView
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand, \
     DeleteAppointmentCommand
 from core.cqrs.queries.appointment_queries import GetAppointmentQuery, ListAppointmentQuery
 from core.models import Appointment
+from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.serializers import AppointmentSerializer
 from core.services.appointment_service import AppointmentService
 from core.utils.decorators import endpoint
@@ -19,12 +21,8 @@ lgr = logging.getLogger(__name__)
 
 
 class AppointmentGenericViews(BaseView):
-    authentication_classes_by_method = {
-        "get": ()
-    }
-    permission_classes_by_method = {
-        "get": ()
-    }
+    groups = [MANAGE_APPOINTMENTS]
+    permission_classes = (AtLeastOneGroup,)
 
     @endpoint
     def get(self, request: Request, format=None):
@@ -44,6 +42,8 @@ class AppointmentGenericViews(BaseView):
 
 
 class AppointmentSpecificViews(BaseView):
+    groups = [MANAGE_APPOINTMENTS]
+    permission_classes = (AtLeastOneGroup,)
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_APPOINTMENT----")
