@@ -10,4 +10,4 @@ from core.services import CrudService
 class GroupService(CrudService):
     @classmethod
     def get_groups(cls) -> List[Group]:
-        return GroupRepository.filter(name__contains='manage')
+        return GroupRepository.filter()
