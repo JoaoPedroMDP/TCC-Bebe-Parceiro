@@ -32,9 +32,9 @@
             </div>
             <div class="my-3">
                 <small class="bp-label-text">Tamanho do Sapato</small>
-                <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size" required>
+                <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size"required>
                     <option value=""> --- </option>
-                    <option *ngFor="let size of sizes" [value]="size.id">{{size.name}}</option>
+                    <option [value]="shoes.id" *ngFor="let shoes of shoeSizes">{{shoes.name}}</option>
                 </select>
             </div>
         </form>

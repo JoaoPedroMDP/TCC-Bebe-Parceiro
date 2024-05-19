@@ -13,12 +13,14 @@ export class CreateSwapComponent implements OnInit {
   beneficiaries: Beneficiary[] = [];
   children: Child[] = [];
   sizes: Size[] = [];
+  shoeSizes!: Size[];
 
   constructor(public activeModal: NgbActiveModal, private swapService: SwapService) { }
 
   ngOnInit(): void {
     this.swapService.listBeneficiaries().subscribe(beneficiaries => this.beneficiaries = beneficiaries);
-    this.swapService.listSizes().subscribe(sizes => this.sizes = sizes);
+    this.listClothSizes();
+    this.listShoeSizes();
     this.listChildren();
   }
 
@@ -46,6 +48,26 @@ export class CreateSwapComponent implements OnInit {
       console.log(this.children)
     },
     error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos", e)
+  });
+}
+
+  /**
+   * @description Lista os tamanhos de sapatos
+   */
+  listShoeSizes() {
+    this.swapService.listShoeSizes().subscribe({
+      next: (response: Size[]) => this.shoeSizes = response,
+      error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Sapatos", e)
+    });
+  }
+
+/**
+   * @description Lista os tamanhos de roupa
+   */
+listClothSizes() {
+  this.swapService.listClothSizes().subscribe({
+    next: (response: Size[]) => this.sizes = response,
+    error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Roupas", e)
   });
 }
 

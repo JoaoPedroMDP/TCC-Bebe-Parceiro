@@ -18,23 +18,23 @@
             </div>
             <div class="my-3">
                 <small class="bp-label-text">Criança</small>
-                <select class="form-select" [(ngModel)]="swap.child_id" name="child_id" required>
+                <select class="form-select" [(ngModel)]="childSelected" (ngModelChange)="listChildren()" name="child_id" required>
                     <option value="">Selecione a criança</option>
                     <option *ngFor="let child of children" [value]="child.id">{{child.name}}</option>
                 </select>
             </div>
             <div class="my-3">
                 <small class="bp-label-text">Tamanho da Roupa</small>
-                <select class="form-select" [(ngModel)]="swap.cloth_size_id" name="cloth_size" required>
+                <select class="form-select" [(ngModel)]="clothSizeSelected" (ngModelChange)="listClothSizes()" name="cloth_size_id" required>
                     <option value=""> --- </option>
                     <option *ngFor="let size of sizes" [value]="size.id">{{size.name}}</option>
                 </select>
             </div>
             <div class="my-3">
                 <small class="bp-label-text">Tamanho do Sapato</small>
-                <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size" required>
+                <select class="form-select" [(ngModel)]="shoeSizeSelected" (ngModelChange)="listShoeSizes()" name="shoe_size_id"required>
                     <option value=""> --- </option>
-                    <option *ngFor="let size of sizes" [value]="size.id">{{size.name}}</option>
+                    <option [value]="shoes.id" *ngFor="let shoes of shoeSizes">{{shoes.name}}</option>
                 </select>
             </div>
             <div class="bp-modal-footer justify-content-center align-items-center">

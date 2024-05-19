@@ -27,8 +27,22 @@ export class EditSwapComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, private swapService: SwapService) {}
 
   ngOnInit(): void {
+    let auxCloth = this.clothSizeSelected;
+    let auxShoe = this.shoeSizeSelected;
+    let auxBenef = this.beneficiarySelected;
+    let auxChild = this.childSelected;
+
+    this.clothSizeSelected =  auxCloth;
+    this.shoeSizeSelected = auxShoe;
+    this.beneficiarySelected = auxBenef;
+    this.childSelected = auxChild;
+
+    this.listClothSizes();
+    this.listShoeSizes();
+
+
     this.swapService.listBeneficiaries().subscribe(beneficiaries => this.beneficiaries = beneficiaries);
-    this.swapService.listSizes().subscribe(sizes => this.sizes = sizes);
+  
     if (this.swap.id) {
       this.fetchSwap(this.swap.id);
     }
@@ -74,24 +88,11 @@ export class EditSwapComponent implements OnInit {
   /**
    * @description Lista os tamanhos de roupa
    */
-  listClothSizes1() {
+  listClothSizes() {
     this.swapService.listClothSizes().subscribe({
       next: (response: Size[]) => this.sizes = response,
       error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos de Roupas", e)
     });
-  }
-
-
-  listClothSizes() {
-    this.swapService.listClothSizes().subscribe({
-      next: (data: Size[]) => {
-    if (data == null) {
-      this.sizes = [];
-    } else {
-      this.sizes = data;
-    }
-  }
-  });
   }
 
   /**
@@ -113,14 +114,8 @@ export class EditSwapComponent implements OnInit {
         complete: () => this.activeModal.close()
       });
     } else {
-      SwalFacade.alert("Não foi possível salvar!", "A senhas devem ser iguais!")
+      SwalFacade.alert("Não foi possível salvar!")
     }
-  }
-
- 
-
-  validateSwapDetails(): boolean {
-    return !!this.swap.beneficiary_id && !!this.swap.child_id && !!this.swap.cloth_size_id && !!this.swap.shoe_size_id;
   }
 
   close() {
