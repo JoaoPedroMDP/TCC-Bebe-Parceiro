@@ -80,6 +80,8 @@ listClothSizes() {
       error: (e) => SwalFacade.error("Erro ao salvar!", e)
     });
   }
+
+ 
     /**
    * @description Fecha o modal
    */

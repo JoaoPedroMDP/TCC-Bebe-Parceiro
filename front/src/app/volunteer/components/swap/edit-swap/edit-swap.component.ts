@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { firstValueFrom } from 'rxjs';
 import { SwalFacade, SwapService } from 'src/app/shared';
 import { Beneficiary, Child, Size, SwapPOST } from 'src/app/shared/models';
 
@@ -33,8 +34,8 @@ export class EditSwapComponent implements OnInit {
     this.swapService.listBeneficiaries().subscribe(beneficiaries => {
       this.beneficiaries = beneficiaries;
       Promise.all([
-        this.swapService.listClothSizes().toPromise(),
-        this.swapService.listShoeSizes().toPromise()
+        firstValueFrom(this.swapService.listClothSizes()),
+        firstValueFrom(this.swapService.listShoeSizes())
       ]).then(([sizes, shoeSizes]) => {
         this.sizes = sizes;
         this.shoeSizes = shoeSizes;
