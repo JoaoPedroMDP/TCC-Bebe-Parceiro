@@ -35,6 +35,16 @@
     font-weight: 600;
     font-size: 1.1rem;
 }
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Defina a altura conforme necessário */
+}
+
+.bold-text {
+    font-weight: bold;
+}
 /* -------------------------------------------  MEDIA ------------------------------------------- */
 @media screen and (width > 991px) {
     .bp-button {

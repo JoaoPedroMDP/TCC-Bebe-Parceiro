@@ -53,9 +53,9 @@ export class CreateSwapComponent implements OnInit {
     this.swapService.createSwap(this.swap).subscribe({
       next: () => {
         this.activeModal.close();
-        alert('Troca criada com sucesso!');
+        SwalFacade.success("Sucesso!", `${this.swap.description} foi criada com sucesso!`)
       },
-      error: (e) => alert(`Erro ao criar troca: ${e.message}`)
+      error: (e) => SwalFacade.error("Erro ao salvar!", e)
     });
   }
     /**
@@ -64,6 +64,13 @@ export class CreateSwapComponent implements OnInit {
     close() {
       this.activeModal.close();
     }
+
+    
+
+
+
+
+
 }
 
 

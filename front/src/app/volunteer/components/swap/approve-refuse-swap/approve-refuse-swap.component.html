@@ -3,21 +3,10 @@
     <h4 class="mb-0" *ngIf="isApproving">Aprovar Troca</h4>
 </div>
 <div class="modal-body my-3">
-    <div class="container">
-        <div>
-            <small class="bp-label-text">Descrição</small>
-            <input type="text" class="form-control" [(ngModel)]="swap.description" disabled>
-        </div>
-        <div class="my-3">
-            <small class="bp-label-text">Tamanho da Roupa</small>
-            <input type="text" class="form-control" [(ngModel)]="swap.cloth_size_id" disabled>
-        </div>
-        <div>
-            <small class="bp-label-text">Tamanho do Sapato</small>
-            <input type="text" class="form-control" [(ngModel)]="swap.shoe_size_id" disabled>
-        </div>
-    </div>
+    <p>Confirma ação para a troca 
+        <span class="bold-text">{{swap.description}}</span>?</p>
 </div>
+
 <div class="bp-modal-footer justify-content-center align-items-center">
     <button type="submit" class="bp-button col-6" id="btn-delete" (click)="refuseSwap()" *ngIf="!isApproving">
         Recusar

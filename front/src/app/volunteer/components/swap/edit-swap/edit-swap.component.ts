@@ -106,18 +106,18 @@ export class EditSwapComponent implements OnInit {
 
   save() {
     // Verifica se o formulário é válido antes de salvar
-    if (this.form.valid && this.swap && this.swap.id && this.validateSwapDetails()) {
+    if (this.form.valid && this.swap && this.swap.id) {
       this.swapService.editSwap(this.swap.id, this.swap).subscribe({
-        next: () => {
-          this.activeModal.close();
-          alert('Troca editada com sucesso!');
-        },
-        error: (e) => alert(`Erro ao editar troca: ${e.message}`)
+        next: () => SwalFacade.success("Sucesso!", `${this.swap.description} foi atualizado com sucesso!`),
+        error: (e) => SwalFacade.error("Ocorreu um erro!", e),
+        complete: () => this.activeModal.close()
       });
     } else {
-      alert('Erro: Informações da troca não estão completas ou o formulário é inválido.');
+      SwalFacade.alert("Não foi possível salvar!", "A senhas devem ser iguais!")
     }
   }
+
+ 
 
   validateSwapDetails(): boolean {
     return !!this.swap.beneficiary_id && !!this.swap.child_id && !!this.swap.cloth_size_id && !!this.swap.shoe_size_id;

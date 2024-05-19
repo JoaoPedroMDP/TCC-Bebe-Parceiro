@@ -9,6 +9,7 @@
                     <th>Descrição</th>
                     <th>Tamanho de Roupa</th>
                     <th>Sapato</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -16,12 +17,13 @@
                 <tr *ngFor="let swap of swaps"
                     [title]="'Clique para ver mais dados da troca: '+ swap.description">
                     <td class="align-middle" (click)="inspectSwap(swap)">{{swap.description}}</td>
-                    <td class="align-middle">{{swap.cloth_size?.name}}</td>
-                    <td class="align-middle">{{swap.shoe_size?.name}}</td>
+                    <td class="align-middle" (click)="inspectSwap(swap)">{{swap.cloth_size?.name}}</td>
+                    <td class="align-middle" (click)="inspectSwap(swap)">{{swap.shoe_size?.name}}</td>
+                    <td class="align-middle" (click)="inspectSwap(swap)">{{swap.status}}</td>
                     <td>
-                        <i class="fa-solid fa-pen-to-square col-12 col-md-2" (click)="editSwap(swap)"
+                        <i class="fa-solid fa-pen-to-square col-4 col-6" (click)="editSwap(swap)"
                             [title]="'Editar a troca: '+ swap.description"></i>
-                        <i class="fa-solid fa-trash col-12 col-md-2" (click)="deleteSwap(swap)"
+                        <i class="fa-solid fa-trash col-4 col-md-2" (click)="deleteSwap(swap)"
                         [title]="'Excluir a troca: '+ swap.description"></i>
                     </td>
                 </tr>
@@ -35,18 +37,11 @@
         </div>
     </div>
     <div class="bp-footer fixed-bottom">
-        <div class="d-flex flex-column">
-            <div class="bp-footer-left">
-                <button class="bp-button" id="bp-big-btn" routerLink="pendentes">Trocas Pendentes</button>
-            </div>
-            <div class="bp-footer-left">
-                <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
-            </div>
+        <div class="bp-footer-left">
+            <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
         </div>
-        <div class="d-flex flex-column">
-            <div class="bp-footer-right">
-                <button class="bp-button" id="bp-big-btn" (click)="newSwap()">Nova Troca</button>
-            </div>
+        <div class="bp-footer-right">
+            <button class="bp-button" id="bp-big-btn" (click)="newSwap()">Nova Troca</button>
         </div>
     </div>
 </div>
