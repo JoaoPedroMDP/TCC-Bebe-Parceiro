@@ -99,17 +99,20 @@ class BeneficiaryService(CrudService):
             })
             UserService.patch(user_command)
 
-        for child in command.children:
-            c_command = PatchChildCommand.from_dict(child)
-            ChildService.patch(c_command)
+        if command.children:
+            for child in command.children:
+                c_command = PatchChildCommand.from_dict(child)
+                ChildService.patch(c_command)
+            
+            command.children = None
 
         if command.social_programs:
             beneficiary.social_programs.clear()
             for social_p in command.social_programs:
                 beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
+            
+            command.social_programs = None
 
-        command.social_programs = None
-        command.children = None
 
         return BeneficiaryRepository.patch(command.to_dict())
 

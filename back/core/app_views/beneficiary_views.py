@@ -29,11 +29,11 @@ lgr = logging.getLogger(__name__)
 
 class BeneficiaryCreationByVolunteerView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup,)
 
     @endpoint
     def post(self, request: Request, format=None):
-        lgr.debug("----CREATE_BENEFICIARY----")
+        lgr.debug("----CREATE_BENEFICIARY_BY_VOLUNTEER----")
         command: CreateBeneficiaryCommand = CreateBeneficiaryCommand.from_dict({
             **request.data,
             'user': request.user
@@ -73,7 +73,7 @@ class BeneficiaryGenericViews(BaseView):
 
 class BeneficiarySpecificViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = [IsAuthenticated, (IsIt | VolunteerAtLeastOneGroup)]
+    permission_classes = [IsAuthenticated, ((IsVolunteer & VolunteerAtLeastOneGroup) | IsIt)]
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
@@ -95,17 +95,11 @@ class BeneficiarySpecificViews(BaseView):
 
         if request.user.is_beneficiary():
             anonimized: Beneficiary = BeneficiaryService.anonimize(command)
-            if anonimized:
-                return {}, status.HTTP_204_NO_CONTENT
-
-            return {}, status.HTTP_404_NOT_FOUND
+            return {"message": "Beneficiária anonimizada."}, status.HTTP_204_NO_CONTENT
         else:
             # Aqui chamamos o delete de User para apagar tudo (user, beneficiary e child, visto que são filhos de user)
             deleted: bool = UserService.delete(command_user)
-            if deleted:
-               return {}, status.HTTP_204_NO_CONTENT
-
-            return {}, status.HTTP_404_NOT_FOUND
+            return {"message": "Beneficiária deletada."}, status.HTTP_204_NO_CONTENT
 
     @endpoint
     def get(self, request: Request, pk, format=None):
@@ -119,7 +113,7 @@ class BeneficiarySpecificViews(BaseView):
 
 class BeneficiaryApprovalView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup)
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
@@ -135,7 +129,7 @@ class BeneficiaryApprovalView(BaseView):
 
 class BeneficiaryPendingView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup)
 
     @endpoint
     def get(self, request: Request, format=None):
@@ -145,7 +139,7 @@ class BeneficiaryPendingView(BaseView):
 
 
 class BeneficiaryCanRequestSwapView(BaseView):
-    permission_classes = [IsBeneficiary]
+    permission_classes = [IsAuthenticated, IsBeneficiary]
 
     @endpoint
     def get(self, request: Request, format=None):

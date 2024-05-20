@@ -40,3 +40,12 @@ def test_can_get_open_campaigns(client: APIClient):
     url = reverse("open_campaigns")
     response = client.get(url)
     assert len(response.data) == 2
+
+
+@pytest.mark.django_db
+def test_can_list_all_campaigns(client: APIClient):
+    campaigns = CampaignFactory.create_batch(size=5)
+    url = reverse("gen_campaigns")
+    response = client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == len(campaigns)
