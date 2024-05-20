@@ -13,18 +13,21 @@ from core.cqrs.commands.campaign_commands import CreateCampaignCommand, PatchCam
 from core.cqrs.queries.campaign_queries import GetCampaignQuery, ListCampaignQuery
 from core.models import Campaign
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.is_volunteer import IsVolunteer
+from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from core.serializers import CampaignSerializer
 from core.services.campaign_service import CampaignService
 from core.utils.decorators import endpoint
+from rest_framework.permissions import IsAuthenticated
 
 lgr = logging.getLogger(__name__)
 
 
 class CampaignGenericViews(BaseView):
     groups = [MANAGE_CAMPAIGNS]
-    permission_classes = (AtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup,)
     permission_classes_by_method = {
-        "get": ()
+        "get": [IsAuthenticated, VolunteerAtLeastOneGroup]
     }
 
     @endpoint
@@ -45,9 +48,9 @@ class CampaignGenericViews(BaseView):
 
 class CampaignSpecificViews(BaseView):
     groups = [MANAGE_CAMPAIGNS]
-    permission_classes = (AtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup,)
     permission_classes_by_method = {
-        "get": []
+        "get": [IsAuthenticated, VolunteerAtLeastOneGroup],
     }
 
     @endpoint
@@ -85,6 +88,8 @@ class CampaignSpecificViews(BaseView):
 
 
 class OpenCampaignsView(BaseView):
+    groups = [MANAGE_CAMPAIGNS]
+    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup,)
 
     @endpoint
     def get(self, request: Request, format=None):

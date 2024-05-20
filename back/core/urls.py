@@ -25,20 +25,20 @@ from core.app_views.speciality_views import SpecialityGenericViews, SpecialitySp
 
 # está em ordem alfabética
 urlpatterns = [
-    path("access_codes", AccessCodeGenericViews.as_view(), name="gen_access_codes"),
-    path("access_codes/<int:pk>", AccessCodeSpecificViews.as_view(), name="spe_access_codes"),
-    path("access_codes/check", CheckAccessCodeView.as_view(), name="check_access_code"),
+    path("access_codes", AccessCodeGenericViews.as_view(), name="gen_access_codes"), # Possui teste
+    path("access_codes/<int:pk>", AccessCodeSpecificViews.as_view(), name="spe_access_codes"), # Possui teste
+    path("access_codes/check", CheckAccessCodeView.as_view(), name="check_access_code"), # Possui teste
 
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/logout', LogoutView.as_view(), name='logout'),
     path('auth/groups', GroupGenericView.as_view(), name='gen_groups'),
 
-    path("beneficiaries", BeneficiaryGenericViews.as_view(), name="gen_beneficiaries"),
-    path("beneficiaries/<int:pk>", BeneficiarySpecificViews.as_view(), name="spe_beneficiaries"),
-    path("beneficiaries/approve/<int:pk>", BeneficiaryApprovalView.as_view(), name="approve_beneficiaries"),
-    path("beneficiaries/create", BeneficiaryCreationByVolunteerView.as_view(), name="create_beneficiaries"),
-    path("beneficiaries/pending", BeneficiaryPendingView.as_view(), name="pending_beneficiaries"),
-    path("beneficiaries/can_request_swap", BeneficiaryCanRequestSwapView.as_view(), name="can_request_swap_beneficiaries"),
+    path("beneficiaries", BeneficiaryGenericViews.as_view(), name="gen_beneficiaries"), # Possui teste
+    path("beneficiaries/<int:pk>", BeneficiarySpecificViews.as_view(), name="spe_beneficiaries"), # Possui teste
+    path("beneficiaries/approve/<int:pk>", BeneficiaryApprovalView.as_view(), name="approve_beneficiaries"), # Possui teste
+    path("beneficiaries/create", BeneficiaryCreationByVolunteerView.as_view(), name="create_beneficiaries"), # Possui teste
+    path("beneficiaries/pending", BeneficiaryPendingView.as_view(), name="pending_beneficiaries"), # Possui teste
+    path("beneficiaries/can_request_swap", BeneficiaryCanRequestSwapView.as_view(), name="can_request_swap_beneficiaries"), # Possui teste
 
     path("campaigns", CampaignGenericViews.as_view(), name="gen_campaigns"),
     path("campaigns/<int:pk>", CampaignSpecificViews.as_view(), name="spe_campaigns"),
