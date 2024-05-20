@@ -58,7 +58,7 @@ class PermissionSerializer(ModelSerializer):
 class GroupSerializer(ModelSerializer):
     class Meta:
         model = Group
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'description']
 
 
 class UserSerializer(ModelSerializer):
