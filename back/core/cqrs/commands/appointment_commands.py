@@ -44,21 +44,21 @@ class CreateAppointmentCommand(Command):
 
 class PatchAppointmentCommand(Command):
     fields = [
+        Field("id", "integer", True, formatter=lambda x: int(x)),
         Field('beneficiary_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('volunteer_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('professional_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('speciality_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('status_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('date', datetime, required=False, formatter=format_date),
-        Field('time', datetime, required=False, formatter=format_time),
+        Field('datetime', 'string', required=True),
     ]
 
-    def __init__(self, beneficiary_id: int, date: datetime, time: datetime,
+    def __init__(self, id: int, beneficiary_id: int, datetime: str,
                  professional_id: int = None, volunteer_id: int = None, speciality_id: int = None, status_id: int = None
                  ):
+        self.id = id
         self.beneficiary_id = beneficiary_id
-        self.date = date
-        self.time = time
+        self.datetime = datetime
         self.professional_id = professional_id
         self.volunteer_id = volunteer_id
         self.speciality_id = speciality_id

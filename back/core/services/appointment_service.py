@@ -3,7 +3,7 @@ import logging
 from typing import List
 
 from config import PENDING, ROLE_BENEFICIARY, APPROVED, ROLE_VOLUNTEER
-from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
+from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand
 from core.cqrs.queries.appointment_queries import ListAppointmentQuery
 from core.models import Appointment
 from core.repositories.appointment_repository import AppointmentRepository
@@ -12,7 +12,9 @@ from core.services import CrudService
 
 lgr = logging.getLogger(__name__)
 
+
 class AppointmentService(CrudService):
+
 
     @classmethod
     def create(cls, command: CreateAppointmentCommand):
@@ -23,7 +25,7 @@ class AppointmentService(CrudService):
         return AppointmentRepository.create(command.to_dict())
 
     @classmethod
-    def patch(cls, command):
+    def patch(cls, command: PatchAppointmentCommand) -> Appointment:
         return AppointmentRepository.patch(command.to_dict())
 
     @classmethod
