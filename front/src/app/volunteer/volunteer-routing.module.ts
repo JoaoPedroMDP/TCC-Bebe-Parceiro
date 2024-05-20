@@ -7,6 +7,7 @@ import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './
 import { ListSpecialitiesComponent } from './components/specialities';
 import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
+import { ListGroupsComponent } from './components/groups';
 
 
 export const VolunteerRouting: Routes = [
@@ -45,17 +46,14 @@ export const VolunteerRouting: Routes = [
         path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['Especialidades'] },
       },
-
       {
-        path: 'campanhas',
-        canActivate: [VolunteerPermisionsGuard],
+        path: 'campanhas', component: ListCampaignComponent, canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['Campanhas'] },
-        children: [
-          { path: '', component: ListCampaignComponent },
-
-        ]
       },
-
+      {
+        path: 'funcoes', component: ListGroupsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Voluntárias'] },
+      },
 
     ]
   },

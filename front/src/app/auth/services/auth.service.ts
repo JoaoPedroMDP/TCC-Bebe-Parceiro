@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, catchError, tap, throwError } from 'rxjs';
-import { BeneficiaryPOST, UserToken } from 'src/app/shared';
+import { BeneficiaryPOST, SwalFacade, UserToken } from 'src/app/shared';
 import { VolunteerPOST } from 'src/app/shared/models/volunteer';
 import { environment } from 'src/environments/environment';
 
@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
- 
+
 
   private baseURL!: string;
 
@@ -69,11 +69,11 @@ export class AuthService {
     return this.http.get(`${this.baseURL}social_programs`, { headers: this.getHeaders() });
   }
 
-   /**
-   * @description Faz um GET para obter todos as funções cadastradas no sistema
-   * @returns Um Observable contendo os dados de sucesso ou falha
-   */
-   getGroups(): Observable<any> {
+  /**
+  * @description Faz um GET para obter todos as funções cadastradas no sistema
+  * @returns Um Observable contendo os dados de sucesso ou falha
+  */
+  getGroups(): Observable<any> {
     return this.http.get(`${this.baseURL}auth/groups`, { headers: this.getHeaders() });
   }
 
@@ -91,7 +91,7 @@ export class AuthService {
    * @returns Objeto do tipo `UserToken` contendo o token, dados e expiração
    */
   getUser(): UserToken {
-    const userToken = this.cookieService.get('user');
+    const userToken = this.cookieService.get('bp-user');
     return userToken ? JSON.parse(userToken) : null;
   }
 
@@ -124,7 +124,7 @@ export class AuthService {
         }),
         tap(() => {
           // Apaga o token no frontend
-          this.cookieService.delete('user', '/');
+          this.cookieService.delete('bp-user', '/');
         })
       );
   }
@@ -169,9 +169,25 @@ export class AuthService {
    * @param user Objeto do tipo `UserToken` contendo o token, dados e expiração
    */
   setUser(user: UserToken) {
-    this.cookieService.set('user', JSON.stringify(user), 1, '/');
+    // Cookies têm um limite de tamanho, que geralmente é de aproximadamente 4KB (4096 bytes). 
+    // Se o objeto JSON serializado exceder esse limite, o navegador pode não armazenar o cookie corretamente.
+    // Portanto, Se remove o campo description de cada grupo
+    user.user?.groups?.forEach((group: any) => {
+      delete group.description;
+    });
+
+    // Serializa o objeto user modificado
+    const serializedUser = JSON.stringify(user);
+
+    // Verifica o tamanho do JSON
+    if (serializedUser.length > 4096) {
+      console.error('Os dados do usuário são muito grandes para serem armazenados no cookie');
+      SwalFacade.error('Erro de Cookies', 'Entre em contato com o administrador do sistema')
+    } else {
+      this.cookieService.set('bp-user', serializedUser, 1, '/');  // Armazena o cookie
+    }
   }
 
-  
+
 
 }

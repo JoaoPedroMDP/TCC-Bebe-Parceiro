@@ -171,7 +171,7 @@ export class VolunteerService {
       );
   }
 
- 
+
 
   /**
    * @description Faz um DELETE para obter excluir uma beneficiada
@@ -196,13 +196,13 @@ export class VolunteerService {
    */
   editVolunteer(id: number, volunteer: Volunteer): Observable<any> {
     return this.http.patch(`${this.baseURL}volunteers/${id}`, volunteer, { headers: this.authService.getHeaders() })
-      .pipe( 
+      .pipe(
         tap(() => this.refreshPage$.next()),
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })
-      ); 
-  } 
+      );
+  }
 
   /**
    * @description Faz um GET para obter dados de uma especifica beneficiada
@@ -218,37 +218,30 @@ export class VolunteerService {
       );
   }
 
-    /**
+  /**
    * @description Faz um GET para obter todas as voluntarias  cadastradas
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
-    listVolunteer(): Observable<any> {
-      return this.http.get(`${this.baseURL}volunteers`, { headers: this.authService.getHeaders() })
-        .pipe(
-          catchError(error => {
-            return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-          })
-        );
-    }
+  listVolunteer(): Observable<any> {
+    return this.http.get(`${this.baseURL}volunteers`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
 
-    listGroups(id: number): Observable<any> {
-      return this.http.get(`${this.baseURL}auth/groups`, { headers: this.authService.getHeaders() })
-        .pipe(
-          catchError(error => {
-            return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-          })
-        );
-    }
-
-    findGroups(id: number): Observable<any> {
-      return this.http.get(`${this.baseURL}auth/groups${id}`, { headers: this.authService.getHeaders() })
-        .pipe(
-          catchError(error => {
-            return throwError(() => new Error(`${error.status} - ${error.error.message}`));
-          })
-        );
-    }
-
-
+  /**
+   * @description Faz um GET para obter todas as funções do sistema
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listGroups(): Observable<any> {
+    return this.http.get(`${this.baseURL}auth/groups`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
 
 }

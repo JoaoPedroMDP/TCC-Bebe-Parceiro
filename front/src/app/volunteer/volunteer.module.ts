@@ -14,9 +14,7 @@ import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, De
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
-
-
-
+import { InspectGroupsComponent, ListGroupsComponent } from './components/groups';
 
 
 
@@ -55,7 +53,8 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     DeleteCampaignComponent,
     InspectCampaignComponent,
     // FUNÇÕES
-    
+    ListGroupsComponent,
+    InspectGroupsComponent,
   ],
   imports: [
     CommonModule,

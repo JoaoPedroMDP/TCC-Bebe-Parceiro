@@ -31,8 +31,8 @@ export class VolunteerPermisionsGuard implements CanActivate {
 
     // Verifica se o usuário possui todas as permissões necessárias
     const hasPermission = requiredPermissions.every(permission =>
-      user.user?.groups?.some(group =>
-        group.name === permission || (group.permissions?.some(p => p.name === permission))));
+      user.user?.groups?.some(group => group.name === permission)
+    );
 
     // Se o usuário não tiver todas as permissões necessárias, redireciona para a página de acesso não autorizado
     if (!hasPermission) {

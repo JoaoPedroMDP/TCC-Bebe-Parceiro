@@ -51,7 +51,6 @@ export class RequestSwapComponent implements OnInit {
     this.beneficiaryService.listChildren().subscribe({
       next: (response: Child[]) => {
         this.children = response
-        console.log(this.children)
       },
       error: (e) => SwalFacade.error("Erro ao listar os dados de Tamanhos", e)
     });

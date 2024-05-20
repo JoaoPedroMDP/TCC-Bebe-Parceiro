@@ -44,8 +44,8 @@ export class HomeComponent implements OnInit {
   openSwapModal() {
     if (this.canSwap) {
       this.modalService.open(RequestSwapComponent, { size: 'xl' });
-    } else{
-      SwalFacade.alert("Não foi possível pedir uma troca", "Você já tem uma troca em aberto!")
+    } else {
+      SwalFacade.alert("Não é possível pedir troca", "Você já tem uma troca em aberto!")
     }
   }
 }

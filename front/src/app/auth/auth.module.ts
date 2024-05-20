@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { NgxMaskModule } from 'ngx-mask';
 import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorComponent, LoginComponent, ProfessionalComponent, SucessoCadastroComponent, ValidCodeGuard } from './index';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -28,7 +29,8 @@ import { AutoCadastroComponent, ChildrenComponent, CodigoAcessoComponent, ErrorC
     NgxMaskModule.forRoot()
   ],
   providers: [
-    ValidCodeGuard
+    ValidCodeGuard,
+    CookieService
   ],
   exports: [ChildrenComponent]
 })

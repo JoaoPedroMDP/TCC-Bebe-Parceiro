@@ -30,11 +30,7 @@ export class InspectCampaignComponent implements OnInit {
           error: (e) => {
             SwalFacade.error("Ocorreu um erro! Redirecionando para a listagem", e)
             this.router.navigate(['/beneficiada/campanhas'])
-          },
-          complete: () => {
-            console.log(this.campaign);
-            
-          },
+          }
         });
       }
     });

@@ -1,0 +1,21 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Ver Função</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <div>
+            <small class="bp-label-text">Nome</small>
+            <input type="text" class="form-control" [value]="group.name" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Descrição</small>
+            <textarea type="text" class="form-control" [value]="group.description" disabled></textarea>
+        </div>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="button" class="bp-button col-12" id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
+    </button>
+</div>
+
