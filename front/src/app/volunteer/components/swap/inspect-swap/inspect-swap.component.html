@@ -1,0 +1,60 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Ver Troca</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <div>
+            <small class="bp-label-text">Descrição</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.description" disabled>
+        </div>
+        <div class="my-3">
+            <small class="bp-label-text">Tamanho da Roupa</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.cloth_size!.name" disabled>
+        </div>
+        <div>
+            <small class="bp-label-text">Tamanho do Sapato</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.shoe_size!.name" disabled>            
+        </div>
+        <div>
+            <small class="bp-label-text">Beneficiada</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.beneficiary!.user!.name" disabled>            
+        </div>
+        <div>
+            <small class="bp-label-text">Criança</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.child!.name" disabled>            
+        </div>
+        <div>
+            <small class="bp-label-text">Status</small>
+            <input type="text" class="form-control" [(ngModel)]="swap.status!.name" disabled>            
+        </div>
+    </div>
+    <!-- <div class="bp-modal-footer  align-items-center">
+        <button type="button" class="bp-button col-6" id="btn-edit" (click)="approveSwap(swap)" *ngIf="!isSwapApproved">
+            <i class="fa-solid " [title]="'Aprovar o profissional: '+ swap.description"></i>
+        Aprovar</button>
+        <button type="button" class="bp-button col-6" id="btn-delete" (click)="refuseSwap(swap)" *ngIf="!isSwapApproved">
+            <i class="fa-solid " [title]="'Recusar o profissional: '+ swap.description"></i>
+        Recusar</button> 
+    </div> -->
+</div>
+
+    
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="approveSwap(swap)" *ngIf="!isSwapApproved">
+        <i class="fa-solid " [title]="'Aprovar o profissional: '+ swap.description"></i>
+    Aprovar</button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="refuseSwap(swap)" *ngIf="!isSwapApproved">
+        <i class="fa-solid " [title]="'Recusar o profissional: '+ swap.description"></i>
+    Recusar</button> 
+    <button type="button" class="bp-button col-4 " id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid " title="Voltar para a listagem"></i>
+    Cancelar</button>
+    <!-- <button type="button" class="bp-button col-4" id="btn-edit" (click)="editSwap(swap)">
+        <i class="fa-solid fa-pen-to-square" title="Editar a troca"></i>
+    </button> -->
+    <!-- <button type="button" class="bp-button col-6" id="btn-delete" (click)="deleteSwap(swap)">
+        <i class="fa-solid fa-trash" title="Excluir a troca"></i>
+    </button> -->
+  
+</div>
+

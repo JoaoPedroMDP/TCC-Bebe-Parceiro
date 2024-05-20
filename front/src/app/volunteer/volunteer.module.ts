@@ -15,8 +15,10 @@ import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialit
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 import { InspectGroupsComponent, ListGroupsComponent } from './components/groups';
-
-
+import { DeleteSwapComponent, InspectSwapComponent, ListSwapComponent} from './components/swap';
+import { ApproveRefuseSwapComponent } from './components/swap/approve-refuse-swap/approve-refuse-swap.component';
+import { CreateSwapComponent } from './components/swap/create-swap/create-swap.component';
+import { EditSwapComponent } from './components/swap/edit-swap/edit-swap.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,15 @@ import { InspectGroupsComponent, ListGroupsComponent } from './components/groups
     // FUNÇÕES
     ListGroupsComponent,
     InspectGroupsComponent,
+    // TROCAS
+    DeleteSwapComponent, 
+    InspectSwapComponent, 
+    ListSwapComponent, 
+    ApproveRefuseSwapComponent, 
+    CreateSwapComponent, 
+    EditSwapComponent,
+
+    
   ],
   imports: [
     CommonModule,

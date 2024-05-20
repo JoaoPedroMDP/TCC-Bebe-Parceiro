@@ -6,6 +6,7 @@ import { ListCampaignComponent } from './components/campaign/list-campaign/list-
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
 import { ListVolunteerComponent } from './components/volunteer';
+import { ListSwapComponent } from './components/swap';
 import { HomeComponent, MainComponent } from './index';
 import { ListGroupsComponent } from './components/groups';
 
@@ -54,9 +55,11 @@ export const VolunteerRouting: Routes = [
         path: 'funcoes', component: ListGroupsComponent, canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['Voluntárias'] },
       },
-
+      {
+        path: 'trocas', component: ListSwapComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Trocas'] }
+      }
     ]
   },
 ];
-
 
