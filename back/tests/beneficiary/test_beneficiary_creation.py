@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from config import MANAGE_BENEFICIARIES
 from factories import CityFactory, AccessCodeFactory, MaritalStatusFactory
-from tests.conftest import make_user
+from tests.conftest import make_user, make_volunteer
 
 
 lgr = logging.getLogger(__name__)
@@ -19,7 +19,6 @@ def test_can_create_beneficiary(client: APIClient):
     marital_status = MaritalStatusFactory.create()
     city = CityFactory.create()
     access_code = AccessCodeFactory.create(used=False)
-
     data = {
         "name": "TCCB",
         "birth_date": "2023-01-01",
@@ -54,12 +53,16 @@ def test_can_create_beneficiary(client: APIClient):
     assert response.data['user']['name'].startswith(data["name"]) is True
 
     # Agora, se for uma voluntária com permissão de gerenciar beneficiadas, não precisa de código de acesso
-    url = reverse('create_beneficiaries')
-    client.force_authenticate(make_user([MANAGE_BENEFICIARIES]))
     data.pop("access_code")
     data['email'] += '2'
     data['phone'] += '2'
+
+    vol = make_volunteer([MANAGE_BENEFICIARIES])
+    client.force_authenticate(vol.user)
+
+    url = reverse('create_beneficiaries')
     response = client.post(url, data=json.dumps(data), content_type='application/json')
+    
     assert response.status_code == 201
     assert response.data['user']['name'].startswith(data["name"]) is True
 
