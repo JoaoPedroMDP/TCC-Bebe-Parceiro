@@ -11,10 +11,22 @@ import { environment } from 'src/environments/environment';
 export class BeneficiaryService {
 
   private baseURL!: string;
+  // O Subject irá emitir um valor quando um valor novo for publicado.
+  _refreshPage$ = new Subject<void>();
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.baseURL = environment.baseURL;
   }
+
+  /**
+   * @description Método getter público que expõe _refreshPage$ como um Observable.
+   * Isso permite que os componentes se inscrevam no Observable, 
+   * mas não podem emitir valores para ele, mantendo o encapsulamento.
+   */
+  get refreshPage$() {
+    return this._refreshPage$;
+  }
+
 
   /**
    * @description Faz um POST para criar uma troca
@@ -24,6 +36,7 @@ export class BeneficiaryService {
   createSwap(swap: Swap): Observable<any> {
     return this.http.post(`${this.baseURL}swaps`, swap, { headers: this.authService.getHeaders() })
       .pipe(
+        tap(() => this._refreshPage$.next()),
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
         })

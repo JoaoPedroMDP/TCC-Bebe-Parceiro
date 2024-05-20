@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/auth';
 import { SwalFacade, UserToken } from 'src/app/shared';
 import { RequestSwapComponent } from '../request-swap/request-swap.component';
 import { BeneficiaryService } from '../../services/beneficiary.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,13 +16,23 @@ export class HomeComponent implements OnInit {
 
   user!: UserToken;
   canSwap: boolean = true;
+  subscription: Subscription | undefined;
 
   constructor(private authService: AuthService, private router: Router, private modalService: NgbModal,
-    private beneficiaryService: BeneficiaryService,) { }
+    private beneficiaryService: BeneficiaryService) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
-    // Verifica se a beneficiada pode realizar trocas
+    this.isBeneficiaryAbleToSwap()
+    this.subscription = this.beneficiaryService.refreshPage$.subscribe(() => {
+      this.isBeneficiaryAbleToSwap(); // Verifica se a beneficiada pode fazer troca após a atualização
+    });
+  }
+
+  /**
+   * @Description  Verifica se a beneficiada pode realizar trocas
+   */
+  isBeneficiaryAbleToSwap() {
     this.beneficiaryService.isBeneficiaryAbleToSwap().subscribe({
       next: (response) => this.canSwap = response.can_request_swap
     });
