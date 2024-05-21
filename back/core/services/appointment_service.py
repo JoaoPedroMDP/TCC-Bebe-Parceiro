@@ -2,7 +2,7 @@
 import logging
 from typing import List
 
-from config import PENDING, ROLE_BENEFICIARY, APPROVED, ROLE_VOLUNTEER
+from config import PENDING, APPROVED
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand
 from core.cqrs.queries.appointment_queries import ListAppointmentQuery
 from core.models import Appointment
@@ -15,10 +15,9 @@ lgr = logging.getLogger(__name__)
 
 class AppointmentService(CrudService):
 
-
     @classmethod
     def create(cls, command: CreateAppointmentCommand):
-        if command.user.groups.filter(name=ROLE_VOLUNTEER).exists():
+        if command.user.is_volunteer():
             command.status_id = StatusRepository.get_by_name(APPROVED).id
         else:
             command.status_id = StatusRepository.get_by_name(PENDING).id

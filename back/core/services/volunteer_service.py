@@ -2,14 +2,13 @@
 import logging
 from typing import List
 
-from config import ROLE_VOLUNTEER, MANAGE_EVALUATIONS
+from config import MANAGE_EVALUATIONS
 from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
 from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
 from core.models import Volunteer
 from core.repositories.city_repository import CityRepository
-from core.repositories.group_repository import GroupRepository
 from core.repositories.volunteer_repository import VolunteerRepository
 from core.services import CrudService
 from core.services.user_service import UserService
@@ -34,8 +33,6 @@ class VolunteerService(CrudService):
             for g_id in command.group_ids:
                 new_volunteer.user.groups.add(g_id)
 
-            role = GroupRepository.filter(name=ROLE_VOLUNTEER)[0]
-            new_volunteer.user.groups.add(role)
             new_volunteer.save()
         except Exception as e:
             new_user.delete()
@@ -51,10 +48,6 @@ class VolunteerService(CrudService):
         volunteer.user.groups.clear()
         for g_id in command.group_ids:
             volunteer.user.groups.add(g_id)
-
-        role = GroupRepository.filter(name=ROLE_VOLUNTEER)[0]
-        volunteer.user.groups.add(role)
-        # volunteer.save()
 
         if command.user_data:
             user_command = PatchUserCommand.from_dict({
