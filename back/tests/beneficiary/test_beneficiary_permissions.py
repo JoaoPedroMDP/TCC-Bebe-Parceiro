@@ -3,13 +3,13 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 import pytest
 
-from config import MANAGE_BENEFICIARIES
+from config import MANAGE_BENEFICIARIES, MANAGE_REPORTS
 from tests.conftest import make_beneficiary, make_volunteer
 
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_beneficiary_gen_get(client: APIClient):
+def test_beneficiary_gen_get_permissions(client: APIClient):
     # Anônimos não passam
     url = reverse('gen_beneficiaries')
     response = client.get(url)
@@ -36,7 +36,7 @@ def test_beneficiary_gen_get(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_beneficiary_gen_post(client: APIClient):
+def test_beneficiary_gen_post_permissions(client: APIClient):
     # Anônimos passam
     url = reverse('gen_beneficiaries')
     response = client.post(url)
@@ -45,7 +45,7 @@ def test_beneficiary_gen_post(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_beneficiary_gen_post_by_volunteer(client: APIClient):
+def test_beneficiary_gen_post_by_volunteer_permissions(client: APIClient):
     # Anônimos não passam
     url = reverse('create_beneficiaries')
     response = client.post(url)
@@ -72,7 +72,7 @@ def test_beneficiary_gen_post_by_volunteer(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_beneficiary_spe_get(client: APIClient):
+def test_beneficiary_spe_get_permissions(client: APIClient):
     ben = make_beneficiary()
     url = reverse('spe_beneficiaries', kwargs={'pk': ben.id})
 
@@ -106,7 +106,7 @@ def test_beneficiary_spe_get(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_beneficiary_spe_patch(client: APIClient):
+def test_beneficiary_spe_patch_permissions(client: APIClient):
     ben = make_beneficiary()
     url = reverse('spe_beneficiaries', kwargs={'pk': ben.id})
     
@@ -140,7 +140,7 @@ def test_beneficiary_spe_patch(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_beneficiary_spe_delete(client: APIClient):
+def test_beneficiary_spe_delete_permissions(client: APIClient):
     ben = make_beneficiary()
     url = reverse('spe_beneficiaries', kwargs={'pk': ben.id})
 
@@ -176,7 +176,9 @@ def test_beneficiary_spe_delete(client: APIClient):
     assert response.data['message'] == "Beneficiária anonimizada."
 
 
-def test_beneficiary_approval(client: APIClient):
+@pytest.mark.django_db
+@pytest.mark.permissions
+def test_beneficiary_approval_permissions(client: APIClient):
     ben = make_beneficiary(approved=False)
     url = reverse('approve_beneficiaries', kwargs={'pk': ben.id})
 
@@ -202,7 +204,9 @@ def test_beneficiary_approval(client: APIClient):
     assert response.status_code == 400
 
 
-def test_beneficiary_list_pending(client: APIClient):
+@pytest.mark.django_db
+@pytest.mark.permissions
+def test_beneficiary_list_pending_permissions(client: APIClient):
     url = reverse('pending_beneficiaries')
 
     # Anônimos não passam
@@ -228,7 +232,9 @@ def test_beneficiary_list_pending(client: APIClient):
     assert response.status_code == 200
 
 
-def test_beneficiary_swap_check(client: APIClient):
+@pytest.mark.django_db
+@pytest.mark.permissions
+def test_beneficiary_swap_check_permissions(client: APIClient):
     url = reverse('can_request_swap_beneficiaries')
 
     # Anônimos não passam
@@ -244,5 +250,33 @@ def test_beneficiary_swap_check(client: APIClient):
     # Beneficiárias passam
     ben = make_beneficiary()
     client.force_authenticate(ben.user)
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+@pytest.mark.permissions
+def test_beneficiary_report_permissions(client: APIClient):
+    url = reverse('reports_beneficiaries')
+
+    # Anônimos não passam
+    response = client.get(url)
+    assert response.status_code == 401
+    
+    # Voluntárias sem permissão não passam
+    vol = make_volunteer()
+    client.force_authenticate(vol.user)
+    response = client.get(url)
+    assert response.status_code == 403
+
+    # Beneficiárias não passam
+    ben = make_beneficiary()
+    client.force_authenticate(ben.user)
+    response = client.get(url)
+    assert response.status_code == 403
+
+    # Voluntárias com permissão podem gerar relatórios
+    vol = make_volunteer([MANAGE_REPORTS])
+    client.force_authenticate(vol.user)
     response = client.get(url)
     assert response.status_code == 200

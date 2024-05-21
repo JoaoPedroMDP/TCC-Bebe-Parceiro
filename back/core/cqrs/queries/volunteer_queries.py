@@ -60,10 +60,10 @@ class GetVolunteersReportQuery(Query):
     def from_dict(args: dict) -> 'GetVolunteersReportQuery':
         data = Validator.validate_and_extract(GetVolunteersReportQuery.fields, args)
 
-        if data['start_date']:
+        if 'start_date' in data:
             data['start_date'] = datetime.fromisoformat(data['start_date'])
 
-        if data['end_date']:
+        if 'end_date' in data:
             data['end_date'] = datetime.fromisoformat(data['end_date'])
 
         return GetVolunteersReportQuery(**data)

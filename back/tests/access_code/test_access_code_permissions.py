@@ -12,7 +12,7 @@ from tests.conftest import make_volunteer
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_access_code_gen_get(client: APIClient):
+def test_access_code_gen_get_permissions(client: APIClient):
     url = reverse('gen_access_codes')
     
     # Anônimos não passam
@@ -40,7 +40,7 @@ def test_access_code_gen_get(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_access_code_gen_post(client: APIClient):
+def test_access_code_gen_post_permissions(client: APIClient):
     url = reverse('gen_access_codes')
 
     # Anônimos não passam
@@ -68,7 +68,7 @@ def test_access_code_gen_post(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_access_code_spe_get(client: APIClient):
+def test_access_code_spe_get_permissions(client: APIClient):
     url = reverse('spe_access_codes', kwargs={'pk': 1})
 
     # Anônimos não passam
@@ -96,7 +96,7 @@ def test_access_code_spe_get(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_access_code_spe_patch(client: APIClient):
+def test_access_code_spe_patch_permissions(client: APIClient):
     url = reverse('spe_access_codes', kwargs={'pk': 1})
 
     # Anônimos não passam
@@ -124,7 +124,7 @@ def test_access_code_spe_patch(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_access_code_spe_delete(client: APIClient):
+def test_access_code_spe_delete_permissions(client: APIClient):
     url = reverse('spe_access_codes', kwargs={'pk': 1})
 
     # Anônimos não passam
@@ -152,7 +152,7 @@ def test_access_code_spe_delete(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_access_code_checking(client: APIClient):
+def test_access_code_checking_permissions(client: APIClient):
     url = reverse('check_access_code')
 
     # Anônimos passam

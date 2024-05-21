@@ -63,10 +63,10 @@ class GetSwapsReportQuery(Query):
     def from_dict(args: dict) -> 'GetSwapsReportQuery':
         data = Validator.validate_and_extract(GetSwapsReportQuery.fields, args)
 
-        if data['start_date']:
+        if 'start_date' in data:
             data['start_date'] = datetime.fromisoformat(data['start_date'])
 
-        if data['end_date']:
+        if 'end_date' in data:
             data['end_date'] = datetime.fromisoformat(data['end_date'])
 
         return GetSwapsReportQuery(**data)

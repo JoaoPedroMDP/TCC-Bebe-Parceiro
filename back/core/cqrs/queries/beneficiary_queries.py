@@ -64,11 +64,11 @@ class GetBeneficiariesReportQuery(Query):
     def from_dict(args: dict) -> 'GetBeneficiariesReportQuery':
         data = Validator.validate_and_extract(GetBeneficiariesReportQuery.fields, args)
 
-        if data['start_date']:
-            data['start_date'] = datetime.strptime(data["start_date"], "%Y-%m-%d")
+        if 'start_date' in data:
+            data['start_date'] = datetime.fromisoformat(data['start_date'])
 
-        if data['end_date']:
-            data['end_date'] = datetime.strptime(data["end_date"], "%Y-%m-%d")
+        if 'end_date' in data:
+            data['end_date'] = datetime.fromisoformat(data['end_date'])
 
         return GetBeneficiariesReportQuery(**data)
     
