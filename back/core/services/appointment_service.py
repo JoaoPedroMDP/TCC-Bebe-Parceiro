@@ -1,10 +1,11 @@
 #  coding: utf-8
+from datetime import timedelta
 import logging
 from typing import List
 
 from config import PENDING, APPROVED
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand
-from core.cqrs.queries.appointment_queries import ListAppointmentQuery
+from core.cqrs.queries.appointment_queries import GetAppointmentsReportQuery, ListAppointmentQuery
 from core.models import Appointment
 from core.repositories.appointment_repository import AppointmentRepository
 from core.repositories.status_repository import StatusRepository
@@ -38,3 +39,14 @@ class AppointmentService(CrudService):
     @classmethod
     def delete(cls, command):
         return AppointmentRepository.delete(command.id)
+
+    @classmethod
+    def get_reports(cls, query: GetAppointmentsReportQuery):
+        filters = {}
+        if query.start_date:
+            filters['datetime__gte'] = query.start_date
+        
+        if query.end_date:
+            filters['datetime__lte'] = query.end_date + timedelta(days=1)
+
+        return AppointmentRepository.filter(**filters)

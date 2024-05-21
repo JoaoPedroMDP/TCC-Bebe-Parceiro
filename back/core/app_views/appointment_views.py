@@ -6,16 +6,18 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_APPOINTMENTS
+from config import MANAGE_APPOINTMENTS, MANAGE_REPORTS
 from core.app_views import BaseView
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand, \
     DeleteAppointmentCommand
-from core.cqrs.queries.appointment_queries import GetAppointmentQuery, ListAppointmentQuery
+from core.cqrs.queries.appointment_queries import GetAppointmentQuery, GetAppointmentsReportQuery, ListAppointmentQuery
 from core.models import Appointment
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.is_volunteer import IsVolunteer
 from core.serializers import AppointmentSerializer
 from core.services.appointment_service import AppointmentService
 from core.utils.decorators import endpoint
+from rest_framework.permissions import IsAuthenticated
 
 lgr = logging.getLogger(__name__)
 
@@ -76,3 +78,15 @@ class AppointmentSpecificViews(BaseView):
             return AppointmentSerializer(appointment).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+
+class AppointmentReportsView(BaseView):
+    groups = [MANAGE_REPORTS]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_APPOINTMENTS_REPORTS----")
+        query: GetAppointmentsReportQuery = GetAppointmentsReportQuery.from_dict(request.query_params)
+        appointments: List[Appointment] = AppointmentService.get_reports(query)
+        return AppointmentSerializer(appointments, many=True).data, status.HTTP_200_OK

@@ -1,4 +1,5 @@
 #  coding: utf-8
+from datetime import timedelta
 import logging
 from typing import List
 
@@ -6,7 +7,7 @@ from config import MANAGE_EVALUATIONS
 from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand, \
     DeleteVolunteerCommand
-from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, ListVolunteerQuery
+from core.cqrs.queries.volunteer_queries import GetVolunteerQuery, GetVolunteersReportQuery, ListVolunteerQuery
 from core.models import Volunteer
 from core.repositories.city_repository import CityRepository
 from core.repositories.volunteer_repository import VolunteerRepository
@@ -75,3 +76,14 @@ class VolunteerService(CrudService):
     @classmethod
     def get_evaluators(cls) -> List[Volunteer]:
         return VolunteerRepository.filter(user__groups__name=MANAGE_EVALUATIONS)
+
+    @classmethod
+    def get_reports(cls, query: GetVolunteersReportQuery):
+        filters = {}
+        if query.start_date:
+            filters['created_at__gte'] = query.start_date
+        
+        if query.end_date:
+            filters['created_at__lte'] = query.end_date + timedelta(days=1)
+
+        return VolunteerRepository.filter(**filters)

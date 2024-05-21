@@ -6,12 +6,13 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_SWAPS
+from config import MANAGE_REPORTS, MANAGE_SWAPS
 from core.app_views import BaseView
 from core.cqrs.commands.swap_commands import CreateSwapCommand, PatchSwapCommand, \
     DeleteSwapCommand
-from core.cqrs.queries.swap_queries import GetSwapQuery, ListSwapQuery
+from core.cqrs.queries.swap_queries import GetSwapQuery, GetSwapsReportQuery, ListSwapQuery
 from core.models import Swap
+from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.permissions.beneficiary_owns_swap import BeneficiaryOwnsSwap
 from core.permissions.is_volunteer import IsVolunteer
 from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
@@ -86,3 +87,15 @@ class SwapSpecificViews(BaseView):
             return SwapSerializer(swap).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+
+class SwapReportsView(BaseView):
+    groups = [MANAGE_REPORTS]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_SWAPS_REPORTS----")
+        query: GetSwapsReportQuery = GetSwapsReportQuery.from_dict(request.query_params)
+        swaps: List[Swap] = SwapService.get_reports(query)
+        return SwapSerializer(swaps, many=True).data, status.HTTP_200_OK

@@ -1,4 +1,5 @@
 #  coding: utf-8
+from datetime import datetime
 from typing import Dict
 from core.cqrs import Query, Field, Validator
 
@@ -45,3 +46,28 @@ class ListSwapQuery(Query):
         data = super().to_dict()
         del data['user']
         return data
+
+
+class GetSwapsReportQuery(Query):
+    fields = [
+        Field("start_date", "string", False),
+        Field("end_date", "string", False),
+    ]
+
+    def __init__(self, start_date: str = None, end_date: str = None):
+        self.start_date = start_date
+        self.end_date = end_date
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'GetSwapsReportQuery':
+        data = Validator.validate_and_extract(GetSwapsReportQuery.fields, args)
+
+        if data['start_date']:
+            data['start_date'] = datetime.fromisoformat(data['start_date'])
+
+        if data['end_date']:
+            data['end_date'] = datetime.fromisoformat(data['end_date'])
+
+        return GetSwapsReportQuery(**data)
+    

@@ -1,4 +1,5 @@
 #  coding: utf-8
+from datetime import timedelta
 import logging
 from typing import List
 
@@ -9,7 +10,7 @@ from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, Pa
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
 from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
-from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
+from core.cqrs.queries.beneficiary_queries import GetBeneficiariesReportQuery, GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.beneficiary_repository import BeneficiaryRepository
@@ -161,3 +162,14 @@ class BeneficiaryService(CrudService):
     @classmethod
     def can_request_swap(cls, beneficiary: Beneficiary) -> bool:
         return not beneficiary.has_pending_swap() and beneficiary.have_children_born()
+
+    @classmethod
+    def get_reports(cls, query: GetBeneficiariesReportQuery):
+        filters = {}
+        if query.start_date:
+            filters['created_at__gte'] = query.start_date
+        
+        if query.end_date:
+            filters['created_at__lte'] = query.end_date + timedelta(days=1)
+
+        return BeneficiaryRepository.filter(**filters)

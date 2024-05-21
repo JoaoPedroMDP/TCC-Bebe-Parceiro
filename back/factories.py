@@ -1,4 +1,5 @@
 #  coding: utf-8
+from zoneinfo import ZoneInfo
 import factory
 from django.contrib.auth.models import Group, Permission
 from factory.django import DjangoModelFactory
@@ -14,8 +15,8 @@ fake = Faker()
 
 
 class TimestampedModelFactory(DjangoModelFactory):
-    created_at = factory.Faker('date_time_this_decade', tzinfo=None)
-    updated_at = factory.Faker('date_time_this_decade', tzinfo=None)
+    created_at = factory.Faker('date_time_this_decade', tzinfo=ZoneInfo('UTC'))
+    updated_at = factory.Faker('date_time_this_decade', tzinfo=ZoneInfo('UTC'))
 
 
 class UserFactory(DjangoModelFactory):
@@ -102,7 +103,7 @@ class BeneficiaryFactory(TimestampedModelFactory):
     user = factory.SubFactory(UserFactory)
     marital_status = factory.SubFactory(MaritalStatusFactory)
     city = factory.SubFactory(CityFactory)
-    birth_date = factory.Faker('date_time_this_century', tzinfo=None)
+    birth_date = factory.Faker('date_time_this_century', tzinfo=ZoneInfo('UTC'))
     child_count = factory.Faker('random_int', min=0, max=10)
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
     has_disablement = factory.Faker('boolean')
@@ -133,7 +134,7 @@ class ChildFactory(TimestampedModelFactory):
         model = Child
 
     name = factory.Faker('first_name')
-    birth_date = factory.Faker('date_time_this_decade', tzinfo=None)
+    birth_date = factory.Faker('date_time_this_decade', tzinfo=ZoneInfo('UTC'))
     beneficiary = factory.SubFactory(BeneficiaryFactory)
     sex = factory.Faker('random_element', elements=['M', 'F'])
 
@@ -188,8 +189,7 @@ class AppointmentFactory(TimestampedModelFactory):
     beneficiary = factory.SubFactory(BeneficiaryFactory)
     volunteer = factory.SubFactory(VolunteerFactory)
     professional = factory.SubFactory(ProfessionalFactory)
-    date = factory.Faker('date_this_year', tzinfo=None)
-    time = factory.Faker('time', tzinfo=None)
+    datetime = factory.Faker('date_time_this_year', tzinfo=ZoneInfo('UTC'))
     status = factory.SubFactory(StatusFactory)
 
 

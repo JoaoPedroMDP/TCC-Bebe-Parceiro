@@ -1,4 +1,5 @@
 #  coding: utf-8
+from datetime import datetime
 import logging
 
 from django.http import QueryDict
@@ -43,3 +44,27 @@ class ListVolunteerQuery(Query):
 
         data = Validator.validate_and_extract(ListVolunteerQuery.fields, raw_data)
         return ListVolunteerQuery(**data)
+
+class GetVolunteersReportQuery(Query):
+    fields = [
+        Field("start_date", "string", False),
+        Field("end_date", "string", False),
+    ]
+
+    def __init__(self, start_date: str = None, end_date: str = None):
+        self.start_date = start_date
+        self.end_date = end_date
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'GetVolunteersReportQuery':
+        data = Validator.validate_and_extract(GetVolunteersReportQuery.fields, args)
+
+        if data['start_date']:
+            data['start_date'] = datetime.fromisoformat(data['start_date'])
+
+        if data['end_date']:
+            data['end_date'] = datetime.fromisoformat(data['end_date'])
+
+        return GetVolunteersReportQuery(**data)
+    

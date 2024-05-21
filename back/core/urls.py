@@ -3,9 +3,9 @@ from django.urls import path
 from knox.views import LogoutView
 
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews, CheckAccessCodeView
-from core.app_views.appointment_views import AppointmentGenericViews, AppointmentSpecificViews
+from core.app_views.appointment_views import AppointmentGenericViews, AppointmentReportsView, AppointmentSpecificViews
 from core.app_views.auth_views import LoginView, GroupGenericView
-from core.app_views.beneficiary_views import BeneficiaryCanRequestSwapView, BeneficiaryGenericViews, BeneficiarySpecificViews, \
+from core.app_views.beneficiary_views import BeneficiaryCanRequestSwapView, BeneficiaryGenericViews, BeneficiaryReportsView, BeneficiarySpecificViews, \
     BeneficiaryCreationByVolunteerView, BeneficiaryApprovalView, BeneficiaryPendingView
 from core.app_views.campaign_views import CampaignGenericViews, CampaignSpecificViews, OpenCampaignsView
 from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
@@ -16,8 +16,8 @@ from core.app_views.size_views import SizeGenericViews, SizeSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
 from core.app_views.state_views import StateGenericViews, StateSpecificViews
 from core.app_views.status_views import StatusGenericViews, StatusSpecificViews
-from core.app_views.swap_views import SwapGenericViews, SwapSpecificViews
-from core.app_views.volunteer_views import VolunteerGenericViews, VolunteerSpecificViews, VolunteerEvaluatorsViews
+from core.app_views.swap_views import SwapGenericViews, SwapReportsView, SwapSpecificViews
+from core.app_views.volunteer_views import VolunteerGenericViews, VolunteerReportsView, VolunteerSpecificViews, VolunteerEvaluatorsViews
 from core.app_views.professional_views import ProfessionalGenericViews, ProfessionalSpecificViews
 from core.app_views.speciality_views import SpecialityGenericViews, SpecialitySpecificViews
 # gen = generic
@@ -32,6 +32,7 @@ urlpatterns = [
 
     path("appointments", AppointmentGenericViews.as_view(), name="gen_appointments"),
     path("appointments/<int:pk>", AppointmentSpecificViews.as_view(), name="spe_appointments"),
+    path("appointments/reports", AppointmentReportsView.as_view(), name="reports_appointments"),
 
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/logout', LogoutView.as_view(), name='logout'),
@@ -43,7 +44,8 @@ urlpatterns = [
     path("beneficiaries/create", BeneficiaryCreationByVolunteerView.as_view(), name="create_beneficiaries"), # Possui teste
     path("beneficiaries/pending", BeneficiaryPendingView.as_view(), name="pending_beneficiaries"), # Possui teste
     path("beneficiaries/can_request_swap", BeneficiaryCanRequestSwapView.as_view(), name="can_request_swap_beneficiaries"), # Possui teste
-
+    path("beneficiaries/reports", BeneficiaryReportsView.as_view(), name="reports_beneficiaries"),
+     
     path("campaigns", CampaignGenericViews.as_view(), name="gen_campaigns"),
     path("campaigns/<int:pk>", CampaignSpecificViews.as_view(), name="spe_campaigns"),
     path("campaigns/open", OpenCampaignsView.as_view(), name="open_campaigns"),
@@ -75,10 +77,12 @@ urlpatterns = [
     path("volunteers", VolunteerGenericViews.as_view(), name="gen_volunteers"),
     path("volunteers/<int:pk>", VolunteerSpecificViews.as_view(), name="spe_volunteers"),
     path("volunteers/evaluators", VolunteerEvaluatorsViews.as_view(), name="spe_volunteers"),
-
+    path("volunteers/reports", VolunteerReportsView.as_view(), name="reports_volunteers"),
+ 
     path("swaps", SwapGenericViews.as_view(), name="gen_swaps"),
     path("swaps/<int:pk>", SwapSpecificViews.as_view(), name="spe_swaps"),
-
+    path("swaps/reports", SwapReportsView.as_view(), name="reports_swaps"),
+ 
     path("sizes", SizeGenericViews.as_view(), name="gen_sizes"),
     path("sizes/<int:pk>", SizeSpecificViews.as_view(), name="spe_sizes"),
 

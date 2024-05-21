@@ -6,13 +6,14 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_BENEFICIARIES
+from config import MANAGE_BENEFICIARIES, MANAGE_REPORTS
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.commands.user_commands import DeleteUserCommand
-from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
+from core.cqrs.queries.beneficiary_queries import GetBeneficiariesReportQuery, GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
+from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.permissions.is_volunteer import IsVolunteer
 from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from core.permissions.is_beneficiary import IsBeneficiary
@@ -148,4 +149,15 @@ class BeneficiaryCanRequestSwapView(BaseView):
         return {
             'can_request_swap': BeneficiaryService.can_request_swap(beneficiary)
         }, status.HTTP_200_OK
-    
+
+
+class BeneficiaryReportsView(BaseView):
+    groups = [MANAGE_REPORTS]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+
+    @endpoint
+    def get(self, request: Request, format=None):
+        lgr.debug("----GET_BENEFICIARIES_REPORTS----")
+        query: GetBeneficiariesReportQuery = GetBeneficiariesReportQuery.from_dict(request.query_params)
+        beneficiaries: List[Beneficiary] = BeneficiaryService.get_reports(query)
+        return BeneficiarySerializer(beneficiaries, many=True).data, status.HTTP_200_OK
