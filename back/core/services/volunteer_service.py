@@ -32,6 +32,8 @@ class VolunteerService(CrudService):
             # Para cada group_id passado, atribui o cargo
             for g_id in command.group_ids:
                 new_volunteer.user.groups.add(g_id)
+
+            new_volunteer.save()
         except Exception as e:
             new_user.delete()
             raise e

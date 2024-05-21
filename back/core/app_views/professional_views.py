@@ -44,9 +44,6 @@ class ProfessionalGenericViews(BaseView):
         lgr.debug("----CREATE_PROFESSIONALS----")
         command: CreateProfessionalCommand = CreateProfessionalCommand.from_dict(request.data)
         
-        if request.user.is_volunteer():
-            command.approved = True
-        
         new_professional: Professional = ProfessionalService.create(command)
         return ProfessionalSerializer(new_professional).data, status.HTTP_201_CREATED
 
