@@ -6,7 +6,7 @@ from rest_framework.fields import SerializerMethodField, DateTimeField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
 from core.models import (Country, Campaign, Size, State, City, Status, Swap, User, Volunteer, Professional, Speciality,
-                         AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child)
+                         AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child, Appointment)
 
 
 class CountrySerializer(ModelSerializer):
@@ -137,7 +137,6 @@ class StatusSerializer(ModelSerializer):
         model = Status
         fields = ['id', 'name', 'enabled']
 
-
 class SwapSerializer(ModelSerializer):
     beneficiary = BeneficiarySerializer(read_only=True)
     cloth_size = SizeSerializer()
@@ -149,3 +148,14 @@ class SwapSerializer(ModelSerializer):
         model = Swap
         fields = ['id', 'cloth_size', 'shoe_size', 'description', 'status', 'beneficiary', 'child']
 
+class AppointmentSerializer(ModelSerializer):
+
+    speciality = SpecialitySerializer(read_only=True)
+    professional = ProfessionalSerializer(read_only=True)
+    beneficiary = BeneficiarySerializer(read_only=True)
+    volunteer = VolunteerSerializer(read_only=True)
+    status = StatusSerializer(read_only=True)
+
+    class Meta:
+        model = Appointment
+        fields = ['id', 'beneficiary', 'professional', 'speciality', 'volunteer', 'status', 'datetime']

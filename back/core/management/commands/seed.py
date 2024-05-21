@@ -7,7 +7,7 @@ from django.utils.timezone import now
 
 from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, SHOE_SIZES, SHOE_TYPE, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
-from factories import MaritalStatusFactory, SizeFactory, SocialProgramFactory, CountryFactory, StateFactory, CityFactory, \
+from factories import MaritalStatusFactory, SocialProgramFactory, SizeFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory, CampaignFactory
 
 

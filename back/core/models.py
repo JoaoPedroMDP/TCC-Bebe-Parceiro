@@ -78,6 +78,7 @@ class User(AbstractUser, Dictable):
         except Volunteer.DoesNotExist:
             return False
 
+
 class Country(EnablableModel):
     readable_name = "País"
 
@@ -234,10 +235,10 @@ class Appointment(TimestampedModel):
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="appointments")
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE, null=True, related_name="appointments")
     professional = models.ForeignKey(Professional, on_delete=models.CASCADE, null=True, related_name="appointments")
+    speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE, null=True, related_name="appointments")
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name="appointments")
 
-    date = models.DateField(null=True)
-    time = models.TimeField(null=True)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True, related_name="appointments")
+    datetime = models.DateTimeField(null=True)
 
 
 class Register(TimestampedModel):

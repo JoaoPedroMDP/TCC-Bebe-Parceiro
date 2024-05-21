@@ -1,27 +1,40 @@
 #  coding: utf-8
-from config import PENDING
-from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
+import logging
+from typing import List
+
+from config import PENDING, APPROVED
+from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand
+from core.cqrs.queries.appointment_queries import ListAppointmentQuery
+from core.models import Appointment
 from core.repositories.appointment_repository import AppointmentRepository
 from core.repositories.status_repository import StatusRepository
 from core.services import CrudService
+
+lgr = logging.getLogger(__name__)
 
 
 class AppointmentService(CrudService):
 
     @classmethod
     def create(cls, command: CreateAppointmentCommand):
-        data = command.to_dict()
-        status = StatusRepository.filter(name=PENDING)
+        if command.user.is_volunteer():
+            command.status_id = StatusRepository.get_by_name(APPROVED).id
+        else:
+            command.status_id = StatusRepository.get_by_name(PENDING).id
         return AppointmentRepository.create(command.to_dict())
 
-    def patch(self, command):
+    @classmethod
+    def patch(cls, command: PatchAppointmentCommand) -> Appointment:
         return AppointmentRepository.patch(command.to_dict())
 
-    def filter(self, query):
+    @classmethod
+    def filter(cls, query: ListAppointmentQuery) -> List[Appointment]:
         return AppointmentRepository.filter(**query.to_dict())
 
-    def get(self, query):
+    @classmethod
+    def get(cls, query):
         return AppointmentRepository.get(query.id)
 
-    def delete(self, command):
+    @classmethod
+    def delete(cls, command):
         return AppointmentRepository.delete(command.id)
