@@ -6,19 +6,13 @@ import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AuthModule } from '../auth/auth.module';
 import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
-import { CreateEditCampaignComponent } from './components/campaign/create-edit-campaign/create-edit-campaign.component';
-import { DeleteCampaignComponent } from './components/campaign/delete-campaign/delete-campaign.component';
-import { InspectCampaignComponent } from './components/campaign/inspect-campaign/inspect-campaign.component';
-import { ListCampaignComponent } from './components/campaign/list-campaign/list-campaign.component';
+import { CreateEditCampaignComponent, DeleteCampaignComponent, InspectCampaignComponent, ListCampaignComponent } from './components/campaign';
+import { InspectGroupsComponent, ListGroupsComponent } from './components/groups';
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
+import { ApproveRefuseSwapComponent, CreateSwapComponent, DeleteSwapComponent, EditSwapComponent, InspectSwapComponent, ListSwapComponent } from './components/swap';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
-import { InspectGroupsComponent, ListGroupsComponent } from './components/groups';
-import { DeleteSwapComponent, InspectSwapComponent, ListSwapComponent} from './components/swap';
-import { ApproveRefuseSwapComponent } from './components/swap/approve-refuse-swap/approve-refuse-swap.component';
-import { CreateSwapComponent } from './components/swap/create-swap/create-swap.component';
-import { EditSwapComponent } from './components/swap/edit-swap/edit-swap.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +43,8 @@ import { EditSwapComponent } from './components/swap/edit-swap/edit-swap.compone
     ListSpecialitiesComponent,
     CreateEditSpecialityComponent,
     DeleteSpecialityComponent,
-    CreateEditCampaignComponent,
     //CAMPANHAS
+    CreateEditCampaignComponent,
     ListCampaignComponent,
     DeleteCampaignComponent,
     InspectCampaignComponent,
@@ -63,9 +57,7 @@ import { EditSwapComponent } from './components/swap/edit-swap/edit-swap.compone
     ListSwapComponent, 
     ApproveRefuseSwapComponent, 
     CreateSwapComponent, 
-    EditSwapComponent,
-
-    
+    EditSwapComponent
   ],
   imports: [
     CommonModule,

@@ -2,13 +2,13 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
-import { ListCampaignComponent } from './components/campaign/list-campaign/list-campaign.component';
+import { ListCampaignComponent } from './components/campaign';
+import { ListGroupsComponent } from './components/groups';
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
-import { ListVolunteerComponent } from './components/volunteer';
 import { ListSwapComponent } from './components/swap';
+import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
-import { ListGroupsComponent } from './components/groups';
 
 
 export const VolunteerRouting: Routes = [
@@ -20,7 +20,7 @@ export const VolunteerRouting: Routes = [
     children: [
       { path: '', component: HomeComponent },
       {
-        path: 'beneficiadas',      // BENEFICIADAS
+        path: 'beneficiadas',
         canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['Beneficiárias'] },
         children: [
@@ -31,17 +31,17 @@ export const VolunteerRouting: Routes = [
         ]
       },
       {
-        path: 'voluntarias', component: ListVolunteerComponent, canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['Voluntárias'] }
-      },
-      {
-        path: 'profissionais',      // PROFISSIONAL
+        path: 'profissionais',
         canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['Profissionais'] },
         children: [
           { path: '', component: ListProfessionalComponent },
           { path: 'pendentes', component: ListPendingProfessionalsComponent },
         ]
+      },
+      {
+        path: 'voluntarias', component: ListVolunteerComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Voluntárias'] }
       },
       {
         path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
