@@ -22,7 +22,10 @@ export class CreateEditCampaignComponent implements OnInit {
 
   ngOnInit(): void {}
 
-
+  /**
+   * @description Verifica a variável editMode e caso verdadeira atualiza a campanha, 
+   * caso contrário salva como uma nova campanha
+   */
   save() {
     if (this.editMode) {
       this.campaignService.editCampaign(this.campaign.id!, this.campaign).subscribe({
@@ -38,6 +41,9 @@ export class CreateEditCampaignComponent implements OnInit {
     this.activeModal.close();
   }
 
+  /**
+   * @description Fecha a janela modal e chama o Observable de atualização
+   */
   close() {
     this.activeModal.close();
     this.campaignService.refreshPage$.next();

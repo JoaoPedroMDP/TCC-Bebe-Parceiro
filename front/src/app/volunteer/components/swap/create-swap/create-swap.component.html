@@ -3,46 +3,63 @@
 </div>
 <div class="modal-body my-3">
     <div class="container">
+        <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
         <form #form="ngForm">
             <div class="my-3">
-                <small class="bp-label-text">Descrição</small>
-                <input type="text" class="form-control" placeholder="Descrição da troca" minlength="2" maxlength="150" name="description"
-                    [(ngModel)]="swap.description" required>
-            </div>
-            <div class="my-3">
-                <small class="bp-label-text">Beneficiada</small>
-                <select class="form-select" [(ngModel)]="swap.beneficiary_id" (change)="onChangeBeneficiary($event)" name="beneficiary" required>
-                    <option [value]="undefined" disabled>Selecione a beneficiada</option>
+                <small class="bp-label-text">Beneficiada <span class="text-danger font-weight-bold">*</span></small>
+                <select class="form-select" [(ngModel)]="swap.beneficiary_id" (change)="listChildren($event)" name="beneficiary_id" required>
+                    <option class="text-center" value="undefined" disabled>Selecione a beneficiada</option>
                     <option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.user?.name}}</option>
                 </select>
+                <div *ngIf="form.controls['beneficiary_id']">
+                    <div
+                        *ngIf="form.controls['beneficiary_id'].errors && (form.controls['beneficiary_id'].dirty || form.controls['beneficiary_id'].touched)">
+                        <div *ngIf="form.controls['beneficiary_id'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="my-3">
-                <small class="bp-label-text">Criança</small>
+                <small class="bp-label-text">Criança <span class="text-danger font-weight-bold">*</span></small>
                 <select class="form-select" [(ngModel)]="swap.child_id" name="child_id" required>
-                    <option value="">Selecione a criança</option>
+                    <option class="text-center" value="undefined" disabled>Selecione a criança</option>
                     <option *ngFor="let child of children" [value]="child.id">{{child.name}}</option>
                 </select>
+                <div *ngIf="form.controls['child_id']">
+                    <div
+                        *ngIf="form.controls['child_id'].errors && (form.controls['child_id'].dirty || form.controls['child_id'].touched)">
+                        <div *ngIf="form.controls['child_id'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="my-3">
-                <small class="bp-label-text">Tamanho da Roupa</small>
-                <select class="form-select" [(ngModel)]="swap.cloth_size_id" name="cloth_size" required>
-                    <option value=""> --- </option>
-                    <option *ngFor="let size of sizes" [value]="size.id">{{size.name}}</option>
+                <small class="bp-label-text">Tamanho da Roupa <span class="text-danger font-weight-bold">*</span></small>
+                <select class="form-select" [(ngModel)]="swap.cloth_size_id" name="cloth_size_id" required>
+                    <option class="text-center" value="undefined" disabled> --- </option>
+                    <option *ngFor="let size of clothSizes" [value]="size.id">{{size.name}}</option>
                 </select>
+                <div *ngIf="form.controls['cloth_size_id']">
+                    <div
+                        *ngIf="form.controls['cloth_size_id'].errors && (form.controls['cloth_size_id'].dirty || form.controls['cloth_size_id'].touched)">
+                        <div *ngIf="form.controls['cloth_size_id'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="my-3">
                 <small class="bp-label-text">Tamanho do Sapato</small>
-                <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size"required>
-                    <option value=""> --- </option>
+                <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size_id">
+                    <option class="text-center" value="undefined" disabled> --- </option>
                     <option [value]="shoes.id" *ngFor="let shoes of shoeSizes">{{shoes.name}}</option>
                 </select>
             </div>
             <div class="my-3">
-                <small class="bp-label-text">Status</small>
-                <select class="form-select" [(ngModel)]="swap.status_id" name="status"required>
-                    <option value=""> --- </option>
-                    <option [value]="status.id" *ngFor="let status of statuses">{{status.name}}</option>
-                </select>
+                <small class="bp-label-text">Descrição</small>
+                <textarea class="form-control" name="description" [(ngModel)]="swap.description" placeholder="Descrição da troca" maxlength="200"></textarea>
             </div>
         </form>
     </div>

@@ -64,7 +64,7 @@ export class CreateEditProfessionalComponent implements OnInit {
   /**
    * @description Fecha a janela modal e chama o Observable de atualização
    */
-  fechar() {
+  close() {
     this.activeModal.close();
     this.professionalService.refreshPage$.next();
   }
