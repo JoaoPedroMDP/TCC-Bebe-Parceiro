@@ -2,7 +2,7 @@
 import logging
 from typing import List
 
-from config import PENDING
+from config import APPROVED, PENDING
 from core.cqrs.commands.swap_commands import CreateSwapCommand, PatchSwapCommand, \
     DeleteSwapCommand
 from core.cqrs.queries.swap_queries import GetSwapQuery, ListSwapQuery
@@ -28,7 +28,11 @@ class SwapService(CrudService):
         
         data['child_id'] = ChildRepository.get(data['child_id']).id
         data['beneficiary_id'] = command.get_beneficiary_id()
-        data['status_id'] = StatusRepository.get_by_name(PENDING).id
+        if command.user.is_volunteer():
+            data['status_id'] = StatusRepository.get_by_name(APPROVED).id
+        else:
+            data['status_id'] = StatusRepository.get_by_name(PENDING).id
+
         return SwapRepository.create(data)
 
     @classmethod
