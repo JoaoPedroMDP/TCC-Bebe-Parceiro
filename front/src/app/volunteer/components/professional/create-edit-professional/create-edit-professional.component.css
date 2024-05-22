@@ -1,8 +1,7 @@
 /* -------------------------------------------  ID ------------------------------------------- */
-#btn-delete {
-    --bg-btn: var(--bp-light-red);
-    --color-btn: var(--bp-red);
-    border-bottom-left-radius: 5px;
+#btn-close {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-right-radius: 5px;
 }
 
 #btn-save{
