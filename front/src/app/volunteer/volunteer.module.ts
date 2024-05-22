@@ -10,7 +10,7 @@ import { CreateEditCampaignComponent, DeleteCampaignComponent, InspectCampaignCo
 import { InspectGroupsComponent, ListGroupsComponent } from './components/groups';
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
-import { ApproveRefuseSwapComponent, CreateSwapComponent, DeleteSwapComponent, EditSwapComponent, InspectSwapComponent, ListSwapComponent } from './components/swap';
+import { CreateSwapComponent, DeleteSwapComponent, EditSwapComponent, InspectSwapComponent, ListSwapComponent } from './components/swap';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
 
@@ -55,7 +55,6 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     DeleteSwapComponent, 
     InspectSwapComponent, 
     ListSwapComponent, 
-    ApproveRefuseSwapComponent, 
     CreateSwapComponent, 
     EditSwapComponent
   ],

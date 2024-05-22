@@ -29,11 +29,14 @@
 .fa-solid{ 
     margin: 0 .2rem;
     font-size: 1.2rem;
+    transition: 0.3s;
  }
 .fa-pen-to-square { color: var(--bp-black); }
 .fa-pen-to-square:hover { color: var(--black); }
 .fa-trash { color: var(--bp-red); }
 .fa-trash:hover { color: var(--bp-dark-red); }
+.fa-eye { color: #166b12; }
+.fa-eye:hover { color: var(--black); }
 /* -------------------------------------------   TAG  ------------------------------------------- */
 table {
     border-collapse: collapse;
@@ -64,7 +67,7 @@ thead {
 }
 
 @media screen and (width < 390px) {
-    #bp-big-btn{ padding: .35rem 1rem; }
+    #bp-big-btn{ padding: .4rem 2rem; }
     .bp-footer{ 
         display: grid;
         justify-content: center;
@@ -74,7 +77,7 @@ thead {
     .bp-footer-left,
     .bp-footer-right {
         justify-content: center;      
-        margin: .15rem 0; 
+        margin: .25rem 0; 
     }
 
     td, th {

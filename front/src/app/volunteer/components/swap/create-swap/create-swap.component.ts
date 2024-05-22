@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SwalFacade, SwapService } from 'src/app/shared';
+import { SwalFacade, SwapService, VolunteerService } from 'src/app/shared';
 import { Beneficiary, Child, Size, SwapPOST } from 'src/app/shared/models';
 
 @Component({
@@ -16,7 +16,7 @@ export class CreateSwapComponent implements OnInit {
   clothSizes!: Size[];
   shoeSizes!: Size[];
 
-  constructor(public activeModal: NgbActiveModal, private swapService: SwapService) { }
+  constructor(public activeModal: NgbActiveModal, private swapService: SwapService, private volunteerService: VolunteerService) { }
 
   ngOnInit(): void {
     this.swap = new SwapPOST(); // Inicializa um objeto de troca
@@ -40,7 +40,7 @@ export class CreateSwapComponent implements OnInit {
    * @description Lista as beneficiadas
    */
   listBeneficiaries() {
-    this.swapService.listBeneficiaries().subscribe({
+    this.volunteerService.listBeneficiary().subscribe({
       next: (response: Beneficiary[]) => this.beneficiaries = response,
       error: (e) => SwalFacade.error("Erro ao listar as beneficiadas", e)
     });
