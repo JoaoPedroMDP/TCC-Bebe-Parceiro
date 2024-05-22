@@ -2,12 +2,12 @@
     <h3 class="mb-0">Excluir Troca</h3>
 </div>
 <div class="modal-body my-3">
-    <div class="container">
-        <p class="text-center">
-            <span>Você tem certeza que deseja excluir a troca: </span>
-            <strong>{{swap.description}}</strong>
-        </p>
-        <p class="text-center">Esta ação não poderá ser desfeita.</p>
+    <div class="container text-center">
+        <h5>Você tem certeza que deseja excluir a troca:</h5>
+        <p><strong>Beneficiada:</strong> {{swap.beneficiary?.user?.name}}</p>
+        <p><strong>Criança:</strong> {{swap.child?.name}}</p>
+        <p><strong>Descrição:</strong> {{!swap.description ? '---' : swap.description}}</p>
+        <h5 class="text-center">Esta ação não poderá ser desfeita.</h5>
     </div>
 </div>
 <div class="bp-modal-footer justify-content-center align-items-center">

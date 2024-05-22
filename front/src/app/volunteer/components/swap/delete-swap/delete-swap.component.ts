@@ -19,16 +19,14 @@ export class DeleteSwapComponent implements OnInit {
   }
 
   /**
-   * Executa o método deleteSwap() do swapService e retorna uma mensagem 
+   * @description Executa o método deleteSwap() do swapService e retorna uma mensagem 
    * de sucesso ou erro a depender do resultado da operação.
    */
   deleteSwap() {
     this.swapService.deleteSwap(this.swap.id!).subscribe({
-      next: () => {
-        this.activeModal.close();
-        SwalFacade.success("Troca excluída", `${this.swap.description} foi excluída com sucesso!`)
-      },
-      error: (e) => SwalFacade.error("Ocorreu um erro!", `Não foi possível excluir a troca: ${e}`)
+      next: () => SwalFacade.success("Troca excluída", `A troca da beneficiada: ${this.swap.beneficiary?.user?.name} foi excluída com sucesso!`),
+      error: (e) => SwalFacade.error("Ocorreu um erro!", `Não foi possível excluir a troca: ${e}`),
+      complete: () => this.activeModal.close()
     })
   }
 }
