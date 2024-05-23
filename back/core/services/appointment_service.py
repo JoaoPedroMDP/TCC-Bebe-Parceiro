@@ -38,3 +38,7 @@ class AppointmentService(CrudService):
     @classmethod
     def delete(cls, command):
         return AppointmentRepository.delete(command.id)
+
+    @classmethod
+    def list_assigned_evaluations(cls, volunteer_id: int):
+        return AppointmentRepository.filter(volunteer_id=volunteer_id)

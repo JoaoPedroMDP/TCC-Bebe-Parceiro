@@ -6,16 +6,19 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_APPOINTMENTS
+from config import MANAGE_APPOINTMENTS, MANAGE_EVALUATIONS
 from core.app_views import BaseView
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand, \
     DeleteAppointmentCommand
 from core.cqrs.queries.appointment_queries import GetAppointmentQuery, ListAppointmentQuery
 from core.models import Appointment
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.is_volunteer import IsVolunteer
 from core.serializers import AppointmentSerializer
 from core.services.appointment_service import AppointmentService
 from core.utils.decorators import endpoint
+from rest_framework.permissions import IsAuthenticated
+
 
 lgr = logging.getLogger(__name__)
 
@@ -35,8 +38,8 @@ class AppointmentGenericViews(BaseView):
     def post(self, request: Request, format=None):
         lgr.debug("----CREATE_APPOINTMENT----")
         data = copy(request.data)
-        data["user"] = request.user
         command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(data)
+        command.user = request.user
         new_appointment: Appointment = AppointmentService.create(command)
         return AppointmentSerializer(new_appointment).data, status.HTTP_201_CREATED
 
@@ -76,3 +79,14 @@ class AppointmentSpecificViews(BaseView):
             return AppointmentSerializer(appointment).data, status.HTTP_200_OK
 
         return {}, status.HTTP_404_NOT_FOUND
+
+
+class ListAssignedEvaluationsViews(BaseView):
+    groups = [MANAGE_EVALUATIONS]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+
+    @endpoint
+    def get(self, request, format=None):
+        lgr.debug("----GET_ASSIGNED_EVALUATIONS----")
+        evaluations: List[Appointment] = AppointmentService.list_assigned_evaluations(request.user.volunteer.get().id)
+        return AppointmentSerializer(evaluations, many=True).data, status.HTTP_200_OK

@@ -13,6 +13,7 @@ from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, Pa
 from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
 from core.models import Beneficiary
+from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.permissions.is_volunteer import IsVolunteer
 from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from core.permissions.is_beneficiary import IsBeneficiary
@@ -122,6 +123,7 @@ class BeneficiaryApprovalView(BaseView):
         data['id'] = pk
 
         command: ApproveBeneficiaryCommand = ApproveBeneficiaryCommand.from_dict(data)
+        command.user = request.user
         approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
 
         return BeneficiarySerializer(approved_beneficiary).data, status.HTTP_200_OK
@@ -129,7 +131,7 @@ class BeneficiaryApprovalView(BaseView):
 
 class BeneficiaryPendingView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup)
+    permission_classes = (IsAuthenticated, IsVolunteer, AtLeastOneGroup)
 
     @endpoint
     def get(self, request: Request, format=None):

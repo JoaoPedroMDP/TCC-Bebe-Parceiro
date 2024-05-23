@@ -135,21 +135,22 @@ class DeleteBeneficiaryCommand(Command):
 class ApproveBeneficiaryCommand(Command):
     fields = [
         Field("id", "integer", True, formatter=lambda x: int(x)),
+        Field("volunteer_id", "integer", True, formatter=lambda x: int(x)),
+        Field("datetime", "string", True)
     ]
 
     def __init__(self, id: int, appointment_data: Dict):
         self.id = id
         self.appointment_data = appointment_data
+        self.user = None
 
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'ApproveBeneficiaryCommand':
         data = Validator.validate_and_extract(ApproveBeneficiaryCommand.fields, args)
 
-        appo_data = Command.extract_and_group_keys(
-            args, ["beneficiary_id", "volunteer_id", "professional_id", "date", "time"]
-        )
+        appo_data = Command.extract_and_group_keys(data, ["volunteer_id", "datetime"])
         appo_data['beneficiary_id'] = data['id']
+        
         data['appointment_data'] = appo_data
-        print(data)
         return ApproveBeneficiaryCommand(**data)
