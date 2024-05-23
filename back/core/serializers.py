@@ -146,7 +146,7 @@ class SwapSerializer(ModelSerializer):
     
     class Meta:
         model = Swap
-        fields = ['id', 'cloth_size', 'shoe_size', 'description', 'status', 'beneficiary', 'child']
+        fields = ['id', 'cloth_size', 'shoe_size', 'description', 'status', 'beneficiary', 'child', 'created_at']
 
 class AppointmentSerializer(ModelSerializer):
 
