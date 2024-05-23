@@ -7,7 +7,7 @@ from tests.conftest import make_beneficiary, make_volunteer
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_campaign_gen_get(client: APIClient):
+def test_campaign_gen_get_permissions(client: APIClient):
     url = reverse('gen_campaigns')
     
     # Anônimos não passam
@@ -35,7 +35,7 @@ def test_campaign_gen_get(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_campaign_gen_post(client: APIClient):
+def test_campaign_gen_post_permissions(client: APIClient):
     url = reverse('gen_campaigns')
 
     # Anônimos não passam
@@ -62,7 +62,7 @@ def test_campaign_gen_post(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_campaign_spe_get(client: APIClient):
+def test_campaign_spe_get_permissions(client: APIClient):
     url = reverse('spe_campaigns', kwargs={'pk': 1})
 
     # Anônimos não passam
@@ -90,7 +90,7 @@ def test_campaign_spe_get(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_campaign_spe_patch(client: APIClient):
+def test_campaign_spe_patch_permissions(client: APIClient):
     url = reverse('spe_campaigns', kwargs={'pk': 1})
 
     # Anônimos não passam
@@ -117,7 +117,7 @@ def test_campaign_spe_patch(client: APIClient):
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_campaign_spe_delete(client: APIClient):
+def test_campaign_spe_delete_permissions(client: APIClient):
     url = reverse('spe_campaigns', kwargs={'pk': 1})
 
     # Anônimos não passam

@@ -1,11 +1,12 @@
 #  coding: utf-8
+from datetime import timedelta
 import logging
 from typing import List
 
 from config import APPROVED, PENDING
 from core.cqrs.commands.swap_commands import CreateSwapCommand, PatchSwapCommand, \
     DeleteSwapCommand
-from core.cqrs.queries.swap_queries import GetSwapQuery, ListSwapQuery
+from core.cqrs.queries.swap_queries import GetSwapQuery, GetSwapsReportQuery, ListSwapQuery
 from core.models import Beneficiary, Size, Swap
 from core.repositories.child_repository import ChildRepository
 from core.repositories.size_repository import SizeRepository
@@ -63,3 +64,14 @@ class SwapService(CrudService):
     @classmethod
     def delete(cls, command: DeleteSwapCommand) -> bool:
         return SwapRepository.delete(command.id)
+
+    @classmethod
+    def get_reports(cls, query: GetSwapsReportQuery):
+        filters = {}
+        if query.start_date:
+            filters['updated_at__gte'] = query.start_date
+        
+        if query.end_date:
+            filters['updated_at__lte'] = query.end_date + timedelta(days=1)
+
+        return SwapRepository.filter(**filters)

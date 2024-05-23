@@ -52,3 +52,28 @@ class ListAppointmentQuery(Query):
     def from_dict(args: dict) -> 'ListAppointmentQuery':
         data = Validator.validate_and_extract(ListAppointmentQuery.fields, args)
         return ListAppointmentQuery(**data)
+
+
+class GetAppointmentsReportQuery(Query):
+    fields = [
+        Field("start_date", "string", False),
+        Field("end_date", "string", False),
+    ]
+
+    def __init__(self, start_date: datetime = None, end_date: datetime = None):
+        self.start_date = start_date
+        self.end_date = end_date
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'GetAppointmentsReportQuery':
+        data = Validator.validate_and_extract(GetAppointmentsReportQuery.fields, args)
+
+        if 'start_date' in data:
+            data['start_date'] = datetime.fromisoformat(data['start_date'])
+
+        if 'end_date' in data:
+            data['end_date'] = datetime.fromisoformat(data['end_date'])
+
+        return GetAppointmentsReportQuery(**data)
+    

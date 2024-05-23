@@ -1,4 +1,5 @@
 #  coding: utf-8
+from datetime import datetime
 from core.cqrs import Query, Field, Validator
 
 
@@ -46,3 +47,28 @@ class ListBeneficiaryQuery(Query):
     def from_dict(args: dict) -> 'ListBeneficiaryQuery':
         data = Validator.validate_and_extract(ListBeneficiaryQuery.fields, args)
         return ListBeneficiaryQuery(**data)
+
+
+class GetBeneficiariesReportQuery(Query):
+    fields = [
+        Field("start_date", "string", False),
+        Field("end_date", "string", False),
+    ]
+
+    def __init__(self, start_date: str = None, end_date: str = None):
+        self.start_date = start_date
+        self.end_date = end_date
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'GetBeneficiariesReportQuery':
+        data = Validator.validate_and_extract(GetBeneficiariesReportQuery.fields, args)
+
+        if 'start_date' in data:
+            data['start_date'] = datetime.fromisoformat(data['start_date'])
+
+        if 'end_date' in data:
+            data['end_date'] = datetime.fromisoformat(data['end_date'])
+
+        return GetBeneficiariesReportQuery(**data)
+    
