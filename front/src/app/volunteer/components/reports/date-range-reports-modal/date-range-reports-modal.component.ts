@@ -29,8 +29,10 @@ export class DateRangeReportsModalComponent implements OnInit {
    */
   save() {
     // Valida as datas
+    console.log(this.object);
+
     if (this.startDate < this.endDate) {
-      if (this.object.localeCompare('swap')) {
+      if (this.object === "swaps") {
         this.reportsService.listSwapsForReport(this.startDate, this.endDate).subscribe({
           next: (swaps: Swap[]) => {
             if (swaps.length > 0) {
