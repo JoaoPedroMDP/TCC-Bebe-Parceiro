@@ -9,6 +9,7 @@ import { ListSpecialitiesComponent } from './components/specialities';
 import { ListSwapComponent } from './components/swap';
 import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
+import { ListReportsComponent } from './components/reports';
 
 
 export const VolunteerRouting: Routes = [
@@ -58,6 +59,10 @@ export const VolunteerRouting: Routes = [
       {
         path: 'trocas', component: ListSwapComponent, canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['Trocas'] }
+      },
+      {
+        path: 'relatorios', component: ListReportsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Relatórios'] }
       }
     ]
   },

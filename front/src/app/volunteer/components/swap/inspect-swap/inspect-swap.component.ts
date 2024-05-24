@@ -54,8 +54,7 @@ export class InspectSwapComponent implements OnInit {
   listStatuses() {
     this.swapService.listStatuses().subscribe({
       next: (response: Status[]) => this.statuses = response,
-      error: (e) => SwalFacade.error("Ocorreu um erro!", e),
-      complete: () => console.log(this.statuses)
+      error: (e) => SwalFacade.error("Ocorreu um erro!", e)
     })
   }
 

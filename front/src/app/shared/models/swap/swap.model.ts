@@ -10,7 +10,8 @@ export class Swap {
     public description?: string,
     public status?: Status,
     public beneficiary?: Beneficiary,
-    public child?: Child
+    public child?: Child,
+    public created_at?: Date
   ) { }
 }
 

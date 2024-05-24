@@ -13,6 +13,7 @@ import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialit
 import { CreateSwapComponent, DeleteSwapComponent, EditSwapComponent, InspectSwapComponent, ListSwapComponent } from './components/swap';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+import { DateRangeReportsModalComponent, ListReportsComponent } from './components/reports';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,10 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     InspectSwapComponent, 
     ListSwapComponent, 
     CreateSwapComponent, 
-    EditSwapComponent
+    EditSwapComponent, 
+    // RELATORIOS
+    ListReportsComponent, 
+    DateRangeReportsModalComponent
   ],
   imports: [
     CommonModule,
