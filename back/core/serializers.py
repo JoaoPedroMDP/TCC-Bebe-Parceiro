@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group, Permission
 from rest_framework.fields import SerializerMethodField, DateTimeField
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, DateField
 
-from core.models import (Country, Campaign, Size, State, City, Status, Swap, User, Volunteer, Professional, Speciality,
+from core.models import (Country, Campaign, Register, Size, State, City, Status, Swap, User, Volunteer, Professional, Speciality,
                          AccessCode, SocialProgram, MaritalStatus, Beneficiary, Child, Appointment)
 
 
@@ -159,3 +159,8 @@ class AppointmentSerializer(ModelSerializer):
     class Meta:
         model = Appointment
         fields = ['id', 'beneficiary', 'professional', 'speciality', 'volunteer', 'status', 'datetime']
+
+class RegisterSerializer(ModelSerializer):
+    class Meta:
+        model = Register
+        fields = ['id', 'description']

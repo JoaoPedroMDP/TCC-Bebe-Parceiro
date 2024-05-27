@@ -6,7 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_BENEFICIARIES
+from config import MANAGE_BENEFICIARIES, MANAGE_EVALUATIONS
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
@@ -150,4 +150,3 @@ class BeneficiaryCanRequestSwapView(BaseView):
         return {
             'can_request_swap': BeneficiaryService.can_request_swap(beneficiary)
         }, status.HTTP_200_OK
-    
