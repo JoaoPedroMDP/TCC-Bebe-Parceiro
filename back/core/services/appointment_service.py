@@ -30,7 +30,11 @@ class AppointmentService(CrudService):
 
     @classmethod
     def filter(cls, query: ListAppointmentQuery) -> List[Appointment]:
-        return AppointmentRepository.filter(**query.to_dict())
+        filters = query.to_dict()
+        if 'status_id' in filters:
+            # Me certifico de que o status passado existe
+            StatusRepository.get(filters['status_id'])
+        return AppointmentRepository.filter(**filters)
 
     @classmethod
     def get(cls, query):
