@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { SwalFacade, Appointment } from 'src/app/shared';
+import { SwalFacade, Appointment, AppointmentPOST } from 'src/app/shared';
 import { BeneficiaryService } from '../../../services/beneficiary.service';
 import { InspectAppointmentComponent} from '../inspect-appointment/inspect-appointment.component';
 import { RequestAppointmentComponent } from '../request-appointment/request-appointment.component';
@@ -45,19 +45,20 @@ export class ListAppointmentComponent implements OnInit, OnDestroy {
    * @description lista os dados de atendimentos
    */
   listAppointments() {
-    this.isLoading = true; // Flag de carregamento
+    this.isLoading = true;
     this.beneficiaryService.listAppointments().subscribe({
-      next: (response) => {
-        this.originalAppointments = response; // Armazena os Appointments originais para filtragem
-        this.filterAppointment(); // Chama o componente de filtragem inicialmente
-      },
-      error: (e) => {
-        SwalFacade.error("Ocorreu um erro!", e); // Manipula erros
-        this.isLoading = false; // Desativa a flag de carregamento em caso de erro
-      },
-      complete: () => this.isLoading = false
+        next: (response) => {
+            console.log("Appointments loaded:", response);
+            this.originalAppointments = response;
+            this.filterAppointment();
+        },
+        error: (e) => {
+            SwalFacade.error("Ocorreu um erro!", e);
+            this.isLoading = false;
+        },
+        complete: () => this.isLoading = false
     });
-  }
+}
 
   /**
    * @description Filtra os campos de nome, tamanho da roupa e status pelo input inserido

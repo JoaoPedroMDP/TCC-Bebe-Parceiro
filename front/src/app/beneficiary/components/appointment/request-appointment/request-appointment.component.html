@@ -10,8 +10,8 @@
                     <p class="px-2">Selecione a especialidade desejada para o atendimento</p>
                     <div>
                         <small class="bp-label-text">Especialidade</small>
-                        <select class="form-select" [(ngModel)]="appointment.speciality"
-                            (ngModelChange)="listSpecialities()" name="speciality_id" required>
+                        <select class="form-select" [(ngModel)]="appointment.speciality_id"
+                            (ngModelChange)="listSpecialities()" name="speciality" required>
                             <option [value]="undefined"> --- </option>
                             <option [value]="speciality.id" *ngFor="let speciality of specialities">{{speciality.name}}</option>
                         </select>

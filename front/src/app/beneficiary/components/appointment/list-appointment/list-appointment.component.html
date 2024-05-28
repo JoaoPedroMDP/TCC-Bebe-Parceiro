@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="bp-big-title">Agendamentos</h1>
+    <h1 class="bp-big-title">Atendimentos</h1>
     <input type="text" class="form-control" placeholder="Filtrar Agendamentos" (input)="filterAppointment()" [(ngModel)]="filter" />
     <div>
         <table class="table table-hover table-striped" *ngIf="!isLoading">
@@ -13,10 +13,10 @@
             </thead>
             <tr *ngFor="let appointment of appointments" title="Clique para ver mais dados do agendamento">
                 
-                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.professional?.speciality?.name}}</td>
-                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment?.status?.name}}</td>
+                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.speciality!.name ||'---'}}</td>
+                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.status}}</td>
                 <td class="col-4 align-middle" (click)="inspectAppointment(appointment)">
-                    <i class="fa-solid fa-eye"  [title]="'Ver dados do atendimento: '+ appointment?.professional?.name"></i>
+                    <i class="fa-solid fa-eye"  [title]="'Ver dados do atendimento: '+ appointment.professional"></i>
                 </td>
             </tr>
         </table>

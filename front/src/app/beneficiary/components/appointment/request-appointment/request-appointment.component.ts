@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Appointment, Speciality, SwalFacade } from 'src/app/shared';
+import { AppointmentPOST, Speciality, SwalFacade } from 'src/app/shared';
 import { SpecialityService } from 'src/app/volunteer/services/speciality.service';
 import { BeneficiaryService } from 'src/app/beneficiary/services/beneficiary.service';
 
@@ -14,7 +14,7 @@ export class RequestAppointmentComponent implements OnInit {
   
 
   @ViewChild('form') form!: NgForm;
-  appointment!: Appointment;
+  appointment!: AppointmentPOST;
   showSuccess!: boolean;
   
   specialities!: Speciality[];
@@ -24,12 +24,13 @@ export class RequestAppointmentComponent implements OnInit {
     private specialityService: SpecialityService) { }
 
   ngOnInit(): void {
-    this.appointment = new Appointment();
+    this.appointment = new AppointmentPOST();
     this.listSpecialities();
   }
 
+
   requestAppointment() {
-    if (this.appointment.speciality) {
+    if (this.appointment.speciality_id) {
       this.beneficiaryService.createAppointment(this.appointment).subscribe({
         next: () => SwalFacade.success("Atendimento solicitado com sucesso", "Em breve entraremos em contato"),
         error: (e) => SwalFacade.error("Erro ao soliciitar o atendimento!", e),
