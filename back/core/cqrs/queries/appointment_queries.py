@@ -32,17 +32,15 @@ class ListAppointmentQuery(Query):
         Field('professional_id', 'integer', False, formatter=lambda x: int(x)),
         Field('speciality_id', 'integer', False, formatter=lambda x: int(x)),
         Field('status_id', 'integer', False, formatter=lambda x: int(x)),
-        Field('date', 'datetime', False, formatter=format_date),
-        Field('time', 'datetime', False, formatter=format_time),
+        Field('datetime', 'string', required=False),
         Field('status', 'string', False)
     ]
 
     def __init__(self, beneficiary_id: int = None, volunteer_id: int = None, professional_id: int = None, speciality_id: int = None, status_id: int = None,
-                 date: datetime = None, time: datetime = None, status: str = None
+                 datetime: str = None, status: str = None
                  ):
         self.beneficiary_id = beneficiary_id
-        self.date = date
-        self.time = time
+        self.datetime = datetime
         self.professional_id = professional_id
         self.volunteer_id = volunteer_id
         self.speciality_id = speciality_id
