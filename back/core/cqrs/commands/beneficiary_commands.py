@@ -134,11 +134,13 @@ class DeleteBeneficiaryCommand(Command):
 
 class ApproveBeneficiaryCommand(Command):
     fields = [
-        Field("id", "integer", True, formatter=lambda x: int(x)),
+        Field("beneficiary_id", "integer", True, formatter=lambda x: int(x)),
+        Field('volunteer_id', 'integer', True, formatter=lambda x: int(x)),
+        Field('datetime', 'string', True),
     ]
 
-    def __init__(self, id: int, appointment_data: Dict):
-        self.id = id
+    def __init__(self, beneficiary_id: int, appointment_data: Dict):
+        self.beneficiary_id = beneficiary_id
         self.appointment_data = appointment_data
 
     @staticmethod
@@ -146,10 +148,10 @@ class ApproveBeneficiaryCommand(Command):
     def from_dict(args: dict) -> 'ApproveBeneficiaryCommand':
         data = Validator.validate_and_extract(ApproveBeneficiaryCommand.fields, args)
 
-        appo_data = Command.extract_and_group_keys(
-            args, ["beneficiary_id", "volunteer_id", "professional_id", "date", "time"]
+        data['appointment_data'] = Command.extract_and_group_keys(
+            data, ["volunteer_id", "datetime"]
         )
-        appo_data['beneficiary_id'] = data['id']
-        data['appointment_data'] = appo_data
-        print(data)
+        lgr.debug(data)
+        data['appointment_data']['beneficiary_id'] = data['beneficiary_id']
+        data['appointment_data']['user'] = args['user']
         return ApproveBeneficiaryCommand(**data)

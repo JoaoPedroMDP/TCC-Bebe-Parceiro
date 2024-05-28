@@ -1,10 +1,14 @@
 #  coding: utf-8
 from datetime import datetime
+import logging
 from typing import Dict
 
 from core.cqrs import Command, Field, Validator
 from core.models import User
 from core.repositories.appointment_repository import AppointmentRepository
+
+
+lgr = logging.getLogger(__name__)
 
 
 def format_date(raw_date: str):
@@ -20,7 +24,7 @@ class CreateAppointmentCommand(Command):
         Field('beneficiary_id', 'integer', required=True, formatter=lambda x: int(x)),
         Field('volunteer_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('professional_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('speciality_id', 'integer', required=True, formatter=lambda x: int(x)),
+        Field('speciality_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('datetime', 'string', required=False),
     ]
 
@@ -39,6 +43,15 @@ class CreateAppointmentCommand(Command):
     @Validator.validates
     def from_dict(args: Dict):
         data = Validator.validate_and_extract(CreateAppointmentCommand.fields, args)
+
+        lgr.debug(data)
+
+        if 'volunteer_id' in data:
+            if 'professional_id' in data or 'speciality_id' in data:
+                raise ValueError("Um atendimento com voluntária não pode ter profissional nem especialidade")
+        elif 'professional_id' not in data and 'speciality_id' not in data:
+            raise ValueError("Um atendimento deve ter um profissional e uma especialidade, ou ser feito por uma voluntária")
+
         return CreateAppointmentCommand(**data, user=args["user"])
 
 

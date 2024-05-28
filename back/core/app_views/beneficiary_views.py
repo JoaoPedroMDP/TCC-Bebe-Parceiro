@@ -120,8 +120,8 @@ class BeneficiaryApprovalView(BaseView):
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----APPROVE_BENEFICIARY----")
         data = copy(request.data)
-        data['id'] = pk
-
+        data['beneficiary_id'] = pk
+        data['user'] = request.user
         command: ApproveBeneficiaryCommand = ApproveBeneficiaryCommand.from_dict(data)
         approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
 

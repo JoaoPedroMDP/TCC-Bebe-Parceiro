@@ -146,7 +146,8 @@ class BeneficiaryService(CrudService):
     
     @classmethod
     def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
-        beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.beneficiary_id)
+        
         ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
 
         beneficiary.approved = True
