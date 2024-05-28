@@ -13,7 +13,9 @@ from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, Pa
 from core.cqrs.queries.appointment_queries import GetAppointmentQuery, GetAppointmentsReportQuery, ListAppointmentQuery
 from core.models import Appointment
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.is_beneficiary import IsBeneficiary
 from core.permissions.is_volunteer import IsVolunteer
+from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from core.serializers import AppointmentSerializer
 from core.services.appointment_service import AppointmentService
 from core.utils.decorators import endpoint
@@ -23,8 +25,6 @@ lgr = logging.getLogger(__name__)
 
 
 class AppointmentGenericViews(BaseView):
-    groups = [MANAGE_APPOINTMENTS]
-    permission_classes = (AtLeastOneGroup,)
 
     @endpoint
     def get(self, request: Request, format=None):
