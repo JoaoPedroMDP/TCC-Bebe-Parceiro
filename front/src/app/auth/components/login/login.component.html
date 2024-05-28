@@ -4,21 +4,23 @@
         <form #form="ngForm">
             <div class="my-3">
                 <small class="form-text font-weight-bold text-left">Telefone</small>
-                <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000" placeholder="(XX) X XXXX-XXXX"
-                    name="username" minlength="10" required #username ngModel>
+                <input type="text" class="form-control" mask="(00) 0 0000-0000||(00) 0000-0000"
+                    placeholder="(XX) X XXXX-XXXX" name="username" minlength="10" required #username ngModel>
             </div>
             <div class="my-3">
                 <small class="form-text font-weight-bold text-left">Senha</small>
                 <div class="input-with-icon">
-                    <input type="password" class="form-control mb-1" placeholder="Senha" name="password" required #password ngModel id="password">
+                    <input type="password" class="form-control mb-1" placeholder="Senha" name="password" required
+                        #password ngModel id="password">
                     <i class="fa fa-eye" (click)="mostrarSenha()"></i>
                 </div>
                 <!-- <a href="">Esqueceu sua senha?</a> -->
             </div>
             <div class="text-center my-3 pt-2">
                 <button class="bp-button" id="actions-btn" [disabled]="!form.form.valid || isLoading" (click)="login()">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isLoading"></span>
-                    <span *ngIf="!isLoading">Entrar</span> 
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                        *ngIf="isLoading"></span>
+                    <span *ngIf="!isLoading">Entrar</span>
                 </button>
             </div>
 
@@ -28,7 +30,9 @@
             <button class="bp-button" id="actions-btn" routerLink="/autocadastro">Cadastrar-se</button>
         </div>
     </div>
-    <div class="pt-4 px-3">
+</div>
+<div class="pt-4 bp-info">
+    <div>
         <h1 class="text-center">Conheça o projeto</h1>
         <p class="bp-text">
             O Projeto Bebê Parceiro, uma iniciativa social sediada em Maringá/PR, visa melhorar
@@ -38,27 +42,32 @@
             do tempo, expandiu suas atividades para incluir apoio psicológico, orientação legal,
             acompanhamento de doulas e aconselhamento religioso.
         </p>
+    </div>
+    <div>
         <h3>Atendimentos</h3>
         <p class="bp-text">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore consequuntur, fuga aut itaque dolorum 
-            repudiandae sequi id, quisquam, amet eos adipisci ad rem alias dolorem ullam ipsam impedit eaque hic?
+            Você poderá receber atendimentos de profissionais especializados para conseguir apoio, reconhecendo a
+            complexidade das necessidades de cada mãe!
         </p>
+    </div>
+    <div>
         <h3>Trocas</h3>
         <p class="bp-text">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore consequuntur, fuga aut itaque dolorum 
-            repudiandae sequi id, quisquam, amet eos adipisci ad rem alias dolorem ullam ipsam impedit eaque hic? 
+            Será possível também realizar trocas de roupas e sapatos, o processo é bem simples, após escolher um filho e
+            o tamanho das roupas as voluntárias do projeto irão analisar e realizar a troca!
         </p>
     </div>
-
-    <div class="text-center my-5">
-        <h3>Seja um Voluntário!</h3>
-        <p class="bp-text">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore consequuntur, fuga aut itaque dolorum 
-            repudiandae sequi id, quisquam, amet eos adipisci ad rem alias dolorem ullam ipsam impedit eaque hic?
-        </p>
-        <button class="bp-button" routerLink="/professional">Desejo me voluntariar!</button>
+    <div>
+        <div class="text-center my-5">
+            <h3>Seja um Voluntário!</h3>
+            <p class="bp-text mb-3">
+                Ficou interessado na ideia e quer nos ajudar? Cadastre-se como um profissional voluntário para poder
+                ajudar nos atendimentos das beneficiadas!
+            </p>
+            <button class="bp-button" routerLink="/professional">Desejo me voluntariar!</button>
+        </div>
+        <div class="text-center">
+            <p>Email: email&#64;bbprcr.com</p>
+        </div>
     </div>
-    <div class="text-center">
-        <p>Email: email&#64;bbprcr.com</p>
-    </div>   
 </div>
