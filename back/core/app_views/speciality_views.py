@@ -22,15 +22,6 @@ lgr = logging.getLogger(__name__)
 
 
 class SpecialityGenericViews(BaseView):
-    groups = [MANAGE_SPECIALITIES]
-    permission_classes = (AtLeastOneGroup,)
-    authentication_classes_by_method = {
-        "get": (),
-    }
-    permission_classes_by_method = {
-        "get": (),
-    }
-
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_SPECIALITIES----")
