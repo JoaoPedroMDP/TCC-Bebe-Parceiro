@@ -31,6 +31,14 @@ class AppointmentService(CrudService):
     @classmethod
     def filter(cls, query: ListAppointmentQuery) -> List[Appointment]:
         filters = query.to_dict()
+
+        if query.user.is_beneficiary():
+           lgr.debug("Usuária é beneficiária")
+           filters = {
+                **filters,
+                "beneficiary": query.user.beneficiary
+            }
+
         if 'status' in filters:
             # Me certifico de que o status passado existe
             statusId = StatusRepository.get_by_name(filters['status']).id

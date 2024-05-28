@@ -1,4 +1,6 @@
 #  coding: utf-8
+from typing import Dict
+
 from core.cqrs import Query, Field, Validator
 from datetime import datetime
 
@@ -46,13 +48,17 @@ class ListAppointmentQuery(Query):
         self.speciality_id = speciality_id
         self.status_id = status_id
         self.status = status
-
+        self.user = None
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'ListAppointmentQuery':
         data = Validator.validate_and_extract(ListAppointmentQuery.fields, args)
         return ListAppointmentQuery(**data)
 
+    def to_dict(self) -> Dict:
+        data = super().to_dict()
+        del data['user']
+        return data
 
 class GetAppointmentsReportQuery(Query):
     fields = [

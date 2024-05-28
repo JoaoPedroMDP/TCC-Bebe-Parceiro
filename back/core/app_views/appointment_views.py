@@ -30,6 +30,7 @@ class AppointmentGenericViews(BaseView):
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_APPOINTMENTS----")
         list_appointments_query: ListAppointmentQuery = ListAppointmentQuery.from_dict(request.query_params)
+        list_appointments_query.user = request.user
         appointments: List[Appointment] = AppointmentService.filter(list_appointments_query)
         return AppointmentSerializer(appointments, many=True).data, status.HTTP_200_OK
 
@@ -38,6 +39,8 @@ class AppointmentGenericViews(BaseView):
         lgr.debug("----CREATE_APPOINTMENT----")
         data = copy(request.data)
         data["user"] = request.user
+        if request.user.is_beneficiary():
+            data['beneficiary_id'] = request.user.beneficiary.id
         command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(data)
         new_appointment: Appointment = AppointmentService.create(command)
         return AppointmentSerializer(new_appointment).data, status.HTTP_201_CREATED
