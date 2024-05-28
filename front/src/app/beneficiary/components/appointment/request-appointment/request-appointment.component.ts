@@ -31,12 +31,12 @@ export class RequestAppointmentComponent implements OnInit {
   requestAppointment() {
     if (this.appointment.speciality) {
       this.beneficiaryService.createAppointment(this.appointment).subscribe({
-        next: () => SwalFacade.success("Consulta marcada com sucesso", "Em breve entraremos em contato"),
-        error: (e) => SwalFacade.error("Erro ao marcar consulta!", e),
+        next: () => SwalFacade.success("Atendimento solicitado com sucesso", "Em breve entraremos em contato"),
+        error: (e) => SwalFacade.error("Erro ao soliciitar o atendimento!", e),
         complete: () => this.showSuccess = !this.showSuccess
       });
     } else {
-      SwalFacade.alert("Não foi possível marcar a consulta!", "Preencha os campos obrigatórios e tente novamente");
+      SwalFacade.alert("Não foi possível solicitar o atendimento!", "Preencha os campos obrigatórios e tente novamente");
     }
   }
 
@@ -46,8 +46,6 @@ export class RequestAppointmentComponent implements OnInit {
   listSpecialities() {
     this.specialityService.listSpecialities().subscribe({
       next: (data: Speciality[]) => {
-       console.log('Especialidades recebidas:', data);
-
         if (data == null) {
           this.specialities = [];
         } else {
