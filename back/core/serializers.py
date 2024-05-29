@@ -94,7 +94,7 @@ class BeneficiarySerializer(ModelSerializer):
     class Meta:
         model = Beneficiary
         fields = ['id', 'user', 'birth_date', 'child_count', 'monthly_familiar_income',
-                  'has_disablement', 'marital_status', 'children', 'city', 'social_programs', 'created_at']
+                  'has_disablement', 'marital_status', 'children', 'city', 'social_programs', 'approved', 'created_at']
 
 
 class VolunteerSerializer(ModelSerializer):

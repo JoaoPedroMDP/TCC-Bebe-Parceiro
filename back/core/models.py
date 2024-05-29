@@ -52,7 +52,10 @@ class User(AbstractUser, Dictable):
 
     @property
     def role(self) -> str:
-        return "beneficiary" if self.is_beneficiary() else "volunteer"
+        if self.is_beneficiary():
+            return "beneficiary" if self.beneficiary.approved else "pending_beneficiary"
+
+        return "volunteer"
 
     def is_beneficiary(self) -> bool:
         """
