@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from '../auth/guards/auth.guard';
-import { EditInformationComponent, MainComponent, ViewInformationComponent } from './index';
+import { ListAppointmentComponent } from './components/appointment';
 import { InspectCampaignComponent, ListCampaignComponent } from './components/campaign';
-import { InspectAppointmentComponent, ListAppointmentComponent } from './components/appointment';
+import { HomeComponent } from './components/home/home.component';
+import { EditInformationComponent, MainComponent, ViewInformationComponent } from './index';
 
 export const BeneficiaryRouting: Routes = [
   {
@@ -13,7 +13,6 @@ export const BeneficiaryRouting: Routes = [
       { path: '', component: HomeComponent },
       { path: 'meus-dados', component: ViewInformationComponent },
       { path: 'alterar-dados', component: EditInformationComponent },
-    
       // As próximas rotas só podem ser acessadas por data: { expectedRole: ['beneficiary']
       {
         path: 'campanhas', canActivate: [AuthGuard], data: { expectedRole: ['beneficiary'] },
@@ -23,14 +22,8 @@ export const BeneficiaryRouting: Routes = [
         ]
       },
       {
-        path: 'atendimentos', canActivate: [AuthGuard], data: { expectedRole: ['beneficiary', 'pending_beneficiary'] },
-        children: [
-          { path: '', component: ListAppointmentComponent },
-          { path: 'inspecionar/:idAtendimento', component: InspectAppointmentComponent },
-        ]
+        path: 'atendimentos', canActivate: [AuthGuard], component: ListAppointmentComponent, data: { expectedRole: ['beneficiary'] }
       },
-     
-    
     ],
     canActivate: [AuthGuard],
     data: { expectedRole: ['beneficiary', 'pending_beneficiary'] }

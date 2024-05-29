@@ -1,0 +1,27 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Marcar Admissão</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <div class="text-center">
+            <h5>
+                <strong>Nome:</strong> {{beneficiary.user?.name}}
+            </h5>
+        </div>
+        <div class="my-3 text-center">
+            <h5>
+                <strong>Telefone:</strong> {{beneficiary.user?.phone! | mask: "(00) 0 0000-0000||(00) 0000-0000"}}
+            </h5>
+        </div>
+        <form #form="ngForm">
+            <div>
+                <small class="bp-label-text">Data</small>
+                <input type="datetime-local" class="form-control" name="datetime" [(ngModel)]="datetime" required>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()"  [disabled]="!form.form.valid">Salvar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">Cancelar</button>
+</div>

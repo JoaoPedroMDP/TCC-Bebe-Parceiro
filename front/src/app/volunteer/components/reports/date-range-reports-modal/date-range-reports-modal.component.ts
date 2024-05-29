@@ -72,7 +72,7 @@ export class DateRangeReportsModalComponent implements OnInit {
                 data.volunteer?.user?.name,
                 data.professional?.name || 'Não',
                 data.speciality?.name || 'Não',
-                new Date(data.datetime).toLocaleDateString(), // dd/mm/yyyy
+                data.datetime ? new Date(data.datetime).toLocaleDateString() : new Date(), // dd/mm/yyyy
                 data.status?.name
               ]);
               const name = "Atendimentos"

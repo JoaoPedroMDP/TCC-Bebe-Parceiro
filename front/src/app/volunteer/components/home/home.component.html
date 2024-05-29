@@ -6,7 +6,7 @@
         <a class="col-10 col-lg-5 bp-menu-option" routerLink="voluntarias" [class.bp-disabled]="!hasGroup('Voluntárias')">
             <span>Voluntárias</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades"  [class.bp-disabled]="!hasGroup('Especialidades')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="especialidades" [class.bp-disabled]="!hasGroup('Especialidades')">
             <span>Especialidades</span>
         </a>
     </div>
@@ -22,8 +22,8 @@
         <a class="col-10 col-lg-5 bp-menu-option" routerLink="relatorios" [class.bp-disabled]="!hasGroup('Relatórios')">
             <span>Relatórios</span>
         </a>
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios" [class.bp-disabled]="!hasGroup('manage_prontuarios')">
-            <span>Prontuários</span>
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="admissoes-designadas" [class.bp-disabled]="!hasGroup('Admissões')">
+            <span>Admissões designadas</span>
         </a>
     </div>
     <div class="row d-flex justify-content-center">
@@ -43,9 +43,16 @@
         </a>
     </div>
     <div class="row d-flex justify-content-center">
-        <a class="col-10 col-lg-5 bp-menu-option" routerLink="solitacoes" [class.bp-disabled]="!hasGroup('Admissões')">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="admissoes" [class.bp-disabled]="!hasGroup('Cadastros')">
             <span>Solicitações de cadastro</span>
         </a>
         <a class="col-10 col-lg-5 bp-menu-option" (click)="openAcessCodesModal()" [class.bp-disabled]="!hasGroup('Códigos de acesso')">
             <span>Códigos de acesso</span>
         </a>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <a class="col-10 col-lg-5 bp-menu-option" routerLink="prontuarios" [class.bp-disabled]="!hasGroup('manage_prontuarios')">
+            <span>Prontuários</span>
+        </a>
+    </div>
+</div>

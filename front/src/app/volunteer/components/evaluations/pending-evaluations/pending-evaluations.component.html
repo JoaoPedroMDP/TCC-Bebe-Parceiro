@@ -1,0 +1,43 @@
+<div class="container">
+    <h1 class="bp-big-title">Admissões Pendentes</h1>
+    <p>Beneficiadas que estão pendentes para entrar no projeto</p>
+    <input type="text" class="form-control" placeholder="Filtrar Beneficiadas" (input)="filterBeneficiary($event)"
+        [(ngModel)]="filter"/>
+    <div>
+        <table class="table table-hover table-striped" *ngIf="!isLoading && beneficiaries.length > 0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let beneficiary of beneficiaries"
+                    [title]="'Clique para ver mais dados da beneficiada: '+ beneficiary.user?.name">
+                    <td class="align-middle bp-nome-limit" (click)="inspectBeneficiary(beneficiary)">
+                        {{beneficiary.user?.name}}</td>
+                    <td>
+                        <i class="fa-solid fa-eye col-12 col-md-2" (click)="inspectBeneficiary(beneficiary)"
+                        [title]="'Clique para ver mais dados da beneficiada: '+ beneficiary.user?.name"></i>
+                        <i class="fa-solid fa-check col-12 col-md-2" (click)="approveBeneficiary(beneficiary)"
+                            [title]="'Aprovar a beneficiada: '+ beneficiary.user?.name"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="!isLoading && beneficiaries.length == 0" class="mt-4 text-center">
+            <hr>
+            <h2>Não há admissões pendentes!</h2>
+            <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar a listagem</button>
+        </div>
+        <div *ngIf="isLoading" class="text-center text-dark">
+            <button class="btn btn-dark mt-2" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Carregando dados...
+            </button>
+        </div>
+    </div>
+    <div class="bp-footer fixed-bottom">
+        <button class="bp-button" id="bp-big-btn" routerLink="/">Voltar</button>
+    </div>
+</div>
