@@ -11,7 +11,7 @@ export class Appointment {
         public speciality?: Speciality,
         public volunteer?: Volunteer,
         public status?: Status,
-        public datetime: Date = new Date()
+        public datetime?: Date
     ) { }
 }
 
@@ -23,7 +23,7 @@ export class AppointmentPOST {
         public speciality_id?: number,
         public volunteer_id?: number,
         public status_id?: number,
-        public datetime: Date = new Date()
+        public datetime?: Date
     ) { }
 
     transformObjectToEdit(appointment: Appointment) {

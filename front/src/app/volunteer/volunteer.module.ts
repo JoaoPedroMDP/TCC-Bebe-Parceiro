@@ -5,15 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AuthModule } from '../auth/auth.module';
+import { InspectAppointmentComponent, ListAppointmentComponent } from './components/appointment';
 import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
 import { CreateEditCampaignComponent, DeleteCampaignComponent, InspectCampaignComponent, ListCampaignComponent } from './components/campaign';
+import { ApproveBeneficiaryComponent, PendingEvaluationsComponent } from './components/evaluations';
 import { InspectGroupsComponent, ListGroupsComponent } from './components/groups';
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
+import { DateRangeReportsModalComponent, ListReportsComponent } from './components/reports';
 import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialitiesComponent } from './components/specialities';
 import { CreateSwapComponent, DeleteSwapComponent, EditSwapComponent, InspectSwapComponent, ListSwapComponent } from './components/swap';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
-import { DateRangeReportsModalComponent, ListReportsComponent } from './components/reports';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,13 @@ import { DateRangeReportsModalComponent, ListReportsComponent } from './componen
     EditSwapComponent, 
     // RELATORIOS
     ListReportsComponent, 
-    DateRangeReportsModalComponent
+    DateRangeReportsModalComponent, 
+    // ATENDIMENTOS
+    ListAppointmentComponent, 
+    InspectAppointmentComponent, 
+    // ADMISSÕES
+    PendingEvaluationsComponent, 
+    ApproveBeneficiaryComponent
   ],
   imports: [
     CommonModule,
