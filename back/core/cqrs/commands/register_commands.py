@@ -3,10 +3,16 @@ from core.cqrs import Validator, Field, Command
 
 class CreateRegisterCommand(Command):
     fields = [
+        Field("appointment_id", "integer", True, formatter=lambda x: int(x)),
+        Field("volunteer_id", "integer", True, formatter=lambda x: int(x)),
+        Field("beneficiary_id", "integer", True, formatter=lambda x: int(x)),
         Field("description", "string", True)
     ]
 
-    def __init__(self, description: str):
+    def __init__(self, appointment_id: int, volunteer_id: int, description: str, beneficiary_id: int):
+        self.appointment_id = appointment_id
+        self.volunteer_id = volunteer_id
+        self.beneficiary_id = beneficiary_id
         self.description = description
 
     @staticmethod

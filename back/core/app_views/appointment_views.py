@@ -8,7 +8,7 @@ from rest_framework.request import Request
 
 from config import MANAGE_APPOINTMENTS, MANAGE_EVALUATIONS
 from core.app_views import BaseView
-from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand, \
+from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, EndEvaluationCommand, PatchAppointmentCommand, \
     DeleteAppointmentCommand
 from core.cqrs.queries.appointment_queries import GetAppointmentQuery, ListAppointmentQuery
 from core.models import Appointment
@@ -90,3 +90,20 @@ class ListAssignedEvaluationsViews(BaseView):
         lgr.debug("----GET_ASSIGNED_EVALUATIONS----")
         evaluations: List[Appointment] = AppointmentService.list_assigned_evaluations(request.user.volunteer.get().id)
         return AppointmentSerializer(evaluations, many=True).data, status.HTTP_200_OK
+
+
+class EndEvaluationViews(BaseView):
+    groups = [MANAGE_EVALUATIONS]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+
+    @endpoint
+    def patch(self, request, pk, format=None):
+        lgr.debug("----END_EVALUATION----")
+        data = copy(request.data)
+        data['id'] = pk
+
+        command: EndEvaluationCommand = EndEvaluationCommand.from_dict(data)
+        command.user = request.user
+        evaluation: Appointment = AppointmentService.end_evaluation(command)
+
+        return AppointmentSerializer(evaluation).data, status.HTTP_200_OK

@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Dict
 
 from core.cqrs import Command, Field, Validator
+from core.models import User
 from core.utils.exceptions import ValidationErrors
 
 
@@ -88,3 +89,21 @@ class DeleteAppointmentCommand(Command):
     def from_dict(args: dict) -> 'DeleteAppointmentCommand':
         data = Validator.validate_and_extract(DeleteAppointmentCommand.fields, args)
         return DeleteAppointmentCommand(**data)
+
+
+class EndEvaluationCommand(Command):
+    fields = [
+        Field('id', 'integer', required=True, formatter=lambda x: int(x)),
+        Field('description', 'string', required=True),
+    ]
+
+    def __init__(self, id: int, description: str):
+        self.id = id
+        self.description = description
+        self.user: User = None
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'EndEvaluationCommand':
+        data = Validator.validate_and_extract(EndEvaluationCommand.fields, args)
+        return EndEvaluationCommand(**data)

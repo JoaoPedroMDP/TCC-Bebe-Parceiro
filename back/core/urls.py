@@ -3,7 +3,7 @@ from django.urls import path
 from knox.views import LogoutView
 
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews, CheckAccessCodeView
-from core.app_views.appointment_views import AppointmentGenericViews, AppointmentSpecificViews, ListAssignedEvaluationsViews
+from core.app_views.appointment_views import AppointmentGenericViews, AppointmentSpecificViews, EndEvaluationViews, ListAssignedEvaluationsViews
 from core.app_views.auth_views import LoginView, GroupGenericView
 from core.app_views.beneficiary_views import BeneficiaryCanRequestSwapView, BeneficiaryGenericViews, BeneficiarySpecificViews, \
     BeneficiaryCreationByVolunteerView, BeneficiaryApprovalView, BeneficiaryPendingView
@@ -34,6 +34,7 @@ urlpatterns = [
     path("appointments", AppointmentGenericViews.as_view(), name="gen_appointments"),
     path("appointments/<int:pk>", AppointmentSpecificViews.as_view(), name="spe_appointments"),
     path("appointments/assigned_evaluations", ListAssignedEvaluationsViews.as_view(), name="assigned_evaluations"),
+    path("appointments/end_evaluation/<int:pk>", EndEvaluationViews.as_view(), name="end_evaluation"),
 
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/logout', LogoutView.as_view(), name='logout'),
