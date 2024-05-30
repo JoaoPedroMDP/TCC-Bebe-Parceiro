@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { SwalFacade, Appointment, AppointmentPOST } from 'src/app/shared';
 import { BeneficiaryService } from '../../../services/beneficiary.service';
-import { InspectAppointmentComponent} from '../inspect-appointment/inspect-appointment.component';
+import { InspectAppointmentComponent } from '../inspect-appointment/inspect-appointment.component';
 import { RequestAppointmentComponent } from '../request-appointment/request-appointment.component';
 
 
@@ -34,12 +34,12 @@ export class ListAppointmentComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-    /**
+  /**
    * @description Abre o modal de criação
    */
-    newAppointment() {
-      this.modalService.open(RequestAppointmentComponent, { size: 'xl' });
-    }
+  newAppointment() {
+    this.modalService.open(RequestAppointmentComponent, { size: 'xl' });
+  }
 
   /**
    * @description lista os dados de atendimentos
@@ -47,18 +47,17 @@ export class ListAppointmentComponent implements OnInit, OnDestroy {
   listAppointments() {
     this.isLoading = true;
     this.beneficiaryService.listAppointments().subscribe({
-        next: (response) => {
-            console.log("Appointments loaded:", response);
-            this.originalAppointments = response;
-            this.filterAppointment();
-        },
-        error: (e) => {
-            SwalFacade.error("Ocorreu um erro!", e);
-            this.isLoading = false;
-        },
-        complete: () => this.isLoading = false
+      next: (response) => {
+        this.originalAppointments = response;
+        this.filterAppointment();
+      },
+      error: (e) => {
+        SwalFacade.error("Ocorreu um erro!", e);
+        this.isLoading = false;
+      },
+      complete: () => this.isLoading = false
     });
-}
+  }
 
   /**
    * @description Filtra os campos de nome, tamanho da roupa e status pelo input inserido
@@ -67,7 +66,7 @@ export class ListAppointmentComponent implements OnInit, OnDestroy {
     if (this.filter) {
       const filterLower = this.filter.toLowerCase();
       this.appointments = this.originalAppointments.filter(appointment => (
-        appointment.beneficiary?.user?.name?.toLowerCase().includes(filterLower) ||
+        appointment.speciality?.name?.toLowerCase().includes(filterLower) ||
         appointment.status?.name?.toLowerCase().includes(filterLower))
       );
     } else {
@@ -77,17 +76,10 @@ export class ListAppointmentComponent implements OnInit, OnDestroy {
 
   /**
    * @description Abre o modal de inspeção
-   * @param appointment objeto da troca para ir como variavel no componente
+   * @param appointment objeto do atendimento para ir como variavel no componente
    */
   inspectAppointment(appointment: Appointment) {
-    let isAppointmentApproved = appointment.status?.name == "Pendente" ? false : true;
-    let isAppointmentClosed = appointment.status?.name == "Encerrado" || appointment.status?.name == "Cancelado" ? true : false;
-    let modalRef = this.modalService.open(InspectAppointmentComponent, { size: 'xl' })
-    modalRef.componentInstance.appointment = appointment;
-    modalRef.componentInstance.isAppointmentApproved = isAppointmentApproved;
-    modalRef.componentInstance.isAppointmentClosed = isAppointmentClosed;
+    this.modalService.open(InspectAppointmentComponent, { size: 'xl' })
+      .componentInstance.appointment = appointment;
   }
-
-
-
 }

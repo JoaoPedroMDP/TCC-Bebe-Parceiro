@@ -11,26 +11,27 @@ import { BeneficiaryService } from 'src/app/beneficiary/services/beneficiary.ser
   styleUrls: ['./request-appointment.component.css']
 })
 export class RequestAppointmentComponent implements OnInit {
-  
 
   @ViewChild('form') form!: NgForm;
   appointment!: AppointmentPOST;
   showSuccess!: boolean;
-  
+
   specialities!: Speciality[];
 
-  constructor(public activeModal: NgbActiveModal, 
-    private beneficiaryService: BeneficiaryService, 
+  constructor(public activeModal: NgbActiveModal,
+    private beneficiaryService: BeneficiaryService,
     private specialityService: SpecialityService) { }
 
   ngOnInit(): void {
+    this.specialities = []; // Array vazio para não dar erro de undefined
     this.appointment = new AppointmentPOST();
     this.listSpecialities();
   }
 
-
+  /**
+   * @description Cria um atendimento para a beneficiada com a especialidade escolhida
+   */
   requestAppointment() {
-  
     if (this.appointment.speciality_id) {
       this.beneficiaryService.createAppointment(this.appointment).subscribe({
         next: () => SwalFacade.success("Atendimento solicitado com sucesso", "Em breve entraremos em contato"),
@@ -58,14 +59,14 @@ export class RequestAppointmentComponent implements OnInit {
     })
   }
 
-    /**
+  /**
    * @description Fecha a janela modal e chama o Observable de atualização
    */
-    close() {
-      this.activeModal.close();
-      this.beneficiaryService.refreshPage$.next();
-    }
+  close() {
+    this.activeModal.close();
+    this.beneficiaryService.refreshPage$.next();
   }
+}
 
- 
+
 

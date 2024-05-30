@@ -1,21 +1,7 @@
 /* -------------------------------------------  ID ------------------------------------------- */
-#btn-delete {
-    --bg-btn: var(--bp-light-red);
-    --color-btn: var(--bp-red);
-    border-bottom-right-radius: 5px;
-}
-
 #btn-close {
     --bg-btn: var(--bp-light-gray);
     border-bottom-left-radius: 5px;
-}
-
-#btn-edit{
-    --bg-btn: var(--bp-light-green);
-}
-
-#btn-cancel {
-    --bg-btn: var(--bp-light-gray);
     border-bottom-right-radius: 5px;
 }
 
@@ -34,7 +20,7 @@
 }
 
 .form-control:disabled{
-    background-color: #f5f5f5ab;
+    background-color: #f5f5f5ec;
     font-weight: 600;
     font-size: 1.1rem;
 }

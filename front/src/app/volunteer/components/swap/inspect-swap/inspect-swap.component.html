@@ -37,7 +37,7 @@
         <button class="bp-actions-btn" id="btn-refuse" [title]="'Cancelar essa troca'" (click)="cancelSwap()">Cancelar</button>
     </div>
 </div>
-<div class="bp-modal-footer justify-content-center align-items-center">
+<div class="bp-modal-footer justify-content-center align-items-center" *ngIf="!isSwapClosed">
     <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
         <i class="fa-solid fa-xmark" title="Voltar para a listagem"></i>
     </button>
@@ -45,6 +45,14 @@
         <i class="fa-solid fa-pen-to-square" title="Editar a troca"></i>
     </button>
     <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteSwap()">
+        <i class="fa-solid fa-trash" title="Excluir a troca"></i>
+    </button>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center" *ngIf="isSwapClosed">
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid fa-xmark" title="Voltar para a listagem"></i>
+    </button>
+    <button type="button" class="bp-button col-6" id="btn-delete" (click)="deleteSwap()">
         <i class="fa-solid fa-trash" title="Excluir a troca"></i>
     </button>
 </div>
