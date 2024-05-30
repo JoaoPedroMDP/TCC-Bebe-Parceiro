@@ -90,11 +90,17 @@ class BeneficiarySerializer(ModelSerializer):
     user = UserSerializer(many=False, read_only=True)
     city = CitySerializer(many=False, read_only=True)
     birth_date = DateTimeField(format="%Y-%m-%d")
+    is_pregnant = SerializerMethodField()
+
+    @staticmethod
+    def get_is_pregnant(obj: Beneficiary) -> bool:
+        return obj.is_pregnant()
 
     class Meta:
         model = Beneficiary
         fields = ['id', 'user', 'birth_date', 'child_count', 'monthly_familiar_income',
-                  'has_disablement', 'marital_status', 'children', 'city', 'social_programs', 'created_at']
+                  'has_disablement', 'marital_status', 'children', 'city', 'social_programs', 
+                  'created_at', 'is_pregnant']
 
 
 class VolunteerSerializer(ModelSerializer):

@@ -163,6 +163,12 @@ class Beneficiary(TimestampedModel):
         today = datetime.datetime.now()
         return self.children.filter(birth_date__lte=today).exists()
 
+    def is_pregnant(self):
+        """
+            Verifica se a beneficiária está grávida
+        """
+        today = datetime.datetime.now()
+        return self.children.filter(birth_date__gt=today).exists()
 
 class Volunteer(TimestampedModel):
     readable_name = "Voluntária"
