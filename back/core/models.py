@@ -193,6 +193,11 @@ class Child(TimestampedModel):
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="children")
     sex = models.CharField(max_length=1)
 
+    @property
+    def age(self):
+        today = datetime.datetime.now()
+        return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+
 
 class Size(EnablableModel):
     readable_name = "Tamanho"

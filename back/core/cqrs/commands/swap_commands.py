@@ -34,6 +34,11 @@ def vol_specified_ben(data: dict, args: dict):
         raise AssertionError("Beneficiária não especificada")
 
 
+def child_younger_than_1_year(ben: Beneficiary, child_id: int):
+    child: Child = ben.children.get(id=child_id)
+    if child.age > 1:
+        raise AssertionError("A criança deve ter até 1 ano de idade")
+
 class CreateSwapCommand(Command):
     fields = [
         Field("cloth_size_id", "integer", True, formatter=lambda x: int(x)),
@@ -67,6 +72,8 @@ class CreateSwapCommand(Command):
         no_pending_swap(ben)
         # Valido se a criança é dela mesmo
         ben_owns_child(ben, data['child_id'])
+        # Valido se a criança possui até 1 ano de idade
+        child_younger_than_1_year(ben, data['child_id'])
 
         return CreateSwapCommand(**data, user=args['user'])
 
