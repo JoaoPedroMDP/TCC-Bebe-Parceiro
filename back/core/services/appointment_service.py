@@ -2,11 +2,11 @@
 import logging
 from typing import List
 
-from config import PENDING, APPROVED
+from config import FINISHED, PENDING, APPROVED
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, EndEvaluationCommand, PatchAppointmentCommand
 from core.cqrs.commands.register_commands import CreateRegisterCommand
 from core.cqrs.queries.appointment_queries import ListAppointmentQuery
-from core.models import Appointment, Register
+from core.models import Appointment, Register, Status
 from core.repositories.appointment_repository import AppointmentRepository
 from core.repositories.status_repository import StatusRepository
 from core.services import CrudService
@@ -58,3 +58,14 @@ class AppointmentService(CrudService):
         })
 
         RegisterService.create(reg_comm)
+
+        status: Status = StatusRepository.get_by_name(FINISHED)
+        
+        appo_command: PatchAppointmentCommand = PatchAppointmentCommand.from_dict({
+            "id": appointment.id,
+            "status_id": status.id
+        })
+        cls.patch(appo_command)
+        
+        appointment.refresh_from_db()
+        return appointment

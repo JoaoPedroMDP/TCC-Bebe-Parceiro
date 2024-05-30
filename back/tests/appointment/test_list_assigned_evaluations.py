@@ -15,7 +15,7 @@ lgr = logging.getLogger(__name__)
 
 @pytest.mark.django_db
 @pytest.mark.permissions
-def test_permissions(client: APIClient):
+def test_vol_can_list_assigned_evaluations_permissions(client: APIClient):
     url = reverse('assigned_evaluations')
     
     # Anônimo não passa

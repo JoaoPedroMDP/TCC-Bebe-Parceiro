@@ -55,10 +55,10 @@ class PatchAppointmentCommand(Command):
         Field('professional_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('speciality_id', 'integer', required=False, formatter=lambda x: int(x)),
         Field('status_id', 'integer', required=False, formatter=lambda x: int(x)),
-        Field('datetime', 'string', required=True),
+        Field('datetime', 'string', required=False),
     ]
 
-    def __init__(self, id: int, beneficiary_id: int, datetime: str,
+    def __init__(self, id: int, beneficiary_id: int = None, datetime: str = None,
                  professional_id: int = None, volunteer_id: int = None, speciality_id: int = None, status_id: int = None
                  ):
         self.id = id
