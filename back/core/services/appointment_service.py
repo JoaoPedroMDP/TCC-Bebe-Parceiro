@@ -44,7 +44,11 @@ class AppointmentService(CrudService):
 
     @classmethod
     def list_assigned_evaluations(cls, volunteer_id: int):
-        return AppointmentRepository.filter(volunteer_id=volunteer_id)
+        status: Status = StatusRepository.get_by_name(APPROVED)
+        return AppointmentRepository.filter(
+            volunteer_id=volunteer_id,
+            status_id=status.id
+        )
 
     @classmethod
     def end_evaluation(cls, command: EndEvaluationCommand):
@@ -66,6 +70,6 @@ class AppointmentService(CrudService):
             "status_id": status.id
         })
         cls.patch(appo_command)
-        
+
         appointment.refresh_from_db()
         return appointment
