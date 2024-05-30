@@ -15,13 +15,30 @@
         </div>
         <form #form="ngForm">
             <div>
-                <small class="bp-label-text">Data</small>
+                <small class="bp-label-text">Voluntária <span class="text-danger font-weight-bold">*</span></small>
+                <select class="form-select" [(ngModel)]="volunteer_id" name="volunteer_id" required>
+                    <option [value]="undefined" disabled> --- </option>
+                    <option [value]="volunteer.id" *ngFor="let volunteer of volunteers">{{volunteer?.user?.name}}
+                    </option>
+                </select>
+                <div *ngIf="form.controls['volunteer_id']">
+                    <div
+                        *ngIf="form.controls['volunteer_id'].errors && (form.controls['volunteer_id'].dirty || form.controls['volunteer_id'].touched)">
+                        <div *ngIf="form.controls['volunteer_id'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <small class="bp-label-text">Data <span class="text-danger font-weight-bold">*</span></small>
                 <input type="datetime-local" class="form-control" name="datetime" [(ngModel)]="datetime" required>
             </div>
         </form>
     </div>
 </div>
 <div class="bp-modal-footer justify-content-center align-items-center">
-    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()"  [disabled]="!form.form.valid">Salvar</button>
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()"
+        [disabled]="!form.form.valid">Salvar</button>
     <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">Cancelar</button>
 </div>

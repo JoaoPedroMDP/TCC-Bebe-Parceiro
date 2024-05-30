@@ -11,7 +11,7 @@ import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
 import { ListReportsComponent } from './components/reports';
 import { ListAppointmentComponent } from './components/appointment';
-import { PendingEvaluationsComponent } from './components/evaluations';
+import { AssignedEvaluationsComponent, PendingEvaluationsComponent } from './components/evaluations';
 
 
 export const VolunteerRouting: Routes = [
@@ -69,6 +69,10 @@ export const VolunteerRouting: Routes = [
       {
         path: 'admissoes', component: PendingEvaluationsComponent, canActivate: [VolunteerPermisionsGuard],
         data: { requiredPermissions: ['Cadastros'] }
+      },
+      {
+        path: 'admissoes-designadas', component: AssignedEvaluationsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Admissões'] }
       },
       {
         path: 'atendimentos', component: ListAppointmentComponent, canActivate: [VolunteerPermisionsGuard],

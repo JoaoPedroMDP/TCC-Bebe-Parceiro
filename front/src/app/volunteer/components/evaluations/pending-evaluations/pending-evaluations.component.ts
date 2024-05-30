@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { Beneficiary, BeneficiaryPOST, SwalFacade } from 'src/app/shared';
-import { EvaluationServiceService } from 'src/app/volunteer/services/evaluation-service.service';
+import { Beneficiary, SwalFacade } from 'src/app/shared';
+import { EvaluationService } from 'src/app/volunteer/services/evaluation.service';
 import { ApproveBeneficiaryComponent } from '../approve-beneficiary/approve-beneficiary.component';
 
 @Component({
@@ -18,7 +18,7 @@ export class PendingEvaluationsComponent implements OnInit {
   isLoading: boolean = false;
   subscription: Subscription | undefined;
 
-  constructor(private modalService: NgbModal, private evaluationService: EvaluationServiceService, private router: Router) { }
+  constructor(private modalService: NgbModal, private evaluationService: EvaluationService, private router: Router) { }
 
   ngOnInit(): void {
     // this.beneficiaries = []; // Array vazio para não dar erro no console

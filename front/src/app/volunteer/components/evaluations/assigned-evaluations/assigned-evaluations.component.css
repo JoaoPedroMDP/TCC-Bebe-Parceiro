@@ -4,6 +4,7 @@
     padding: .5rem 1.35rem;
     font-size: .9rem;
 }
+
 /* -------------------------------------------  CLASS ------------------------------------------- */
 .bp-footer {
     display: flex;
@@ -12,19 +13,29 @@
     background-color: var(--bp-light-gray);
 }
 
-.bp-nome-limit {
-    max-width: 140px; /* Defina o limite máximo de largura para o texto */
-    word-wrap: break-word; /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
+.bp-footer-left {
+    display: flex;
+    justify-content: flex-start;
+    margin: .2rem 0;
 }
 
-.fa-solid{ 
+.bp-nome-limit {
+    max-width: 130px;
+    /* Defina o limite máximo de largura para o texto */
+    word-wrap: break-word;
+    /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
+}
+
+.fa-solid {
     margin: 0 .2rem;
     font-size: 1.2rem;
- }
-.fa-pen-to-square { color: var(--bp-black); }
-.fa-pen-to-square:hover { color: var(--black); }
-.fa-trash { color: var(--bp-red); }
-.fa-trash:hover { color: var(--bp-dark-red); }
+    transition: 0.5s;
+}
+
+.fa-check { color: var(--bp-green); }
+.fa-check:hover { color: var(--black); }
+.fa-rectangle-list{ color: var(--bp-dark-gray); }
+.fa-rectangle-list:hover{ color: var(--bp-black); }
 /* -------------------------------------------   TAG  ------------------------------------------- */
 table {
     border-collapse: collapse;
@@ -41,33 +52,53 @@ td {
     cursor: pointer;
 }
 
-th { border: 1px solid var(--bp-light-gray); }
+th {
+    border: 1px solid var(--bp-light-gray);
+}
 
 thead {
     border-radius: 5px;
     border: 1px solid var(--bp-light-gray);
 }
+
 /* -------------------------------------------  MEDIA ------------------------------------------- */
 @media screen and (width < 991px) {
-    .fa-solid{ margin: .25rem; }
-    td, th { font-size: .9rem; }
+    .fa-solid {
+        margin: .25rem;
+    }
+
+    td,
+    th {
+        font-size: .9rem;
+    }
 }
 
 @media screen and (width < 390px) {
-    .bp-footer{ 
+    .bp-footer {
         display: grid;
         justify-content: center;
-        row-gap: 1rem;
+        padding: .3rem 0 .3rem 0;
     }
 
-    td, th {
+    .bp-button {
+        width: 100%;
+    }
+
+    .bp-footer-left {
+        justify-content: center;
+        margin: .15rem 0;
+    }
+
+    td,
+    th {
         font-size: .75rem;
         font-weight: 600;
         padding: 2.5px;
     }
 
-    i{
+    i {
         font-size: 1.2rem;
         padding: .75rem 0;
     }
+
 }

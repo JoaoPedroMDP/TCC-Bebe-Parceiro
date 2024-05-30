@@ -8,7 +8,7 @@ import { AuthModule } from '../auth/auth.module';
 import { InspectAppointmentComponent, ListAppointmentComponent } from './components/appointment';
 import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
 import { CreateEditCampaignComponent, DeleteCampaignComponent, InspectCampaignComponent, ListCampaignComponent } from './components/campaign';
-import { ApproveBeneficiaryComponent, PendingEvaluationsComponent } from './components/evaluations';
+import { ApproveBeneficiaryComponent, AssignedEvaluationsComponent, InspectEvaluationComponent, PendingEvaluationsComponent } from './components/evaluations';
 import { InspectGroupsComponent, ListGroupsComponent } from './components/groups';
 import { ApproveRefuseProfessionalComponent, CreateEditProfessionalComponent, DeleteProfessionalComponent, InspectProfessionalComponent, ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { DateRangeReportsModalComponent, ListReportsComponent } from './components/reports';
@@ -68,7 +68,9 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     InspectAppointmentComponent, 
     // ADMISSÕES
     PendingEvaluationsComponent, 
-    ApproveBeneficiaryComponent
+    ApproveBeneficiaryComponent, 
+    AssignedEvaluationsComponent, 
+    InspectEvaluationComponent
   ],
   imports: [
     CommonModule,
