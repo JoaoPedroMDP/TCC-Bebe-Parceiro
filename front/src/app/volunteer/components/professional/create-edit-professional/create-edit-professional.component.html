@@ -7,7 +7,7 @@
         <form #form="ngForm">
             <div>
                 <small class="bp-label-text">Nome</small>
-                <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="150" name="name"
+                <input type="text" class="form-control" placeholder="Nome do Profissional" minlength="2" maxlength="150" name="name"
                     [(ngModel)]="professional.name" required>
                 <div *ngIf="form.controls['name']">
                     <div
