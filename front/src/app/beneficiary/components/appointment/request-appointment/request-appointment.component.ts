@@ -30,6 +30,7 @@ export class RequestAppointmentComponent implements OnInit {
 
 
   requestAppointment() {
+  
     if (this.appointment.speciality_id) {
       this.beneficiaryService.createAppointment(this.appointment).subscribe({
         next: () => SwalFacade.success("Atendimento solicitado com sucesso", "Em breve entraremos em contato"),

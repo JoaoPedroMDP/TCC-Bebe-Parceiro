@@ -13,8 +13,8 @@
             </thead>
             <tr *ngFor="let appointment of appointments" title="Clique para ver mais dados do agendamento">
                 
-                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.speciality!.name ||'---'}}</td>
-                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.status}}</td>
+                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.speciality?.name }}</td>
+                <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.status?.name}}</td>
                 <td class="col-4 align-middle" (click)="inspectAppointment(appointment)">
                     <i class="fa-solid fa-eye"  [title]="'Ver dados do atendimento: '+ appointment.professional"></i>
                 </td>

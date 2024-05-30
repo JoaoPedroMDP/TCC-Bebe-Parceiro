@@ -32,7 +32,7 @@ export class InspectAppointmentComponent implements OnInit {
           next: (response) => this.appointment = response,
           error: (e) => {
             SwalFacade.error("Ocorreu um erro! Redirecionando para a listagem", e)
-            this.router.navigate(['/beneficiada/campanhas'])
+            this.router.navigate(['/beneficiada/atendimentos'])
           }
         });
       }
