@@ -7,7 +7,7 @@ from core.cqrs.queries.speciality_queries import GetSpecialityQuery, ListSpecial
 from core.models import Speciality
 from core.repositories.speciality_repository import SpecialityRepository
 from core.services import CrudService
-
+from core.utils.exceptions import HttpFriendlyException
 
 class SpecialityService(CrudService):
     @classmethod
@@ -29,4 +29,8 @@ class SpecialityService(CrudService):
 
     @classmethod
     def delete(cls, command: DeleteSpecialityCommand) -> bool:
+        speciality: Speciality = SpecialityRepository.get(command.id)
+        if speciality.professionals.count() > 0:
+            raise HttpFriendlyException("Não é possível deletar uma especialidade que possui profissionais associados.")
+
         return SpecialityRepository.delete(command.id)
