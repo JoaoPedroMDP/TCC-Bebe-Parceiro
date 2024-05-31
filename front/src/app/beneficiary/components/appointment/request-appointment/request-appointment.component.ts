@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppointmentPOST, Speciality, SwalFacade } from 'src/app/shared';
 import { SpecialityService } from 'src/app/volunteer/services/speciality.service';
 import { BeneficiaryService } from 'src/app/beneficiary/services/beneficiary.service';
+import { AuthService } from 'src/app/auth';
 
 @Component({
   selector: 'app-request-appointment',
@@ -20,11 +21,14 @@ export class RequestAppointmentComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
     private beneficiaryService: BeneficiaryService,
-    private specialityService: SpecialityService) { }
+    private specialityService: SpecialityService,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
     this.specialities = []; // Array vazio para não dar erro de undefined
     this.appointment = new AppointmentPOST();
+    this.appointment.beneficiary_id = this.authService.getUser().person_id; // Id da beneficiada
     this.listSpecialities();
   }
 

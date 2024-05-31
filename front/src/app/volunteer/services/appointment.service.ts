@@ -92,7 +92,8 @@ export class AppointmentService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   listAppointments(): Observable<any> {
-    return this.http.get(`${this.baseURL}appointments?approved=true`, { headers: this.authService.getHeaders() })
+    let statuses = ['Aprovado', 'Cancelado', 'Encerrado'];
+    return this.http.get(`${this.baseURL}appointments`, { headers: this.authService.getHeaders(), params: { status_list: statuses } })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
@@ -105,7 +106,8 @@ export class AppointmentService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   listPendingAppointments(): Observable<any> {
-    return this.http.get(`${this.baseURL}appointments?approved=false`, { headers: this.authService.getHeaders() })
+    let statuses = ['Pendente'];
+    return this.http.get(`${this.baseURL}appointments`, { headers: this.authService.getHeaders(), params: { status_list: statuses } })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));
@@ -113,5 +115,17 @@ export class AppointmentService {
       );
   }
 
+  /**
+   * @description Busca o status com o nome Aprovado
+   * @returns Um Observable contendo uma lista de campanhas ou erro.
+   */
+  getApprovedStatus(): Observable<any> {
+    return this.http.get(`${this.baseURL}/status?name=Aprovado`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
 
 }

@@ -1,0 +1,36 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Aprovar Atendimento</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <div>
+            <small class="bp-label-text">Nome Beneficiada</small>
+            <input type="text" class="form-control" [value]="beneficiaryName" disabled>
+        </div>
+        <div class="my-3">
+            <small class="bp-label-text">Especialidade</small>
+            <input type="text" class="form-control" [value]="specialityName" disabled>
+        </div>
+        <div class="my-3">
+            <form #form="ngForm" class="bp-form">
+                <small class="bp-label-text">Profissional</small>
+                <select class="form-select" [(ngModel)]="appointmentPOST.professional_id" name="profissional" required>
+                    <option [value]="undefined" disabled>Selecione um profissional</option>
+                    <option [value]="professional.id" *ngFor="let professional of professionals">{{professional.name}}</option>
+                </select>
+                <div *ngIf="form.controls['profissional']">
+                    <div
+                        *ngIf="form.controls['profissional'].errors && (form.controls['profissional'].dirty || form.controls['profissional'].touched)">
+                        <div *ngIf="form.controls['profissional'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="approveAppointment()">Aprovar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">Cancelar</button>
+</div>
