@@ -33,7 +33,7 @@ export class AppointmentService {
    * @returns Um Observable contendo os dados de sucesso ou falha
    */
   createAppointment(appointment: AppointmentPOST): Observable<any> {
-    return this.http.post(`${this.baseURL}appointments`, appointment)
+    return this.http.post(`${this.baseURL}appointments`, appointment, { headers: this.authService.getHeaders() })
       .pipe(
         tap(() => this.refreshPage$.next()), // Após a execução, emite um evento para os assinantes.
         catchError(error => {
@@ -121,6 +121,32 @@ export class AppointmentService {
    */
   getApprovedStatus(): Observable<any> {
     return this.http.get(`${this.baseURL}/status?name=Aprovado`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+   * @description Busca o status com o nome Cancelado
+   * @returns Um Observable contendo uma lista de campanhas ou erro.
+   */
+  getCanceledStatus(): Observable<any> {
+    return this.http.get(`${this.baseURL}/status?name=Cancelado`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
+ * @description Busca o status com o nome Encerrado
+ * @returns Um Observable contendo uma lista de campanhas ou erro.
+ */
+  getClosedStatus(): Observable<any> {
+    return this.http.get(`${this.baseURL}/status?name=Encerrado`, { headers: this.authService.getHeaders() })
       .pipe(
         catchError(error => {
           return throwError(() => new Error(`${error.status} - ${error.error.message}`));

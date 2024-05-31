@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskModule } from 'ngx-mask';
 import { AuthModule } from '../auth/auth.module';
-import { ApproveAppointmentComponent, InspectAppointmentComponent, ListAppointmentComponent, ListPendingAppointmentsComponent } from './components/appointment';
+import { ApproveAppointmentComponent, CreateAppointmentComponent, DeleteAppointmentComponent, EditAppointmentComponent, InspectAppointmentComponent, ListAppointmentComponent, ListPendingAppointmentsComponent } from './components/appointment';
 import { CreateBeneficiaryComponent, DeleteBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
 import { CreateEditCampaignComponent, DeleteCampaignComponent, InspectCampaignComponent, ListCampaignComponent } from './components/campaign';
 import { ApproveBeneficiaryComponent, AssignedEvaluationsComponent, InspectEvaluationComponent, PendingEvaluationsComponent } from './components/evaluations';
@@ -68,6 +68,9 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     InspectAppointmentComponent, 
     ListPendingAppointmentsComponent, 
     ApproveAppointmentComponent,
+    DeleteAppointmentComponent, 
+    CreateAppointmentComponent, 
+    EditAppointmentComponent,
     // ADMISSÕES
     PendingEvaluationsComponent, 
     ApproveBeneficiaryComponent, 

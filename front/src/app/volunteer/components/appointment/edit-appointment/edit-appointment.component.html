@@ -1,0 +1,53 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Alterar Atendimento</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <form #form="ngForm" class="bp-form">
+            <div>
+                <small class="bp-label-text">Nome Beneficiada</small>
+                <input type="text" class="form-control" [value]="beneficiaryName" disabled>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Especialidade</small>
+                <select class="form-select" [(ngModel)]="appointmentPOST.speciality_id" name="speciality" required (ngModelChange)="listProfessionals()" >
+                    <option [value]="undefined" disabled>Selecione uma Especialidade</option>
+                    <option [value]="speciality.id" *ngFor="let speciality of specialities">{{speciality.name}}
+                    </option>
+                </select>
+                <div *ngIf="form.controls['speciality']">
+                    <div
+                        *ngIf="form.controls['speciality'].errors && (form.controls['speciality'].dirty || form.controls['speciality'].touched)">
+                        <div *ngIf="form.controls['speciality'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Profissional</small>
+                <select class="form-select" [(ngModel)]="appointmentPOST.professional_id" name="profissional" required>
+                    <option [value]="undefined" disabled>Selecione um profissional</option>
+                    <option [value]="professional.id" *ngFor="let professional of professionals">{{professional.name}}
+                    </option>
+                </select>
+                <div *ngIf="form.controls['profissional']">
+                    <div
+                        *ngIf="form.controls['profissional'].errors && (form.controls['profissional'].dirty || form.controls['profissional'].touched)">
+                        <div *ngIf="form.controls['profissional'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-evenly mt-4" *ngIf="!isAppointmentClosed">
+                <button class="bp-actions-btn" id="btn-approve" title="Encerrar essa troca" (click)="finishAppointment()">Encerrar</button>
+                <button class="bp-actions-btn" id="btn-refuse" title="Cancelar essa troca" (click)="cancelAppointment()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="editAppointment()">Salvar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">Cancelar</button>
+</div>
