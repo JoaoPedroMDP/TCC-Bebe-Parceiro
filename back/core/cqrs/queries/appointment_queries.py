@@ -35,11 +35,12 @@ class ListAppointmentQuery(Query):
         Field('speciality_id', 'integer', False, formatter=lambda x: int(x)),
         Field('status_id', 'integer', False, formatter=lambda x: int(x)),
         Field('datetime', 'string', required=False),
-        Field('status', 'string', False)
+        Field('status', 'string', False),
+        Field('status_list', 'list', False)
     ]
 
     def __init__(self, beneficiary_id: int = None, volunteer_id: int = None, professional_id: int = None, speciality_id: int = None, status_id: int = None,
-                 datetime: str = None, status: str = None
+                 datetime: str = None, status: str = None, status_list: list = None
                  ):
         self.beneficiary_id = beneficiary_id
         self.datetime = datetime
@@ -48,11 +49,13 @@ class ListAppointmentQuery(Query):
         self.speciality_id = speciality_id
         self.status_id = status_id
         self.status = status
+        self.status_list = status_list
         self.user = None
+
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'ListAppointmentQuery':
-        data = Validator.validate_and_extract(ListAppointmentQuery.fields, args)
+        data = Validator.validate_and_extract(ListAppointmentQuery.fields, dict(args))
         return ListAppointmentQuery(**data)
 
     def to_dict(self) -> Dict:

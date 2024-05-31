@@ -43,9 +43,13 @@ class AppointmentService(CrudService):
 
         if 'status' in filters:
             # Me certifico de que o status passado existe
-            statusId = StatusRepository.get_by_name(filters['status']).id
+            status = filters.pop('status')
+            statusId = StatusRepository.get_by_name(status).id
             filters['status_id'] = statusId
-            filters.pop('status')
+        elif 'status_list' in filters:
+            status_list = filters.pop('status_list')
+            ids = [StatusRepository.get_by_name(x).id for x in status_list]
+            filters['status_id__in'] = ids
 
         return AppointmentRepository.filter(**filters)
 
