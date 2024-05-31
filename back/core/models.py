@@ -166,6 +166,12 @@ class Beneficiary(TimestampedModel):
         today = datetime.datetime.now()
         return self.children.filter(birth_date__lte=today).exists()
 
+    def is_pregnant(self):
+        """
+            Verifica se a beneficiária está grávida
+        """
+        today = datetime.datetime.now()
+        return self.children.filter(birth_date__gt=today).exists()
 
 class Volunteer(TimestampedModel):
     readable_name = "Voluntária"
@@ -189,6 +195,11 @@ class Child(TimestampedModel):
     birth_date = models.DateTimeField()
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE, related_name="children")
     sex = models.CharField(max_length=1)
+
+    @property
+    def age(self):
+        today = datetime.datetime.now()
+        return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
 
 
 class Size(EnablableModel):

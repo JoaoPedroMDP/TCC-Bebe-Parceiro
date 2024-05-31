@@ -6,16 +6,14 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_APPOINTMENTS, MANAGE_REPORTS
+from config import MANAGE_APPOINTMENTS, MANAGE_REPORTS, MANAGE_EVALUATIONS
 from core.app_views import BaseView
-from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, PatchAppointmentCommand, \
+from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, EndEvaluationCommand, PatchAppointmentCommand, \
     DeleteAppointmentCommand
 from core.cqrs.queries.appointment_queries import GetAppointmentQuery, GetAppointmentsReportQuery, ListAppointmentQuery
 from core.models import Appointment
 from core.permissions.at_least_one_group import AtLeastOneGroup
-from core.permissions.is_beneficiary import IsBeneficiary
 from core.permissions.is_volunteer import IsVolunteer
-from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from core.serializers import AppointmentSerializer
 from core.services.appointment_service import AppointmentService
 from core.utils.decorators import endpoint
@@ -38,10 +36,8 @@ class AppointmentGenericViews(BaseView):
     def post(self, request: Request, format=None):
         lgr.debug("----CREATE_APPOINTMENT----")
         data = copy(request.data)
-        data["user"] = request.user
-        if request.user.is_beneficiary():
-            data['beneficiary_id'] = request.user.beneficiary.id
         command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(data)
+        command.user = request.user
         new_appointment: Appointment = AppointmentService.create(command)
         return AppointmentSerializer(new_appointment).data, status.HTTP_201_CREATED
 
@@ -93,3 +89,31 @@ class AppointmentReportsView(BaseView):
         query: GetAppointmentsReportQuery = GetAppointmentsReportQuery.from_dict(request.query_params)
         appointments: List[Appointment] = AppointmentService.get_reports(query)
         return AppointmentSerializer(appointments, many=True).data, status.HTTP_200_OK
+
+
+class ListAssignedEvaluationsViews(BaseView):
+    groups = [MANAGE_EVALUATIONS]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+
+    @endpoint
+    def get(self, request, format=None):
+        lgr.debug("----GET_ASSIGNED_EVALUATIONS----")
+        evaluations: List[Appointment] = AppointmentService.list_assigned_evaluations(request.user.volunteer.get().id)
+        return AppointmentSerializer(evaluations, many=True).data, status.HTTP_200_OK
+
+
+class EndEvaluationViews(BaseView):
+    groups = [MANAGE_EVALUATIONS]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+
+    @endpoint
+    def patch(self, request, pk, format=None):
+        lgr.debug("----END_EVALUATION----")
+        data = copy(request.data)
+        data['id'] = pk
+
+        command: EndEvaluationCommand = EndEvaluationCommand.from_dict(data)
+        command.user = request.user
+        evaluation: Appointment = AppointmentService.end_evaluation(command)
+
+        return AppointmentSerializer(evaluation).data, status.HTTP_200_OK

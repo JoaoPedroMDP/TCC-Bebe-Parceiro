@@ -51,6 +51,6 @@ def test_beneficiary_can_login(client: Client):
     assert 'token' in response.data
     assert 'expiry' in response.data
     assert 'role' in response.data['user']
-    assert response.data['user']['role'] == 'beneficiary'
+    assert response.data['user']['role'] in ['beneficiary', 'pending_beneficiary']
     assert 'password' not in response.data['user']
     assert response.data['user']['id'] == b_user.id

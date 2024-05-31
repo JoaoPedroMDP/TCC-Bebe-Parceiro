@@ -1,5 +1,5 @@
 #  coding: utf-8
-from datetime import time
+from datetime import datetime, time, timedelta
 from typing import List
 
 import pytest
@@ -55,3 +55,15 @@ def make_beneficiary_with_children(**kwargs):
     ben = make_beneficiary(**kwargs)
     children = ChildFactory.create_batch(2, beneficiary=ben)
     return ben, children
+
+
+def make_child(**kwargs):
+    child = ChildFactory.create(**kwargs)
+    return child
+
+
+def make_less_than_one_year_child(**kwargs):
+    today = datetime.today()
+    birth_date = today - timedelta(days=365)
+    child = ChildFactory.create(birth_date=birth_date, **kwargs)
+    return child

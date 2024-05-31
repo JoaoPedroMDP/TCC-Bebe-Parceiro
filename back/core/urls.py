@@ -3,7 +3,7 @@ from django.urls import path
 from knox.views import LogoutView
 
 from core.app_views.access_code_views import AccessCodeGenericViews, AccessCodeSpecificViews, CheckAccessCodeView
-from core.app_views.appointment_views import AppointmentGenericViews, AppointmentReportsView, AppointmentSpecificViews
+from core.app_views.appointment_views import AppointmentGenericViews, AppointmentSpecificViews, EndEvaluationViews, ListAssignedEvaluationsViews, AppointmentReportsView
 from core.app_views.auth_views import LoginView, GroupGenericView
 from core.app_views.beneficiary_views import BeneficiaryCanRequestSwapView, BeneficiaryGenericViews, BeneficiaryReportsView, BeneficiarySpecificViews, \
     BeneficiaryCreationByVolunteerView, BeneficiaryApprovalView, BeneficiaryPendingView
@@ -12,6 +12,7 @@ from core.app_views.child_views import ChildGenericViews, ChildSpecificViews
 from core.app_views.city_views import CityGenericViews, CitySpecificViews
 from core.app_views.country_views import CountryGenericViews, CountrySpecificViews
 from core.app_views.marital_status_views import MaritalStatusGenericViews, MaritalStatusSpecificViews
+from core.app_views.register_views import RegisterGenericView, RegisterSpecificView
 from core.app_views.size_views import SizeGenericViews, SizeSpecificViews
 from core.app_views.social_program_views import SocialProgramGenericViews, SocialProgramSpecificViews
 from core.app_views.state_views import StateGenericViews, StateSpecificViews
@@ -33,6 +34,8 @@ urlpatterns = [
     path("appointments", AppointmentGenericViews.as_view(), name="gen_appointments"),
     path("appointments/<int:pk>", AppointmentSpecificViews.as_view(), name="spe_appointments"),
     path("appointments/reports", AppointmentReportsView.as_view(), name="reports_appointments"),
+    path("appointments/assigned_evaluations", ListAssignedEvaluationsViews.as_view(), name="assigned_evaluations"),
+    path("appointments/end_evaluation/<int:pk>", EndEvaluationViews.as_view(), name="end_evaluation"),
 
     path('auth/login', LoginView.as_view(), name='login'),
     path('auth/logout', LogoutView.as_view(), name='logout'),
@@ -64,6 +67,9 @@ urlpatterns = [
 
     path("professionals", ProfessionalGenericViews.as_view(), name="gen_professionals"),
     path("professionals/<int:pk>", ProfessionalSpecificViews.as_view(), name="spe_professionals"),
+
+    path("registers", RegisterGenericView.as_view(), name="gen_registers"),
+    path("registers/<int:pk>", RegisterSpecificView.as_view(), name="spe_registers"),
 
     path("social_programs", SocialProgramGenericViews.as_view(), name="gen_social_programs"),
     path("social_programs/<int:pk>", SocialProgramSpecificViews.as_view(), name="spe_social_programs"),

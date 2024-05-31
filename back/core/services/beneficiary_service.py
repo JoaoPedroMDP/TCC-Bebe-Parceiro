@@ -149,9 +149,11 @@ class BeneficiaryService(CrudService):
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.beneficiary_id)
         
         ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
+        ca_command.user = command.user
 
         beneficiary.approved = True
         beneficiary.save()
+        
         AppointmentService.create(ca_command)
 
         return beneficiary

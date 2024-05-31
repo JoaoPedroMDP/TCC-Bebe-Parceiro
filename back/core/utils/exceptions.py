@@ -28,4 +28,4 @@ class NotCreatedError(HttpFriendlyError):
 
 class ValidationErrors(HttpFriendlyError):
     def __init__(self, messages: List[str]):
-        super().__init__(messages, status.HTTP_400_BAD_REQUEST)
+        super().__init__("\n".join(messages), status.HTTP_400_BAD_REQUEST)

@@ -123,6 +123,7 @@ class BeneficiaryApprovalView(BaseView):
         data['beneficiary_id'] = pk
         data['user'] = request.user
         command: ApproveBeneficiaryCommand = ApproveBeneficiaryCommand.from_dict(data)
+        command.user = request.user
         approved_beneficiary: Beneficiary = BeneficiaryService.approve_beneficiary(command)
 
         return BeneficiarySerializer(approved_beneficiary).data, status.HTTP_200_OK
@@ -130,7 +131,7 @@ class BeneficiaryApprovalView(BaseView):
 
 class BeneficiaryPendingView(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup)
+    permission_classes = (IsAuthenticated, IsVolunteer, AtLeastOneGroup)
 
     @endpoint
     def get(self, request: Request, format=None):

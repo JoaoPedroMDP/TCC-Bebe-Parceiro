@@ -142,6 +142,7 @@ class ApproveBeneficiaryCommand(Command):
     def __init__(self, beneficiary_id: int, appointment_data: Dict):
         self.beneficiary_id = beneficiary_id
         self.appointment_data = appointment_data
+        self.user = None
 
     @staticmethod
     @Validator.validates

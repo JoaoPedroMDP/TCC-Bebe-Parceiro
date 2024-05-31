@@ -8,7 +8,7 @@ import pytest
 
 from config import APPROVED, MANAGE_SWAPS, PENDING
 from factories import ChildFactory, SizeFactory, StatusFactory
-from tests.conftest import make_beneficiary, make_volunteer
+from tests.conftest import make_beneficiary, make_less_than_one_year_child, make_volunteer
 
 
 lgr = logging.getLogger(__name__)
@@ -18,20 +18,19 @@ lgr = logging.getLogger(__name__)
 def test_ben_can_create_swap(client: APIClient):
     StatusFactory.create(name=PENDING)
     ben = make_beneficiary()
-    children = ChildFactory.create_batch(2, beneficiary=ben)
+    child = make_less_than_one_year_child(beneficiary=ben)
 
     data = {
         "cloth_size_id": SizeFactory.create(name="RN").id,
         "shoe_size_id": SizeFactory.create(name="16").id,
         "description": "Troca de roupas e sapatos",
-        "child_id": children[0].id
+        "child_id": child.id
     }
 
     url = reverse('gen_swaps')
     client.force_authenticate(user=ben.user)
     response = client.post(url, data=json.dumps(data), content_type='application/json')
     assert response.status_code == 201
-    lgr.debug(response.data)
     assert response.data['status']['name'] == PENDING
 
 
@@ -39,13 +38,13 @@ def test_ben_can_create_swap(client: APIClient):
 def test_vol_can_create_swap(client: APIClient):
     StatusFactory.create(name=APPROVED)
     ben = make_beneficiary()
-    children = ChildFactory.create_batch(2, beneficiary=ben)
+    child = make_less_than_one_year_child(beneficiary=ben)
 
     data = {
         "cloth_size_id": SizeFactory.create(name="RN").id,
         "shoe_size_id": SizeFactory.create(name="16").id,
         "description": "Troca de roupas e sapatos",
-        "child_id": children[0].id
+        "child_id": child.id
     }
 
     url = reverse('gen_swaps')
@@ -87,13 +86,13 @@ def test_cannot_create_swap_for_another_beneficiary_child(client: APIClient):
 def test_cannot_create_more_than_one_swap_per_ben(client: APIClient):
     StatusFactory.create(name=PENDING)
     ben = make_beneficiary()
-    children = ChildFactory.create_batch(2, beneficiary=ben)
+    child = make_less_than_one_year_child(beneficiary=ben)
 
     data = {
         "cloth_size_id": SizeFactory.create(name="RN").id,
         "shoe_size_id": SizeFactory.create(name="16").id,
         "description": "Troca de roupas e sapatos",
-        "child_id": children[0].id
+        "child_id": child.id
     }
 
     url = reverse('gen_swaps')

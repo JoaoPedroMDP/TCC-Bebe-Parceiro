@@ -12,16 +12,28 @@ from core.cqrs.commands.speciality_commands import (CreateSpecialityCommand, Pat
                                                     DeleteSpecialityCommand)
 from core.cqrs.queries.speciality_queries import GetSpecialityQuery, ListSpecialityQuery
 from core.models import Speciality
+from core.permissions.is_volunteer import IsVolunteer
 from core.serializers import SpecialitySerializer
 from core.services.speciality_service import SpecialityService
 from core.utils.decorators import endpoint
 from config import MANAGE_SPECIALITIES
 from core.permissions.at_least_one_group import AtLeastOneGroup
+from rest_framework.permissions import IsAuthenticated
+
 
 lgr = logging.getLogger(__name__)
 
 
 class SpecialityGenericViews(BaseView):
+    groups = [MANAGE_SPECIALITIES]
+    permission_classes = (IsAuthenticated, IsVolunteer, AtLeastOneGroup)
+    authentication_classes_by_method = {
+        "get": ()
+    }
+    permission_classes_by_method = {
+        "get": (),
+    }
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_SPECIALITIES----")

@@ -5,7 +5,7 @@ from typing import Dict
 
 from core.cqrs import Command, Field, Validator
 from core.models import User
-from core.repositories.appointment_repository import AppointmentRepository
+from core.utils.exceptions import ValidationErrors
 
 
 lgr = logging.getLogger(__name__)
@@ -28,31 +28,30 @@ class CreateAppointmentCommand(Command):
         Field('datetime', 'string', required=False),
     ]
 
-    def __init__(self, beneficiary_id: int, user: User, datetime: str = None,
+    def __init__(self, beneficiary_id: int, datetime: str = None,
                  professional_id: int = None, volunteer_id: int = None, speciality_id: int = None
                  ):
         self.beneficiary_id = beneficiary_id
         self.datetime = datetime
-        self.user = user
         self.professional_id = professional_id
         self.volunteer_id = volunteer_id
         self.speciality_id = speciality_id
         self.status_id = None
+        self.user = None
 
     @staticmethod
     @Validator.validates
     def from_dict(args: Dict):
         data = Validator.validate_and_extract(CreateAppointmentCommand.fields, args)
 
-        lgr.debug(data)
 
         if 'volunteer_id' in data:
             if 'professional_id' in data or 'speciality_id' in data:
                 raise ValueError("Um atendimento com voluntária não pode ter profissional nem especialidade")
         elif 'professional_id' not in data and 'speciality_id' not in data:
-            raise ValueError("Um atendimento deve ter um profissional e uma especialidade, ou ser feito por uma voluntária")
+            raise ValueError("Um atendimento deve ter um profissional e uma especialidade, ou ser feito por uma voluntária")    
 
-        return CreateAppointmentCommand(**data, user=args["user"])
+        return CreateAppointmentCommand(**data)
 
 
 class PatchAppointmentCommand(Command):
@@ -66,7 +65,7 @@ class PatchAppointmentCommand(Command):
         Field('datetime', 'string', required=False),
     ]
 
-    def __init__(self, id: int, beneficiary_id: int, datetime: str,
+    def __init__(self, id: int, beneficiary_id: int = None, datetime: str = None,
                  professional_id: int = None, volunteer_id: int = None, speciality_id: int = None, status_id: int = None
                  ):
         self.id = id
@@ -97,3 +96,21 @@ class DeleteAppointmentCommand(Command):
     def from_dict(args: dict) -> 'DeleteAppointmentCommand':
         data = Validator.validate_and_extract(DeleteAppointmentCommand.fields, args)
         return DeleteAppointmentCommand(**data)
+
+
+class EndEvaluationCommand(Command):
+    fields = [
+        Field('id', 'integer', required=True, formatter=lambda x: int(x)),
+        Field('description', 'string', required=True),
+    ]
+
+    def __init__(self, id: int, description: str):
+        self.id = id
+        self.description = description
+        self.user: User = None
+
+    @staticmethod
+    @Validator.validates
+    def from_dict(args: dict) -> 'EndEvaluationCommand':
+        data = Validator.validate_and_extract(EndEvaluationCommand.fields, args)
+        return EndEvaluationCommand(**data)
