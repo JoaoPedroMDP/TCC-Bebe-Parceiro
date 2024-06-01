@@ -35,7 +35,7 @@ export class ListPendingAppointmentsComponent implements OnInit {
   }
 
   /**
-   * @description Lista os profissionais pendentes
+   * @description Lista os atendimentos pendentes
    */
   listPendingAppointments() {
     this.isLoading = true; // Flag de carregamento

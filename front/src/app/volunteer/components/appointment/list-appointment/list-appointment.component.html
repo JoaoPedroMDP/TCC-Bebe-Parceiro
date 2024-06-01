@@ -1,13 +1,8 @@
 <div class="container">
     <h1 class="bp-big-title">Atendimentos</h1>
+    <input type="text" class="form-control" placeholder="Filtrar Atendimentos" (input)="filterAppointment()" [(ngModel)]="filter"/>
     <hr>
     <div>
-        <div class="row d-flex justify-content-center">
-            <div class="col d-flex justify-content-center"><button class="bp-button">Todos</button></div>
-            <div class="col d-flex justify-content-center"><button class="bp-button">Aprovados</button></div>
-            <div class="col d-flex justify-content-center"><button class="bp-button">Encerrados</button></div>
-            <div class="col d-flex justify-content-center"><button class="bp-button">Cancelados</button></div>
-        </div>
         <table class="table table-hover table-striped" *ngIf="!isLoading">
             <thead class="table-dark">
                 <tr>
@@ -19,8 +14,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let appointment of appointments" title="Clique para ver mais dados do atendimento">
-                    <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.beneficiary?.user?.name}}</td>
-                    <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.speciality?.name ||'---'}}</td>
+                    <td class="align-middle bp-nome-limit" (click)="inspectAppointment(appointment)">
+                        {{appointment.beneficiary?.user?.name}}</td>
+                    <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.speciality?.name
+                        ||'---'}}</td>
                     <td class="align-middle" (click)="inspectAppointment(appointment)">{{appointment.status?.name}}</td>
                     <td>
                         <i class="fa-solid fa-pen-to-square col-11 col-md-2" (click)="editAppointment(appointment)"
