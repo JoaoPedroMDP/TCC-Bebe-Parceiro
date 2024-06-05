@@ -46,7 +46,7 @@ class Command(BaseCommand):
         for s in CLOTH_SIZES:
             SizeFactory.create(name=s, type=CLOTH_TYPE)
         
-        admin_user = UserFactory.create(username="admin", password="admin", first_name="Administradora")
+        admin_user = UserFactory.create(username="00000000000", password="admin", first_name="Administradora")
         admin_user.groups.set(groups)
         VolunteerFactory.create(user=admin_user)
 
