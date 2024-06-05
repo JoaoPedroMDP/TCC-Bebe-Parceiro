@@ -6,7 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_BENEFICIARIES, MANAGE_REPORTS
+from config import MANAGE_BENEFICIARIES, MANAGE_REGISTRATIONS, MANAGE_REPORTS
 from core.app_views import BaseView
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
@@ -113,7 +113,7 @@ class BeneficiarySpecificViews(BaseView):
         return {}, status.HTTP_404_NOT_FOUND
 
 class BeneficiaryApprovalView(BaseView):
-    groups = [MANAGE_BENEFICIARIES]
+    groups = [MANAGE_REGISTRATIONS]
     permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup)
 
     @endpoint
@@ -130,7 +130,7 @@ class BeneficiaryApprovalView(BaseView):
 
 
 class BeneficiaryPendingView(BaseView):
-    groups = [MANAGE_BENEFICIARIES]
+    groups = [MANAGE_REGISTRATIONS]
     permission_classes = (IsAuthenticated, IsVolunteer, AtLeastOneGroup)
 
     @endpoint

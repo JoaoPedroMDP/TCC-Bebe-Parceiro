@@ -6,7 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
-from config import MANAGE_REPORTS, MANAGE_VOLUNTEERS, MANAGE_BENEFICIARIES
+from config import MANAGE_REGISTRATIONS, MANAGE_REPORTS, MANAGE_VOLUNTEERS, MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.user_commands import DeleteUserCommand
 from core.cqrs.commands.volunteer_commands import CreateVolunteerCommand, PatchVolunteerCommand
@@ -89,7 +89,7 @@ class VolunteerEvaluatorsViews(BaseView):
     # Essa rota será necessária na hora da aprovação de uma beneficiada
     # A voluntária de beneficiarias precisa saber quem são as avaliadoras
     # para poder encaminhar a beneficiada pra uma delas
-    groups = [MANAGE_BENEFICIARIES]
+    groups = [MANAGE_REGISTRATIONS]
     permission_classes = (AtLeastOneGroup,)
 
     @endpoint
