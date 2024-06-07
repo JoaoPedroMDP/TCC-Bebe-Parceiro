@@ -103,4 +103,20 @@ export class EvaluationService {
         })
       );
   }
+
+  /**
+ * @description Faz um GET para obter os registros de uma beneficiada
+ * @param id ID da beneficiada
+ * @returns Um Observable contendo os registros da beneficiada ou falha
+ */
+beneficiaryRecords(id: number): Observable<any> {
+  return this.http.get(`${this.baseURL}registers?beneficiary_id=${id}`, { headers: this.authService.getHeaders() })
+  .pipe(
+    tap(() => this.refreshPage$.next()), // Após a execução, emite um evento para os assinantes.
+    catchError(error => {
+      return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+    })
+  );
+}
+
 }

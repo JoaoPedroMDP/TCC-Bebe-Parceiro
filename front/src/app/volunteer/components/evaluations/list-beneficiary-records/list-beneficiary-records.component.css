@@ -1,0 +1,17 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-close {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-right-radius: 5px;
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+
+.bp-modal-footer {
+    padding: 0;
+}

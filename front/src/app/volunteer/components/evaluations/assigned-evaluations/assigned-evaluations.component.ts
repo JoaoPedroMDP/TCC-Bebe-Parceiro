@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Appointment, Beneficiary, SwalFacade } from 'src/app/shared';
+import { Appointment, Beneficiary, SwalFacade} from 'src/app/shared';
 import { EvaluationService } from 'src/app/volunteer/services/evaluation.service';
 import { InspectEvaluationComponent } from '../inspect-evaluation/inspect-evaluation.component';
 import { Subscription } from 'rxjs';
+import { ListBeneficiaryRecordsComponent } from '../list-beneficiary-records/list-beneficiary-records.component';
 
 @Component({
   selector: 'app-assigned-evaluations',
@@ -12,9 +13,11 @@ import { Subscription } from 'rxjs';
 })
 export class AssignedEvaluationsComponent implements OnInit {
 
+
   evaluations!: Appointment[];
   isLoading!: boolean;
   subscription: Subscription | undefined;
+
 
   constructor(private modalService: NgbModal, private evaluationService: EvaluationService) { }
 
@@ -57,7 +60,12 @@ export class AssignedEvaluationsComponent implements OnInit {
    * @description FAZER - Abre o prontuário da beneficiada
    * @param beneficiary A beneficiada
    */
+  
   beneficiaryRecords(beneficiary: Beneficiary) {
-    SwalFacade.alert("Hehe", "Não desenvolvido XD")
+    const modalRef = this.modalService.open(ListBeneficiaryRecordsComponent, { size: 'lg' });
+    modalRef.componentInstance.beneficiaryId = beneficiary.id; 
+   
   }
+
+
 }

@@ -16,6 +16,7 @@ import { CreateEditSpecialityComponent, DeleteSpecialityComponent, ListSpecialit
 import { CreateSwapComponent, DeleteSwapComponent, EditSwapComponent, InspectSwapComponent, ListSwapComponent } from './components/swap';
 import { CreateVolunteerComponent, DeleteVolunteerComponent, EditVolunteerComponent, InspectVolunteerComponent, ListVolunteerComponent } from './components/volunteer';
 import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerService } from './index';
+import { ListBeneficiaryRecordsComponent } from './components/evaluations/list-beneficiary-records/list-beneficiary-records.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { AcessCodesModalComponent, HomeComponent, MainComponent, VolunteerServic
     PendingEvaluationsComponent, 
     ApproveBeneficiaryComponent, 
     AssignedEvaluationsComponent, 
-    InspectEvaluationComponent
+    InspectEvaluationComponent, ListBeneficiaryRecordsComponent
   ],
   imports: [
     CommonModule,
