@@ -7,7 +7,7 @@ from django.utils.timezone import now
 
 from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, SHOE_SIZES, SHOE_TYPE, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.models import User
-from factories import AppointmentFactory, MaritalStatusFactory, SocialProgramFactory, SizeFactory, CountryFactory, StateFactory, CityFactory, \
+from factories import AppointmentFactory, MaritalStatusFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, StateFactory, CityFactory, \
     AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory, CampaignFactory
 
 
@@ -89,6 +89,12 @@ class Command(BaseCommand):
             u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
             b = BeneficiaryFactory.create(user=u)
             SwapFactory.create(beneficiary=b, child=ChildFactory.create(beneficiary=b))
+
+        # Beneficiária com prontuário com 5 registros
+        identification = f"ben_registries"
+        u: User = UserFactory.create(username=identification, password=identification, first_name=identification)
+        b = BeneficiaryFactory.create(user=u)
+        RegisterFactory.create_batch(5, beneficiary=b)
 
         # Uma voluntária pra cada cargo
         for g in groups:
