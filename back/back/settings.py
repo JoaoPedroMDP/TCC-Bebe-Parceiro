@@ -63,7 +63,6 @@ REST_FRAMEWORK = {
 
 REST_KNOX = {
     'TOKEN_TTL': timedelta(minutes=TOKEN_TTL_SECONDS),
-    'TOKEN_LIMIT_PER_USER': 1,
     'USER_SERIALIZER': 'core.serializers.UserSerializer',
 }
 

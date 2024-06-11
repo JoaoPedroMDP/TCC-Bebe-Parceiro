@@ -90,8 +90,8 @@ class CheckAccessCodeView(BaseView):
         access_code: AccessCode = AccessCodeService.get_by_code(query.code)
         if access_code:
             if access_code.used is False:
-                return {"messsage": "Código válido."}, status.HTTP_200_OK
+                return {"message": "Código válido."}, status.HTTP_200_OK
             else:
-                return {"messsage": "Código inválido."}, status.HTTP_403_FORBIDDEN
+                return {"message": "Código inválido."}, status.HTTP_403_FORBIDDEN
 
-        return {"messsage": "Código não encontrado."}, status.HTTP_404_NOT_FOUND
+        return {"message": "Código não encontrado."}, status.HTTP_404_NOT_FOUND
