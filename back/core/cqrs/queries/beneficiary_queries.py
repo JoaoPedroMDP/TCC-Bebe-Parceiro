@@ -28,11 +28,12 @@ class ListBeneficiaryQuery(Query):
         Field("monthly_familiar_income", "float", False, formatter=lambda x: float(x)),
         Field("has_disablement", "boolean", False, formatter=lambda x: Validator.to_bool(x)),
         Field("social_programs", "list", False),
+        Field("approved", "boolean", False),
     ]
 
     def __init__(self, user_id: int = None, marital_status_id: int = None, city_id: int = None,
                  birth_date: str = None, child_count: int = None, monthly_familiar_income: float = None,
-                 has_disablement: bool = None, social_programs: list = None):
+                 has_disablement: bool = None, social_programs: list = None, approved: bool = None):
         self.user_id = user_id
         self.marital_status_id = marital_status_id
         self.city_id = city_id
@@ -41,6 +42,7 @@ class ListBeneficiaryQuery(Query):
         self.monthly_familiar_income = monthly_familiar_income
         self.has_disablement = has_disablement
         self.social_programs = social_programs
+        self.approved = approved
 
     @staticmethod
     @Validator.validates

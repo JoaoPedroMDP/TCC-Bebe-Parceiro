@@ -58,7 +58,9 @@ class BeneficiaryGenericViews(BaseView):
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_BENEFICIARIES----")
-        list_beneficiaries_query: ListBeneficiaryQuery = ListBeneficiaryQuery.from_dict(request.query_params)
+        data = copy(request.query_params)
+        data['approved'] = True
+        list_beneficiaries_query: ListBeneficiaryQuery = ListBeneficiaryQuery.from_dict(data)
         beneficiaries: List[Beneficiary] = BeneficiaryService.filter(list_beneficiaries_query)
         
         return BeneficiarySerializer(beneficiaries, many=True).data, status.HTTP_200_OK

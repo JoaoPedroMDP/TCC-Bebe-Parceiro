@@ -18,10 +18,10 @@ TOKEN_TTL_SECONDS = 60 * 60 * 3  # 3 horas
 AUTH_ENABLED = True
 
 # Estados civis
-SINGLE = 'Solteiro'
-MARRIED = 'Casado'
-DIVORCED = 'Divorciado'
-WIDOW = 'Viúvo'
+SINGLE = 'Solteira'
+MARRIED = 'Casada'
+DIVORCED = 'Divorciada'
+WIDOW = 'Viúva'
 MARITAL_STATUSES = [SINGLE, MARRIED, DIVORCED, WIDOW]
 
 # Programas sociais
