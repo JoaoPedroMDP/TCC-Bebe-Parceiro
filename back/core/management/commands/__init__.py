@@ -20,9 +20,7 @@ ADMIN_DATA = {
     "password": "admin"
 }
 
-BENEFICIARIES = [
-    # PENDENTES PENDENTES PENDENTES PENDENTES PENDENTES
-    # PENDENTES PENDENTES PENDENTES PENDENTES PENDENTES
+PENDING_BENEFICIARIES = [
     {
         "user": {
             "first_name": "Ana Clara Pereira Santos",
@@ -98,10 +96,50 @@ BENEFICIARIES = [
                 "birth_date": datetime(year=2022, month=12, day=10, tzinfo=ZoneInfo('UTC')),
                 "sex": "F"
             }
+        ],
+        "registers": [
+            {
+                "appointment":{
+                    "datetime": datetime(year=2024, month=7, day=2, hour=14, minute=30, tzinfo=ZoneInfo('UTC')),
+                },
+                "description": "A mãe necessita primariamente de roupas para o inverno e de aconselhamento jurídico"
+            },
+            {
+                "appointment": {
+                    "datetime": datetime(year=2024, month=6, day=20, hour=9, minute=0, tzinfo=ZoneInfo('UTC'))
+                },
+                "description": "A mãe precisa de orientação sobre a amamentação e cuidados com o recém-nascido"
+            },
+            {
+                "appointment": {
+                    "datetime": datetime(year=2024, month=6, day=23, hour=14, minute=30, tzinfo=ZoneInfo('UTC'))
+                },
+                "description": "A mãe necessita de roupas de inverno e cobertores para o filho"
+            },
+            {
+                "appointment": {
+                    "datetime": datetime(year=2024, month=6, day=26, hour=11, minute=0, tzinfo=ZoneInfo('UTC'))
+                },
+                "description": "A mãe precisa de apoio jurídico para questões relacionadas à guarda do filho"
+            },
+            {
+                "appointment": {
+                    "datetime": datetime(year=2024, month=6, day=28, hour=15, minute=45, tzinfo=ZoneInfo('UTC'))
+                },
+                "description": "A mãe necessita de alimentos e leite em pó para o filho"
+            },
+            {
+                "appointment": {
+                    "datetime": datetime(year=2024, month=7, day=1, hour=10, minute=15, tzinfo=ZoneInfo('UTC'))
+                },
+                "description": "A mãe precisa de vacinas e acompanhamento pediátrico para o filho"
+            }
+
         ]
     },
-    # APROVADAS APROVADAS APROVADAS APROVADAS APROVADAS
-    # APROVADAS APROVADAS APROVADAS APROVADAS APROVADAS
+]
+
+APPROVED_BENEFICIARIES = [
     {
         "user": {
             "first_name": "Carla Ferreira Almeida Müller",
@@ -373,4 +411,159 @@ SWAP_BENEFICIARIES = [
             "status": FINISHED,
         }
     },
+]
+
+
+VOLUNTEERS = [    
+    {
+        "user": {
+            "first_name": "Amanda Silva",
+            "email": "amanda.silva@email.com",
+            "username": "10000000001",
+            "phone": "10000000001",
+            "password": "amandasilva",
+        },
+        "city": "sarandi",
+    },
+    {
+        "user": {
+            "first_name": "Anésia Pereira",
+            "email": "anesia.pereira@email.com",
+            "username": "10000000002",
+            "phone": "10000000002",
+            "password": "anesiapereira",
+        },
+        "city": "maringa",
+    },
+    {
+        "user": {
+            "first_name": "Carlos Souza",
+            "email": "carlos.souza@email.com",
+            "username": "10000000003",
+            "phone": "10000000003",
+            "password": "carlossouza",
+        },
+        "city": "umuarama",
+    },
+    {
+        "user": {
+            "first_name": "Fernanda Oliveira",
+            "email": "fernanda.oliveira@email.com",
+            "username": "10000000004",
+            "phone": "10000000004",
+            "password": "fernandaoliveira",
+        },
+        "city": "iguatemi",
+    },
+    {
+        "user": {
+            "first_name": "Marcos Lima",
+            "email": "marcos.lima@email.com",
+            "username": "10000000005",
+            "phone": "10000000005",
+            "password": "marcoslima",
+        },
+        "city": "maringa",
+    },
+    {
+        "user": {
+            "first_name": "Juliana Costa",
+            "email": "juliana.costa@email.com",
+            "username": "10000000006",
+            "phone": "10000000006",
+            "password": "julianacosta",
+        },
+        "city": "sarandi",
+    },
+    {
+        "user": {
+            "first_name": "Rafael Almeida",
+            "email": "rafael.almeida@email.com",
+            "username": "10000000007",
+            "phone": "10000000007",
+            "password": "rafaelalmeida",
+        },
+        "city": "umuarama",
+    },
+    {
+        "user": {
+            "first_name": "Patrícia Rocha",
+            "email": "patricia.rocha@email.com",
+            "username": "10000000008",
+            "phone": "10000000008",
+            "password": "patriciarocha",
+        },
+        "city": "iguatemi",
+    },
+    {
+        "user": {
+            "first_name": "Gustavo Silva",
+            "email": "gustavo.silva@email.com",
+            "username": "10000000009",
+            "phone": "10000000009",
+            "password": "gustavosilva",
+        },
+        "city": "maringa",
+    },
+    {
+        "user": {
+            "first_name": "Larissa Martins",
+            "email": "larissa.martins@email.com",
+            "username": "10000000010",
+            "phone": "10000000010",
+            "password": "larissamartins",
+        },
+        "city": "sarandi",
+    },
+    {
+        "user": {
+            "first_name": "Eduardo Gomes",
+            "email": "eduardo.gomes@email.com",
+            "username": "10000000011",
+            "phone": "10000000011",
+            "password": "eduardogomes",
+        },
+        "city": "umuarama",
+    },
+    {
+        "user": {
+            "first_name": "Carla Mendes",
+            "email": "carla.mendes@email.com",
+            "username": "10000000012",
+            "phone": "10000000012",
+            "password": "carlamendes",
+        },
+        "city": "iguatemi",
+    },
+    {
+        "user": {
+            "first_name": "Ricardo Fernandes",
+            "email": "ricardo.fernandes@email.com",
+            "username": "10000000013",
+            "phone": "10000000013",
+            "password": "ricardofernandes",
+        },
+        "city": "maringa",
+    },
+    {
+        "user": {
+            "first_name": "Paula Azevedo",
+            "email": "paula.azevedo@email.com",
+            "username": "10000000014",
+            "phone": "10000000014",
+            "password": "paulaazevedo",
+        },
+        "city": "sarandi",
+    },
+    {
+        "user": {
+            "first_name": "Bruno Ribeiro",
+            "email": "bruno.ribeiro@email.com",
+            "username": "10000000015",
+            "phone": "10000000015",
+            "password": "brunoribeiro",
+        },
+        "city": "umuarama",
+    }
+
 ]
