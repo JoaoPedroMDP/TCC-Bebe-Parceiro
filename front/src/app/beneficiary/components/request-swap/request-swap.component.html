@@ -1,0 +1,69 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 *ngIf="!showSuccess" class="mb-0">Pedir Troca</h4>
+    <h4 *ngIf="showSuccess" class="mb-0">Troca Enviada</h4>
+</div>
+
+<div class="modal-body">
+    <div *ngIf="!showSuccess">
+        <div class="container">
+            <form #form="ngForm" class="bp-form">
+                <p class="px-2">Selecione o seu filho, o tamanho da roupa desejado para solicitar uma troca</p>
+                <div>
+                    <small class="bp-label-text">Bebê <span class="text-danger font-weight-bold">*</span></small>
+                    <select type="text" class="form-select" name="child_id" [(ngModel)]="swap.child_id" required>
+                        <option value="undefined" disabled class="text-center"> --- </option>
+                        <option [value]="child.id" *ngFor="let child of children">{{child.name}}</option>
+                    </select>
+                    <div *ngIf="form.controls['child_id']">
+                        <div
+                            *ngIf="form.controls['child_id'].errors && (form.controls['child_id'].dirty || form.controls['child_id'].touched)">
+                            <div *ngIf="form.controls['child_id'].errors['required']" class="alert alert-danger">
+                                O campo é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <small class="bp-label-text">Tamanho da roupa desejado <span class="text-danger font-weight-bold">*</span></small>
+                    <select type="text" class="form-select" name="cloth_size_id" [(ngModel)]="swap.cloth_size_id" required>
+                        <option value="undefined" disabled class="text-center"> --- </option>
+                        <option [value]="size.id" *ngFor="let size of sizes">{{size.name}}</option>
+                    </select>
+                    <div *ngIf="form.controls['cloth_size_id']">
+                        <div
+                            *ngIf="form.controls['cloth_size_id'].errors && (form.controls['cloth_size_id'].dirty || form.controls['cloth_size_id'].touched)">
+                            <div *ngIf="form.controls['cloth_size_id'].errors['required']" class="alert alert-danger">
+                                O campo é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <small class="bp-label-text">Tamanho do sapato (opcional)</small>
+                    <select type="text" class="form-select" name="shoe_size_id" [(ngModel)]="swap.shoe_size_id">
+                        <option value="undefined" disabled class="text-center"> --- </option>
+                        <option [value]="shoes.id" *ngFor="let shoes of shoeSizes">{{shoes.name}}</option>
+                    </select>
+                </div>
+                <div class="my-3">
+                    <small class="bp-label-text">Descrição (opcional)</small>
+                    <textarea class="form-control" rows="3" name="description" placeholder="Descrição da Troca" 
+                    [(ngModel)]="swap.description"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div *ngIf="showSuccess" class="bp-form text-center">
+        <h3>Seu pedido de troca foi recebido com sucesso!</h3>
+        <hr>
+        <h6>Os seus dados serão avaliados pelas voluntárias e em breve entraremos em contato!</h6>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="requestTrade()"
+        *ngIf="!showSuccess" [disabled]="!form.form.valid">Confirmar</button>
+    <button type="button" class="bp-button col-6" id="btn-cancel" (click)="activeModal.close()"
+        *ngIf="!showSuccess">Cancelar</button>
+    <button type="button" class="bp-button col-12" id="btn-close" (click)="activeModal.close()"
+        *ngIf="showSuccess">Voltar</button>
+</div>

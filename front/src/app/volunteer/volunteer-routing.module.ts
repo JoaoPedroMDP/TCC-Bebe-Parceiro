@@ -1,10 +1,17 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
 import { CreateBeneficiaryComponent, EditBeneficiaryComponent, InspectBeneficiaryComponent, ListBeneficiaryComponent } from './components/beneficiary';
+import { ListCampaignComponent } from './components/campaign';
+import { ListGroupsComponent } from './components/groups';
 import { ListPendingProfessionalsComponent, ListProfessionalComponent } from './components/professional';
 import { ListSpecialitiesComponent } from './components/specialities';
+import { ListSwapComponent } from './components/swap';
+import { ListVolunteerComponent } from './components/volunteer';
 import { HomeComponent, MainComponent } from './index';
-import { VolunteerPermisionsGuard } from '../auth/guards/volunteer-permisions.guard';
+import { ListReportsComponent } from './components/reports';
+import { ListAppointmentComponent, ListPendingAppointmentsComponent } from './components/appointment';
+import { AssignedEvaluationsComponent, PendingEvaluationsComponent } from './components/evaluations';
 
 
 export const VolunteerRouting: Routes = [
@@ -16,9 +23,9 @@ export const VolunteerRouting: Routes = [
     children: [
       { path: '', component: HomeComponent },
       {
-        path: 'beneficiadas',      // BENEFICIADAS
+        path: 'beneficiadas',
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_beneficiaries'] },
+        data: { requiredPermissions: ['Beneficiárias'] },
         children: [
           { path: '', component: ListBeneficiaryComponent },
           { path: 'criar', component: CreateBeneficiaryComponent },
@@ -27,20 +34,56 @@ export const VolunteerRouting: Routes = [
         ]
       },
       {
-        path: 'profissionais',      // PROFISSIONAL
+        path: 'profissionais',
         canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_professionals'] },
+        data: { requiredPermissions: ['Profissionais'] },
         children: [
           { path: '', component: ListProfessionalComponent },
           { path: 'pendentes', component: ListPendingProfessionalsComponent },
         ]
       },
       {
-        path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
-        data: { requiredPermissions: ['manage_specialities'] },
+        path: 'atendimentos',
+        canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Agendamentos'] },
+        children: [
+          { path: '', component: ListAppointmentComponent },
+          { path: 'pendentes', component: ListPendingAppointmentsComponent },
+        ]
       },
+      {
+        path: 'voluntarias', component: ListVolunteerComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Voluntárias'] }
+      },
+      {
+        path: 'especialidades', component: ListSpecialitiesComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Especialidades'] },
+      },
+      {
+        path: 'campanhas', component: ListCampaignComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Campanhas'] },
+      },
+      {
+        path: 'funcoes', component: ListGroupsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Voluntárias'] },
+      },
+      {
+        path: 'trocas', component: ListSwapComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Trocas'] }
+      },
+      {
+        path: 'relatorios', component: ListReportsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Relatórios'] }
+      },
+      {
+        path: 'admissoes', component: PendingEvaluationsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Cadastros'] }
+      },
+      {
+        path: 'admissoes-designadas', component: AssignedEvaluationsComponent, canActivate: [VolunteerPermisionsGuard],
+        data: { requiredPermissions: ['Admissões'] }
+      }
     ]
   },
 ];
-
 

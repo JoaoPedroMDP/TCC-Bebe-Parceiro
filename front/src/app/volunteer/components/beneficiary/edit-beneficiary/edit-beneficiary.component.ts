@@ -273,8 +273,6 @@ export class EditBeneficiaryComponent implements OnInit {
    * @returns Retorna `true` se o programa está selecionado, caso contrário retorna `false`.
   */
   isSocialProgramSelected(program: SocialProgram): boolean {
-    // console.log(this.selectedSocialPrograms.some(p => p.id === program.id));
-    
     return this.selectedSocialPrograms.some(p => p.id === program.id);
   }
 

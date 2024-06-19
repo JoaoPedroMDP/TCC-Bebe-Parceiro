@@ -6,6 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
+from config import MANAGE_ADDRESSES
 from core.app_views import BaseView
 from core.cqrs.commands.city_commands import CreateCityCommand, PatchCityCommand, \
     DeleteCityCommand
@@ -14,11 +15,15 @@ from core.models import City
 from core.serializers import CitySerializer
 from core.services.city_service import CityService
 from core.utils.decorators import endpoint
+from rest_framework.permissions import IsAuthenticated
+
 
 lgr = logging.getLogger(__name__)
 
 
 class CityGenericViews(BaseView):
+    groups = [MANAGE_ADDRESSES]
+    permission_classes = [IsAuthenticated]
     authentication_classes_by_method = {
         "get": ()
     }
@@ -43,6 +48,9 @@ class CityGenericViews(BaseView):
 
 
 class CitySpecificViews(BaseView):
+    groups = [MANAGE_ADDRESSES]
+    permission_classes = [IsAuthenticated]
+
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_CITY----")

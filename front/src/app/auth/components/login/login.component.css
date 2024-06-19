@@ -16,6 +16,7 @@ img {
 
 .bp-text {
     text-align: justify;
+    margin: 0;
 }
 
 .input-with-icon {
@@ -36,19 +37,29 @@ img {
     color: #166b12;
     transition: 0.3s;
 }
-  
+
 .fa-eye:hover {
-color: #000000;
+    color: #000000;
+}
+
+.bp-info {
+    padding: 1rem 2rem;
+    background: rgb(209,209,209);
+    background: linear-gradient(0deg, rgba(209,209,209,1) 0%, rgba(255,255,255,1) 100%);
 }
 
 #actions-btn {
     width: 10rem;
 }
 
-@media screen and (width >= 991px) {
+
+@media screen and (width >=991px) {
     .bp-login-card {
         margin: 1rem 4rem 5rem 4rem;
         padding: 1.75rem 6rem;
     }
-    
+
+    .bp-info {
+        padding: 1rem 5rem;
+    }
 }

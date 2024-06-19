@@ -1,0 +1,44 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 *ngIf="!showSuccess" class="mb-0">Pedir Atendimento</h4>
+    <h4 *ngIf="showSuccess" class="mb-0">Ver Atendimanto</h4>
+</div>
+
+<div class="modal-body">
+    <div *ngIf="!showSuccess">
+        <div class="container">
+            <form #form="ngForm" class="bp-form">
+                <p class="px-2">Selecione a especialidade desejada para o atendimento</p>
+                <div>
+                    <small class="bp-label-text">Especialidade</small>
+                    <select class="form-select" [(ngModel)]="appointment.speciality_id"
+                        (ngModelChange)="listSpecialities()" name="speciality" required>
+                        <option [value]="undefined"> --- </option>
+                        <option [value]="speciality.id" *ngFor="let speciality of specialities">{{speciality.name}}
+                        </option>
+                    </select>
+                    <div *ngIf="form.controls['speciality']">
+                        <div
+                            *ngIf="form.controls['speciality'].errors && (form.controls['speciality'].dirty || form.controls['speciality'].touched)">
+                            <div *ngIf="form.controls['speciality'].errors['required']" class="alert alert-danger mt-1">
+                                O campo é obrigatório.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div *ngIf="showSuccess" class="bp-form text-center">
+        <h3>Seu pedido de atendimento foi recebido com sucesso!</h3>
+        <hr>
+        <h6>Em breve você receberá uma confirmação!</h6>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="requestAppointment()"
+        *ngIf="!showSuccess">Confirmar</button>
+    <button type="button" class="bp-button col-6" id="btn-cancel" (click)="activeModal.close()"
+        *ngIf="!showSuccess">Cancelar</button>
+    <button type="button" class="bp-button col-12" id="btn-close" (click)="activeModal.close()"
+        *ngIf="showSuccess">Fechar</button>
+</div>

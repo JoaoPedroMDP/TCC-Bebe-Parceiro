@@ -1,7 +1,7 @@
 <div class="container">
     <h1 class="bp-big-title">Profissionais Pendentes</h1>
     <input type="text" class="form-control" placeholder="Filtrar Profissionais" (input)="filterProfessional($event)"
-        [(ngModel)]="filter" *ngIf="professionals.length > 0"/>
+        [(ngModel)]="filter"/>
     <div>
         <table class="table table-hover table-striped" *ngIf="!isLoading && professionals.length > 0">
             <thead class="table-dark">
@@ -27,7 +27,7 @@
                 </tr>
             </tbody>
         </table>
-        <div *ngIf="professionals.length == 0" class="mt-4 text-center">
+        <div *ngIf="!isLoading && professionals.length == 0" class="mt-4 text-center">
             <hr>
             <h2>Não há profissionais pendentes!</h2>
             <button class="bp-button" id="bp-big-btn" routerLink="/voluntaria/profissionais">Voltar a listagem</button>

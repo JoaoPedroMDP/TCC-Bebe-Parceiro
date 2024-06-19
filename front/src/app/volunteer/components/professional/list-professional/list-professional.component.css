@@ -59,6 +59,9 @@ thead {
 /* -------------------------------------------  MEDIA ------------------------------------------- */
 @media screen and (width < 991px) {
     .fa-solid{ margin: .3rem; }
+    .bp-footer{ 
+        padding: .15rem 0 .15rem 0;
+    }
     td, th { font-size: .9rem; }
     #bp-big-btn{ margin: 0 .2rem; }
 }
@@ -68,7 +71,6 @@ thead {
     .bp-footer{ 
         display: grid;
         justify-content: center;
-        padding: .3rem 0 .3rem 0;
     }
     .bp-button{ width: 100%; }
     .bp-footer-left,

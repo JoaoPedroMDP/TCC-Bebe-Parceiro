@@ -1,0 +1,34 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Ver Atendimento</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <div *ngIf="appointment.status?.name === 'Pendente'" class="text-center">
+            <h5>O seu atendimento está pendente</h5>
+            <p>Quando for aprovado você receberá mais detalhes</p>
+            <hr>
+        </div>
+        <div *ngIf="appointment.datetime">
+            <small class="bp-label-text">Data Agendada</small>
+            <input type="text" class="form-control" [value]="appointment.datetime | date: 'dd/MM/yyyy  HH:mm'" disabled>
+        </div>
+        <div class="my-3" *ngIf="appointment.professional?.name">
+            <small class="bp-label-text">Profissional</small>
+            <input type="text" class="form-control" [value]="appointment.professional?.name" disabled>
+        </div>
+        <div class="my-3" *ngIf="appointment.speciality?.name">
+            <small class="bp-label-text">Especialidade</small>
+            <input type="text" class="form-control" [value]="appointment.speciality?.name" disabled>
+        </div>
+        <div class="my-3" *ngIf="appointment.professional?.phone">
+            <small class="bp-label-text">Contato Profissional</small>
+            <input type="text" class="form-control" [value]="appointment.professional?.phone! | mask: '(00) 0 0000-0000||(00) 0000-0000'"  disabled>
+        </div>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="button" class="bp-button col-12" id="btn-close" (click)="activeModal.close()"
+        title="Voltar para a listagem">
+        Voltar
+    </button>
+</div>

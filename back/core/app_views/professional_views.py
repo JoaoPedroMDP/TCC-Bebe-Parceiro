@@ -5,7 +5,6 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.views import APIView
 from core.app_views import BaseView
 
 
@@ -15,9 +14,9 @@ from core.models import Professional
 from core.serializers import ProfessionalSerializer
 from core.services.professional_service import ProfessionalService
 from core.utils.decorators import endpoint
-from config import MANAGE_PROFESSIONALS, ROLE_VOLUNTEER
+from config import MANAGE_PROFESSIONALS
 from core.permissions.at_least_one_group import AtLeastOneGroup
-from core.permissions.owns_it import OwnsIt
+from rest_framework.permissions import IsAuthenticated
 
 
 lgr = logging.getLogger(__name__)
@@ -25,14 +24,14 @@ lgr = logging.getLogger(__name__)
 
 class ProfessionalGenericViews(BaseView):
     groups = [MANAGE_PROFESSIONALS]
+    permission_classes = (IsAuthenticated,)
     permission_classes_by_method = {
         "post": (),
-        "get": ()
     }
     authentication_classes_by_method = {
         "post": (),
-        "get": ()
     }
+
     @endpoint
     def get(self, request: Request, format=None):
         lgr.debug("----GET_ALL_PROFESSIONALS----")
@@ -44,8 +43,7 @@ class ProfessionalGenericViews(BaseView):
     def post(self, request: Request, format=None):
         lgr.debug("----CREATE_PROFESSIONALS----")
         command: CreateProfessionalCommand = CreateProfessionalCommand.from_dict(request.data)
-        if request.user.groups.filter(name=ROLE_VOLUNTEER).exists():
-            command.approved = True
+        
         new_professional: Professional = ProfessionalService.create(command)
         return ProfessionalSerializer(new_professional).data, status.HTTP_201_CREATED
 

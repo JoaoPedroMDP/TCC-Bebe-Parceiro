@@ -1,0 +1,24 @@
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-big-title {
+    font-size: 2rem;
+}
+
+.bp-button {
+    padding-right: 3rem;
+    padding-left: 3rem;
+}
+
+.bp-campaign-date {
+    font-size: 1.25rem;
+}
+
+.bp-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: .5rem 2.5rem .8rem 2.5rem;
+    background-color: var(--bp-light-gray);
+}
+
+.bp-justify{
+    text-align: justify;
+}

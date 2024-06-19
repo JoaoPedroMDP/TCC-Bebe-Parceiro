@@ -1,21 +1,20 @@
 #  coding: utf-8
+from datetime import timedelta
 import logging
 from typing import List
 
 from rest_framework import status
 
-from config import ROLE_BENEFICIARY, ROLE_PENDING_BENEFICIARY
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand
 from core.cqrs.commands.beneficiary_commands import CreateBeneficiaryCommand, PatchBeneficiaryCommand, \
     DeleteBeneficiaryCommand, ApproveBeneficiaryCommand
 from core.cqrs.commands.child_commands import CreateChildCommand, PatchChildCommand
 from core.cqrs.commands.user_commands import CreateUserCommand, PatchUserCommand
-from core.cqrs.queries.beneficiary_queries import GetBeneficiaryQuery, ListBeneficiaryQuery
-from core.models import Beneficiary, User
+from core.cqrs.queries.beneficiary_queries import GetBeneficiariesReportQuery, GetBeneficiaryQuery, ListBeneficiaryQuery
+from core.models import Beneficiary
 from core.repositories.access_code_repository import AccessCodeRepository
 from core.repositories.beneficiary_repository import BeneficiaryRepository
 from core.repositories.city_repository import CityRepository
-from core.repositories.group_repository import GroupRepository
 from core.repositories.marital_status_repository import MaritalStatusRepository
 from core.repositories.social_program_repository import SocialProgramRepository
 from core.services import CrudService
@@ -51,14 +50,14 @@ class BeneficiaryService(CrudService):
                 social_programs.append(SocialProgramRepository.get(social_program['id']))
 
         new_user = UserService.create(CreateUserCommand.from_dict(command.to_dict()))
-        b_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
-        new_user.groups.add(b_role)
 
         data = command.to_dict()
+        data['approved'] = False
 
         # Relacionamentos N:N eu associo depois
         del data["children"]
-        del data["social_programs"]
+        if "social_programs" in data:
+            del data["social_programs"]
 
         try:
             new_beneficiary = Beneficiary()
@@ -92,7 +91,6 @@ class BeneficiaryService(CrudService):
 
     @classmethod
     def patch(cls, command: PatchBeneficiaryCommand) -> Beneficiary:
-        # TODO Os dados de usuário (nome, phone, email) não estão sendo alterados
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
 
         if command.user_data:
@@ -102,17 +100,20 @@ class BeneficiaryService(CrudService):
             })
             UserService.patch(user_command)
 
-        for child in command.children:
-            c_command = PatchChildCommand.from_dict(child)
-            ChildService.patch(c_command)
+        if command.children:
+            for child in command.children:
+                c_command = PatchChildCommand.from_dict(child)
+                ChildService.patch(c_command)
+            
+            command.children = None
 
         if command.social_programs:
             beneficiary.social_programs.clear()
             for social_p in command.social_programs:
                 beneficiary.social_programs.add(SocialProgramRepository.get(social_p['id']))
+            
+            command.social_programs = None
 
-        command.social_programs = None
-        command.children = None
 
         return BeneficiaryRepository.patch(command.to_dict())
 
@@ -129,22 +130,49 @@ class BeneficiaryService(CrudService):
         return BeneficiaryRepository.delete(command.id)
 
     @classmethod
-    def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
+    def anonimize(cls, command: DeleteBeneficiaryCommand) -> Beneficiary:
         beneficiary: Beneficiary = BeneficiaryRepository.get(command.id)
+        beneficiary.user.first_name = 'ANONIMIZADO'
+        beneficiary.user.last_name = 'ANONIMIZADO'
+        beneficiary.user.email = 'ANONIMIZADO'
+        beneficiary.user.phone = 'ANONIMIZADO'
+        beneficiary.user.save()
+
+        for child in beneficiary.children.all():
+            child.name = 'ANONIMIZADO'
+            child.save()
+
+        return beneficiary #ver se retorna so um true ou se n retorna nada ou desse jeito (retornando obj atualizado)
+    
+    @classmethod
+    def approve_beneficiary(cls, command: ApproveBeneficiaryCommand) -> Beneficiary:
+        beneficiary: Beneficiary = BeneficiaryRepository.get(command.beneficiary_id)
+        
         ca_command: CreateAppointmentCommand = CreateAppointmentCommand.from_dict(command.appointment_data)
+        ca_command.user = command.user
 
-        user = beneficiary.user
-        old_role = GroupRepository.filter(name=ROLE_PENDING_BENEFICIARY)[0]
-        new_role = GroupRepository.filter(name=ROLE_BENEFICIARY)[0]
-
-        user.groups.remove(old_role)
-        user.groups.add(new_role)
-        user.save()
-
+        beneficiary.approved = True
+        beneficiary.save()
+        
         AppointmentService.create(ca_command)
 
         return beneficiary
 
     @classmethod
     def get_pending_beneficiaries(cls):
-        return BeneficiaryRepository.filter(user__groups__name=ROLE_PENDING_BENEFICIARY)
+        return BeneficiaryRepository.filter(approved=False)
+
+    @classmethod
+    def can_request_swap(cls, beneficiary: Beneficiary) -> bool:
+        return not beneficiary.has_pending_swap() and beneficiary.have_children_born()
+
+    @classmethod
+    def get_reports(cls, query: GetBeneficiariesReportQuery):
+        filters = {}
+        if query.start_date:
+            filters['created_at__gte'] = query.start_date
+        
+        if query.end_date:
+            filters['created_at__lte'] = query.end_date + timedelta(days=1)
+
+        return BeneficiaryRepository.filter(**filters)

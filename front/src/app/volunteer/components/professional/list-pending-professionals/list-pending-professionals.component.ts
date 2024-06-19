@@ -22,6 +22,7 @@ export class ListPendingProfessionalsComponent implements OnInit, OnDestroy {
   constructor(private modalService: NgbModal, private professionalService: ProfessionalService) { }
 
   ngOnInit(): void {
+    this.professionals = []; // Array vazio para não dar erro no console
     this.listPendingProfessionals(false) // Lista inicialmente os profissionais pendentes
     this.subscription = this.professionalService.refreshPage$.subscribe(() => {
       this.listPendingProfessionals(false); // Lista os beneficiados novamente para refletir as atualizações.

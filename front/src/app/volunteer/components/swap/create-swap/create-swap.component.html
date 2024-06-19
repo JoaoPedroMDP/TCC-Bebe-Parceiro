@@ -1,0 +1,70 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Cadastrar Troca</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <p>Campos com <span class="text-danger font-weight-bold">*</span> são obrigatórios</p>
+        <form #form="ngForm">
+            <div class="my-3">
+                <small class="bp-label-text">Beneficiada <span class="text-danger font-weight-bold">*</span></small>
+                <select class="form-select" [(ngModel)]="swap.beneficiary_id" (change)="listChildren($event)" name="beneficiary_id" required>
+                    <option class="text-center" value="undefined" disabled>Selecione a beneficiada</option>
+                    <option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.id">{{beneficiary.user?.name}}</option>
+                </select>
+                <div *ngIf="form.controls['beneficiary_id']">
+                    <div
+                        *ngIf="form.controls['beneficiary_id'].errors && (form.controls['beneficiary_id'].dirty || form.controls['beneficiary_id'].touched)">
+                        <div *ngIf="form.controls['beneficiary_id'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Criança <span class="text-danger font-weight-bold">*</span></small>
+                <select class="form-select" [(ngModel)]="swap.child_id" name="child_id" required>
+                    <option class="text-center" value="undefined" disabled>Selecione a criança</option>
+                    <option *ngFor="let child of children" [value]="child.id">{{child.name}}</option>
+                </select>
+                <div *ngIf="form.controls['child_id']">
+                    <div
+                        *ngIf="form.controls['child_id'].errors && (form.controls['child_id'].dirty || form.controls['child_id'].touched)">
+                        <div *ngIf="form.controls['child_id'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Tamanho da Roupa <span class="text-danger font-weight-bold">*</span></small>
+                <select class="form-select" [(ngModel)]="swap.cloth_size_id" name="cloth_size_id" required>
+                    <option class="text-center" value="undefined" disabled> --- </option>
+                    <option *ngFor="let size of clothSizes" [value]="size.id">{{size.name}}</option>
+                </select>
+                <div *ngIf="form.controls['cloth_size_id']">
+                    <div
+                        *ngIf="form.controls['cloth_size_id'].errors && (form.controls['cloth_size_id'].dirty || form.controls['cloth_size_id'].touched)">
+                        <div *ngIf="form.controls['cloth_size_id'].errors['required']" class="alert alert-danger mt-1">
+                            O campo é obrigatório.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Tamanho do Sapato</small>
+                <select class="form-select" [(ngModel)]="swap.shoe_size_id" name="shoe_size_id">
+                    <option class="text-center" value="undefined" disabled> --- </option>
+                    <option [value]="shoes.id" *ngFor="let shoes of shoeSizes">{{shoes.name}}</option>
+                </select>
+            </div>
+            <div class="my-3">
+                <small class="bp-label-text">Descrição</small>
+                <textarea class="form-control" name="description" [(ngModel)]="swap.description" placeholder="Descrição da troca" maxlength="200"></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()" [disabled]="!form.form.valid">Salvar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="close()">Cancelar</button>
+</div>

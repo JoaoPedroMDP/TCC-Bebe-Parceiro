@@ -1,10 +1,10 @@
 #  coding: utf-8
+from zoneinfo import ZoneInfo
 import factory
 from django.contrib.auth.models import Group, Permission
 from factory.django import DjangoModelFactory
 from faker import Faker
 
-from config import ROLE_BENEFICIARY
 from core.models import (
     User, Country, State, City, AccessCode,
     MaritalStatus, SocialProgram, Beneficiary, Volunteer, Campaign, Child, Size, Status, Swap,
@@ -15,8 +15,8 @@ fake = Faker()
 
 
 class TimestampedModelFactory(DjangoModelFactory):
-    created_at = factory.Faker('date_time_this_decade', tzinfo=None)
-    updated_at = factory.Faker('date_time_this_decade', tzinfo=None)
+    created_at = factory.Faker('date_time_this_decade', tzinfo=ZoneInfo('UTC'))
+    updated_at = factory.Faker('date_time_this_decade', tzinfo=ZoneInfo('UTC'))
 
 
 class UserFactory(DjangoModelFactory):
@@ -101,12 +101,13 @@ class BeneficiaryFactory(TimestampedModelFactory):
         model = Beneficiary
 
     user = factory.SubFactory(UserFactory)
-    marital_status = factory.Iterator(MaritalStatus.objects.all())
-    city = factory.Iterator(City.objects.all())
-    birth_date = factory.Faker('date_time_this_century', tzinfo=None)
+    marital_status = factory.SubFactory(MaritalStatusFactory)
+    city = factory.SubFactory(CityFactory)
+    birth_date = factory.Faker('date_time_this_century', tzinfo=ZoneInfo('UTC'))
     child_count = factory.Faker('random_int', min=0, max=10)
     monthly_familiar_income = factory.Faker('pydecimal', left_digits=5, right_digits=2)
     has_disablement = factory.Faker('boolean')
+    approved = factory.Faker('boolean')
 
 
 class VolunteerFactory(TimestampedModelFactory):
@@ -122,9 +123,10 @@ class CampaignFactory(TimestampedModelFactory):
         model = Campaign
 
     name = factory.Faker('sentence', nb_words=4)
-    start_date = factory.Faker('date_this_decade', tzinfo=None)
-    end_date = factory.Faker('date_this_decade', tzinfo=None)
+    start_date = factory.Faker('date_this_decade')
+    end_date = factory.Faker('date_this_decade')
     description = factory.Faker('text')
+    external_link = factory.Faker('url')
 
 
 class ChildFactory(TimestampedModelFactory):
@@ -132,7 +134,7 @@ class ChildFactory(TimestampedModelFactory):
         model = Child
 
     name = factory.Faker('first_name')
-    birth_date = factory.Faker('date_time_this_decade', tzinfo=None)
+    birth_date = factory.Faker('date_time_this_decade', tzinfo=ZoneInfo('UTC'))
     beneficiary = factory.SubFactory(BeneficiaryFactory)
     sex = factory.Faker('random_element', elements=['M', 'F'])
 
@@ -142,6 +144,7 @@ class SizeFactory(EnablableModelFactory):
         model = Size
 
     name = factory.Faker('word')
+    type = factory.Faker('word')
 
 
 class StatusFactory(EnablableModelFactory):
@@ -159,7 +162,8 @@ class SwapFactory(TimestampedModelFactory):
     shoe_size = factory.SubFactory(SizeFactory)
     description = factory.Faker('text')
     status = factory.SubFactory(StatusFactory)
-
+    beneficiary = factory.SubFactory(BeneficiaryFactory)
+    child = factory.SubFactory(ChildFactory)
 
 class SpecialityFactory(EnablableModelFactory):
     class Meta:
@@ -185,8 +189,7 @@ class AppointmentFactory(TimestampedModelFactory):
     beneficiary = factory.SubFactory(BeneficiaryFactory)
     volunteer = factory.SubFactory(VolunteerFactory)
     professional = factory.SubFactory(ProfessionalFactory)
-    date = factory.Faker('date_this_year', tzinfo=None)
-    time = factory.Faker('time', tzinfo=None)
+    datetime = factory.Faker('date_time_this_year', tzinfo=ZoneInfo('UTC'))
     status = factory.SubFactory(StatusFactory)
 
 
@@ -206,6 +209,7 @@ class GroupFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     name = factory.Faker('word')
+    description = factory.Faker('text')
 
     @factory.post_generation
     def permissions(self, create, extracted, **kwargs):

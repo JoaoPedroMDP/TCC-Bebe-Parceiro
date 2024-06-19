@@ -7,7 +7,7 @@
         <form #form="ngForm">
             <div>
                 <small class="bp-label-text">Especialidade</small>
-                <input type="text" class="form-control" [(ngModel)]="speciality.name" name="name" required>
+                <input type="text" class="form-control" [(ngModel)]="speciality.name" name="name" placeholder="Nome da Especialidade" required>
                 <div *ngIf="form.controls['name']">
                     <div
                         *ngIf="form.controls['name'].errors && (form.controls['name'].dirty || form.controls['name'].touched)">

@@ -1,0 +1,49 @@
+/* -------------------------------------------  ID ------------------------------------------- */
+#btn-delete {
+    --bg-btn: var(--bp-light-red);
+    --color-btn: var(--bp-red);
+    border-bottom-right-radius: 5px;
+}
+
+#btn-close {
+    --bg-btn: var(--bp-light-gray);
+    border-bottom-left-radius: 5px;
+}
+
+#btn-edit{
+    --bg-btn: var(--bp-light-green);
+}
+
+/* -------------------------------------------  CLASS ------------------------------------------- */
+.bp-button {
+    margin: 0;
+    border-radius: 0;
+    bottom: 0;
+}
+
+.bp-modal-footer { padding: 0; }
+
+.bp-label-text{
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+
+.form-control:disabled{
+    background-color: #f5f5f5ab;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* -------------------------------------------   TAG  ------------------------------------------- */
+textarea{
+    height: 130px;
+    min-height: 80px;
+    max-height: 400px;
+}
+
+/* -------------------------------------------  MEDIA ------------------------------------------- */
+@media screen and (width > 991px) {
+    .bp-button {
+        font-size: 1.2rem;
+    }    
+}

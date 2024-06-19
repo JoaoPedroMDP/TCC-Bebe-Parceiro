@@ -23,16 +23,6 @@ export class Group {
     constructor(
         public id?: number,
         public name?: string,
-        public permissions?: Permission[]
+        public description?: string
     ) { }
 }
-
-export class Permission {
-    constructor(
-        public id?: number,
-        public name?: string
-    ) { }
-}
-
-
-

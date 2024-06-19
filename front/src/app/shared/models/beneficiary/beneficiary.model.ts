@@ -46,6 +46,7 @@ export class Beneficiary {
     public children?: Child[],
     public city?: City,
     public social_programs?: SocialProgram[],
-    public created_at?: string
+    public created_at?: string,
+    public is_pregnant?: boolean
   ) { }
 }

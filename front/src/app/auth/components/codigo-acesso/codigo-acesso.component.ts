@@ -23,15 +23,14 @@ export class CodigoAcessoComponent implements OnInit {
   validateAccessCode() {
     this.authService.sendCode(this.form.value.codigo).subscribe({
       next: (response) => {
-        if (response.status === 200) {
-          SwalFacade.success('Código Válido!')
-          const codigoAcesso = this.form.value.codigo
-          this.router.navigate(['autocadastro/dados', codigoAcesso])
-        } else {
-          SwalFacade.error('Código Inválido', 'Entre em contato com uma voluntária')
-        }
+        SwalFacade.success('Código Válido!')
+        const codigoAcesso = this.form.value.codigo
+        this.router.navigate(['autocadastro/dados', codigoAcesso])
       },
-      error: (e) => SwalFacade.error("Ocorreu um erro!", e)
+      error: (e) => {
+        SwalFacade.error('Código Inválido', 'Entre em contato com uma voluntária')
+        console.log(e);
+      }
     })
   }
 

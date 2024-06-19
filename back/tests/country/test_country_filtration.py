@@ -17,6 +17,8 @@ def test_can_filter_countries_by_enabled(client: APIClient):
     data = {"enabled": True}
 
     response = client.get(url, data=data)
+    print(response.data)
+    assert response.status_code == 200
     assert len(response.data) == 3
 
 

@@ -7,9 +7,8 @@ from config import MANAGE_SPECIALITIES
 from factories import SpecialityFactory
 from tests.conftest import make_user
 
-
 @pytest.mark.django_db
-def test_can_filter_countries_by_enabled(client: APIClient):
+def test_can_filter_specialities_by_enabled(client: APIClient):
     SpecialityFactory.create_batch(size=5, enabled=False)
     SpecialityFactory.create_batch(size=3, enabled=True)
 

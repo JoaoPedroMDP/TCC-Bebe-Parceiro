@@ -1,0 +1,39 @@
+<div class="modal-header modal-lg d-flex justify-content-center">
+    <h4 class="mb-0">Ver Campanha</h4>
+</div>
+<div class="modal-body my-3">
+    <div class="container">
+        <div>
+            <small class="bp-label-text">Nome</small>
+            <input type="text" class="form-control" [value]="campaign.name" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Data de Início</small>
+            <input type="text" class="form-control" [value]="campaign.start_date | date:'mediumDate'" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Data de Fim</small>
+            <input type="text" class="form-control" [value]="campaign.end_date | date:'mediumDate'" disabled>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Descrição</small>
+            <textarea type="text" class="form-control" [value]="campaign.description" disabled></textarea>
+        </div>
+        <div class="my-2">
+            <small class="bp-label-text">Link Externo</small>
+            <input type="url" class="form-control" [value]="campaign.external_link" disabled>
+        </div>
+    </div>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center">
+    <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid fa-xmark" [title]="'Voltar para a listagem'"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-edit" (click)="editCampaign(campaign)">
+        <i class="fa-solid fa-pen-to-square" [title]="'Editar a campanha: '+ campaign.name"></i>
+    </button>
+    <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteCampaign(campaign)">
+        <i class="fa-solid fa-trash" [title]="'Excluir a campanha: '+ campaign.name"></i>
+    </button>
+</div>
+

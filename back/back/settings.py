@@ -13,7 +13,7 @@ import logging
 from datetime import timedelta
 from pathlib import Path
 
-from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, TOKEN_TTL_SECONDS, AUTH_ENABLED, ENV
+from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DEV, TOKEN_TTL_SECONDS, AUTH_ENABLED, ENV
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%@^tk*osls(_i*%xvkxj4gy%i$e5zke+4)(94zh5+p0n$+*4=u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ENV == 'dev'
+DEBUG = ENV == DEV
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -58,14 +58,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-} if AUTH_ENABLED else {
-    'DEFAULT_AUTHENTICATION_CLASSES': []
 }
 
 
 REST_KNOX = {
     'TOKEN_TTL': timedelta(minutes=TOKEN_TTL_SECONDS),
-    'TOKEN_LIMIT_PER_USER': 1,
     'USER_SERIALIZER': 'core.serializers.UserSerializer',
 }
 
@@ -98,7 +95,15 @@ LOGGING = {
         'root': {
             'handlers': ['console', 'file'],
             'level': logging.DEBUG,
-        }
+        },
+        'faker': {
+            'handlers': ['console'],
+            'level': logging.ERROR,
+        },
+        'factory': {
+            'handlers': ['console'],
+            'level': logging.ERROR,
+        },
     },
 }
 
@@ -176,11 +181,11 @@ AUTH_USER_MODEL = "core.User"
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

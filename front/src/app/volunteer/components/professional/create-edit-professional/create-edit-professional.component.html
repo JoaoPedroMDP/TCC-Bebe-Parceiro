@@ -7,7 +7,7 @@
         <form #form="ngForm">
             <div>
                 <small class="bp-label-text">Nome</small>
-                <input type="text" class="form-control" placeholder="Seu Nome" minlength="2" maxlength="150" name="name"
+                <input type="text" class="form-control" placeholder="Nome do Profissional" minlength="2" maxlength="150" name="name"
                     [(ngModel)]="professional.name" required>
                 <div *ngIf="form.controls['name']">
                     <div
@@ -52,6 +52,6 @@
     </div>
 </div>
 <div class="bp-modal-footer justify-content-center align-items-center">
-    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()">Aprovar</button>
-    <button type="button" class="bp-button col-6" id="btn-close" (click)="fechar()">Cancelar</button>
+    <button type="submit" class="bp-button col-6" id="btn-save" (click)="save()">Salvar</button>
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="close()">Cancelar</button>
 </div>

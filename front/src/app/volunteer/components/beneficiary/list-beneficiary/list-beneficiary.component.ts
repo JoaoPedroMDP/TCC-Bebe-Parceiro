@@ -61,14 +61,6 @@ export class ListBeneficiaryComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @description Navega para a rota de atendimentos da beneficiada
-   * @param beneficiary objeto da beneficiada para ir como parâmetro na rota
-   */
-  appointmentsForBeneficiary(beneficiary: Beneficiary) {
-    SwalFacade.alert("Rota ainda não desenvolvida", "Não foi possível ver os atendimentos da beneficiada")
-  }
-
-  /**
    * @description Abre um modal para excluir a beneficiada
    * @param beneficiary objeto da beneficiada para ir como parâmetro na rota
    */

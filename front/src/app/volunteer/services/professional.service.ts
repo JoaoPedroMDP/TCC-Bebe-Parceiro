@@ -101,6 +101,20 @@ export class ProfessionalService {
   }
 
   /**
+   * @description Faz um GET para obter todos os profissionais cadastradas de alguma especialidade
+   * @param id O id da especialidade
+   * @returns Um Observable contendo os dados de sucesso ou falha
+   */
+  listProfessionalsBySpeciality(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}professionals?approved=true&speciality_id=${id}`, { headers: this.authService.getHeaders() })
+      .pipe(
+        catchError(error => {
+          return throwError(() => new Error(`${error.status} - ${error.error.message}`));
+        })
+      );
+  }
+
+  /**
    * @description Faz um GET para obter todos os profissionais cadastradas que estão pendentes
    * @returns Um Observable contendo os dados de sucesso ou falha
    */

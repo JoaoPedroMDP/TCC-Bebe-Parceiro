@@ -31,8 +31,8 @@ class CreateBeneficiaryCommand(Command):
 
     def __init__(self,
                  marital_status_id: int, city_id: int, birth_date: str, child_count: int,
-                 monthly_familiar_income: float, has_disablement: bool, social_programs: list = None,
-                 access_code: str = None, name: str = None, phone: str = None, password: str = None,
+                 monthly_familiar_income: float, has_disablement: bool, name: str,
+                 phone: str, password: str, social_programs: list = None, access_code: str = None,
                  children: list = None, email: str = None, user: User = None):
         self.marital_status_id = marital_status_id
         self.city_id = city_id
@@ -134,22 +134,25 @@ class DeleteBeneficiaryCommand(Command):
 
 class ApproveBeneficiaryCommand(Command):
     fields = [
-        Field("id", "integer", True, formatter=lambda x: int(x)),
+        Field("beneficiary_id", "integer", True, formatter=lambda x: int(x)),
+        Field('volunteer_id', 'integer', True, formatter=lambda x: int(x)),
+        Field('datetime', 'string', True),
     ]
 
-    def __init__(self, id: int, appointment_data: Dict):
-        self.id = id
+    def __init__(self, beneficiary_id: int, appointment_data: Dict):
+        self.beneficiary_id = beneficiary_id
         self.appointment_data = appointment_data
+        self.user = None
 
     @staticmethod
     @Validator.validates
     def from_dict(args: dict) -> 'ApproveBeneficiaryCommand':
         data = Validator.validate_and_extract(ApproveBeneficiaryCommand.fields, args)
 
-        appo_data = Command.extract_and_group_keys(
-            args, ["beneficiary_id", "volunteer_id", "professional_id", "date", "time"]
+        data['appointment_data'] = Command.extract_and_group_keys(
+            data, ["volunteer_id", "datetime"]
         )
-        appo_data['beneficiary_id'] = data['id']
-        data['appointment_data'] = appo_data
-        print(data)
+        lgr.debug(data)
+        data['appointment_data']['beneficiary_id'] = data['beneficiary_id']
+        data['appointment_data']['user'] = args['user']
         return ApproveBeneficiaryCommand(**data)

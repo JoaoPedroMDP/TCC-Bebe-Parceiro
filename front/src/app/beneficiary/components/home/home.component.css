@@ -9,6 +9,7 @@
     padding: 1rem;
     margin: 1rem;
     transition: .5s;
+    border-radius: 15px;
 }
 
 .bp-menu-option:hover {
@@ -19,4 +20,15 @@
 
 .bp-disabled {
     display: none;
+}
+
+.bp-swap-disabled{
+    background-color: var(--bp-dark-gray);
+}
+
+.bp-swap-disabled:hover{
+    background-color: var(--bp-dark-gray);
+    color: var(--black);
+    font-size: 1.2rem;
+    cursor: not-allowed;
 }

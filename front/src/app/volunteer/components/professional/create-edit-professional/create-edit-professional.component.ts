@@ -23,7 +23,7 @@ export class CreateEditProfessionalComponent implements OnInit {
   ngOnInit(): void {
     this.listSpecialities();
   }
-
+ 
   /**
    * @description Verifica a variável editMode e caso verdadeira atualiza o profissional, 
    * caso contrário salva como um novo profissional
@@ -64,7 +64,7 @@ export class CreateEditProfessionalComponent implements OnInit {
   /**
    * @description Fecha a janela modal e chama o Observable de atualização
    */
-  fechar() {
+  close() {
     this.activeModal.close();
     this.professionalService.refreshPage$.next();
   }
