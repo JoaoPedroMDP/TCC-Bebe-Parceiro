@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Migrando DB..."
-python manage.py migrate --noinput
+python manage.py reset
 echo "DB migrado"
 
 eval "$@"

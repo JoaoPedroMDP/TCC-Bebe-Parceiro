@@ -102,9 +102,14 @@ class BeneficiaryService(CrudService):
 
         if command.children:
             for child in command.children:
-                c_command = PatchChildCommand.from_dict(child)
-                ChildService.patch(c_command)
-            
+                if child.get('id'):
+                    c_command = PatchChildCommand.from_dict(child)
+                    ChildService.patch(c_command)
+                else:
+                    child['beneficiary_id'] = command.id
+                    c_command = CreateChildCommand.from_dict(child)
+                    ChildService.create(c_command)
+
             command.children = None
 
         if command.social_programs:

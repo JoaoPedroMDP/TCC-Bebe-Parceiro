@@ -8,8 +8,7 @@ from django.utils.timezone import now
 from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, MANAGE_EVALUATIONS, SHOE_SIZES, SHOE_TYPE, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.management.commands import ADMIN_DATA, APPROVED_BENEFICIARIES, PENDING_BENEFICIARIES, SWAP_BENEFICIARIES, VOLUNTEERS
 from core.models import Beneficiary, Child, City, MaritalStatus, SocialProgram, User, Volunteer
-from factories import AppointmentFactory, MaritalStatusFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, StateFactory, CityFactory, \
-    AccessCodeFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory, CampaignFactory
+from factories import AppointmentFactory, MaritalStatusFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, StateFactory, CityFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
 
 
 class Command(BaseCommand):
@@ -71,9 +70,9 @@ class Command(BaseCommand):
         }
 
         # Cargos e permissoes
-        groups = []
+        groups = {}
         for g in GROUPS:
-            groups.append(GroupFactory.create(name=g))
+            groups[g] = GroupFactory.create(name=g)
 
         # Estados civis
         mar_stats = {}
@@ -101,14 +100,15 @@ class Command(BaseCommand):
             cloth_sizes[s] = SizeFactory.create(name=s, type=CLOTH_TYPE)
         
         admin_user = UserFactory.create(**ADMIN_DATA)
-        admin_user.groups.set(groups)
+        admin_user.groups.set(groups.values())
         VolunteerFactory.create(user=admin_user, city=cities['maringa'])
         
         volunteers = {}
         for i, group in enumerate(GROUPS):
             vol = VOLUNTEERS[i]
             u: User = UserFactory.create(**vol['user'])
-            
+            u.groups.add(groups[group])
+
             vol['city'] = cities[vol['city']]
             volunteers[group] = VolunteerFactory.create(user=u)
 
