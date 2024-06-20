@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Beneficiary, SwalFacade } from 'src/app/shared';
 import { VolunteerService } from 'src/app/volunteer/services/volunteer.service';
 import { DeleteBeneficiaryComponent } from '../delete-beneficiary/delete-beneficiary.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-inspect-beneficiary',
@@ -18,7 +19,8 @@ export class InspectBeneficiaryComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private volunteerService: VolunteerService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -58,5 +60,12 @@ export class InspectBeneficiaryComponent implements OnInit {
    */
   editBeneficiary(beneficiary: Beneficiary) {
     this.router.navigate(['/voluntaria/beneficiadas/editar', beneficiary.id])
+  }
+
+  /**
+   * @description Volta para o componente anterior
+   */
+  goBack(): void {
+    this.location.back();
   }
 }
