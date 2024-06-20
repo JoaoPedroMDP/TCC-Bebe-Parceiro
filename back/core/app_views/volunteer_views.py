@@ -5,7 +5,7 @@ from typing import List
 
 from rest_framework import status
 from rest_framework.request import Request
-
+from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from config import MANAGE_REGISTRATIONS, MANAGE_REPORTS, MANAGE_VOLUNTEERS, MANAGE_BENEFICIARIES
 from core.app_views import BaseView
 from core.cqrs.commands.user_commands import DeleteUserCommand
@@ -25,8 +25,9 @@ lgr = logging.getLogger(__name__)
 
 
 class VolunteerGenericViews(BaseView):
-    groups = [MANAGE_VOLUNTEERS]
-    permission_classes = (AtLeastOneGroup,)
+    groups = [MANAGE_VOLUNTEERS, MANAGE_REPORTS]
+    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup)
+
 
     @endpoint
     def get(self, request: Request, format=None):

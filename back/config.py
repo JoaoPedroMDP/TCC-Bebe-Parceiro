@@ -64,7 +64,6 @@ GROUPS = [
     MANAGE_CAMPAIGNS, MANAGE_SIZES, MANAGE_REPORTS
 ]
 
-
 # Tamanhos
 CLOTH_TYPE = "Roupa"
 SHOE_TYPE = "Sapato"
@@ -73,10 +72,16 @@ P = "P"
 M = "M"
 G = "G"
 ONE_YEAR = "1 ano"
-TWO_YEARS = "2 anos"
 
 SHOE_SIZES = [i for i in range(13, 23)]
-CLOTH_SIZES = [P, M, G, ONE_YEAR, TWO_YEARS]
+CLOTH_SIZES = [P, M, G, ONE_YEAR]
+
+
+# Especialidades
+JURIDICAL = "Advogado (a)"
+PSYCHOLOGICAL = "Psicólogo (a)"
+PREACHER = "Pastor (a)"
+SPECIALITIES = [JURIDICAL, PSYCHOLOGICAL, PREACHER]
 
 # Ambiente
 PROD = 'production'

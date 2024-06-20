@@ -83,7 +83,8 @@ class MaritalStatusFactory(EnablableModelFactory):
     class Meta:
         model = MaritalStatus
 
-    name = factory.Faker('random_element', elements=['Solteiro', 'Casado', 'Divorciado', 'Viúvo'])
+    name = factory.Faker('word')
+    enabled = False
 
 
 class SocialProgramFactory(EnablableModelFactory):

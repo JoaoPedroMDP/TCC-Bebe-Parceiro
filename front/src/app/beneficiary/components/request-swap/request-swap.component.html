@@ -61,7 +61,7 @@
 </div>
 <div class="bp-modal-footer justify-content-center align-items-center">
     <button type="submit" class="bp-button col-6" id="btn-save" (click)="requestTrade()"
-        *ngIf="!showSuccess" [disabled]="!form.form.valid">Confirmar</button>
+        *ngIf="!showSuccess">Confirmar</button>
     <button type="button" class="bp-button col-6" id="btn-cancel" (click)="activeModal.close()"
         *ngIf="!showSuccess">Cancelar</button>
     <button type="button" class="bp-button col-12" id="btn-close" (click)="activeModal.close()"

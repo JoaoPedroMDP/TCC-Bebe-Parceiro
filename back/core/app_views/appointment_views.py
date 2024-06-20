@@ -23,6 +23,8 @@ lgr = logging.getLogger(__name__)
 
 
 class AppointmentGenericViews(BaseView):
+    groups = [MANAGE_APPOINTMENTS, MANAGE_REPORTS]
+    permission_classes = (IsAuthenticated, AtLeastOneGroup)
 
     @endpoint
     def get(self, request: Request, format=None):

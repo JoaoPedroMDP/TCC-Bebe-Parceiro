@@ -1,6 +1,4 @@
 #  coding: utf-8
-
-
 from datetime import datetime
 from random import randint, sample
 from zoneinfo import ZoneInfo
@@ -11,6 +9,24 @@ ms_count = len(MARITAL_STATUSES)
 sp_count = len(SOCIAL_PROGRAMS)
 cs_count = len(CLOTH_SIZES)
 ss_count = len(SHOE_SIZES)
+
+CAMPAIGNS = [
+    {
+        "name": "Campanha do Agasalho 2024",
+        "description": "Campanha para arrecadação de roupas de inverno para famílias carentes",
+        "start_date": datetime(year=2024, month=4, day=1, tzinfo=ZoneInfo('UTC')),
+        "end_date": datetime(year=2024, month=7, day=15, tzinfo=ZoneInfo('UTC')),
+        "external_link": "https://fas.curitiba.pr.gov.br/conteudo.aspx?idf=1847"
+    },
+    {
+        "name": "Vidas por vidas 2/2024",
+        "description": "Venha doar sangue conosco e salvar vidas!",
+        "start_date": datetime(year=2024, month=4, day=1, tzinfo=ZoneInfo('UTC')),
+        "end_date": datetime(year=2024, month=7, day=15, tzinfo=ZoneInfo('UTC')),
+        "external_link": "https://vidaporvidas.com/pt/"
+    }
+
+]
 
 ADMIN_DATA = {
     "first_name": "Isabela Dancini",

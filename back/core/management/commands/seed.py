@@ -1,14 +1,13 @@
 #  coding: utf-8
-from datetime import timedelta
 from random import randint
 
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, MANAGE_EVALUATIONS, SHOE_SIZES, SHOE_TYPE, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
-from core.management.commands import ADMIN_DATA, APPROVED_BENEFICIARIES, PENDING_BENEFICIARIES, SWAP_BENEFICIARIES, VOLUNTEERS
+from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, MANAGE_EVALUATIONS, SHOE_SIZES, SHOE_TYPE, SPECIALITIES, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
+from core.management.commands import ADMIN_DATA, APPROVED_BENEFICIARIES, CAMPAIGNS, PENDING_BENEFICIARIES, SWAP_BENEFICIARIES, VOLUNTEERS
 from core.models import Beneficiary, Child, City, MaritalStatus, SocialProgram, User, Volunteer
-from factories import AppointmentFactory, MaritalStatusFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, StateFactory, CityFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
+from factories import AppointmentFactory, CampaignFactory, MaritalStatusFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, SpecialityFactory, StateFactory, CityFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
 
 
 class Command(BaseCommand):
@@ -23,18 +22,19 @@ class Command(BaseCommand):
         ben['user'] = u
         ben['city'] = cities[ben['city']]
         marital_status = mar_stats[ben.pop('marital_status')]
+        ben['marital_status'] = marital_status
         social_programs = [soc_progs[s] for s in ben.pop('social_programs')]
 
         children_data = ben.pop('children_data')
         
         b = BeneficiaryFactory.create(**ben)
-        b.marital_status = marital_status
         b.social_programs.set(social_programs)
 
         children = []
         for child_data in children_data:
             children.append(ChildFactory.create(beneficiary=b, **child_data))
         
+        b.save()
         return b, children
 
     @staticmethod
@@ -44,12 +44,14 @@ class Command(BaseCommand):
         swap['cloth_size'] = cloth_sizes[swap.pop('cloth_size')]
         if 'shoe_size' in swap:
             swap['shoe_size'] = shoe_sizes[swap.pop('shoe_size')]
+        
         swap['status'] = statuses[swap.pop('status')]
         SwapFactory.create(**swap)
 
     def create_appointment(self, beneficiary: Beneficiary, volunteer: Volunteer, appointment: dict):
         appointment['beneficiary'] = beneficiary
         appointment['volunteer'] = volunteer
+        appointment['professional'] = None
         return AppointmentFactory.create(**appointment)
 
     def create_register(self, register: dict, beneficiary: Beneficiary, volunteer: Volunteer):
@@ -98,6 +100,15 @@ class Command(BaseCommand):
         cloth_sizes = {}
         for s in CLOTH_SIZES:
             cloth_sizes[s] = SizeFactory.create(name=s, type=CLOTH_TYPE)
+        
+        # Especialidades
+        specialities = {}
+        for s in SPECIALITIES:
+            specialities[s] = SpecialityFactory.create(name=s, enabled=True)
+        
+        # Campanhas
+        for campaign in CAMPAIGNS:
+            CampaignFactory.create(**campaign)    
         
         admin_user = UserFactory.create(**ADMIN_DATA)
         admin_user.groups.set(groups.values())

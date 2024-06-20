@@ -46,7 +46,7 @@ class BeneficiaryCreationByVolunteerView(BaseView):
 
 
 class BeneficiaryGenericViews(BaseView):
-    groups = [MANAGE_BENEFICIARIES]
+    groups = [MANAGE_BENEFICIARIES, MANAGE_REPORTS]
     permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup, IsVolunteer)
     permission_classes_by_method = {
         "post": ()
