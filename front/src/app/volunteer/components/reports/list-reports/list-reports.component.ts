@@ -24,9 +24,17 @@ export class ListReportsComponent implements OnInit {
   extractVolunteer(type: string) {
     this.volunteerService.listVolunteer().subscribe({
       next: (volunteers: Volunteer[]) => {
+        // Ordenar os voluntários por nome
+        const sortedVolunteers = volunteers.sort((a, b) => {
+          if (a.user?.name && b.user?.name) {
+            return a.user.name.localeCompare(b.user.name);
+          }
+          return 0; // Caso um dos nomes seja indefinido, mantem a ordem original
+        });
+
         // Variavéis para o relatorio
         const columns = ['Nome', 'Telefone', 'Cidade', 'Estado', 'País'];
-        const rows = volunteers.map(data => [
+        const rows = sortedVolunteers.map(data => [
           data.user?.name,
           data.user?.phone,
           data.city?.name,
@@ -53,9 +61,17 @@ export class ListReportsComponent implements OnInit {
   extractBeneficiary(type: string) {
     this.volunteerService.listBeneficiary().subscribe({
       next: (beneficiaries: Beneficiary[]) => {
+        // Ordenar os voluntários por nome
+        const sortedBeneficiaries = beneficiaries.sort((a, b) => {
+          if (a.user?.name && b.user?.name) {
+            return a.user.name.localeCompare(b.user.name);
+          }
+          return 0; // Caso um dos nomes seja indefinido, mantem a ordem original
+        });
+
         // Variavéis para o relatorio
         const columns = ['Nome', 'Nº Filhos', 'Estado Civil', 'Renda Familiar', 'Cidade', 'Estado'];
-        const rows = beneficiaries.map(data => [
+        const rows = sortedBeneficiaries.map(data => [
           data.user?.name,
           data.child_count,
           data.marital_status?.name,
