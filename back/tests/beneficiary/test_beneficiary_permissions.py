@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 import pytest
 
-from config import MANAGE_BENEFICIARIES, MANAGE_REPORTS
+from config import MANAGE_BENEFICIARIES, MANAGE_REGISTRATIONS, MANAGE_REPORTS
 from tests.conftest import make_beneficiary, make_volunteer
 
 
@@ -198,7 +198,7 @@ def test_beneficiary_approval_permissions(client: APIClient):
     assert response.status_code == 403
 
     # Voluntárias com permissão podem aprovar
-    vol = make_volunteer([MANAGE_BENEFICIARIES])
+    vol = make_volunteer([MANAGE_REGISTRATIONS])
     client.force_authenticate(vol.user)
     response = client.patch(url)
     assert response.status_code == 400
@@ -226,7 +226,7 @@ def test_beneficiary_list_pending_permissions(client: APIClient):
     assert response.status_code == 403
 
     # Voluntárias com permissão podem ver
-    vol = make_volunteer([MANAGE_BENEFICIARIES])
+    vol = make_volunteer([MANAGE_REGISTRATIONS])
     client.force_authenticate(vol.user)
     response = client.get(url)
     assert response.status_code == 200

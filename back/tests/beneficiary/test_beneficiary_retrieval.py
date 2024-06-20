@@ -34,7 +34,7 @@ def test_can_list_all_beneficiaries(client: APIClient):
 
     beneficiaries = []
     for _ in range(5):
-        beneficiaries.append(make_beneficiary(city=city, marital_status=marital))
+        beneficiaries.append(make_beneficiary(city=city, marital_status=marital, approved=True))
 
     url = reverse("gen_beneficiaries")
     # Sem autenticação

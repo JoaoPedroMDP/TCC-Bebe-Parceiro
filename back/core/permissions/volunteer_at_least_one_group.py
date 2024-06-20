@@ -24,5 +24,5 @@ class VolunteerAtLeastOneGroup(BasePermission):
         else:
             return True
 
-        lgr.warning("Voluntária não pertence a nenhum dos grupos permitidos")
+        lgr.warning(f"Voluntária não pertence a nenhum dos grupos permitidos ({view.groups})")
         return False

@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from factories import StatusFactory
 from core.models import Volunteer
-from config import APPROVED, MANAGE_EVALUATIONS, MANAGE_BENEFICIARIES
+from config import APPROVED, MANAGE_EVALUATIONS, MANAGE_BENEFICIARIES, MANAGE_REGISTRATIONS
 from tests.conftest import make_beneficiary, make_volunteer
 
 
@@ -15,7 +15,7 @@ from tests.conftest import make_beneficiary, make_volunteer
 def test_can_approve_beneficiary(client: APIClient):
     StatusFactory.create(name=APPROVED)
     ben = make_beneficiary(approved=False)
-    vol: Volunteer = make_volunteer([MANAGE_BENEFICIARIES])
+    vol: Volunteer = make_volunteer([MANAGE_REGISTRATIONS])
     evaluator: Volunteer = make_volunteer([MANAGE_EVALUATIONS])
 
     url = reverse("approve_beneficiaries", kwargs={"pk": ben.pk})
