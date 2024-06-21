@@ -25,7 +25,6 @@ CAMPAIGNS = [
         "end_date": datetime(year=2024, month=7, day=15, tzinfo=ZoneInfo('UTC')),
         "external_link": "https://vidaporvidas.com/pt/"
     }
-
 ]
 
 ADMIN_DATA = {
@@ -303,7 +302,6 @@ APPROVED_BENEFICIARIES = [
     }
 ]
 
-
 SWAP_BENEFICIARIES = [
     {
         "user": {
@@ -428,7 +426,6 @@ SWAP_BENEFICIARIES = [
         }
     },
 ]
-
 
 VOLUNTEERS = [    
     {
@@ -582,4 +579,34 @@ VOLUNTEERS = [
         "city": "umuarama",
     }
 
+]
+
+PROFESSIONALS = [
+    {
+        "name": "Ricardo Dantas",
+        "phone": "20000000000",
+        "speciality": {
+            "name": "Pediatra"
+        },
+        "accepted_volunteer_terms": True,
+        "approved": True,
+    },
+    {
+        "name": "Ana Carolina",
+        "phone": "20000000001",
+        "speciality": {
+            "name": "Advogado"
+        },
+        "accepted_volunteer_terms": True,
+        "approved": True,
+    },
+    {
+        "name": "Mariana Oliveira",
+        "phone": "20000000002",
+        "speciality": {
+            "name": "Psicólogo"
+        },
+        "accepted_volunteer_terms": True,
+        "approved": False,
+    }
 ]

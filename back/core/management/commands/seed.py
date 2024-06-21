@@ -5,9 +5,9 @@ from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
 from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, MANAGE_EVALUATIONS, SHOE_SIZES, SHOE_TYPE, SPECIALITIES, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
-from core.management.commands import ADMIN_DATA, APPROVED_BENEFICIARIES, CAMPAIGNS, PENDING_BENEFICIARIES, SWAP_BENEFICIARIES, VOLUNTEERS
-from core.models import Beneficiary, Child, City, MaritalStatus, SocialProgram, User, Volunteer
-from factories import AppointmentFactory, CampaignFactory, MaritalStatusFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, SpecialityFactory, StateFactory, CityFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
+from core.management.commands import ADMIN_DATA, APPROVED_BENEFICIARIES, CAMPAIGNS, PENDING_BENEFICIARIES, PROFESSIONALS, SWAP_BENEFICIARIES, VOLUNTEERS
+from core.models import Beneficiary, Child, City, Country, MaritalStatus, SocialProgram, State, User, Volunteer
+from factories import AppointmentFactory, CampaignFactory, MaritalStatusFactory, ProfessionalFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, SpecialityFactory, StateFactory, CityFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
 
 
 class Command(BaseCommand):
@@ -64,6 +64,8 @@ class Command(BaseCommand):
         # CEP
         brazil = CountryFactory.create(name="Brasil", enabled=True)
         parana = StateFactory.create(name="Paraná", country=brazil, enabled=True)
+        StateFactory.create(name="Santa Catarina", enabled=True)
+        CityFactory.create(name="Joinville", state=parana, enabled=True)
         cities = {
             "maringa": CityFactory.create(name="Maringá", state=parana, enabled=True),
             "umuarama": CityFactory.create(name="Umuarama", state=parana, enabled=True),
@@ -121,7 +123,8 @@ class Command(BaseCommand):
             u.groups.add(groups[group])
 
             vol['city'] = cities[vol['city']]
-            volunteers[group] = VolunteerFactory.create(user=u)
+            vol['user'] = u
+            volunteers[group] = VolunteerFactory.create(**vol)
 
         for ben in PENDING_BENEFICIARIES:
             registers = []
@@ -140,3 +143,7 @@ class Command(BaseCommand):
             swap_data = ben.pop("swap_data")
             ben, children = self.create_beneficiary(ben, cities, mar_stats, soc_progs)
             self.create_swap(swap_data, ben, children[0], shoe_sizes, cloth_sizes, statuses)
+
+        for professional in PROFESSIONALS:
+            professional['speciality'] = SpecialityFactory.create(**professional['speciality'])
+            ProfessionalFactory.create(**professional)
