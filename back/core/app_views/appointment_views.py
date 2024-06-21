@@ -6,6 +6,8 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
+from core.permissions.is_beneficiary import IsBeneficiary
+from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from config import MANAGE_APPOINTMENTS, MANAGE_REPORTS, MANAGE_EVALUATIONS
 from core.app_views import BaseView
 from core.cqrs.commands.appointment_commands import CreateAppointmentCommand, EndEvaluationCommand, PatchAppointmentCommand, \
@@ -24,7 +26,7 @@ lgr = logging.getLogger(__name__)
 
 class AppointmentGenericViews(BaseView):
     groups = [MANAGE_APPOINTMENTS, MANAGE_REPORTS]
-    permission_classes = (IsAuthenticated, AtLeastOneGroup)
+    permission_classes = (IsAuthenticated, IsBeneficiary | (IsVolunteer & VolunteerAtLeastOneGroup))
 
     @endpoint
     def get(self, request: Request, format=None):
@@ -46,7 +48,8 @@ class AppointmentGenericViews(BaseView):
 
 class AppointmentSpecificViews(BaseView):
     groups = [MANAGE_APPOINTMENTS]
-    permission_classes = (AtLeastOneGroup,)
+    permission_classes = (IsAuthenticated, IsBeneficiary | (IsVolunteer & VolunteerAtLeastOneGroup))
+
     @endpoint
     def patch(self, request: Request, pk, format=None):
         lgr.debug("----PATCH_APPOINTMENT----")
@@ -83,7 +86,7 @@ class AppointmentSpecificViews(BaseView):
 
 class AppointmentReportsView(BaseView):
     groups = [MANAGE_REPORTS]
-    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+    permission_classes = [IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup]
 
     @endpoint
     def get(self, request: Request, format=None):
@@ -95,7 +98,7 @@ class AppointmentReportsView(BaseView):
 
 class ListAssignedEvaluationsViews(BaseView):
     groups = [MANAGE_EVALUATIONS]
-    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+    permission_classes = [IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup]
 
     @endpoint
     def get(self, request, format=None):
@@ -106,7 +109,7 @@ class ListAssignedEvaluationsViews(BaseView):
 
 class EndEvaluationViews(BaseView):
     groups = [MANAGE_EVALUATIONS]
-    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
+    permission_classes = [IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup]
 
     @endpoint
     def patch(self, request, pk, format=None):

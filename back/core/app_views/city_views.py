@@ -6,6 +6,8 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
+from core.permissions.at_least_one_group import AtLeastOneGroup
+from core.permissions.is_volunteer import IsVolunteer
 from config import MANAGE_ADDRESSES
 from core.app_views import BaseView
 from core.cqrs.commands.city_commands import CreateCityCommand, PatchCityCommand, \
@@ -23,7 +25,7 @@ lgr = logging.getLogger(__name__)
 
 class CityGenericViews(BaseView):
     groups = [MANAGE_ADDRESSES]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVolunteer, AtLeastOneGroup]
     authentication_classes_by_method = {
         "get": ()
     }

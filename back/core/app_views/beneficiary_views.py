@@ -47,7 +47,7 @@ class BeneficiaryCreationByVolunteerView(BaseView):
 
 class BeneficiaryGenericViews(BaseView):
     groups = [MANAGE_BENEFICIARIES, MANAGE_REPORTS]
-    permission_classes = (IsAuthenticated, VolunteerAtLeastOneGroup, IsVolunteer)
+    permission_classes = (IsAuthenticated, IsVolunteer, VolunteerAtLeastOneGroup)
     permission_classes_by_method = {
         "post": ()
     }
@@ -76,7 +76,7 @@ class BeneficiaryGenericViews(BaseView):
 
 class BeneficiarySpecificViews(BaseView):
     groups = [MANAGE_BENEFICIARIES]
-    permission_classes = [IsAuthenticated, ((IsVolunteer & VolunteerAtLeastOneGroup) | IsIt)]
+    permission_classes = [IsAuthenticated, ((IsVolunteer & VolunteerAtLeastOneGroup) | IsBeneficiary)]
 
     @endpoint
     def patch(self, request: Request, pk, format=None):
