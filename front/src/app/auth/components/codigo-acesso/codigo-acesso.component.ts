@@ -29,7 +29,6 @@ export class CodigoAcessoComponent implements OnInit {
       },
       error: (e) => {
         SwalFacade.error('Código Inválido', 'Entre em contato com uma voluntária')
-        console.log(e);
       }
     })
   }

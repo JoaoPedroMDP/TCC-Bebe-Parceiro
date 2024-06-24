@@ -33,7 +33,6 @@ export class CreateAppointmentComponent implements OnInit {
    * @description Salva um atendimento
    */
   saveAppointment() {
-    console.log(this.appointmentPOST);
     this.appointmentService.createAppointment(this.appointmentPOST).subscribe({
       next: () => SwalFacade.success("Atendimento criado com sucesso!"),
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),
