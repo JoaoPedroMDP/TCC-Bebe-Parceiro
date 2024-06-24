@@ -6,7 +6,7 @@ from django.utils.timezone import now
 
 from config import CLOTH_SIZES, CLOTH_TYPE, GROUPS, MANAGE_EVALUATIONS, SHOE_SIZES, SHOE_TYPE, SPECIALITIES, STATUSES, MARITAL_STATUSES, SOCIAL_PROGRAMS
 from core.management.commands import ADMIN_DATA, APPROVED_BENEFICIARIES, CAMPAIGNS, PENDING_BENEFICIARIES, PROFESSIONALS, SWAP_BENEFICIARIES, VOLUNTEERS
-from core.models import Beneficiary, Child, City, Country, MaritalStatus, SocialProgram, State, User, Volunteer
+from core.models import Beneficiary, Child, City, MaritalStatus, SocialProgram, User, Volunteer
 from factories import AppointmentFactory, CampaignFactory, MaritalStatusFactory, ProfessionalFactory, RegisterFactory, SocialProgramFactory, SizeFactory, CountryFactory, SpecialityFactory, StateFactory, CityFactory, SwapFactory, UserFactory, BeneficiaryFactory, ChildFactory, VolunteerFactory, GroupFactory, StatusFactory
 
 
@@ -64,8 +64,8 @@ class Command(BaseCommand):
         # CEP
         brazil = CountryFactory.create(name="Brasil", enabled=True)
         parana = StateFactory.create(name="Paraná", country=brazil, enabled=True)
-        StateFactory.create(name="Santa Catarina", enabled=True)
-        CityFactory.create(name="Joinville", state=parana, enabled=True)
+        santa_catarina = StateFactory.create(name="Santa Catarina", country=brazil, enabled=True)
+        CityFactory.create(name="Joinville", state=santa_catarina, enabled=True)
         cities = {
             "maringa": CityFactory.create(name="Maringá", state=parana, enabled=True),
             "umuarama": CityFactory.create(name="Umuarama", state=parana, enabled=True),
@@ -145,5 +145,5 @@ class Command(BaseCommand):
             self.create_swap(swap_data, ben, children[0], shoe_sizes, cloth_sizes, statuses)
 
         for professional in PROFESSIONALS:
-            professional['speciality'] = SpecialityFactory.create(**professional['speciality'])
+            professional['speciality'] = specialities[professional['speciality']]
             ProfessionalFactory.create(**professional)

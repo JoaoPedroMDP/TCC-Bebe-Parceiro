@@ -141,6 +141,7 @@ class BeneficiaryService(CrudService):
         beneficiary.user.last_name = 'ANONIMIZADO'
         beneficiary.user.email = 'ANONIMIZADO'
         beneficiary.user.phone = 'ANONIMIZADO'
+        beneficiary.user.username = f"ANONIMIZADO_{beneficiary.id}"
         beneficiary.user.save()
 
         for child in beneficiary.children.all():

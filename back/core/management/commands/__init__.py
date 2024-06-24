@@ -3,7 +3,7 @@ from datetime import datetime
 from random import randint, sample
 from zoneinfo import ZoneInfo
 
-from config import APPROVED, CLOTH_SIZES, FINISHED, MARITAL_STATUSES, PENDING, SHOE_SIZES, SOCIAL_PROGRAMS
+from config import APPROVED, CLOTH_SIZES, DOULA, FINISHED, JURIDICAL, MARITAL_STATUSES, PENDING, PREACHER, SHOE_SIZES, SOCIAL_PROGRAMS
 
 ms_count = len(MARITAL_STATUSES)
 sp_count = len(SOCIAL_PROGRAMS)
@@ -585,27 +585,21 @@ PROFESSIONALS = [
     {
         "name": "Ricardo Dantas",
         "phone": "20000000000",
-        "speciality": {
-            "name": "Pediatra"
-        },
+        "speciality": PREACHER,
         "accepted_volunteer_terms": True,
         "approved": True,
     },
     {
         "name": "Ana Carolina",
         "phone": "20000000001",
-        "speciality": {
-            "name": "Advogado"
-        },
+        "speciality": JURIDICAL,
         "accepted_volunteer_terms": True,
         "approved": True,
     },
     {
         "name": "Mariana Oliveira",
         "phone": "20000000002",
-        "speciality": {
-            "name": "Psicólogo"
-        },
+        "speciality": DOULA,
         "accepted_volunteer_terms": True,
         "approved": False,
     }
