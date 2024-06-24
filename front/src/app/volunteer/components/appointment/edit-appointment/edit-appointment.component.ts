@@ -36,6 +36,7 @@ export class EditAppointmentComponent implements OnInit {
    * @description Salva um atendimento
    */
   editAppointment(action?: string) {
+    this.appointmentPOST.datetime = new Date();
     this.appointmentService.editAppointment(this.appointmentPOST.id!, this.appointmentPOST).subscribe({
       next: () => SwalFacade.success(`Atendimento ${action || 'editado'} com sucesso!`),
       error: (e) => SwalFacade.error("Ocorreu um erro!", e),

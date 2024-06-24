@@ -12,10 +12,12 @@ import { EditAppointmentComponent } from '../edit-appointment/edit-appointment.c
 export class InspectAppointmentComponent implements OnInit {
 
   @Input() appointment!: Appointment;
+  isAppointmentClosed!: boolean;
 
   constructor(public activeModal: NgbActiveModal, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this.isAppointmentClosed = this.appointment.status?.name == "Encerrado" || this.appointment.status?.name == "Cancelado" ? true : false;
   }
 
   /**
@@ -32,6 +34,9 @@ export class InspectAppointmentComponent implements OnInit {
     modalRef.componentInstance.isAppointmentClosed = isAppointmentClosed; // variável boolean pra mostrar botões de encerrar ou cancelar atendimento
   }
 
+  /**
+   * @description Abre o modal de exclusão
+   */
   deleteAppointment() {
     this.activeModal.close();
     this.modalService.open(DeleteAppointmentComponent, { size: 'xl' })

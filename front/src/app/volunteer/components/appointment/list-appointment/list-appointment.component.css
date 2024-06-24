@@ -30,27 +30,17 @@
     /* Permite que o texto quebre quando ultrapassar o limite máximo de largura */
 }
 
-.fa-solid {
+.fa-solid{ 
     margin: 0 .2rem;
     font-size: 1.2rem;
-}
-
-.fa-pen-to-square {
-    color: var(--bp-black);
-}
-
-.fa-pen-to-square:hover {
-    color: var(--black);
-}
-
-.fa-trash {
-    color: var(--bp-red);
-}
-
-.fa-trash:hover {
-    color: var(--bp-dark-red);
-}
-
+    transition: 0.3s;
+ }
+.fa-pen-to-square { color: var(--bp-black); }
+.fa-pen-to-square:hover { color: var(--black); }
+.fa-trash { color: var(--bp-red); }
+.fa-trash:hover { color: var(--bp-dark-red); }
+.fa-eye { color: #166b12; }
+.fa-eye:hover { color: var(--black); }
 /* -------------------------------------------   TAG  ------------------------------------------- */
 table {
     border-collapse: collapse;

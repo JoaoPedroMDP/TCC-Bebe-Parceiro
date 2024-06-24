@@ -23,14 +23,22 @@
         </form>
     </div>
 </div>
-<div class="bp-modal-footer justify-content-center align-items-center">
+<div class="bp-modal-footer justify-content-center align-items-center" *ngIf="!isAppointmentClosed">
     <button type="button" class="bp-button col-4" id="btn-close" (click)="activeModal.close()">
         <i class="fa-solid fa-xmark" title="Voltar para a listagem"></i>
     </button>
     <button type="button" class="bp-button col-4" id="btn-edit" (click)="editAppointment()">
-        <i class="fa-solid fa-pen-to-square" title="Editar a campanha"></i>
+        <i class="fa-solid fa-pen-to-square" title="Editar o atendimento"></i>
     </button>
     <button type="button" class="bp-button col-4" id="btn-delete" (click)="deleteAppointment()">
-        <i class="fa-solid fa-trash" title="Excluir a campanha"></i>
+        <i class="fa-solid fa-trash" title="Excluir  o atendimento"></i>
+    </button>
+</div>
+<div class="bp-modal-footer justify-content-center align-items-center" *ngIf="isAppointmentClosed">
+    <button type="button" class="bp-button col-6" id="btn-close" (click)="activeModal.close()">
+        <i class="fa-solid fa-xmark" title="Voltar para a listagem"></i>
+    </button>
+    <button type="button" class="bp-button col-6" id="btn-delete" (click)="deleteAppointment()">
+        <i class="fa-solid fa-trash" title="Excluir  o atendimento"></i>
     </button>
 </div>
