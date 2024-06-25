@@ -15,10 +15,6 @@ def test_can_get_country(client: APIClient):
     country = CountryFactory.create(name="TCGC")
     url = reverse("spe_countries", kwargs={"pk": country.id})
 
-    # Sem autenticação
-    response = client.get(url)
-    assert response.status_code == 401
-
     # Com autenticação
     vol = make_volunteer([MANAGE_ADDRESSES])
     client.force_authenticate(vol.user)

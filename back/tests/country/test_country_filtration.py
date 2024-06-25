@@ -34,3 +34,13 @@ def test_can_filter_countries_by_name(client: APIClient):
     assert len(response.data) == 1
     assert response.data[0]["name"] == country_to_filter.name
 
+
+@pytest.mark.django_db
+def test_can_list_all_countries(client: APIClient):
+    countries = CountryFactory.create_batch(size=5)
+    client.force_authenticate(make_user([MANAGE_ADDRESSES]))
+
+    url = reverse("gen_countries")
+    response = client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == len(countries)
