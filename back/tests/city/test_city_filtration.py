@@ -9,6 +9,17 @@ from tests.conftest import make_user
 
 
 @pytest.mark.django_db
+def test_can_list_all_cities(client: APIClient):
+    cities = CityFactory.create_batch(size=5)
+    client.force_authenticate(make_user([MANAGE_ADDRESSES]))
+
+    url = reverse("gen_cities")
+    response = client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == len(cities)
+
+
+@pytest.mark.django_db
 def test_can_filter_cities_by_enabled(client: APIClient):
     CityFactory.create_batch(size=5, enabled=False)
     CityFactory.create_batch(size=3, enabled=True)

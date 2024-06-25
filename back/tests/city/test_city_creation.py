@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 
 from config import MANAGE_ADDRESSES
 from factories import StateFactory
-from tests.conftest import make_user
+from tests.conftest import make_user, make_volunteer
 
 @pytest.mark.django_db
 def test_can_create_city(client: APIClient):
@@ -19,7 +19,7 @@ def test_can_create_city(client: APIClient):
     assert response.status_code == 401
 
     # Com autenticação
-    client.force_authenticate(make_user([MANAGE_ADDRESSES]))
+    client.force_authenticate(make_volunteer([MANAGE_ADDRESSES]).user)
     response = client.post(url, data=data)
 
     assert response.status_code == 201
