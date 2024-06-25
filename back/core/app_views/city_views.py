@@ -6,6 +6,7 @@ from typing import List
 from rest_framework import status
 from rest_framework.request import Request
 
+from core.permissions.volunteer_at_least_one_group import VolunteerAtLeastOneGroup
 from core.permissions.at_least_one_group import AtLeastOneGroup
 from core.permissions.is_volunteer import IsVolunteer
 from config import MANAGE_ADDRESSES
@@ -51,7 +52,7 @@ class CityGenericViews(BaseView):
 
 class CitySpecificViews(BaseView):
     groups = [MANAGE_ADDRESSES]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, (IsVolunteer & VolunteerAtLeastOneGroup),]
 
     @endpoint
     def patch(self, request: Request, pk, format=None):

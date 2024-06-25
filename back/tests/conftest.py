@@ -8,7 +8,7 @@ from rest_framework.test import APIClient
 
 from config import GROUPS
 from core.models import User
-from factories import BeneficiaryFactory, ChildFactory, GroupFactory, UserFactory, VolunteerFactory
+from factories import BeneficiaryFactory, ChildFactory, CityFactory, GroupFactory, UserFactory, VolunteerFactory
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -67,3 +67,7 @@ def make_less_than_one_year_child(**kwargs):
     birth_date = today - timedelta(days=365)
     child = ChildFactory.create(birth_date=birth_date, **kwargs)
     return child
+
+
+def make_city(**kwargs):
+    return CityFactory.create(**kwargs)
