@@ -27,14 +27,6 @@ CAMPAIGNS = [
     }
 ]
 
-ADMIN_DATA = {
-    "first_name": "Isabela Dancini",
-    "email": "isa.dancini@email.com",
-    "username": "10000000000",
-    "phone": "10000000000",
-    "password": "admin"
-}
-
 PENDING_BENEFICIARIES = [
     {
         "user": {

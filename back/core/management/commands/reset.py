@@ -29,4 +29,4 @@ class Command(BaseCommand):
 
         call_command('makemigrations')
         call_command('migrate')
-        call_command('seed', '--test')
+        call_command('seed')

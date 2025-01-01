@@ -90,6 +90,14 @@ DEV = 'development'
 
 ENV = os.getenv("ENV", DEV)
 
+ADMIN_DATA = {
+    "first_name": "<FIRST_NAME>",
+    "email": "<EMAIL>",
+    "username": "<USERNAME>",
+    "phone": "<PHONE>",
+    "password": "<PASSWORD>"
+}
+
 try:
     from config_local import *  # @UnusedWildImport
 except ImportError:
